@@ -1,16 +1,18 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Lars
-  Date: 13.01.16
-  Time: 15.29
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!doctype html>
+<html ng-app>
+
 <head>
-    <title>Title</title>
+    <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
 </head>
+
 <body>
-Testen.
+<div>
+    <label>Name:</label>
+    <input type = "text" ng-model = "yourName" placeholder = "Enter a name here">
+    <hr />
+
+    <h1>Hello {{yourName}}!</h1>
+</div>
+
 </body>
 </html>
