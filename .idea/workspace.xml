@@ -1009,7 +1009,7 @@
       <updated>1452692410902</updated>
       <workItem from="1452692412988" duration="2665000" />
       <workItem from="1452695966938" duration="663000" />
-      <workItem from="1453109840881" duration="5468000" />
+      <workItem from="1453109840881" duration="5500000" />
     </task>
     <task id="LOCAL-00001" summary="Added mapstructure and domain classes">
       <created>1453112056741</created>
@@ -1023,11 +1023,17 @@
       <option name="project" value="LOCAL" />
       <updated>1453116028763</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added domainclasses">
+      <created>1453116245766</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1453116245766</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8796000" />
+    <option name="totallyTimeSpent" value="8828000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="773" extended-state="6" />
@@ -1077,7 +1083,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added mapstructure and domain classes" />
     <MESSAGE value="Added domain" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added domain" />
+    <MESSAGE value="Added domainclasses" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added domainclasses" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
