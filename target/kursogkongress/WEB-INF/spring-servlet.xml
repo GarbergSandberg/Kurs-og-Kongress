@@ -12,6 +12,7 @@
 <context:component-scan base-package="controller"/>
 <mvc:annotation-driven/>
 
+
 <bean id="viewResolver"
       class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
     <property name="prefix">
@@ -21,5 +22,8 @@
         <value>.jsp</value>
     </property>
 </bean>
+
+    <mvc:resources mapping="/resources/**" location="/resources/"
+                   cache-period="31556926"/>
 
 </beans>
