@@ -24,7 +24,7 @@
 </bean>
 
 <!--This is to include static files in directories such as JavaScript, CSS etc-->
-    <mvc:resources mapping="/resources/**" location="/resources/"
+    <mvc:resources mapping="/resources/**" location="/resources/js"
                    cache-period="31556926"/>
 
 </beans>

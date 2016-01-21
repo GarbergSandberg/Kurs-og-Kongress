@@ -16,7 +16,7 @@
 
     <!--This is important-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
-    <spring:url value="/resources/testapp.js" var="appJs" />
+    <spring:url value="/resources/js/testapp.js" var="appJs" />
     <script src="${appJs}"></script>
 </head>
 <body>
