@@ -25,4 +25,5 @@
     <servlet-name>spring</servlet-name>
     <url-pattern>/src/main/webapp/resources</url-pattern>
   </servlet-mapping>
+
 </web-app>

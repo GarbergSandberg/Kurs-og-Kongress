@@ -1,4 +1,5 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
 <html ng-app="registerApp">
 <head>
@@ -21,16 +22,22 @@
     <script src="${appJs}"></script>
     <script src="${modalTemplate}"></script>
 </head>
-<body>
-<div ng-controller="AddSessionCtrl">
-    <button type="button"
-            class="btn btn-lg btn-primary"
-            data-animation="am-fade-and-slide-top"
-            data-template-url=${modalTemplate}
-            bs-modal="modal">Click to toggle modal
-        <br>
-        <small>(using an object)</small>
-    </button>
-    </div>
-</body>
+    <body>
+        <div ng-controller="AddSessionCtrl">
+            <button type="button"
+                    class="btn btn-lg btn-primary"
+                    data-animation="am-fade-and-slide-top"
+                    data-template-url=${modalTemplate}
+                    bs-modal="modal">Click to toggle modal
+                <br>
+                <small>(using an object)</small>
+            </button>
+        </div>
+
+        <div ng-controller="AddInfoCtrl">
+            <pre>{{session | json}}</pre>
+            <button type="button" ng-click="update">
+            </button>
+        </div>
+    </body>
 </html>
