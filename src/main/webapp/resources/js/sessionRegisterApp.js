@@ -5,6 +5,11 @@ var myApp = angular.module('registerApp', ['ngAnimate', 'mgcrea.ngStrap', 'ngRou
 
 myApp.controller('AddSessionCtrl', ['$scope','$modal' ,'sessionService', function($scope, $modal, sessionService){
     var myModal = $modal({scope: $scope, templateUrl: '/resources/html/registerSessionModal.html', show: false});
+    $scope.dates = [{id: 'Mandag'}, {id: 'Tirsdag'}, {id: 'Onsdag'}, {id: 'Torsdag'}, {id:'Fredag'}];
+    $scope.date = "Empty";
+    $scope.passBtnId = function(id){                            //put these in the service for cleaner code
+        $scope.date = sessionService.date(id);
+    }
     $scope.showModal = function() {
         myModal.$promise.then(myModal.show);
     };
@@ -25,6 +30,7 @@ myApp.controller('AddInfoCtrl', ['$scope', 'sessionService', function($scope, se
 myApp.factory('sessionService', function() {
     var sessions = [];
     var sessionService = {};
+    var currentDate = "";
 
     sessionService.save = function(newSession){
         var old = sessionExists(newSession);
@@ -41,10 +47,15 @@ myApp.factory('sessionService', function() {
         }
     }
 
+    sessionService.date = function(btnDate){
+        currentDate = btnDate;
+    }
+
     sessionService.add = function(newSession) {
         newSession.id = generateId();
+        newSession.date = currentDate;
             sessions.push(newSession);
-            console.log("Pushed object = " + newSession.title);
+            console.log("Pushed object = " + newSession.date);
         }
 
     sessionService.get = function() {

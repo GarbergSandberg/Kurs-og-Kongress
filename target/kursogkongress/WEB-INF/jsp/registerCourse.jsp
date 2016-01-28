@@ -1,124 +1,62 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: eiriksandberg
-  Date: 18.01.2016
-  Time: 11.41
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html ng-app="addSessionsApp">
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!doctype html>
+<html ng-app="registerApp">
 <head>
-    <title>Registrer kurs</title>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Latest compiled JavaScript -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-</head>
-<body>
-    <div ng-controller="addSessionsCtrl">
-    <table>
-        <tr>
-            <td>Mandag</td>
-            <td><button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Registrer ny sesjon</button></td>
-        </tr>
-        <tr>
-            <td>Tirsdag</td>
-            <td><button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Registrer ny sesjon</button></td>
-        </tr>
-    </table>
-        <p>State = {{state}}</p>
-    <script src="addSessionsApp.js"></script>
-    <script src="addSessionsCtrl.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/fontawesome/4.3.0/css/font-awesome.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/libs.min.css">
+    <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/docs.min.css">
 
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Registrer ny sesjon</h4>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <fieldset class="form-group">
-                        <label for="title">Tittel:</label>
-                        <input ng-model="session.title" type="text" class="form-control" id="title">
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="description">Beskrivelse:</label>
-                        <textarea ng-model="session.description" class="form-control" id="description" rows="2"></textarea>
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="startTime">Klokkeslett start:</label>
-                        <select ng-model="session.startTime" class="form-control" id="startTime">
-                            <option>00.00</option>
-                            <option>01.00</option>
-                            <option>02.00</option>
-                            <option>03.00</option>
-                            <option>04.00</option>
-                            <option>05.00</option>
-                            <option>06.00</option>
-                            <option>07.00</option>
-                            <option>08.00</option>
-                            <option>09.00</option>
-                            <option>10.00</option>
-                            <option>11.00</option>
-                            <option>12.00</option>
-                            <option>13.00</option>
-                            <option>14.00</option>
-                            <option>15.00</option>
-                            <option>16.00</option>
-                            <option>17.00</option>
-                            <option>18.00</option>
-                            <option>19.00</option>
-                            <option>20.00</option>
-                            <option>21.00</option>
-                            <option>22.00</option>
-                            <option>23.00</option>
-                            <option>24.00</option>
-                        </select>
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="endTime">Klokkeslett slutt:</label>
-                        <select ng-model="session.endtime" class="form-control" id="endTime">
-                            <option>00.00</option>
-                            <option>01.00</option>
-                            <option>02.00</option>
-                            <option>03.00</option>
-                            <option>04.00</option>
-                            <option>05.00</option>
-                            <option>06.00</option>
-                            <option>07.00</option>
-                            <option>08.00</option>
-                            <option>09.00</option>
-                            <option>10.00</option>
-                            <option>11.00</option>
-                            <option>12.00</option>
-                            <option>13.00</option>
-                            <option>14.00</option>
-                            <option>15.00</option>
-                            <option>16.00</option>
-                            <option>17.00</option>
-                            <option>18.00</option>
-                            <option>19.00</option>
-                            <option>20.00</option>
-                            <option>21.00</option>
-                            <option>22.00</option>
-                            <option>23.00</option>
-                            <option>24.00</option>
-                        </select>
-                    </fieldset>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button ng-click="saveSession()" type="submit" class="btn btn-default" data-dismiss="modal">Lagre</button>
-            </div>
+    <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular.min.js" data-semver="1.4.5"></script>
+    <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-animate.min.js" data-semver="1.4.5"></script>
+    <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-sanitize.min.js" data-semver="1.4.5"></script>
+    <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.js" data-semver="v2.3.7"></script>
+    <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.tpl.js" data-semver="v2.3.7"></script>
+    <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
+
+    <!--This is important-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+    <spring:url value="/resources/js/sessionRegisterApp.js" var="appJs" />
+    <spring:url value="/resources/html/registerSessionModal.html" var="modalTemplate" />
+    <script src="${appJs}"></script>
+    <script src="${modalTemplate}"></script>
+    <link rel="stylesheet" type="text/css" href="/resources/css/sessionRegister.css">
+</head>
+    <body>
+        <div ng-controller="AddSessionCtrl">
+            <table>
+                <tr ng-repeat="date in dates" >
+                    <td>
+                        {{date.id}}
+                    </td>
+                    <td>
+                        <button type="button" id="{{date.id}}" ng-click="passBtnId(date.id)"
+                                class="btn btn-primary btn-block"
+                                data-animation="am-fade-and-slide-top"
+                                data-template-url=${modalTemplate}
+                                        bs-modal="modal">+
+                        </button>
+                    </td>
+                    <td ng-repeat="session in sessions | filter:date.id">
+                        <button data-ng-attr-id="btnId" type="button"
+                                class="btn btn-primary btn-block"
+                                data-animation="am-fade-and-slide-top"
+                                data-template-url=${modalTemplate}
+                                        bs-modal="modal">{{session.title}}
+                            <br>
+                            <small>{{session.startTime}}</small><br>
+                            <small>{{session.endTime}}</small>
+                        </button>
+                    </td>
+                </tr>
+            </table>
         </div>
 
-    </div>
-</div>
-</body>
+        <div ng-controller="AddInfoCtrl">
+            <pre>{{sessions | json}}</pre>
+            <button type="button" ng-click="update">
+            </button>
+        </div>
+    </body>
 </html>
