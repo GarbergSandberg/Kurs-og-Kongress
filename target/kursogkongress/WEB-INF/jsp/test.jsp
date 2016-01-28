@@ -24,18 +24,34 @@
 </head>
     <body>
         <div ng-controller="AddSessionCtrl">
+            <table>
+                <tr>
+                    <td ng-repeat="session in sessions">
+                        <button data-ng-attr-id="btnId" type="button"
+                                class="btn btn-lg btn-primary"
+                                data-animation="am-fade-and-slide-top"
+                                data-template-url=${modalTemplate}
+                                        bs-modal="modal">{{session.title}}
+                            <br>
+                            <small>{{session.startTime}}</small><br>
+                            <small>{{session.endTime}}</small>
+                        </button>
+                    </td>
+                </tr>
+            </table>
             <button type="button"
                     class="btn btn-lg btn-primary"
                     data-animation="am-fade-and-slide-top"
                     data-template-url=${modalTemplate}
-                    bs-modal="modal">Click to toggle modal
+                            bs-modal="modal">Click to toggle modal
                 <br>
                 <small>(using an object)</small>
             </button>
+
         </div>
 
         <div ng-controller="AddInfoCtrl">
-            <pre>{{session | json}}</pre>
+            <pre>{{sessions | json}}</pre>
             <button type="button" ng-click="update">
             </button>
         </div>
