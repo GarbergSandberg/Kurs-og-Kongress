@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/libs.min.css">
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/docs.min.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/sessionRegister.css">
 
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular.min.js" data-semver="1.4.5"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-animate.min.js" data-semver="1.4.5"></script>
@@ -26,21 +25,10 @@
     <body>
         <div ng-controller="AddSessionCtrl">
             <table>
-                <tr ng-repeat="date in dates" >
-                    <td>
-                        {{date.id}}
-                    </td>
-                    <td>
-                        <button type="button" id="{{date.id}}" ng-click="passBtnId(date.id)"
-                                class="btn btn-primary btn-block"
-                                data-animation="am-fade-and-slide-top"
-                                data-template-url=${modalTemplate}
-                                        bs-modal="modal">+
-                        </button>
-                    </td>
-                    <td ng-repeat="session in sessions | filter:date.id">
+                <tr>
+                    <td ng-repeat="session in sessions">
                         <button data-ng-attr-id="btnId" type="button"
-                                class="btn btn-primary btn-block"
+                                class="btn btn-lg btn-primary"
                                 data-animation="am-fade-and-slide-top"
                                 data-template-url=${modalTemplate}
                                         bs-modal="modal">{{session.title}}
@@ -51,6 +39,15 @@
                     </td>
                 </tr>
             </table>
+            <button type="button"
+                    class="btn btn-lg btn-primary"
+                    data-animation="am-fade-and-slide-top"
+                    data-template-url=${modalTemplate}
+                            bs-modal="modal">Click to toggle modal
+                <br>
+                <small>(using an object)</small>
+            </button>
+
         </div>
 
         <div ng-controller="AddInfoCtrl">

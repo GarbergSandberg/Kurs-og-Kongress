@@ -41,7 +41,7 @@
 </div>
 
 <div ng-controller="AddEventInfoCtrl">
-    <pre>{{session | json}}</pre>
+    <pre>{{event | json}}</pre>
     <button type="button" ng-click="update">
     </button>
 </div>
