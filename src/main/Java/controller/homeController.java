@@ -1,8 +1,7 @@
 package controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.stereotype.*;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Lars on 13.01.16.
@@ -13,4 +12,7 @@ public class homeController {
     public String home(){
         return "test";
     }
+
+    @RequestMapping("/event")
+    public String event(){ return "event";}
 }

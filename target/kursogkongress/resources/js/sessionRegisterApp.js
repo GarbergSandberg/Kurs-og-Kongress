@@ -84,7 +84,7 @@ myApp.factory('sessionService', function() {
 
     function sessionUpdate(session, index){
         for(var prop in session) {
-            console.log("property in prop = " + prop);
+            console.log("property in prop = " + prop);                  // remove console.log after testing is done
             console.log("session[prop] = " + session[prop]);
             if(session[prop] != undefined){
                 console.log("sessionUpdate = " + sessions[index][prop] + " = " + session[prop]);

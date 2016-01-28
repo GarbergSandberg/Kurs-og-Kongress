@@ -55,5 +55,7 @@
             <button type="button" ng-click="update">
             </button>
         </div>
+
+        <a href="<c:url value="/event"/>">Event</a>
     </body>
 </html>
