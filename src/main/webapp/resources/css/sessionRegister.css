@@ -1,11 +1,9 @@
 table.session{
-    border: 1px solid black;
     table-layout: fixed;
     max-width: 100%;
 }
 
 td.session {
-    border: 1px solid black;
     overflow: hidden;
     max-width: 120px;
     min-width: 120px;
