@@ -27,6 +27,10 @@ public class Person {
         this.postalcode = postalcode;
         this.email = email;
     }
+    public Person(String firstname, String lastname) {
+        this.lastname = lastname;
+        this.firstname = firstname;
+    }
 
 
     // Getters and setters
