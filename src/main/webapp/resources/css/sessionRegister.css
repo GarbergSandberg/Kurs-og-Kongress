@@ -1,0 +1,25 @@
+table.session{
+    border: 1px solid black;
+    table-layout: fixed;
+    max-width: 100%;
+}
+
+td.session {
+    border: 1px solid black;
+    overflow: hidden;
+    max-width: 120px;
+    min-width: 120px;
+    height: 70px;
+}
+
+.btn-block {
+    display: table-cell;
+    height: 70px;
+    font-size: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#sessionButton{
+    font-size: small;
+}
