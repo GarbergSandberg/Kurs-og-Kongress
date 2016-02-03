@@ -10,22 +10,23 @@ public class Course {
     private ArrayList<Session> sessions;
     private ArrayList<Events> events;
     private String title;
-    private Date startDateCourse;
-    private Date endDateCourse;
-    private int maxNumberOfParticipants;
-    private ArrayList<Meal> meals;
-    private boolean hotel;
+    private String location;
+    private String description;
+    private Date startDate;
+    private Date endDate;
+    private int maxNumber;
 
-    public Course(ArrayList<Session> sessions, ArrayList<Events> events, String title, Date startDateCourse, Date endDateCourse, int maxNumberOfParticipants, ArrayList<Meal> meals, boolean hotel) {
+    public Course(ArrayList<Session> sessions, ArrayList<Events> events, String title, String location, String description, Date startDate, Date endDate, int maxNumber) {
         this.sessions = sessions;
-        this.title = title;
-        this.startDateCourse = startDateCourse;
-        this.endDateCourse = endDateCourse;
-        this.maxNumberOfParticipants = maxNumberOfParticipants;
-        this.meals = meals;
-        this.hotel = hotel;
         this.events = events;
+        this.title = title;
+        this.location = location;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.maxNumber = maxNumber;
     }
+    public Course(){};
 
     public ArrayList<Session> getSessions() {
         return sessions;
@@ -51,43 +52,43 @@ public class Course {
         this.title = title;
     }
 
-    public Date getStartDateCourse() {
-        return startDateCourse;
+    public String getLocation() {
+        return location;
     }
 
-    public void setStartDateCourse(Date startDateCourse) {
-        this.startDateCourse = startDateCourse;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public Date getEndDateCourse() {
-        return endDateCourse;
+    public String getDescription() {
+        return description;
     }
 
-    public void setEndDateCourse(Date endDateCourse) {
-        this.endDateCourse = endDateCourse;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public int getMaxNumberOfParticipants() {
-        return maxNumberOfParticipants;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setMaxNumberOfParticipants(int maxNumberOfParticipants) {
-        this.maxNumberOfParticipants = maxNumberOfParticipants;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public ArrayList<Meal> getMeals() {
-        return meals;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setMeals(ArrayList<Meal> meals) {
-        this.meals = meals;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
-    public boolean isHotel() {
-        return hotel;
+    public int getMaxNumber() {
+        return maxNumber;
     }
 
-    public void setHotel(boolean hotel) {
-        this.hotel = hotel;
+    public void setMaxNumber(int maxNumber) {
+        this.maxNumber = maxNumber;
     }
 }

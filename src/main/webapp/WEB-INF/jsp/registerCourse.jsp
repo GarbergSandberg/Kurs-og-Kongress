@@ -19,9 +19,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
     <spring:url value="resources/js/sessionRegisterApp.js" var="appJs" />
     <spring:url value="resources/js/sessionRegisterService.js" var="appService" />
+    <spring:url value="resources/js/courseService.js" var="jsonService" />
     <spring:url value="resources/html/registerSessionModal.html" var="modalTemplate" />
     <script src="${appJs}"></script>
     <script src="${appService}"></script>
+    <script src="${jsonService}"></script>
     <script src="${modalTemplate}"></script>
 </head>
     <body>

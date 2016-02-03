@@ -1,6 +1,8 @@
 package controller;
 
+import domain.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import service.*;
@@ -16,9 +18,7 @@ public class homeController {
     private PersonService personService;
 
     @RequestMapping("/")
-    public String home(){
-        return "registerCourse";
-    }
+    public String home(){return "registerCourse";}
 
     @RequestMapping("/event")
     //public String event(){ return "event";}
@@ -27,4 +27,11 @@ public class homeController {
         System.out.println("** ControllerClass.person() ******");
         return "event";
     }
+
+    @RequestMapping(value = "/saveinformation_json", method = RequestMethod.POST)
+    public ResponseEntity<Void> saveInformation_JSON( @RequestBody Course course )   {
+        System.out.println("course " + course.getTitle() + "course heihei " + course.getDescription());
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
+
 }

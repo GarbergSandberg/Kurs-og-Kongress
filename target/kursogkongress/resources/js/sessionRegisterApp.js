@@ -19,7 +19,8 @@ myApp.controller('AddSessionCtrl', ['$scope','$modal' ,'sessionService', functio
     }
 }]);
 
-myApp.controller('AddCourseCtrl', ['$scope','$modal' ,'sessionService', function($scope, $modal, sessionService){
+myApp.controller('AddCourseCtrl', ['$scope','$modal' ,'sessionService', 'courseService', function($scope, $modal, sessionService, courseService){
+    $scope.sessions = sessionService.get();
     $scope.startDate = function(date){
         $scope.startDate = date;
     }
@@ -28,10 +29,46 @@ myApp.controller('AddCourseCtrl', ['$scope','$modal' ,'sessionService', function
     }
     $scope.roles = [];
     $scope.addRole = function(role){
-        roles.push(role);
-        console.log("role is pushed: " + role);
-    }
+        var exists = false;
+        for (var i = 0; i < $scope.roles.length; i++){
+            if($scope.roles[i] == role){
+                exists = true;
+            }
+        }
+        if(!exists){
+            $scope.roles.push(role);
+        }
+    };
+    $scope.removeRole = function(role){
+        for (var i = 0; i < $scope.roles.length; i++){
+            if ($scope.roles[i] == role){
+                $scope.roles.splice(i,1);
+            }
+        }
+    };
+    $scope.addedRoleAlert = {
+        "content": "Ny rolle lagt til",
+        "type": "info"
+    };
+    $scope.save = function(course){
+        console.log(course.title);
+        console.log(course.description);
+        console.log(course.startDate);
+        console.log(course.endDate);
+        console.log(course.maxNumber);
+        console.log(course.location);
+        course.roles = $scope.roles;
+        course.sessions = $scope.sessions;
+        self.send(course);
+    };
 
+    self.send = function(course){
+        courseService.sendInfo(course).then(function(success){
+            console.log("Course sent" + course);
+        }, function(error){
+            console.log("Error!!!");
+        })
+    }
 }]);
 
 

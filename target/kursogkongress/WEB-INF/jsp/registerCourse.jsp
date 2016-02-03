@@ -19,9 +19,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
     <spring:url value="resources/js/sessionRegisterApp.js" var="appJs" />
     <spring:url value="resources/js/sessionRegisterService.js" var="appService" />
+    <spring:url value="resources/js/courseService.js" var="jsonService" />
     <spring:url value="resources/html/registerSessionModal.html" var="modalTemplate" />
     <script src="${appJs}"></script>
     <script src="${appService}"></script>
+    <script src="${jsonService}"></script>
     <script src="${modalTemplate}"></script>
 </head>
     <body>
@@ -45,30 +47,36 @@
                     </div>
             </div>
             <label for="maxnumber">Maks antall deltakere:</label>
-            <input class="form-control" ng-model="course.maxNumber" id="maxnumber">
+            <input class="form-control" ng-model="course.maxNumber" id="maxnumber" type="number">
             <label for="location">Kurssted:</label>
             <input class="form-control" ng-model="course.location" id="location" >
             <label for="role">Legg til en rolle:</label>
             <div class="input-group">
-                <input class="form-control" ng-model="course.role" id="role" >
+                <input class="form-control" ng-model="role" id="role" >
                 <span class="input-group-btn">
-                    <button class="btn btn-secondary" type="button" ng-click="addRole(course.role)">Legg til</button>
+                    <button class="btn btn-primary" type="button" ng-click="addRole(role); role = '';">Legg til</button>
                 </span>
             </div>
-            <ul>
-                <li ng-repeat="role in roles" id="{{role}}">{{role}}</li>
-            </ul>
+            <table class="table">
+                <tr ng-repeat="role in roles">
+                    <td>
+                        {{role}}
+                    </td>
+                    <td style="">
+                        <button type="button" id="{{role}}" ng-click="removeRole(role)" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </td>
+                </tr>
+            </table>
             <div class="page-header">
                 <h4>Parallelle sesjoner</h4>
             </div>
-        </div>
         <div ng-controller="AddSessionCtrl">
-            <table class="table">
+            <table class="table session">
                 <tr ng-repeat="date in dates" >
-                    <td  align="center">
+                    <td  align="center" class="session">
                         {{date.id}}
                     </td>
-                    <td>
+                    <td class="session">
                         <button type="button" id="{{date.id}}" ng-click="passBtnId(date.id)"
                                 class="btn btn-primary btn-block"
                                 data-animation="am-fade-and-slide-top"
@@ -76,9 +84,9 @@
                                         bs-modal="modal">+
                         </button>
                     </td>
-                    <td ng-repeat="session in sessions | filter:date.id">
+                    <td class="session" ng-repeat="session in sessions | filter:date.id">
                         <button id="sessionButton" data-ng-attr-id="btnId" type="button"
-                                class="btn btn-primary btn-block"
+                                class="btn btn-secondary btn-block"
                                 data-animation="am-fade-and-slide-top"
                                 data-template-url=${modalTemplate}
                                         bs-modal="modal">{{session.title}}
@@ -89,6 +97,8 @@
         </div>
         <div class="page-header">
             <h4>Arrangementer</h4>
+        </div>
+            <button type="button" class="btn btn-primary" ng-click="save(course)">Lagre</button>
         </div>
     </div>
         <a href="<c:url value="/event"/>">Event</a>
