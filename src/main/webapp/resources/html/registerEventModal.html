@@ -1,5 +1,5 @@
-<div class="modal" tabindex="-1" role="dialog" ng-app="eventApp">
-    <div ng-controller="AddEventInfoCtrl">
+<div class="modal" tabindex="-1" role="dialog" ng-app="registerApp">
+    <div ng-controller="AddEventCtrl">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -18,24 +18,25 @@
                         <label for="price">Pris:</label>
                         <input ng-model="event.price" type="number" step="0.01" class="form-control" id="price">
 
-                        <div class="form-group>
+                        <div class="form-group">
                             <label class="control-label"><i class="fa fa-calendar"></i> Dato og tidspunkt</label><br>
-                            <div class="form-group  col-xs-6"">
-                                <input type="text" size="10" class="form-control" ng-model="event.Date" data-autoclose="1" placeholder="Dato" bs-datepicker>
+                            <div class="form-group  col-xs-6">
+                                <input type="text" size="10" class="form-control" ng-model="event.Date"
+                                       data-autoclose="1" placeholder="Dato" bs-datepicker/>
                             </div>
                             <div class="form-group col-xs-6">
-                                <input type="text" size="8" class="form-control" ng-model="event.Date" data-time-format="HH:mm" data-autoclose="1" placeholder="Tidspunkt" bs-timepicker>
+                                <input type="text" size="8" class="form-control" ng-model="event.Date"
+                                       data-time-format="HH:mm" value="06:00 PM" data-autoclose="1"
+                                       placeholder="Tidspunkt" bs-timepicker>
                             </div>
                         </div>
 
                     </form>
                 </div>
-                <pre>
-                    <pre>{{event | json}}</pre>
-                </pre>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" ng-click="$hide()">Close</button>
-                    <button type="button" class="btn btn-primary" ng-click="update(event)">Lagre</button>
+                    <button type="button" class="btn btn-default" ng-click="delete(event); $hide()">Slett</button>
+                    <button type="button" class="btn btn-primary" ng-click="update(event); $hide()">Lagre</button>
+                    <p id="demo"></p>
                 </div>
             </div>
         </div>

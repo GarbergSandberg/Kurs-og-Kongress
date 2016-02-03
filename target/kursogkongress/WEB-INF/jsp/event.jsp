@@ -5,7 +5,7 @@
   Time: 09.39
   To change this template use File | Settings | File Templates.
 --%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!doctype html>
@@ -25,8 +25,9 @@
 
     <!--This is important-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
-    <spring:url value="/resources/js/eventRegisterApp.js" var="appJs" />
-    <spring:url value="/resources/html/registerEventModal.html" var="modalTemplate" />
+    <spring:url value="/resources/js/sessionRegisterApp.js" var="appJs"/>
+    <!-- Denne ble endret fra eventsRegisterApp.js -->
+    <spring:url value="/resources/html/registerEventModal.html" var="modalTemplate"/>
     <script src="${appJs}"></script>
     <script src="${modalTemplate}"></script>
 </head>
@@ -50,27 +51,27 @@
 <form:form action="endrePersoner" method="post" modelAttribute="personFormBackingBean">
     <h5>Checkboxene trengs kun å brukes ved sletting og henting, ikke ved oppdatering av personer</h5>
     <table border="1" width="100%">
-    <tr>
-    <th>Personnummer</th>
-    <th>Fornavn</th>
-    <th>Etternavn</th>
-    <th>Velg </th>
-    </tr>
-
-    <c:forEach var="person" items="${personFormBackingBean.allePersoner}" varStatus="status">
-
         <tr>
-            <td><c:out value="${person.firstname}"/>
-                <form:hidden path="allePersoner[${status.index}].firstname" />
-            </td>
-
-            <td> <form:input path="allePersoner[${status.index}].lastname" />
-                <form:errors path="allePersoner[${status.index}].lastname" />
-            </td>
-            <td> <form:checkbox path="valgtePersoner" value="${person}" /> </td>
+            <th>Personnummer</th>
+            <th>Fornavn</th>
+            <th>Etternavn</th>
+            <th>Velg</th>
         </tr>
-    </c:forEach>
+
+        <c:forEach var="person" items="${personFormBackingBean.allePersoner}" varStatus="status">
+
+            <tr>
+                <td><c:out value="${person.firstname}"/>
+                    <form:hidden path="allePersoner[${status.index}].firstname"/>
+                </td>
+
+                <td><form:input path="allePersoner[${status.index}].lastname"/>
+                    <form:errors path="allePersoner[${status.index}].lastname"/>
+                </td>
+                <td><form:checkbox path="valgtePersoner" value="${person}"/></td>
+            </tr>
+        </c:forEach>
     </table>
-    </form:form>
+</form:form>
 </body>
 </html>

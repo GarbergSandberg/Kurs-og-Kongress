@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class Course {
     private ArrayList<Session> sessions;
-    private ArrayList<Events> events;
+    private ArrayList<Event> events;
     private String title;
     private String location;
     private String description;
@@ -16,7 +16,7 @@ public class Course {
     private Date endDate;
     private int maxNumber;
 
-    public Course(ArrayList<Session> sessions, ArrayList<Events> events, String title, String location, String description, Date startDate, Date endDate, int maxNumber) {
+    public Course(ArrayList<Session> sessions, ArrayList<Event> events, String title, Date startDateCourse, Date endDateCourse, int maxNumberOfParticipants, ArrayList<Meal> meals, boolean hotel) {
         this.sessions = sessions;
         this.events = events;
         this.title = title;
@@ -36,11 +36,11 @@ public class Course {
         this.sessions = sessions;
     }
 
-    public ArrayList<Events> getEvents() {
+    public ArrayList<Event> getEvents() {
         return events;
     }
 
-    public void setEvents(ArrayList<Events> events) {
+    public void setEvents(ArrayList<Event> events) {
         this.events = events;
     }
 

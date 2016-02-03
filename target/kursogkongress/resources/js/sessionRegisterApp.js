@@ -3,46 +3,67 @@
  */
 var myApp = angular.module('registerApp', ['ngAnimate', 'mgcrea.ngStrap', 'ngRoute']);
 
-myApp.controller('AddSessionCtrl', ['$scope','$modal' ,'sessionService', function($scope, $modal, sessionService){
+myApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionService', function ($scope, $modal, sessionService) {
     var myModal = $modal({scope: $scope, templateUrl: '/resources/html/registerSessionModal.html', show: false});
-    $scope.dates = [{id: 'Mandag'}, {id: 'Tirsdag'}, {id: 'Onsdag'}, {id: 'Torsdag'}, {id:'Fredag'}];
+    $scope.dates = [{id: 'Mandag'}, {id: 'Tirsdag'}, {id: 'Onsdag'}, {id: 'Torsdag'}, {id: 'Fredag'}];
     $scope.date = "Empty";
-    $scope.passBtnId = function(id){                            //put these in the service for cleaner code
+    $scope.passBtnId = function (id) {                            //put these in the service for cleaner code
         $scope.date = sessionService.date(id);
     }
-    $scope.showModal = function() {
+    $scope.showModal = function () {
         myModal.$promise.then(myModal.show);
     };
+    $scope.delete = function (newSession) {
+        console.log("I AddSessionCtrl - Skal slette eventet. ");
+        sessionService.delete(newSession);
+    }
+
     $scope.sessions = sessionService.get();
-    $scope.update = function(newSession){
+    $scope.update = function (newSession) {
         sessionService.save(newSession);
+    }
+}]);
+
+myApp.controller('AddEventCtrl', ['$scope', '$modal', 'eventService', function ($scope, $modal, eventService) {
+    var myModal = $modal({scope: $scope, templateUrl: '/resources/html/registerEventModal.html', show: false});
+    $scope.showModal = function () {
+        myModal.$promise.then(myModal.show);
+    };
+    $scope.events = eventService.get();
+    $scope.update = function (newEvent) {
+        console.log("I addEventCtrl, sendes til Service - save() '");
+        eventService.save(newEvent);
+    }
+    $scope.delete = function (newEvent) {
+        console.log("I AddEventCtrl - Skal slette eventet. ");
+        eventService.delete(newEvent);
     }
 }]);
 
 myApp.controller('AddCourseCtrl', ['$scope','$modal' ,'sessionService', 'courseService', function($scope, $modal, sessionService, courseService){
     $scope.sessions = sessionService.get();
-    $scope.startDate = function(date){
+    $scope.startDate = function (date) {
         $scope.startDate = date;
     }
-    $scope.endDate = function(date){
+    $scope.endDate = function (date) {
         $scope.endDate = date;
     }
     $scope.roles = [];
-    $scope.addRole = function(role){
+    $scope.addRole = function (role) {
         var exists = false;
-        for (var i = 0; i < $scope.roles.length; i++){
-            if($scope.roles[i] == role){
+        for (var i = 0; i < $scope.roles.length; i++) {
+            if ($scope.roles[i] == role) {
                 exists = true;
             }
         }
-        if(!exists){
+        if (!exists) {
             $scope.roles.push(role);
         }
-    };
-    $scope.removeRole = function(role){
-        for (var i = 0; i < $scope.roles.length; i++){
-            if ($scope.roles[i] == role){
-                $scope.roles.splice(i,1);
+    }
+    $scope.removeRole = function (role){
+        for (var i = 0; i < $scope.roles.length; i++) {
+            if ($scope.roles[i] == role) {
+                $scope.roles.splice(i, 1);
             }
         }
     };
@@ -50,10 +71,10 @@ myApp.controller('AddCourseCtrl', ['$scope','$modal' ,'sessionService', 'courseS
         "content": "Ny rolle lagt til",
         "type": "info"
     };
-    $scope.save = function(course){
+    $scope.save = function (course) {
         console.log(course.title);
         console.log(course.description);
-        console.log(course.startDate);
+        console.log(course.startDate);      //remove this
         console.log(course.endDate);
         console.log(course.maxNumber);
         console.log(course.location);
