@@ -3,6 +3,7 @@
  */
 
 myApp.factory('sessionService', function () {
+    var dates = {};
     var sessions = [];
     var sessionService = {};
     var currentDate = "";
@@ -24,6 +25,10 @@ myApp.factory('sessionService', function () {
 
     sessionService.date = function (btnDate) {
         currentDate = btnDate;
+    }
+
+    sessionService.setDates = function (datesToBeSet) {
+        dates = datesToBeSet;
     }
 
     sessionService.add = function (newSession) {

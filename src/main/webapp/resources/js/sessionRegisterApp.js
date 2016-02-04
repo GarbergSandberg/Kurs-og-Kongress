@@ -5,7 +5,7 @@ var myApp = angular.module('registerApp', ['ngAnimate', 'mgcrea.ngStrap', 'ngRou
 
 myApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionService', function ($scope, $modal, sessionService) {
     var myModal = $modal({scope: $scope, templateUrl: '/resources/html/registerSessionModal.html', show: false});
-    $scope.dates = [{id: 'Mandag'}, {id: 'Tirsdag'}, {id: 'Onsdag'}, {id: 'Torsdag'}, {id: 'Fredag'}];
+    $scope.dates = [{id: '1970-01-01T10:00:00.000Z'}, {id: '1970-01-02T10:00:00.000Z'}, {id: '1970-01-03T10:00:00.000Z'}, {id: '1970-01-04T10:00:00.000Z'}, {id: '1970-01-05T10:00:00.000Z'}];
     $scope.date = "Empty";
     $scope.passBtnId = function (id) {                            //put these in the service for cleaner code
         $scope.date = sessionService.date(id);
@@ -40,14 +40,26 @@ myApp.controller('AddEventCtrl', ['$scope', '$modal', 'eventService', function (
     }
 }]);
 
-myApp.controller('AddCourseCtrl', ['$scope','$modal' ,'sessionService', 'courseService', function($scope, $modal, sessionService, courseService){
-    $scope.sessions = sessionService.get();
-    $scope.startDate = function (date) {
-        $scope.startDate = date;
-    }
-    $scope.endDate = function (date) {
-        $scope.endDate = date;
-    }
+myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'courseService', 'eventService', function ($scope, $modal, sessionService, courseService, eventService) {
+    $scope.course = {};
+    $scope.$watch("course.startDate", function(newValue, oldValue) {
+        if ($scope.course.startDate !== undefined && $scope.course.endDate !== undefined) {
+            var dates = self.getDates($scope.course.startDate, $scope.course.endDate);
+            for (var i = 0; i<dates.length;i++){
+                console.log(dates[i]); // print out result
+            }
+            sessionService.setDates(dates);
+        }
+    });
+    $scope.$watch("course.endDate", function(newValue, oldValue) {
+        if ($scope.course.startDate !== undefined && $scope.course.endDate !== undefined) {
+            var dates = self.getDates($scope.course.startDate, $scope.course.endDate);
+                for (var i = 0; i<dates.length;i++){
+                    console.log(dates[i]); // print out result
+                }
+            sessionService.setDates(dates);
+        }
+    });
     $scope.roles = [];
     $scope.addRole = function (role) {
         var exists = false;
@@ -59,8 +71,8 @@ myApp.controller('AddCourseCtrl', ['$scope','$modal' ,'sessionService', 'courseS
         if (!exists) {
             $scope.roles.push(role);
         }
-    }
-    $scope.removeRole = function (role){
+    };
+    $scope.removeRole = function (role) {
         for (var i = 0; i < $scope.roles.length; i++) {
             if ($scope.roles[i] == role) {
                 $scope.roles.splice(i, 1);
@@ -71,24 +83,36 @@ myApp.controller('AddCourseCtrl', ['$scope','$modal' ,'sessionService', 'courseS
         "content": "Ny rolle lagt til",
         "type": "info"
     };
+
     $scope.save = function (course) {
-        console.log(course.title);
-        console.log(course.description);
-        console.log(course.startDate);      //remove this
-        console.log(course.endDate);
-        console.log(course.maxNumber);
-        console.log(course.location);
         course.roles = $scope.roles;
-        course.sessions = $scope.sessions;
-        self.send(course);
+        course.sessions = sessionService.get();
+        course.events = eventService.get();
+        self.sendCourse(course);
     };
 
-    self.send = function(course){
-        courseService.sendInfo(course).then(function(success){
+    self.sendCourse = function (course) {
+        courseService.sendInfo(course).then(function (successCallback) {
             console.log("Course sent" + course);
-        }, function(error){
-            console.log("Error!!!");
+        }, function (errorCallback) {
+            console.log("Error in courseService.sendInfo()");
         })
+    }
+
+    Date.prototype.addDays = function(days) {
+        var dat = new Date(this.valueOf());
+        dat.setDate(dat.getDate() + days);
+        return dat;
+    }
+
+    self.getDates = function(startDate, stopDate) {
+        var dateArray = new Array();
+        var currentDate = startDate;
+        while (currentDate <= stopDate) {
+            dateArray.push(currentDate);
+            currentDate = currentDate.addDays(1);
+        }
+        return dateArray;
     }
 }]);
 

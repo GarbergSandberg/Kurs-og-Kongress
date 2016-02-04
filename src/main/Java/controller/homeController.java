@@ -30,8 +30,9 @@ public class homeController {
 
     @RequestMapping(value = "/saveinformation_json", method = RequestMethod.POST)
     public ResponseEntity<Void> saveInformation_JSON( @RequestBody Course course )   {
-        System.out.println("course " + course.getTitle() + "course heihei " + course.getDescription());
+        System.out.println("Course created and ready to save to repo. Title: " + course.getTitle());
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
+
 
 }

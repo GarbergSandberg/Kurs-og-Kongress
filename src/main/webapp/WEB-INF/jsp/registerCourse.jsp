@@ -14,7 +14,6 @@
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.tpl.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
-
     <!--This is important-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
     <spring:url value="resources/js/sessionRegisterApp.js" var="appJs"/>
@@ -104,7 +103,7 @@
     </div>
     <div ng-controller="AddEventCtrl" style="margin-left:3em; margin-right:3em;">
         <div class="page-header">
-            <h4>Arrangement</h4>
+            <h4>Arrangementer</h4>
         </div>
 
         <div class="row">

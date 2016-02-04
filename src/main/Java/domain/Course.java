@@ -9,6 +9,7 @@ import java.util.Date;
 public class Course {
     private ArrayList<Session> sessions;
     private ArrayList<Event> events;
+    private ArrayList<String> roles;
     private String title;
     private String location;
     private String description;
@@ -16,9 +17,10 @@ public class Course {
     private Date endDate;
     private int maxNumber;
 
-    public Course(ArrayList<Session> sessions, ArrayList<Event> events, String title, Date startDateCourse, Date endDateCourse, int maxNumberOfParticipants, ArrayList<Meal> meals, boolean hotel) {
+    public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, String title, String location, String description, Date startDate, Date endDate, int maxNumber) {
         this.sessions = sessions;
         this.events = events;
+        this.roles = roles;
         this.title = title;
         this.location = location;
         this.description = description;
@@ -26,6 +28,7 @@ public class Course {
         this.endDate = endDate;
         this.maxNumber = maxNumber;
     }
+
     public Course(){};
 
     public ArrayList<Session> getSessions() {
@@ -42,6 +45,14 @@ public class Course {
 
     public void setEvents(ArrayList<Event> events) {
         this.events = events;
+    }
+
+    public ArrayList<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(ArrayList<String> roles) {
+        this.roles = roles;
     }
 
     public String getTitle() {

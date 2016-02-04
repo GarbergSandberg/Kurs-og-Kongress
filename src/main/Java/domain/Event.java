@@ -6,34 +6,40 @@ import java.util.*;
  * Created by Lars on 18.01.16.
  */
 public class Event {
-    private String name;
+    private String title;
+    private int maxNumber;
     private double price;
-    private String place;
-    private Date start;
-    private Date end;
+    private String location;
+    private Date date;
+    private Date time;
+    private int id;
 
-    public Event(String name, double price, String place, Date start, Date end) {
-        this.name = name;
+    public Event(String title, int maxNumber, double price, String location, Date date, Date time, int id) {
+        this.title = title;
+        this.maxNumber = maxNumber;
         this.price = price;
-        this.place = place;
-        this.start = start;
-        this.end = end;
+        this.location = location;
+        this.date = date;
+        this.time = time;
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Event(){};
+
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Date getEnd() {
-        return end;
+    public int getMaxNumber() {
+        return maxNumber;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setMaxNumber(int maxNumber) {
+        this.maxNumber = maxNumber;
     }
 
     public double getPrice() {
@@ -44,11 +50,35 @@ public class Event {
         this.price = price;
     }
 
-    public Date getStart() {
-        return start;
+    public String getLocation() {
+        return location;
     }
 
-    public void setStart(Date start) {
-        this.start = start;
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

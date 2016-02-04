@@ -12,14 +12,26 @@ public class Session {
     private Date startTime;
     private Date endTime;
     private String location;
+    private int id;
 
-    public Session(String title, String description, Date date, Date startTime, Date endTime, String location) {
+    public Session(String title, String description, Date date, Date startTime, Date endTime, String location, int id) {
         this.title = title;
         this.description = description;
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.location = location;
+        this.id = id;
+    }
+
+    public Session(){};
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
