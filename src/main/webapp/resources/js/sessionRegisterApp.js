@@ -5,9 +5,14 @@ var myApp = angular.module('registerApp', ['ngAnimate', 'mgcrea.ngStrap', 'ngRou
 
 myApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionService', function ($scope, $modal, sessionService) {
     var myModal = $modal({scope: $scope, templateUrl: '/resources/html/registerSessionModal.html', show: false});
-    $scope.dates = [{id: '1970-01-01T10:00:00.000Z'}, {id: '1970-01-02T10:00:00.000Z'}, {id: '1970-01-03T10:00:00.000Z'}, {id: '1970-01-04T10:00:00.000Z'}, {id: '1970-01-05T10:00:00.000Z'}];
+    $scope.dates = sessionService.getDates();
+    $scope.$on('dates:updated', function(event, data){
+        $scope.dates = data;
+        console.log("HAHAHAHHAHA: " + data[0].day);
+    })
     $scope.date = "Empty";
     $scope.passBtnId = function (id) {                            //put these in the service for cleaner code
+        console.log(id);
         $scope.date = sessionService.date(id);
     }
     $scope.showModal = function () {
@@ -46,7 +51,7 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
         if ($scope.course.startDate !== undefined && $scope.course.endDate !== undefined) {
             var dates = self.getDates($scope.course.startDate, $scope.course.endDate);
             for (var i = 0; i<dates.length;i++){
-                console.log(dates[i]); // print out result
+                console.log(dates[i].id); // print out result
             }
             sessionService.setDates(dates);
         }
@@ -55,7 +60,7 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
         if ($scope.course.startDate !== undefined && $scope.course.endDate !== undefined) {
             var dates = self.getDates($scope.course.startDate, $scope.course.endDate);
                 for (var i = 0; i<dates.length;i++){
-                    console.log(dates[i]); // print out result
+                    console.log(dates[i].id); // print out result
                 }
             sessionService.setDates(dates);
         }
@@ -109,10 +114,23 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
         var dateArray = new Array();
         var currentDate = startDate;
         while (currentDate <= stopDate) {
-            dateArray.push(currentDate);
+            dateArray.push({id: currentDate.toString(), weekday: self.findWeekday(currentDate.getDay()), year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate()});
             currentDate = currentDate.addDays(1);
         }
         return dateArray;
+    }
+
+    self.findWeekday = function(weekday){
+        switch (weekday){
+            case 0: return "Søndag";
+            case 1: return "Mandag";
+            case 2: return "Tirsdag";
+            case 3: return "Onsdag";
+            case 4: return "Torsdag";
+            case 5: return "Fredag";
+            case 6: return "Lørdag";
+            default: "";
+        }
     }
 }]);
 

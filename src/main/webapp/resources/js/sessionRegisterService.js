@@ -2,7 +2,7 @@
  * Created by eiriksandberg on 29.01.2016.
  */
 
-myApp.factory('sessionService', function () {
+myApp.factory('sessionService',['$rootScope', function ($rootScope) {
     var dates = {};
     var sessions = [];
     var sessionService = {};
@@ -29,6 +29,11 @@ myApp.factory('sessionService', function () {
 
     sessionService.setDates = function (datesToBeSet) {
         dates = datesToBeSet;
+        $rootScope.$broadcast('dates:updated', dates);
+    }
+
+    sessionService.getDates = function(){
+        return dates;
     }
 
     sessionService.add = function (newSession) {
@@ -36,7 +41,10 @@ myApp.factory('sessionService', function () {
         newSession.date = currentDate;
         sessions.push(newSession);
         console.log("Pushed object = " + newSession.date);
-    }
+ /*       for(var i = 0; i < sessions.length; i++){
+            console.log(sessions[i].id)
+        }*/
+    };
 
     sessionService.delete = function (newSession) {
         for (var i = 0; i < sessions.length; i++) {
@@ -98,4 +106,4 @@ myApp.factory('sessionService', function () {
     }
 
     return sessionService;
-});
+}]);

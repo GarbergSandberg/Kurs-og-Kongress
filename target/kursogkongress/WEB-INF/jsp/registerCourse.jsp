@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html>
 <head>
@@ -21,7 +22,7 @@
     <spring:url value="resources/html/registerSessionModal.html" var="modalTemplate"/>
     <spring:url value="resources/js/eventRegisterService.js" var="appEventService"/>
     <spring:url value="resources/html/registerEventModal.html" var="eventModal"/>
-    <spring:url value="resources/js/courseService.js" var="jsonService" />
+    <spring:url value="resources/js/courseService.js" var="jsonService"/>
     <script src="${appJs}"></script>
     <script src="${appService}"></script>
     <script src="${jsonService}"></script>
@@ -76,61 +77,61 @@
         <div class="page-header">
             <h4>Parallelle sesjoner</h4>
         </div>
-    <div ng-controller="AddSessionCtrl">
-        <table class="table session">
-            <tr ng-repeat="date in dates">
-                <td align="center" class="session">
-                    {{date.id}}
-                </td>
-                <td class="session">
-                    <button type="button" id="{{date.id}}" ng-click="passBtnId(date.id)"
-                            class="btn btn-primary btn-block"
-                            data-animation="am-fade-and-slide-top"
-                            data-template-url=${modalTemplate}
-                                    bs-modal="modal">+
-                    </button>
-                </td>
-                <td class="session" ng-repeat="session in sessions | filter:date.id">
-                    <button id="sessionButton" data-ng-attr-id="btnId" type="button"
-                            class="btn btn-secondary btn-block"
-                            data-animation="am-fade-and-slide-top"
-                            data-template-url=${modalTemplate}
-                                    bs-modal="modal">{{session.title}}
-                    </button>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div ng-controller="AddEventCtrl" style="margin-left:3em; margin-right:3em;">
+        <div ng-controller="AddSessionCtrl">
+            <table class="table session">
+                <tr ng-repeat="date in dates">
+                    <td align="center" class="session">
+                        {{date.day}}/{{date.month}}-{{date.year}}<br>
+                        {{date.weekday}}<br>
+                    </td>
+                    <td class="session">
+                        <button type="button" id="{{date.id}}" ng-click="passBtnId(date.id)"
+                                class="btn btn-primary btn-block"
+                                data-animation="am-fade-and-slide-top"
+                                data-template-url=${modalTemplate}
+                                        bs-modal="modal">+
+                        </button>
+                    </td>
+                    <td class="session" ng-repeat="session in sessions | filter:date.id">
+                        <button id="sessionButton" data-ng-attr-id="btnId" type="button"
+                                class="btn btn-secondary btn-block"
+                                data-animation="am-fade-and-slide-top"
+                                data-template-url=${modalTemplate}
+                                        bs-modal="modal">{{session.title}}
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
         <div class="page-header">
             <h4>Arrangementer</h4>
         </div>
-
-        <div class="row">
-            <div class="col-sm-3 col-md-6">
-                <ul>
-                    <button type="button" id="{{addEventButton}}"
-                            class="btn btn-primary btn-block"
-                            data-animation="am-fade-and-slide-top"
-                            data-template-url=${eventModal}
-                                    bs-modal="modal">+
-                    </button>
-                </ul>
-                <ul ng-repeat="event in events" style="margin-top: 1em;">
-                    <button id="eventButton" data-ng-attr-id="btnId" type="button"
-                            class="btn btn-secondary btn-block"
-                            data-animation="am-fade-and-slide-top"
-                            data-template-url=${eventModal}
-                                    bs-modal="modal">{{event.title}}
-                    </button>
-                </ul>
-            </div>
-            <div class="col-sm-9 col-md-6">
+        <div ng-controller="AddEventCtrl" style="margin-left:3em; margin-right:3em;">
+            <div class="row">
+                <div class="col-sm-3 col-md-6">
+                    <ul>
+                        <button type="button" id="{{addEventButton}}"
+                                class="btn btn-primary btn-block"
+                                data-animation="am-fade-and-slide-top"
+                                data-template-url=${eventModal}
+                                        bs-modal="modal">+
+                        </button>
+                    </ul>
+                    <ul ng-repeat="event in events" style="margin-top: 1em;">
+                        <button id="eventButton" data-ng-attr-id="btnId" type="button"
+                                class="btn btn-secondary btn-block"
+                                data-animation="am-fade-and-slide-top"
+                                data-template-url=${eventModal}
+                                        bs-modal="modal">{{event.title}}
+                        </button>
+                    </ul>
+                </div>
+                <div class="col-sm-9 col-md-6">
+                </div>
             </div>
         </div>
+        <button type="button" class="btn btn-primary" ng-click="save(course)">Lagre</button>
     </div>
-    <button type="button" class="btn btn-primary" ng-click="save(course)">Lagre</button>
-        </div>
 </div>
 
 </body>
