@@ -1,9 +1,8 @@
 /**
  * Created by Lars on 03.02.16.
  */
-/**
- * Created by eiriksandberg on 29.01.2016.
- */
+
+
 
 myApp.factory('eventService', function() {
     var events = [];
@@ -13,8 +12,8 @@ myApp.factory('eventService', function() {
         var old = eventExists(newEvent);
         console.log(old.exists + " Exists");
         if (old.exists){
-            eventUpdate(newEvent, old.index)
-            console.log("Modified object = ")
+            eventUpdate(newEvent, old.index);
+            console.log("Modified object = ");
             for(var property in events[old.index]) {
                 console.log(property + "=" + events[old.index][property]); // Test. Remove!!
             }
@@ -23,7 +22,7 @@ myApp.factory('eventService', function() {
             console.log("I eventService.save(), adder nytt event. '");
             eventService.add(newEvent);
         }
-    }
+    };
 
     eventService.delete = function (newEvent) {
         for (var i = 0; i < events.length; i++) {
@@ -35,13 +34,13 @@ myApp.factory('eventService', function() {
                 console.log("Objektet finnes ikke. ");
             }
         }
-    }
+    };
 
     eventService.add = function(newEvent) {
         newEvent.id = generateId();
         events.push(newEvent);
         console.log("Nytt objekt er lagt til, idnr = " + newEvent.id);
-    }
+    };
 
     eventService.get = function() {
         return events;

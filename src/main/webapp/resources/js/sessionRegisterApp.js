@@ -9,24 +9,24 @@ myApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionService', functi
     $scope.$on('dates:updated', function(event, data){
         $scope.dates = data;
         console.log("HAHAHAHHAHA: " + data[0].day);
-    })
+    });
     $scope.date = "Empty";
     $scope.passBtnId = function (id) {                            //put these in the service for cleaner code
         console.log(id);
         $scope.date = sessionService.date(id);
-    }
+    };
     $scope.showModal = function () {
         myModal.$promise.then(myModal.show);
     };
     $scope.delete = function (newSession) {
         console.log("I AddSessionCtrl - Skal slette eventet. ");
         sessionService.delete(newSession);
-    }
+    };
 
     $scope.sessions = sessionService.get();
     $scope.update = function (newSession) {
         sessionService.save(newSession);
-    }
+    };
 }]);
 
 myApp.controller('AddEventCtrl', ['$scope', '$modal', 'eventService', function ($scope, $modal, eventService) {
@@ -38,11 +38,11 @@ myApp.controller('AddEventCtrl', ['$scope', '$modal', 'eventService', function (
     $scope.update = function (newEvent) {
         console.log("I addEventCtrl, sendes til Service - save() '");
         eventService.save(newEvent);
-    }
+    };
     $scope.delete = function (newEvent) {
         console.log("I AddEventCtrl - Skal slette eventet. ");
         eventService.delete(newEvent);
-    }
+    };
 }]);
 
 myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'courseService', 'eventService', function ($scope, $modal, sessionService, courseService, eventService) {
@@ -77,6 +77,8 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
             $scope.roles.push(role);
         }
     };
+    $scope.removeRole = function (role){
+    };
     $scope.removeRole = function (role) {
         for (var i = 0; i < $scope.roles.length; i++) {
             if ($scope.roles[i] == role) {
@@ -102,13 +104,13 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
         }, function (errorCallback) {
             console.log("Error in courseService.sendInfo()");
         })
-    }
+    };
 
     Date.prototype.addDays = function(days) {
         var dat = new Date(this.valueOf());
         dat.setDate(dat.getDate() + days);
         return dat;
-    }
+    };
 
     self.getDates = function(startDate, stopDate) {
         var dateArray = new Array();
@@ -118,7 +120,7 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
             currentDate = currentDate.addDays(1);
         }
         return dateArray;
-    }
+    };
 
     self.findWeekday = function(weekday){
         switch (weekday){

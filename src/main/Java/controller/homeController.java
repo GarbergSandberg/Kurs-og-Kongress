@@ -17,8 +17,11 @@ public class homeController {
     @Autowired
     private PersonService personService;
 
-    @RequestMapping("/")
+    @RequestMapping("/registerCourse")
     public String home(){return "registerCourse";}
+
+    @RequestMapping("/")
+    public String registration(){return "registration";}
 
     @RequestMapping("/event")
     //public String event(){ return "event";}
