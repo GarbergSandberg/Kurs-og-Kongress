@@ -28,7 +28,6 @@ myApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionService', functi
         sessionService.save(newSession);
     };
     $scope.filterCopySession= function(item) {
-        console.log($scope.date);
         if(item.id == $scope.date.id){
             return false;
         }

@@ -30,8 +30,6 @@
     <spring:url value="resources/js/eventRegisterService.js" var="appEventService"/>
     <script src="${appJs}"></script>
     <script src="${appEventService}"></script>
-    <!-- Legges til i en css-fil -->
-
 </head>
 <body>
 
@@ -50,7 +48,6 @@
         <input type="radio" name="gender" ng-model="person.genfer" ng-value="female"/> Kvinne
     </label>
     <hr/>
-
 
     <!-- Personalia -->
     <h3>Personalia</h3>
@@ -122,9 +119,13 @@
     <hr/>
     <!-- Faglig program -->
     <h3>Påmelding faglig program</h3>
+    <label>
+        <input type="checkbox" name="allDays" value="allDays"> Hele kurset
+    </label>
 
     <label ng-repeat="day in days">
-        <input type="checkbox" name="selectedDays[]" value="{{day}}" ng-checked="selection.indexOf(day) > -1" ng-click="toggleSelection(day)"> {{day.id}}
+        <input type="checkbox" name="selectedDays[]" value="{{day}}" ng-checked="selection.indexOf(day) > -1"
+               ng-click="toggleSelection(day)"> {{day.id}}
     </label>
     <!-- 
     app.controller('SimpleArrayCtrl', ['$scope', function SimpleArrayCtrl($scope) {
@@ -149,11 +150,41 @@
     }
   };
 }]);
-
-    -->
+ -->
 
     <hr/>
-
+    <h3>Overnatting</h3>
+    <label for="accomodation">
+        <input type="checkbox" id="accomodation" ng-model="showRoom" ng-change="accomodation()"/>
+        Ønsker overnatting?
+    </label>
+    <div ng-show="roomVisible">
+        <label>
+            <input type="radio" name="roomType" ng-model="showName" value="yes" ng-change="roomType()"/> Dobbeltrom
+            <input type="radio" name="roomType" ng-model="showName" value="no" ng-change="roomType()"/> Enkeltrom
+        </label>
+    </div>
+    <div ng-show="shareVisible">
+        <label>
+            <label for="place">Del rom med: </label>
+            <input type="form-control" ng-model="Accomodation.share" id="shareWith"/>
+        </label>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-6"><i class="fa fa-clock-o"></i> Start tidspunkt</label>
+        <div class="form-group">
+            <input type="text" class="form-control" size="8" ng-model="session.startTime" bs-timepicker
+                   data-time-format="HH:mm" data-length="1" data-minute-step="5"
+                   data-arrow-behavior="picker">
+        </div>
+        <label class="control-label col-xs-6"><i class="fa fa-clock-o"></i> Slutt tidspunkt</label>
+        <div class="form-group">
+            <input type="text" class="form-control" size="8" ng-model="session.endTime" bs-timepicker
+                   data-time-format="HH:mm" data-length="1" data-minute-step="5"
+                   data-arrow-behavior="picker">
+        </div>
+    </div>
+    <hr/>
 </div>
 
 </body>
