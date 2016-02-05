@@ -27,6 +27,14 @@
                                    data-arrow-behavior="picker">
                         </div>
                     </div>
+                    <label for="location">Kopier sesjonen til andre dager</label>
+                    <table id="repeatedSessionTable">
+                        <tr>
+                            <td ng-repeat="date in dates | filter:filterCopySession">
+                                <label  class="checkbox-inline"><input type="checkbox" ng-model="session.repetitiveSession[date.id]">{{date.day}}/{{date.month}}</label>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" ng-click="delete(session); $hide()">Slett</button>

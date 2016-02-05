@@ -21,7 +21,7 @@ public class homeController {
     public String home(){return "registerCourse";}
 
     @RequestMapping("/")
-    public String registration(){return "registration";}
+    public String registration(){return "registerCourse";}
 
     @RequestMapping("/event")
     //public String event(){ return "event";}

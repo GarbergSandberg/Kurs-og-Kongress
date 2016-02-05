@@ -6,27 +6,34 @@ var myApp = angular.module('registerApp', ['ngAnimate', 'mgcrea.ngStrap', 'ngRou
 myApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionService', function ($scope, $modal, sessionService) {
     var myModal = $modal({scope: $scope, templateUrl: '/resources/html/registerSessionModal.html', show: false});
     $scope.dates = sessionService.getDates();
+    $scope.repetitiveSession = {};
     $scope.$on('dates:updated', function(event, data){
         $scope.dates = data;
-        console.log("HAHAHAHHAHA: " + data[0].day);
-    })
-    $scope.date = "Empty";
-    $scope.passBtnId = function (id) {                            //put these in the service for cleaner code
+    });
+    $scope.passBtnId = function (id) {
         console.log(id);
-        $scope.date = sessionService.date(id);
-    }
+        sessionService.date(id);
+        $scope.date = id;
+    };
     $scope.showModal = function () {
         myModal.$promise.then(myModal.show);
     };
     $scope.delete = function (newSession) {
         console.log("I AddSessionCtrl - Skal slette eventet. ");
         sessionService.delete(newSession);
-    }
+    };
 
     $scope.sessions = sessionService.get();
     $scope.update = function (newSession) {
         sessionService.save(newSession);
-    }
+    };
+    $scope.filterCopySession= function(item) {
+        console.log($scope.date);
+        if(item.id == $scope.date.id){
+            return false;
+        }
+        return true;
+    };
 }]);
 
 myApp.controller('AddEventCtrl', ['$scope', '$modal', 'eventService', function ($scope, $modal, eventService) {
@@ -38,11 +45,11 @@ myApp.controller('AddEventCtrl', ['$scope', '$modal', 'eventService', function (
     $scope.update = function (newEvent) {
         console.log("I addEventCtrl, sendes til Service - save() '");
         eventService.save(newEvent);
-    }
+    };
     $scope.delete = function (newEvent) {
         console.log("I AddEventCtrl - Skal slette eventet. ");
         eventService.delete(newEvent);
-    }
+    };
 }]);
 
 myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'courseService', 'eventService', function ($scope, $modal, sessionService, courseService, eventService) {
@@ -50,18 +57,12 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
     $scope.$watch("course.startDate", function(newValue, oldValue) {
         if ($scope.course.startDate !== undefined && $scope.course.endDate !== undefined) {
             var dates = self.getDates($scope.course.startDate, $scope.course.endDate);
-            for (var i = 0; i<dates.length;i++){
-                console.log(dates[i].id); // print out result
-            }
             sessionService.setDates(dates);
         }
     });
     $scope.$watch("course.endDate", function(newValue, oldValue) {
         if ($scope.course.startDate !== undefined && $scope.course.endDate !== undefined) {
             var dates = self.getDates($scope.course.startDate, $scope.course.endDate);
-                for (var i = 0; i<dates.length;i++){
-                    console.log(dates[i].id); // print out result
-                }
             sessionService.setDates(dates);
         }
     });
@@ -102,13 +103,13 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
         }, function (errorCallback) {
             console.log("Error in courseService.sendInfo()");
         })
-    }
+    };
 
     Date.prototype.addDays = function(days) {
         var dat = new Date(this.valueOf());
         dat.setDate(dat.getDate() + days);
         return dat;
-    }
+    };
 
     self.getDates = function(startDate, stopDate) {
         var dateArray = new Array();
@@ -118,7 +119,7 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
             currentDate = currentDate.addDays(1);
         }
         return dateArray;
-    }
+    };
 
     self.findWeekday = function(weekday){
         switch (weekday){

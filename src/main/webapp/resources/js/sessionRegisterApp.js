@@ -6,14 +6,14 @@ var myApp = angular.module('registerApp', ['ngAnimate', 'mgcrea.ngStrap', 'ngRou
 myApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionService', function ($scope, $modal, sessionService) {
     var myModal = $modal({scope: $scope, templateUrl: '/resources/html/registerSessionModal.html', show: false});
     $scope.dates = sessionService.getDates();
+    $scope.repetitiveSession = {};
     $scope.$on('dates:updated', function(event, data){
         $scope.dates = data;
-        console.log("HAHAHAHHAHA: " + data[0].day);
     });
-    $scope.date = "Empty";
-    $scope.passBtnId = function (id) {                            //put these in the service for cleaner code
+    $scope.passBtnId = function (id) {
         console.log(id);
-        $scope.date = sessionService.date(id);
+        sessionService.date(id);
+        $scope.date = id;
     };
     $scope.showModal = function () {
         myModal.$promise.then(myModal.show);
@@ -26,6 +26,12 @@ myApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionService', functi
     $scope.sessions = sessionService.get();
     $scope.update = function (newSession) {
         sessionService.save(newSession);
+    };
+    $scope.filterCopySession= function(item) {
+        if(item.id == $scope.date.id){
+            return false;
+        }
+        return true;
     };
 }]);
 
@@ -50,18 +56,12 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
     $scope.$watch("course.startDate", function(newValue, oldValue) {
         if ($scope.course.startDate !== undefined && $scope.course.endDate !== undefined) {
             var dates = self.getDates($scope.course.startDate, $scope.course.endDate);
-            for (var i = 0; i<dates.length;i++){
-                console.log(dates[i].id); // print out result
-            }
             sessionService.setDates(dates);
         }
     });
     $scope.$watch("course.endDate", function(newValue, oldValue) {
         if ($scope.course.startDate !== undefined && $scope.course.endDate !== undefined) {
             var dates = self.getDates($scope.course.startDate, $scope.course.endDate);
-                for (var i = 0; i<dates.length;i++){
-                    console.log(dates[i].id); // print out result
-                }
             sessionService.setDates(dates);
         }
     });
@@ -76,8 +76,6 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
         if (!exists) {
             $scope.roles.push(role);
         }
-    };
-    $scope.removeRole = function (role){
     };
     $scope.removeRole = function (role) {
         for (var i = 0; i < $scope.roles.length; i++) {

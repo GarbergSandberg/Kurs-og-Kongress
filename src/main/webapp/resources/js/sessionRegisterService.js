@@ -19,7 +19,14 @@ myApp.factory('sessionService',['$rootScope', function ($rootScope) {
             }
 
         } else {
-            sessionService.add(newSession);
+            if(newSession.repetitiveSession != undefined) {
+                sessionService.add(newSession);
+                addDuplicatedSessions(newSession);
+                newSession.repetitiveSession = {};
+            }
+            else{
+                sessionService.add(newSession);
+            }
         }
     }
 
@@ -49,9 +56,7 @@ myApp.factory('sessionService',['$rootScope', function ($rootScope) {
     sessionService.delete = function (newSession) {
         for (var i = 0; i < sessions.length; i++) {
             if (sessions[i].id == newSession.id) {
-                console.log("Har nå funnet eventet som skal bli slettet. Nr: " + i);
                 sessions.splice(i, 1);
-                console.log("Objektet er slettet... Håper jeg.. ");
             } else {
                 console.log("Objektet finnes ikke. ");
             }
@@ -62,6 +67,17 @@ myApp.factory('sessionService',['$rootScope', function ($rootScope) {
     sessionService.get = function () {
         return sessions;
     };
+
+    function addDuplicatedSessions(session) {
+        if(session.repetitiveSession != undefined) {
+            for (var item in session.repetitiveSession) {
+                var duplicatedSession = angular.copy(session);
+                currentDate = item;
+                duplicatedSession.repetitiveSession = {};
+                sessionService.add(duplicatedSession);
+            }
+        }
+    }
 
     function generateId() {
         var highestId = 0;
@@ -79,14 +95,10 @@ myApp.factory('sessionService',['$rootScope', function ($rootScope) {
         oldSession.exists = false;
         if (typeof(newSession) !== 'undefined') {
             if (sessions.length > 0) {
-                for (var property in newSession) {
-                    console.log(property + "=" + newSession[property]); // Test. Remove!!
-                }
                 for (var i = 0; i < sessions.length; i++) {
                     if (sessions[i].id == newSession.id) {
                         oldSession.exists = true;
                         oldSession.index = i;
-                        console.log(oldSession);
                     }
                 }
             }
@@ -99,6 +111,12 @@ myApp.factory('sessionService',['$rootScope', function ($rootScope) {
             console.log("property in prop = " + prop);                  // remove console.log after testing is done
             console.log("session[prop] = " + session[prop]);
             if (session[prop] != undefined) {
+                if(prop == "repetitiveSession"){
+                    for (item in session[prop]){
+                        addDuplicatedSessions(session);
+                        session.repetitiveSession = {};
+                 }
+                }
                 console.log("sessionUpdate = " + sessions[index][prop] + " = " + session[prop]);
                 sessions[index][prop] = session[prop];
             }
