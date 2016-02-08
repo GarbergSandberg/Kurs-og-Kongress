@@ -139,48 +139,45 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
 }]);
 
 myApp.controller('RegistrationCtrl', ['$scope', function ($scope){
+    $scope.checkboxModel = {
+        hotel : false,
+        airplane : false
+    };
     $scope.inputQuestions = [];
-    $scope.class = ["btn btn-default", "btn btn-default", "btn btn-default"];
-    $scope.hidden = ["ng-hide", "ng-hide", "ng-hide"];
-    $scope.buttonPressed = "";
-    $scope.numberOfRadioButtons = 0;
-    $scope.options = [1,2,3,4,5,6,7,8,9];
+    $scope.class = ["btn btn-default", "btn btn-default"];
+    $scope.hidden = ["ng-hide", "ng-hide"];
     $scope.buttonResolver = function(id){
         switch (id){
             case "input":
                 $scope.buttonPressed = "input";
-                $scope.class = ["btn btn-primary", "btn btn-default", "btn btn-default"];
-                $scope.hidden = ["ng-show", "ng-hide", "ng-hide"];
-                break;
-            case "radio":
-                $scope.buttonPressed = "radio";
-                $scope.class = ["btn btn-default", "btn btn-primary", "btn btn-default"];
-                $scope.hidden = ["ng-hide", "ng-show", "ng-hide"];
+                $scope.class = ["btn btn-primary", "btn btn-default"];
+                $scope.hidden = ["ng-show", "ng-hide"];
                 break;
             case "checkbox":
                 $scope.buttonPressed = "checkbox";
-                $scope.class = ["btn btn-default", "btn btn-default", "btn btn-primary"];
-                $scope.hidden = ["ng-hide", "ng-hide", "ng-show"];
+                $scope.class = ["btn btn-default", "btn btn-primary"];
+                $scope.hidden = ["ng-hide", "ng-show"];
                 break;
             case "default":
                 break;
         }
     };
-    $scope.addInputQuestion = function (question) {
+    $scope.addInputQuestion = function (question , type) {
         var exists = false;
         for (var i = 0; i < $scope.inputQuestions.length; i++) {
-            if ($scope.inputQuestions[i] == role) {
+            if ($scope.inputQuestions[i] == question) {
                 exists = true;
             }
         }
         if (!exists) {
-            $scope.inputQuestions.push(question);
+            var resolve = {question: question, type: type}
+            $scope.inputQuestions.push(resolve);
         }
     };
 
     $scope.removeInputQuestion = function (question) {
         for (var i = 0; i < $scope.inputQuestions.length; i++) {
-            if ($scope.inputQuestions[i] == question) {
+            if ($scope.inputQuestions[i].question == question) {
                 $scope.inputQuestions.splice(i, 1);
             }
         }

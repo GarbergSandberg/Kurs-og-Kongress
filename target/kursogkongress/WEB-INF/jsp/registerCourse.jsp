@@ -131,35 +131,55 @@
             </div>
         </div>
         <div class="page-header">
-            <h4>Informasjon til påmedlingsskjema</h4>
+            <h4>Ekstra informasjon til påmeldingsskjema</h4>
         </div>
         <div ng-controller="RegistrationCtrl">
-            <button id="input" ng-click="buttonResolver('input')" class="{{class[0]}}">Input</button>
-            <button id="radio" ng-click="buttonResolver('radio')" class="{{class[1]}}">Radiobutton</button>
-            <button id="checkbox" ng-click="buttonResolver('checkbox')" class="{{class[2]}}">Checkbox</button>
-            <span class="{{hidden[0]}}">
-                <div class="input-group">
-                    <input class="form-control" ng-model="inputQuestion" id="inputQuestion">
-                <span class="input-group-btn">
-                    <button class="btn btn-primary" type="button" ng-click="addInputQuestion(inputQuestion); inputQuestion = '';">Legg til</button>
-                </span>
-                </div>
-            </span>
-            <span class="{{hidden[1]}}">
-                <select ng-model="numberOfRadioButtons" ng-options="option for option in options"></select>
-            </span>
+            <div class="container">
+                <div class="jumbotron">
+                    <h4>Generelt <span class="label label-primary">Info</span></h4>
+                    <div class="checkbox">
+                        <label><input type="checkbox" ng-model="checkboxModel.hotel">Kurs og Kongress kan ordne
+                            hotel</label><br>
+                        <label><input type="checkbox" ng-model="checkboxModel.airplane">Kurs og Kongress kan booke
+                            fly</label>
+                    </div>
+                    <h4>Tilleggsspørsmål     <span class="label label-primary">Info</span></h4>
+                    <button id="input" ng-click="buttonResolver('input')" class="{{class[0]}}">Input</button>
+                    <button id="checkbox" ng-click="buttonResolver('checkbox')" class="{{class[1]}}">Checkbox</button><br>
 
-            <table class="table">
-                <tr ng-repeat="question in inputQuestions">
-                    <td>
-                        {{question}}
-                    </td>
-                    <td style="">
-                        <button type="button" id="{{question}}" ng-click="removeInputQuestion(question)" class="close" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                    </td>
-                </tr>
-            </table>
+                    <span class="{{hidden[0]}}">
+                        <div class="input-group">
+                            <input class="form-control" ng-model="inputQuestion" id="inputQuestion" placeholder="Skriv inn tekst som skal stå foran input">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button"
+                            ng-click="addInputQuestion(inputQuestion, 'Input'); inputQuestion = '';">Legg til</button>
+                            </span>
+                        </div>
+                    </span>
+                    <span class="{{hidden[1]}}">
+                        <div class="input-group">
+                            <input class="form-control" ng-model="inputQuestion" placeholder="Skriv inn tekst som skal stå foran checkbox">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button"
+                                        ng-click="addInputQuestion(inputQuestion, 'Checkbox'); inputQuestion = '';">Legg til</button>
+                            </span>
+                        </div>
+                    </span>
+                    <table class="table">
+                        <tr ng-repeat="question in inputQuestions">
+                            <td>
+                                {{question.question}} ({{question.type}})
+                            </td>
+                            <td style="">
+                                <button type="button" id="{{question.question}}" ng-click="removeInputQuestion(question.question)"
+                                        class="close" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
         </div>
         <button type="button" class="btn btn-primary" ng-click="save(course)">Lagre</button>
     </div>
