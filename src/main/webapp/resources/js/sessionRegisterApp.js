@@ -114,7 +114,11 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
         var dateArray = new Array();
         var currentDate = startDate;
         while (currentDate <= stopDate) {
-            dateArray.push({id: currentDate.toString(), weekday: self.findWeekday(currentDate.getDay()), year: currentDate.getFullYear(), month: currentDate.getMonth() + 1, day: currentDate.getDate()});
+            dateArray.push({id: currentDate.toString(),
+                weekday: self.findWeekday(currentDate.getDay()),
+                year: currentDate.getFullYear(),
+                month: currentDate.getMonth() + 1,
+                day: currentDate.getDate()});
             currentDate = currentDate.addDays(1);
         }
         return dateArray;
@@ -131,7 +135,56 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
             case 6: return "Lørdag";
             default: "";
         }
-    }
+    };
 }]);
 
+myApp.controller('RegistrationCtrl', ['$scope', function ($scope){
+    $scope.inputQuestions = [];
+    $scope.class = ["btn btn-default", "btn btn-default", "btn btn-default"];
+    $scope.hidden = ["ng-hide", "ng-hide", "ng-hide"];
+    $scope.buttonPressed = "";
+    $scope.numberOfRadioButtons = 0;
+    $scope.options = [1,2,3,4,5,6,7,8,9];
+    $scope.buttonResolver = function(id){
+        switch (id){
+            case "input":
+                $scope.buttonPressed = "input";
+                $scope.class = ["btn btn-primary", "btn btn-default", "btn btn-default"];
+                $scope.hidden = ["ng-show", "ng-hide", "ng-hide"];
+                break;
+            case "radio":
+                $scope.buttonPressed = "radio";
+                $scope.class = ["btn btn-default", "btn btn-primary", "btn btn-default"];
+                $scope.hidden = ["ng-hide", "ng-show", "ng-hide"];
+                break;
+            case "checkbox":
+                $scope.buttonPressed = "checkbox";
+                $scope.class = ["btn btn-default", "btn btn-default", "btn btn-primary"];
+                $scope.hidden = ["ng-hide", "ng-hide", "ng-show"];
+                break;
+            case "default":
+                break;
+        }
+    };
+    $scope.addInputQuestion = function (question) {
+        var exists = false;
+        for (var i = 0; i < $scope.inputQuestions.length; i++) {
+            if ($scope.inputQuestions[i] == role) {
+                exists = true;
+            }
+        }
+        if (!exists) {
+            $scope.inputQuestions.push(question);
+        }
+    };
+
+    $scope.removeInputQuestion = function (question) {
+        for (var i = 0; i < $scope.inputQuestions.length; i++) {
+            if ($scope.inputQuestions[i] == question) {
+                $scope.inputQuestions.splice(i, 1);
+            }
+        }
+    };
+}
+]);
 

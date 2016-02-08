@@ -106,7 +106,7 @@
         <div class="page-header">
             <h4>Arrangementer</h4>
         </div>
-        <div ng-controller="AddEventCtrl" style="margin-left:3em; margin-right:3em;">
+        <div ng-controller="AddEventCtrl">
             <div class="row">
                 <div class="col-sm-3 col-md-6">
                     <ul>
@@ -129,6 +129,36 @@
                 <div class="col-sm-9 col-md-6">
                 </div>
             </div>
+        </div>
+        <div class="page-header">
+            <h4>Informasjon til påmedlingsskjema</h4>
+        </div>
+        <div ng-controller="RegistrationCtrl">
+            <button id="input" ng-click="buttonResolver('input')" class="{{class[0]}}">Input</button>
+            <button id="radio" ng-click="buttonResolver('radio')" class="{{class[1]}}">Radiobutton</button>
+            <button id="checkbox" ng-click="buttonResolver('checkbox')" class="{{class[2]}}">Checkbox</button>
+            <span class="{{hidden[0]}}">
+                <div class="input-group">
+                    <input class="form-control" ng-model="inputQuestion" id="inputQuestion">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="button" ng-click="addInputQuestion(inputQuestion); inputQuestion = '';">Legg til</button>
+                </span>
+                </div>
+            </span>
+            <span class="{{hidden[1]}}">
+                <select ng-model="numberOfRadioButtons" ng-options="option for option in options"></select>
+            </span>
+            <table class="table">
+                <tr ng-repeat="question in inputQuestions">
+                    <td>
+                        {{question}}
+                    </td>
+                    <td style="">
+                        <button type="button" id="{{question}}" ng-click="removeInputQuestion(question)" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                    </td>
+                </tr>
+            </table>
         </div>
         <button type="button" class="btn btn-primary" ng-click="save(course)">Lagre</button>
     </div>

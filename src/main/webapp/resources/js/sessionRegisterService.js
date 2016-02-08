@@ -31,7 +31,7 @@ myApp.factory('sessionService',['$rootScope', function ($rootScope) {
     }
 
     sessionService.date = function (btnDate) {
-        currentDate = btnDate;
+        currentDate = new Date(btnDate);
     }
 
     sessionService.setDates = function (datesToBeSet) {
@@ -48,9 +48,6 @@ myApp.factory('sessionService',['$rootScope', function ($rootScope) {
         newSession.date = currentDate;
         sessions.push(newSession);
         console.log("Pushed object = " + newSession.date);
- /*       for(var i = 0; i < sessions.length; i++){
-            console.log(sessions[i].id)
-        }*/
     };
 
     sessionService.delete = function (newSession) {
@@ -72,7 +69,7 @@ myApp.factory('sessionService',['$rootScope', function ($rootScope) {
         if(session.repetitiveSession != undefined) {
             for (var item in session.repetitiveSession) {
                 var duplicatedSession = angular.copy(session);
-                currentDate = item;
+                currentDate = new Date(item);
                 duplicatedSession.repetitiveSession = {};
                 sessionService.add(duplicatedSession);
             }
@@ -108,16 +105,13 @@ myApp.factory('sessionService',['$rootScope', function ($rootScope) {
 
     function sessionUpdate(session, index) {
         for (var prop in session) {
-            console.log("property in prop = " + prop);                  // remove console.log after testing is done
-            console.log("session[prop] = " + session[prop]);
             if (session[prop] != undefined) {
                 if(prop == "repetitiveSession"){
                     for (item in session[prop]){
                         addDuplicatedSessions(session);
                         session.repetitiveSession = {};
-                 }
+                    }
                 }
-                console.log("sessionUpdate = " + sessions[index][prop] + " = " + session[prop]);
                 sessions[index][prop] = session[prop];
             }
         }
