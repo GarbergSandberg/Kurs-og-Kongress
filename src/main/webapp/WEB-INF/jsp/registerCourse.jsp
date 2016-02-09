@@ -128,11 +128,56 @@
             </div>
         </div>
         <div class="page-header">
-            <h4>Ekstra informasjon til påmeldingsskjema</h4>
+            <h4>Priser</h4>
+        </div>
+        <div class="page-header">
+            <h4>Informasjon til påmeldingsskjema</h4>
         </div>
         <div ng-controller="RegistrationCtrl">
             <div class="container">
                 <div class="jumbotron">
+                    <table class="table">
+                        <h4>Personalia <span class="label label-primary">Info</span></h4>
+                        <tr ng-repeat="req in requiredPersonalia">
+                            <td>
+                                {{req.parameter}} ({{req.type}})
+                            </td>
+                            <td style="text-align: right">
+                                Må være med
+                            </td>
+                        </tr>
+                        <tr ng-repeat="opt in optionalPersonalia">
+                            <td>
+                                {{opt.parameter}} ({{opt.type}})
+                            </td>
+                            <td style="">
+                                <button type="button" id="{{item}}" ng-click="removeOptionalParameter(opt.parameter)"
+                                        class="close" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                            </td>
+                        </tr>
+                    </table>
+                    <h6>Legg til flere felter i personalia</h6>
+                    <button id="inputOptional" ng-click="buttonResolver('inputPersonalia')" class="{{classPersonalia[0]}}">Input</button>
+                    <button id="checkboxOptional" ng-click="buttonResolver('checkboxPersonalia')" class="{{classPersonalia[1]}}">Checkbox</button><br>
+                    <span class="{{hiddenPersonalia[0]}}">
+                        <div class="input-group">
+                            <input class="form-control" ng-model="inputPersonalia" placeholder="Skriv inn tekst som skal stå foran input">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button"
+                                        ng-click="addOptionalParameter(inputPersonalia, 'Input'); inputPersonalia = '';">Legg til</button>
+                            </span>
+                        </div>
+                    </span>
+                    <span class="{{hiddenPersonalia[1]}}">
+                        <div class="input-group">
+                            <input class="form-control" ng-model="inputPersonalia" placeholder="Skriv inn tekst som skal stå foran checkbox">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button"
+                                        ng-click="addOptionalParameter(inputPersonalia, 'Checkbox'); inputPersonalia = '';">Legg til</button>
+                            </span>
+                        </div>
+                    </span>
                     <h4>Generelt <span class="label label-primary">Info</span></h4>
                     <div class="checkbox">
                         <label><input type="checkbox" ng-model="checkboxModel.hotel">Kurs og Kongress kan ordne
@@ -141,12 +186,12 @@
                             fly</label>
                     </div>
                     <h4>Tilleggsspørsmål     <span class="label label-primary">Info</span></h4>
-                    <button id="input" ng-click="buttonResolver('input')" class="{{class[0]}}">Input</button>
-                    <button id="checkbox" ng-click="buttonResolver('checkbox')" class="{{class[1]}}">Checkbox</button><br>
+                    <button id="inputQuestion" ng-click="buttonResolver('input')" class="{{class[0]}}">Input</button>
+                    <button id="checkboxQuestion" ng-click="buttonResolver('checkbox')" class="{{class[1]}}">Checkbox</button><br>
 
                     <span class="{{hidden[0]}}">
                         <div class="input-group">
-                            <input class="form-control" ng-model="inputQuestion" id="inputQuestion" placeholder="Skriv inn tekst som skal stå foran input">
+                            <input class="form-control" ng-model="inputQuestion" placeholder="Skriv inn tekst som skal stå foran input">
                             <span class="input-group-btn">
                                 <button class="btn btn-primary" type="button"
                             ng-click="addInputQuestion(inputQuestion, 'Input'); inputQuestion = '';">Legg til</button>
@@ -176,7 +221,6 @@
                     </table>
                 </div>
             </div>
-
         </div>
         <button type="button" class="btn btn-primary" ng-click="save(course)">Lagre</button>
     </div>

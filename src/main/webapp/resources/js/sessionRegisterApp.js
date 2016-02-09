@@ -53,6 +53,7 @@ myApp.controller('AddEventCtrl', ['$scope', '$modal', 'eventService', function (
 
 myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'courseService', 'eventService', function ($scope, $modal, sessionService, courseService, eventService) {
     $scope.course = {};
+    $scope.roles = [];
     $scope.$watch("course.startDate", function(newValue, oldValue) {
         if ($scope.course.startDate !== undefined && $scope.course.endDate !== undefined) {
             var dates = self.getDates($scope.course.startDate, $scope.course.endDate);
@@ -65,7 +66,6 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
             sessionService.setDates(dates);
         }
     });
-    $scope.roles = [];
     $scope.addRole = function (role) {
         var exists = false;
         for (var i = 0; i < $scope.roles.length; i++) {
@@ -83,10 +83,6 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
                 $scope.roles.splice(i, 1);
             }
         }
-    };
-    $scope.addedRoleAlert = {
-        "content": "Ny rolle lagt til",
-        "type": "info"
     };
 
     $scope.save = function (course) {
@@ -143,9 +139,19 @@ myApp.controller('RegistrationCtrl', ['$scope', function ($scope){
         hotel : false,
         airplane : false
     };
+    $scope.requiredPersonalia = [
+        {parameter: "Fornavn", type: "Input"},
+        {parameter: "Etternavn",type: "Input"},
+        {parameter: "Telefonnummer", type: "Input"},
+        {parameter: "Epostadresse", type: "Input"},
+        {parameter: "Fødselsår", type: "Input"}
+    ];
+    $scope.optionalPersonalia = [{parameter: "Bemerkning", type: "Checkbox"}];
     $scope.inputQuestions = [];
     $scope.class = ["btn btn-default", "btn btn-default"];
     $scope.hidden = ["ng-hide", "ng-hide"];
+    $scope.classPersonalia = ["btn btn-default", "btn btn-default"];
+    $scope.hiddenPersonalia = ["ng-hide", "ng-hide"];
     $scope.buttonResolver = function(id){
         switch (id){
             case "input":
@@ -157,6 +163,14 @@ myApp.controller('RegistrationCtrl', ['$scope', function ($scope){
                 $scope.buttonPressed = "checkbox";
                 $scope.class = ["btn btn-default", "btn btn-primary"];
                 $scope.hidden = ["ng-hide", "ng-show"];
+                break;
+            case "inputPersonalia":
+                $scope.classPersonalia = ["btn btn-primary", "btn btn-default"];
+                $scope.hiddenPersonalia = ["ng-show", "ng-hide"];
+                break;
+            case "checkboxPersonalia":
+                $scope.classPersonalia = ["btn btn-default", "btn btn-primary"];
+                $scope.hiddenPersonalia = ["ng-hide", "ng-show"];
                 break;
             case "default":
                 break;
@@ -179,6 +193,27 @@ myApp.controller('RegistrationCtrl', ['$scope', function ($scope){
         for (var i = 0; i < $scope.inputQuestions.length; i++) {
             if ($scope.inputQuestions[i].question == question) {
                 $scope.inputQuestions.splice(i, 1);
+            }
+        }
+    };
+
+    $scope.addOptionalParameter = function (parameter , type) {
+        var exists = false;
+        for (var i = 0; i < $scope.optionalPersonalia.length; i++) {
+            if ($scope.optionalPersonalia[i] == parameter) {
+                exists = true;
+            }
+        }
+        if (!exists) {
+            var resolve = {parameter: parameter, type: type}
+            $scope.optionalPersonalia.push(resolve);
+        }
+    };
+
+    $scope.removeOptionalParameter = function (parameter) {
+        for (var i = 0; i < $scope.optionalPersonalia.length; i++) {
+            if ($scope.optionalPersonalia[i].parameter == parameter) {
+                $scope.optionalPersonalia.splice(i, 1);
             }
         }
     };
