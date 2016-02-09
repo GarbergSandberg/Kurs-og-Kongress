@@ -21,3 +21,32 @@ td.session {
 #sessionButton{
     font-size: small;
 }
+
+a.event{
+    display: inline-block;
+    max-width: 200px;
+    min-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: hand;
+}
+
+h4.event{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+a.plusbutton{
+    display: inline-block;
+    max-width: 400px;
+    min-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    cursor: hand;
+}
+
+table.modal{
+    max-width: 100%;
+}

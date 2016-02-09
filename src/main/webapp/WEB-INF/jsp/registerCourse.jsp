@@ -107,27 +107,24 @@
             <h4>Arrangementer</h4>
         </div>
         <div ng-controller="AddEventCtrl">
-            <div class="row">
-                <div class="col-sm-3 col-md-6">
-                    <ul>
-                        <button type="button" id="{{addEventButton}}"
-                                class="btn btn-primary btn-block"
-                                data-animation="am-fade-and-slide-top"
-                                data-template-url=${eventModal}
-                                        bs-modal="modal">+
-                        </button>
-                    </ul>
-                    <ul ng-repeat="event in events" style="margin-top: 1em;">
-                        <button id="eventButton" data-ng-attr-id="btnId" type="button"
-                                class="btn btn-secondary btn-block"
-                                data-animation="am-fade-and-slide-top"
-                                data-template-url=${eventModal}
-                                        bs-modal="modal">{{event.title}}
-                        </button>
-                    </ul>
-                </div>
-                <div class="col-sm-9 col-md-6">
-                </div>
+            <div class="list-group">
+                <a class="list-group-item active plusbutton" data-animation="am-fade-and-slide-top"
+                   data-template-url=${eventModal}
+                           bs-modal="modal">
+                    <h4 class="list-group-item-heading">+</h4>
+                </a>
+            </div>
+            <div class="list-group">
+                <a class="list-group-item event" ng-repeat="event in events" data-animation="am-fade-and-slide-top"
+                   data-template-url=${eventModal}
+                           bs-modal="modal">
+                    <h4 class="list-group-item-heading event">{{event.title}}</h4>
+                    <p class="list-group-item-text">
+                        Pris: {{event.price}}<br>
+                        Maks antall deltakere: {{event.maxNumber}} <br>
+                        Sted: {{event.location}}
+                    </p>
+                </a>
             </div>
         </div>
         <div class="page-header">
