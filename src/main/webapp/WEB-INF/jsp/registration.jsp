@@ -138,12 +138,11 @@
             <td align="center" class="session">
                 {{day.id}}<br>
             </td>
-            <td class="session" ng-repeat="session in sessions" ng-if="session.day == day.id">
+            <td class="btn btn-lg" ng-repeat="session in sessions" ng-if="session.day == day.id">
                 <button type="button" class="btn"
                         ng-class="{true: 'btn-primary', false: 'btn-default'}[isActive == $index]"
                         ng-click="selectButton($index)"> {{session.id}}
                 </button>
-            </td>
         </tr>
 
         <!-- Virker, men kan kun velge en knapp.
@@ -161,6 +160,29 @@
     </table>
 
     <hr/>
+
+    <h3>Påmelding arrangementer</h3>
+    <table class="table event">
+        <tr ng-repeat="day in days">
+            <td align="center" class="session">
+                {{day.id}}<br>
+            </td>
+            <td ng-repeat="event in events" ng-if="event.day == day.id">
+                <!-- <button type="button" name="selectedEvents[]" value="{{event}}" ng-checked="selectedEvent.indexOf(event) > -1"
+                        ng-click="selectEvent(event)">{{event.id}}</button> -->
+                <button type="{{eventtype}}" name="selectedEvents[]" value="{{event}}" ng-checked="selectedEvent.indexOf(event) > -1"
+                       ng-click="selectEvent(event)" ng-class="color(event) ? 'btn-primary' : 'btn-default'"> {{event.id}}
+            </button> </td>
+        </tr>
+    </table>
+
+<!--
+    <div class="btn-group btn-group-{{type}}" data-toggle="buttons">
+        <span class="btn btn-lg btn-primary"
+              ng-repeat="option in options"
+              ng-class="{active:option.id==model.range_id}"
+              ng-click="activate(option.id)">{{option.label}}</span>
+    </div> -->
 
     <h3>Overnatting</h3>
     <label for="accomodation">

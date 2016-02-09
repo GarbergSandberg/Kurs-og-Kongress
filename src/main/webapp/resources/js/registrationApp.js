@@ -20,16 +20,48 @@ app.controller('AddRegCtrl', function ($scope, $http) {
     $scope.days = [{id: 'Mandag'}, {id: 'Tirsdag'}, {id: 'Onsdag'}];
     $scope.sessions = [{day: 'Mandag', id: 'Sangtime'}, {day: 'Mandag', id: 'Gitarkurs'}, {day: 'Mandag', id: 'Korøvelse'},
         {day: 'Tirsdag', id: 'Sangtime'}, {day: 'Tirsdag', id: 'Gitarkurs'}, {day: 'Tirsdag', id: 'Korøvelse'}];
+
+    $scope.events = [{day: 'Mandag', id: 'Sangtime'}, {day: 'Mandag', id: 'Gitarkurs'}, {day: 'Mandag', id: 'Korøvelse'},
+        {day: 'Tirsdag', id: 'Sangtime'}, {day: 'Tirsdag', id: 'Gitarkurs'}, {day: 'Tirsdag', id: 'Korøvelse'}];
+
     $scope.selectedDays = [];
+    $scope.selectedEvents = [];
     $scope.IsExtraVisible = false;
     $scope.IsVisible = false;
     $scope.roomVisible = false;
     $scope.shareVisible = false;
     $scope.variables = [];
+    $scope.myModel = {range_id: 1};
+    $scope.eventtype = "btn btn-primary";
+
+    $scope.color = function(event){ // Skjekk om id finnes i selectedEvents.
+        console.log("Kjører checkResolver");
+        for (i=0; i<$scope.selectedEvents.length; i++){
+            if (event == $scope.selectedEvents[i]){
+                console.log("Er lik et event i tabellen.")
+                return true;
+            }
+        }
+        return false;
+    };
 
     $scope.selectButton = function(index) { // Opprette en isActive for hver dag?
-
         $scope.isActive = index;
+    };
+
+    $scope.selectEvent = function selectEvent(event) {
+        var idx = $scope.selectedEvents.indexOf(event);
+        // Blir unchecked.
+        if (idx > -1) {
+            $scope.selectedEvents.splice(idx, 1);
+            console.log("Blir fjernet: " + event.id);
+        }
+        // Blir checked.
+        else {
+            console.log("Blir checked.");
+            $scope.selectedEvents.push(event);
+            //$scope.eventtype = "btn btn-primary";
+        }
     };
 
     $scope.selectDay = function selectDay(day) {  // http://stackoverflow.com/questions/14514461/angularjs-how-to-bind-to-list-of-checkbox-values

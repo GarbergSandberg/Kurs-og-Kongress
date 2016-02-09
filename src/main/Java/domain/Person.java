@@ -18,6 +18,7 @@ public class Person {
     private String email;
     private String facturaAdress;
     private String mark;
+    private ArrayList<String> newInput;
 
     public Person(String lastname, String firstname, int phonenumber, Workplace workplace, int postalcode, String email) {
         this.lastname = lastname;
