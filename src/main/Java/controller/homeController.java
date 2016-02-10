@@ -17,8 +17,8 @@ public class homeController {
     @Autowired
     private PersonService personService;
 
-/*    @Autowired
-    private CourseService courseService;*/
+    @Autowired
+    private CourseService courseService;
 
     @RequestMapping("/registration")
     public String home(){return "registration";}
@@ -28,9 +28,6 @@ public class homeController {
 
     @RequestMapping("/")
     public String registration(){
-/*        Course c = courseService.getCourses();
-        System.out.println("Tittel: " + c.getTitle());
-        System.out.println("Form parameter 0: " + c.getForm().getRequiredPersonalia().get(0).getParameter());*/
         return "registerCourse";
     }
 
