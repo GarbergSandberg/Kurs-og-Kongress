@@ -94,8 +94,7 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
         course.events = eventService.get();
         courseService.prepareForm();
         course.form = courseService.getForm();
-        console.log(course.form);
-        //self.sendCourse(course);
+        self.sendCourse(course);
     };
 
     self.sendCourse = function (course) {
@@ -162,7 +161,7 @@ myApp.controller('RegistrationCtrl', ['$scope', 'courseService', function ($scop
         {parameter: "Ønsker faktura sendt til annen adresse", type: "Checkbox"}
     ];
     $scope.form.optionalWorkplace = [];
-    $scope.form.inputQuestions = [];
+    $scope.form.extraInfo = [];
     $scope.class = ["btn btn-default", "btn btn-default"];
     $scope.hidden = ["ng-hide", "ng-hide"];
     $scope.classPersonalia = ["btn btn-default", "btn btn-default"];
@@ -230,7 +229,7 @@ myApp.controller('RegistrationCtrl', ['$scope', 'courseService', function ($scop
     self.contextResolver = function(context) {
         var array = [];
         switch (context){
-            case "extraInfo": array = $scope.form.inputQuestions; break;
+            case "extraInfo": array = $scope.form.extraInfo; break;
             case "personalia": array = $scope.form.optionalPersonalia; break;
             case "workplace": array = $scope.form.optionalWorkplace; break;
             default: break;

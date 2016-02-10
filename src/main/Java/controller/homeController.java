@@ -17,6 +17,9 @@ public class homeController {
     @Autowired
     private PersonService personService;
 
+/*    @Autowired
+    private CourseService courseService;*/
+
     @RequestMapping("/registration")
     public String home(){return "registration";}
 
@@ -24,7 +27,12 @@ public class homeController {
     public String registerCourse(){return "registerCourse";}
 
     @RequestMapping("/")
-    public String registration(){return "registerCourse";}
+    public String registration(){
+/*        Course c = courseService.getCourses();
+        System.out.println("Tittel: " + c.getTitle());
+        System.out.println("Form parameter 0: " + c.getForm().getRequiredPersonalia().get(0).getParameter());*/
+        return "registerCourse";
+    }
 
     @RequestMapping("/event")
     //public String event(){ return "event";}
@@ -36,7 +44,6 @@ public class homeController {
 
     @RequestMapping(value = "/saveinformation_json", method = RequestMethod.POST)
     public ResponseEntity<Void> saveInformation_JSON( @RequestBody Course course )   {
-        System.out.println("Course created and ready to save to repo. Title: " + course.getTitle());
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 

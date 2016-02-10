@@ -23,14 +23,12 @@
     <spring:url value="resources/js/eventRegisterService.js" var="appEventService"/>
     <spring:url value="resources/html/registerEventModal.html" var="eventModal"/>
     <spring:url value="resources/js/courseService.js" var="jsonService"/>
-    <spring:url value="resources/js/createRegistrationFormService.js" var="createRFService"/>
     <script src="${appJs}"></script>
     <script src="${appService}"></script>
     <script src="${jsonService}"></script>
     <script src="${modalTemplate}"></script>
     <script src="${appEventService}"></script>
     <script src="${eventModal}"></script>
-    <script src="${createRFService}"></script>
 </head>
 <body>
 <div ng-app="registerApp">
@@ -225,13 +223,13 @@
                     </span>
                     <h4>Annet <span class="label label-primary">Info</span></h4>
                     <div class="checkbox">
-                        <label><input type="checkbox" ng-model="checkboxModel.hotel">Kurs og Kongress kan ordne
+                        <label><input type="checkbox" ng-model="form.checkboxModel.hotel">Kurs og Kongress kan ordne
                             hotel</label><br>
-                        <label><input type="checkbox" ng-model="checkboxModel.airplane">Kurs og Kongress kan ordne bestillingsskjema for fly</label>
+                        <label><input type="checkbox" ng-model="form.checkboxModel.airplane">Kurs og Kongress kan ordne bestillingsskjema for fly</label>
                     </div>
                     <h4>Tilleggsspørsmål     <span class="label label-primary">Info</span></h4>
                     <table class="table">
-                        <tr ng-repeat="parameter in form.inputQuestions">
+                        <tr ng-repeat="parameter in form.extraInfo">
                             <td>
                                 {{parameter.parameter}} ({{parameter.type}})
                             </td>

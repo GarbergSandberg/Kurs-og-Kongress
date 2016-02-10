@@ -29,7 +29,6 @@ myApp.factory('courseService', ['$http', '$q','$rootScope', function($http, $q, 
                     }
                 );
         }
-
     }
 }]);
 

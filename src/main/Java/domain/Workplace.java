@@ -14,7 +14,6 @@ public class Workplace {
         this.adress = adress;
     }
 
-    // Getters and setters.
     public String getName() {
         return name;
     }

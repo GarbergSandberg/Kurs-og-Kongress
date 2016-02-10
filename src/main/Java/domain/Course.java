@@ -10,6 +10,7 @@ public class Course {
     private ArrayList<Session> sessions;
     private ArrayList<Event> events;
     private ArrayList<String> roles;
+    private Form form;
     private String title;
     private String location;
     private String description;
@@ -17,10 +18,11 @@ public class Course {
     private Date endDate;
     private int maxNumber;
 
-    public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, String title, String location, String description, Date startDate, Date endDate, int maxNumber) {
+    public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, Form form, String title, String location, String description, Date startDate, Date endDate, int maxNumber) {
         this.sessions = sessions;
         this.events = events;
         this.roles = roles;
+        this.form = form;
         this.title = title;
         this.location = location;
         this.description = description;
@@ -53,6 +55,14 @@ public class Course {
 
     public void setRoles(ArrayList<String> roles) {
         this.roles = roles;
+    }
+
+    public Form getForm() {
+        return form;
+    }
+
+    public void setForm(Form form) {
+        this.form = form;
     }
 
     public String getTitle() {

@@ -72,4 +72,10 @@ public class Configurate extends WebMvcConfigurationSupport {
     public PersonService personService(){
         return new PersonServiceImpl();
     }
+
+    @Bean
+    public CourseService courseService() {return new CourseServiceImpl();}
+
+    @Bean
+    public CourseRepository courseRepository() {return new CourseRepositoryMock();}
 }
