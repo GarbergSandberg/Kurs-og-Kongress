@@ -95,6 +95,7 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
         courseService.prepareForm();
         course.form = courseService.getForm();
         self.sendCourse(course);*/
+        //commit
         self.getMock();
     };
 
