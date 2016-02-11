@@ -28,6 +28,20 @@ myApp.factory('courseService', ['$http', '$q','$rootScope', function($http, $q, 
                         return $q.reject(errResponse.data);
                     }
                 );
+        },
+
+        getMockCourse: function(callback){
+            return $http.get('getCourseMock')
+                .then(
+                    function (response) {
+                        console.log(response.data);
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        console.error('Error while getMockCourse');
+                        return $q.reject(errResponse.data);
+                    }
+                );
         }
     }
 }]);

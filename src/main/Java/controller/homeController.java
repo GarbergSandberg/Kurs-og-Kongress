@@ -44,5 +44,12 @@ public class homeController {
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/getCourseMock", method = RequestMethod.GET)
+    @ResponseBody
+    public Course getMockCourse() {
+        System.out.println(courseService.getCourses());
+        return courseService.getCourses();
+    }
+
 
 }

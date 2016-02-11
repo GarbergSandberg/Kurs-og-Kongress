@@ -89,20 +89,28 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
     };
 
     $scope.save = function (course) {
-        course.roles = $scope.roles;
+        /*course.roles = $scope.roles;
         course.sessions = sessionService.get();
         course.events = eventService.get();
         courseService.prepareForm();
         course.form = courseService.getForm();
-        self.sendCourse(course);
+        self.sendCourse(course);*/
+        self.getMock();
     };
 
     self.sendCourse = function (course) {
         courseService.sendInfo(course).then(function (successCallback) {
-            console.log("Course sent" + course);
+            console.log("Course sent" + successCallback);
         }, function (errorCallback) {
-            console.log("Error in courseService.sendInfo()");
+            console.log("Error in courseService.sendInfo()" + errorCallback);
         })
+    };
+
+    self.getMock = function(){
+        courseService.getMockCourse().then(function(response){
+            $scope.course = response;
+        })
+
     };
 
     Date.prototype.addDays = function(days) {
