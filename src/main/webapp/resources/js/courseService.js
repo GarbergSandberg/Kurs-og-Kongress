@@ -17,6 +17,10 @@ myApp.factory('courseService', ['$http', '$q','$rootScope', function($http, $q, 
             return form;
         },
 
+        setRecievedForm: function(form){
+            $rootScope.$broadcast('recievedForm', form);
+        },
+
         sendInfo: function (course) {
             return $http.post('saveinformation_json', course)
                 .then(
@@ -34,11 +38,23 @@ myApp.factory('courseService', ['$http', '$q','$rootScope', function($http, $q, 
             return $http.get('getCourseMock')
                 .then(
                     function (response) {
-                        console.log(response.data);
                         return response.data;
                     },
                     function (errResponse) {
                         console.error('Error while getMockCourse');
+                        return $q.reject(errResponse.data);
+                    }
+                );
+        },
+
+        getTemplate: function(callback){
+            return $http.get('getTemplate')
+                .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        console.error('Error while getting template');
                         return $q.reject(errResponse.data);
                     }
                 );

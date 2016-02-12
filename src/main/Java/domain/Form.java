@@ -10,19 +10,16 @@ public class Form {
     private ArrayList<InputParameter> optionalPersonalia;
     private ArrayList<InputParameter> requiredWorkplace;
     private ArrayList<InputParameter> optionalWorkplace;
-    private ArrayList<InputParameter> inputQuestions;
+    private ArrayList<InputParameter> extraInfo;
     private CheckboxModel checkboxModel;
 
-    public Form(ArrayList<InputParameter> requiredPersonalia, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> requiredWorkplace, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> inputQuestions, CheckboxModel checkboxModel) {
+    public Form(ArrayList<InputParameter> requiredPersonalia, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> requiredWorkplace, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, CheckboxModel checkboxModel) {
         this.requiredPersonalia = requiredPersonalia;
         this.optionalPersonalia = optionalPersonalia;
         this.requiredWorkplace = requiredWorkplace;
         this.optionalWorkplace = optionalWorkplace;
-        this.inputQuestions = inputQuestions;
+        this.extraInfo = extraInfo;
         this.checkboxModel = checkboxModel;
-    }
-
-    public Form() {
     }
 
     public ArrayList<InputParameter> getRequiredPersonalia() {
@@ -57,12 +54,12 @@ public class Form {
         this.optionalWorkplace = optionalWorkplace;
     }
 
-    public ArrayList<InputParameter> getInputQuestions() {
-        return inputQuestions;
+    public ArrayList<InputParameter> getExtraInfo() {
+        return extraInfo;
     }
 
-    public void setInputQuestions(ArrayList<InputParameter> inputQuestions) {
-        this.inputQuestions = inputQuestions;
+    public void setExtraInfo(ArrayList<InputParameter> extraInfo) {
+        this.extraInfo = extraInfo;
     }
 
     public CheckboxModel getCheckboxModel() {

@@ -8,4 +8,6 @@ import domain.*;
 public interface CourseService {
 
     public Course getCourses();
+
+    public Course generateTemplate();
 }

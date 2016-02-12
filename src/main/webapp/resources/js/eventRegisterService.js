@@ -46,6 +46,15 @@ myApp.factory('eventService', function() {
         return events;
     };
 
+    eventService.setEvents = function(eventsSent){
+        for (var i = 0; i < eventsSent.length; i++){
+            var newEvent = eventsSent[i];
+            newEvent.date = new Date(eventsSent[i].date);
+            newEvent.time = new Date(eventsSent[i].time);
+            events.push(newEvent);
+        }
+    };
+
     function generateId(){
         var highestId = 0;
         for (var i = 0; i < events.length; i++){

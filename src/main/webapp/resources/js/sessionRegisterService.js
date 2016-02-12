@@ -12,8 +12,8 @@ myApp.factory('sessionService',['$rootScope', function ($rootScope) {
         var old = sessionExists(newSession);
         console.log(old.exists + " Exists");
         if (old.exists) {
-            sessionUpdate(newSession, old.index)
-            console.log("Modified object = ")
+            sessionUpdate(newSession, old.index);
+            console.log("Modified object = ");
             for (var property in sessions[old.index]) {
                 console.log(property + "=" + sessions[old.index][property]); // Test. Remove!!
             }
@@ -28,20 +28,30 @@ myApp.factory('sessionService',['$rootScope', function ($rootScope) {
                 sessionService.add(newSession);
             }
         }
-    }
+    };
+
+    sessionService.setSessions = function(sessionsSent){
+        for (var i = 0; i < sessionsSent.length; i++){
+            var newSession = sessionsSent[i];
+            newSession.startDate = new Date(sessionsSent[i].startDate);
+            newSession.endDate = new Date(sessionsSent[i].endDate);
+            newSession.date = new Date(sessionsSent[i].date);
+            sessions.push(newSession);
+        }
+    };
 
     sessionService.date = function (btnDate) {
         currentDate = new Date(btnDate);
-    }
+    };
 
     sessionService.setDates = function (datesToBeSet) {
         dates = datesToBeSet;
         $rootScope.$broadcast('dates:updated', dates);
-    }
+    };
 
     sessionService.getDates = function(){
         return dates;
-    }
+    };
 
     sessionService.add = function (newSession) {
         newSession.id = generateId();
@@ -58,7 +68,7 @@ myApp.factory('sessionService',['$rootScope', function ($rootScope) {
                 console.log("Objektet finnes ikke. ");
             }
         }
-    }
+    };
 
 
     sessionService.get = function () {

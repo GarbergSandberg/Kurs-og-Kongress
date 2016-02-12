@@ -108,4 +108,35 @@ public class CourseRepositoryMock implements CourseRepository {
         }
         return list;
     }
+
+
+    public Course generateTemplate(){
+        ArrayList<InputParameter> requiredPersonalia = new ArrayList<InputParameter>();
+        InputParameter a = new InputParameter("Fornavn", "Input");
+        InputParameter b = new InputParameter("Etternavn", "Input");
+        InputParameter c = new InputParameter("Telefonnummer", "Input");
+        InputParameter d = new InputParameter("E-postadresse", "Input");
+        InputParameter e = new InputParameter("Fødselsår", "Input");
+        InputParameter f = new InputParameter("Bemerkning", "Checkbox");
+        requiredPersonalia.add(a);
+        requiredPersonalia.add(b);
+        requiredPersonalia.add(c);
+        requiredPersonalia.add(d);
+        requiredPersonalia.add(e);
+        requiredPersonalia.add(f);
+        ArrayList<InputParameter> requiredWorkplace = new ArrayList<InputParameter>();
+        InputParameter g = new InputParameter("Arbeidsplass", "Input");
+        InputParameter h = new InputParameter("Adresse", "Input");
+        InputParameter i = new InputParameter("Postnr", "Input");
+        InputParameter j = new InputParameter("Sted", "Input");
+        InputParameter k = new InputParameter("Ønsker faktura sendt til annen adresse", "Checkbox");
+        requiredWorkplace.add(g);
+        requiredWorkplace.add(h);
+        requiredWorkplace.add(i);
+        requiredWorkplace.add(j);
+        requiredWorkplace.add(k);
+        Form form = new Form(requiredPersonalia,null,requiredWorkplace,null,null,null);
+        return new Course(null,null,null,form,null,null,null,null,null,200);
+    }
+
 }

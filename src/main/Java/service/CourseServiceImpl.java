@@ -16,4 +16,8 @@ public class CourseServiceImpl implements CourseService {
     public Course getCourses() {
         return courseRepositoryMock.getCourses();
     }
+
+    public Course generateTemplate(){
+        return courseRepositoryMock.generateTemplate();
+    }
 }

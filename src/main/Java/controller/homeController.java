@@ -51,5 +51,11 @@ public class homeController {
         return courseService.getCourses();
     }
 
+    @RequestMapping(value = "/getTemplate", method = RequestMethod.GET)
+    @ResponseBody
+    public Course getTemplate() {
+        return courseService.generateTemplate();
+    }
+
 
 }

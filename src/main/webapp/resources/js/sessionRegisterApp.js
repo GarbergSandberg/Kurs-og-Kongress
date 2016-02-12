@@ -95,8 +95,7 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
         courseService.prepareForm();
         course.form = courseService.getForm();
         self.sendCourse(course);*/
-        //commit
-        self.getMock();
+        self.getTemplate();
     };
 
     self.sendCourse = function (course) {
@@ -109,9 +108,47 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
 
     self.getMock = function(){
         courseService.getMockCourse().then(function(response){
-            $scope.course = response;
+            courseService.setRecievedForm(response.form);
+            sessionService.setSessions(response.sessions);
+            eventService.setEvents(response.events);
+            $scope.course.title = response.title;
+            $scope.course.startDate = new Date(response.startDate);
+            $scope.course.endDate = new Date(response.endDate);
+            $scope.roles = response.roles;
+            $scope.events = eventService.get();
+            $scope.sessions = sessionService.get();
+        }, function(errorResponse){
+            console.log("Error in getMock()");
         })
 
+    };
+
+    self.getTemplate = function(){
+        courseService.getTemplate().then(function(response){
+            if(response.form != null){
+                courseService.setRecievedForm(response.form);
+            }
+            if (response.sessions != null){
+                sessionService.setSessions(response.sessions);
+                $scope.sessions = sessionService.get();
+            }
+            if(response.events != null){
+                eventService.setEvents(response.events);
+                $scope.events = eventService.get();
+            }
+            $scope.course.title = response.title;
+            if (response.startDate != null){
+                $scope.course.startDate = new Date(response.startDate);
+            }
+            if(response.endDate != null){
+                $scope.course.endDate = new Date(response.endDate);
+            }
+            if (response.roles != null){
+                $scope.roles = response.roles
+            }
+        }, function(errorResponse){
+            console.log("Error in getTemplate()");
+        })
     };
 
     Date.prototype.addDays = function(days) {
@@ -146,6 +183,7 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
             default: "";
         }
     };
+    self.getTemplate();
 }]);
 
 myApp.controller('RegistrationCtrl', ['$scope', 'courseService', function ($scope, courseService){
@@ -154,21 +192,9 @@ myApp.controller('RegistrationCtrl', ['$scope', 'courseService', function ($scop
         hotel : false,
         airplane : false
     };
-    $scope.form.requiredPersonalia = [
-        {parameter: "Fornavn", type: "Input"},
-        {parameter: "Etternavn",type: "Input"},
-        {parameter: "Telefonnummer", type: "Input"},
-        {parameter: "Epostadresse", type: "Input"},
-        {parameter: "Fødselsår", type: "Input"}
-    ];
-    $scope.form.optionalPersonalia = [{parameter: "Bemerkning", type: "Checkbox"}];
-    $scope.form.requiredWorkplace = [
-        {parameter: "Arbeidsplass", type: "Input"},
-        {parameter: "Adresse", type: "Input"},
-        {parameter: "Postnr", type: "Input"},
-        {parameter: "Sted", type: "Input"},
-        {parameter: "Ønsker faktura sendt til annen adresse", type: "Checkbox"}
-    ];
+    $scope.form.requiredPersonalia = [];
+    $scope.form.optionalPersonalia = [];
+    $scope.form.requiredWorkplace = [];
     $scope.form.optionalWorkplace = [];
     $scope.form.extraInfo = [];
     $scope.class = ["btn btn-default", "btn btn-default"];
@@ -179,7 +205,14 @@ myApp.controller('RegistrationCtrl', ['$scope', 'courseService', function ($scop
     $scope.hiddenWorkplace = ["ng-hide", "ng-hide"];
     $scope.$on('prepareForm', function(event) {
         courseService.setForm($scope.form);
-    })
+    });
+    $scope.$on('recievedForm', function(event, data){
+        $scope.form.checkboxModel = data.checkboxModel;
+        $scope.form.requiredPersonalia = data.requiredPersonalia;
+        $scope.form.optionalPersonalia = data.optionalPersonalia;
+        $scope.form.requiredWorkplace = data.requiredWorkplace;
+        $scope.form.extraInfo = data.extraInfo;
+    });
     $scope.buttonResolver = function(id){
         switch (id){
             case "inputExtra":

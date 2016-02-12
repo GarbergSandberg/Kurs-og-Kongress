@@ -7,4 +7,6 @@ import domain.*;
  */
 public interface CourseRepository {
     public Course getCourses();
+
+    public Course generateTemplate();
 }
