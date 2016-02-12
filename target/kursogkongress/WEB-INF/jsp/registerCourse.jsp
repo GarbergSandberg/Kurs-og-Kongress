@@ -87,7 +87,7 @@
                     <td class="session">
                         <button type="button" id="{{date.id}}" ng-click="passBtnId(date.id)"
                                 class="btn btn-primary btn-block"
-                                data-animation="am-fade-and-slide-top"
+                                data-animation="am-fade-and-scale"
                                 data-template-url=${modalTemplate}
                                         bs-modal="modal">+
                         </button>
@@ -95,7 +95,7 @@
                     <td class="session" ng-repeat="session in sessions | filter:date.id">
                         <button id="sessionButton" data-ng-attr-id="btnId" type="button"
                                 class="btn btn-secondary btn-block"
-                                data-animation="am-fade-and-slide-top"
+                                data-animation="am-fade-and-scale"
                                 data-template-url=${modalTemplate}
                                         bs-modal="modal">{{session.title}}
                         </button>
@@ -108,14 +108,14 @@
         </div>
         <div ng-controller="AddEventCtrl">
             <div class="list-group">
-                <a class="list-group-item active plusbutton" data-animation="am-fade-and-slide-top"
+                <a class="list-group-item active plusbutton" data-animation="am-fade-and-scale"
                    data-template-url=${eventModal}
                            bs-modal="modal">
                     <h4 class="list-group-item-heading">+</h4>
                 </a>
             </div>
             <div class="list-group">
-                <a class="list-group-item event" ng-repeat="event in events" data-animation="am-fade-and-slide-top"
+                <a class="list-group-item event" ng-repeat="event in events" data-animation="am-fade-and-scale"
                    data-template-url=${eventModal}
                            bs-modal="modal">
                     <h4 class="list-group-item-heading event">{{event.title}}</h4>
