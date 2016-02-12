@@ -10,6 +10,15 @@ td.session {
     height: 70px;
 }
 
+a.person{
+    display: inline-block;
+    max-width: 250px;
+    min-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: hand;
+}
+
 .btn-block {
     display: table-cell;
     height: 70px;

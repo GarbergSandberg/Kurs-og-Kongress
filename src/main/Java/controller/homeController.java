@@ -20,15 +20,18 @@ public class homeController {
     @Autowired
     private CourseService courseService;
 
-    @RequestMapping("/registration")
-    public String home(){return "registration";}
+    @RequestMapping("/")
+    public String home(){return "groupReg";}
+
+    @RequestMapping("/groupReg")
+    public String groupReg(){return "groupReg";}
 
     @RequestMapping("/registerCourse")
     public String registerCourse(){return "registerCourse";}
 
-    @RequestMapping("/")
+    @RequestMapping("/registration")
     public String registration(){
-        return "registerCourse";
+        return "registration";
     }
 
     @RequestMapping("/event")
