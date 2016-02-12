@@ -12,16 +12,54 @@ angular.module('RegApp')
             startWeek: 1,
             autoclose: true
         });
+    })
+
+    .filter('range', function () { // http://stackoverflow.com/questions/11160513/angularjs-ng-options-create-range [10.02.2016]
+        return function (input, min, max) {
+            min = parseInt(min);
+            max = parseInt(max);
+            for (var i = min; i <= max; i++)
+                input.push(i);
+            return input;
+        };
     });
+
+app.controller('AddPersonCtrl', ['$scope', 'personService', function ($scope, personService) {
+    $scope.persons = personService.get();
+    $scope.person = [];
+    $scope.update = function (newPerson) {
+        console.log("I addPersonCtrl, sendes til Service - save() '");
+        personService.save(newPerson);
+    };
+
+    $scope.repeat = function (number) {
+        var times = [];
+        for (var i = 0; i < number; i++) {
+            times.push(i)
+        }
+        return times;
+    };
+    /*
+     $scope.delete = function (newPerson) {
+     console.log("I AddEventCtrl - Skal slette eventet. ");
+     personService.delete(newPerson);
+     }; */
+}]);
 
 app.controller('AddRegCtrl', function ($scope, $http) {
     //This will hide the DIV by default.
     $scope.roles = ['Sjef', 'Sykepleier', 'Test'];
     $scope.days = [{id: 'Mandag'}, {id: 'Tirsdag'}, {id: 'Onsdag'}];
-    $scope.sessions = [{day: 'Mandag', id: 'Sangtime'}, {day: 'Mandag', id: 'Gitarkurs'}, {day: 'Mandag', id: 'Korøvelse'},
+    $scope.sessions = [{day: 'Mandag', id: 'Sangtime'}, {day: 'Mandag', id: 'Gitarkurs'}, {
+        day: 'Mandag',
+        id: 'Korøvelse'
+    },
         {day: 'Tirsdag', id: 'Sangtime'}, {day: 'Tirsdag', id: 'Gitarkurs'}, {day: 'Tirsdag', id: 'Korøvelse'}];
 
-    $scope.events = [{day: 'Mandag', id: 'Sangtime'}, {day: 'Mandag', id: 'Gitarkurs'}, {day: 'Mandag', id: 'Korøvelse'},
+    $scope.events = [{day: 'Mandag', id: 'Sangtime'}, {day: 'Mandag', id: 'Gitarkurs'}, {
+        day: 'Mandag',
+        id: 'Korøvelse'
+    },
         {day: 'Tirsdag', id: 'Sangtime'}, {day: 'Tirsdag', id: 'Gitarkurs'}, {day: 'Tirsdag', id: 'Korøvelse'}];
 
     $scope.selectedDays = [];
@@ -34,18 +72,17 @@ app.controller('AddRegCtrl', function ($scope, $http) {
     $scope.myModel = {range_id: 1};
     $scope.eventtype = "btn btn-primary";
 
-    $scope.color = function(event){ // Skjekk om id finnes i selectedEvents.
+    $scope.color = function (event) { // Skjekk om id finnes i selectedEvents.
         console.log("Kjører checkResolver");
-        for (i=0; i<$scope.selectedEvents.length; i++){
-            if (event == $scope.selectedEvents[i]){
-                console.log("Er lik et event i tabellen.")
+        for (i = 0; i < $scope.selectedEvents.length; i++) {
+            if (event == $scope.selectedEvents[i]) {
                 return true;
             }
         }
         return false;
     };
 
-    $scope.selectButton = function(index) { // Opprette en isActive for hver dag?
+    $scope.selectButton = function (index) { // Opprette en isActive for hver dag?
         $scope.isActive = index;
     };
 
@@ -78,7 +115,7 @@ app.controller('AddRegCtrl', function ($scope, $http) {
         }
     };
 
-    $scope.isChecked = function isChecked(){
+    $scope.isChecked = function isChecked() {
         $scope.selectedDays = [];
     };
 
@@ -102,7 +139,7 @@ app.controller('AddRegCtrl', function ($scope, $http) {
     $scope.selectedDate = new Date();
     $scope.fromDate = Date.UTC(2016, 1, 10);  // new Date();
     $scope.untilDate = Date.UTC(2016, 1, 15);
-    $scope.minDate = Date.UTC(2016, 1, 09);  // new Date();
+    $scope.minDate = Date.UTC(2016, 1, 9);  // new Date();
     $scope.maxDate = Date.UTC(2016, 1, 15);
     $scope.getType = function (key) {
         return Object.prototype.toString.call($scope[key]);
