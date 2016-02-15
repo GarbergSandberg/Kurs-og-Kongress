@@ -207,11 +207,24 @@ myApp.controller('RegistrationCtrl', ['$scope', 'courseService', function ($scop
         courseService.setForm($scope.form);
     });
     $scope.$on('recievedForm', function(event, data){
-        $scope.form.checkboxModel = data.checkboxModel;
-        $scope.form.requiredPersonalia = data.requiredPersonalia;
-        $scope.form.optionalPersonalia = data.optionalPersonalia;
-        $scope.form.requiredWorkplace = data.requiredWorkplace;
-        $scope.form.extraInfo = data.extraInfo;
+        if (data.checkboxModel != null) {
+            $scope.form.checkboxModel = data.checkboxModel;
+        }
+        if(data.requiredPersonalia != null){
+            $scope.form.requiredPersonalia = data.requiredPersonalia;
+        }
+        if(data.optionalPersonalia != null){
+            $scope.form.optionalPersonalia = data.optionalPersonalia;
+        }
+        if(data.requiredWorkplace != null){
+            $scope.form.requiredWorkplace = data.requiredWorkplace;
+        }
+        if(data.optionalWorkplace != null){
+            $scope.form.optionalWorkplace = data.optionalWorkplace;
+        }
+        if (data.extraInfo != null){
+            $scope.form.extraInfo = data.extraInfo;
+        }
     });
     $scope.buttonResolver = function(id){
         switch (id){
@@ -245,7 +258,7 @@ myApp.controller('RegistrationCtrl', ['$scope', 'courseService', function ($scop
     };
 
     $scope.addInput = function(parameter, type, context) {
-        var array = self.contextResolver(context);;
+        var array = self.contextResolver(context);
         var exists = false;
         for (var i = 0; i < array.length; i++) {
             if (array[i] == parameter) {

@@ -7,6 +7,7 @@ import org.springframework.web.servlet.*;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.*;
 import org.springframework.web.servlet.view.*;
+import org.springframework.web.servlet.view.tiles3.*;
 import repository.*;
 import service.*;
 
@@ -17,6 +18,17 @@ import java.sql.*;
 @ComponentScan(basePackages = {"controller"}) // pakken der controllerne ligger
 public class Configurate extends WebMvcConfigurationSupport {
 
+    @Bean
+    public TilesConfigurer tilesConfigurer() {
+        return new TilesConfigurer();
+    }
+
+    @Bean
+    public TilesViewResolver tilesViewResolver() {
+        TilesViewResolver tilesViewResolver = new TilesViewResolver();
+        return tilesViewResolver;
+    }
+
     // equivalents for <mvc:resources/> tags
     // Hvor finnes statisk ressurser som bilder/ css/ js osv.
     @Override
@@ -24,13 +36,13 @@ public class Configurate extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/").setCachePeriod(31556926);
     }
 
-    @Bean
+/*    @Bean
     public InternalResourceViewResolver getInternalResourceView() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/jsp/");
         resolver.setSuffix(".jsp");
         return resolver;
-    }
+    }*/
 
     @Override
     @Bean

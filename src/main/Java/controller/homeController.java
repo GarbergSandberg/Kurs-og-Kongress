@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.*;
 import service.*;
 import ui.*;
 
@@ -21,13 +22,21 @@ public class homeController {
     private CourseService courseService;
 
     @RequestMapping("/")
-    public String home(){return "groupReg";}
+    public ModelAndView home(){
+        return new ModelAndView("mainpage");
+    }
+
+    @RequestMapping("/groupRegister")
+    public ModelAndView regCourse(){
+        return new ModelAndView("groupRegister");
+    }
+
 
     @RequestMapping("/groupReg")
     public String groupReg(){return "groupReg";}
 
-    @RequestMapping("/registerCourse")
-    public String registerCourse(){return "registerCourse";}
+  /*  @RequestMapping("/registerCourse")
+    public String registerCourse(){return "registerCourse";}*/
 
     @RequestMapping("/registration")
     public String registration(){

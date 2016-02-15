@@ -22,11 +22,10 @@ public class InitDispatcherServlet implements WebApplicationInitializer {
     private void registerDispatcherServlet(final ServletContext servletContext) {
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
         context.register(Configurate.class);
-
         DispatcherServlet dispatcherServlet = new DispatcherServlet(context);
-
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", dispatcherServlet);
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
+
     }
 }
