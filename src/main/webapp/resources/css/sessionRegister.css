@@ -1,3 +1,7 @@
+#sessionRegisterClass{
+    background-color: white;
+}
+
 table.session{
     table-layout: fixed;
     max-width: 100%;

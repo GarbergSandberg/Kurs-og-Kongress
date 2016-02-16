@@ -31,7 +31,7 @@
     <script src="${eventModal}"></script>
 </head>
 <body>
-<div ng-app="registerApp">
+<div ng-app="registerApp" id="sessionRegisterClass">
     <div ng-controller="AddCourseCtrl" style="margin-left:3em; margin-right:3em;">
         <div class="page-header">
             <h1>Legg til kurs</h1><br>
@@ -265,7 +265,5 @@
         </div>
         <button type="button" class="btn btn-primary" ng-click="save(course)">Lagre</button>
     </div>
-</div>
-
 </body>
 </html>

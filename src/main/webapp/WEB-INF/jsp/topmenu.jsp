@@ -10,12 +10,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link rel="stylesheet" href="resources/css/index.css">
 </head>
-<body>
-    <ul>
-        <li>
-            <a href="/kursogkongress/groupRegister">Registrer kurs</a>
-        </li>
-    </ul>
+<body class="index_header">
+<div id="header">
+    <nav>
+        <ul>
+            <li>
+                <a href="/kursogkongress/groupRegister">Registrer kurs</a>
+            </li>
+        </ul>
+    </nav>
+</div>
 </body>
 </html>
