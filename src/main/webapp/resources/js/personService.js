@@ -2,7 +2,7 @@
  * Created by Lars on 10.02.16.
  */
 app.factory('personService', function () {
-    var persons = [];
+    var persons = [{id: '1', firstname: 'Lars', roommate: ''}, {id: '2', firstname: 'Eirik', roommate: ''}, {id: '3', firstname: 'Marius', roommate: ''}];
     var personService = {};
 
     personService.save = function (newPerson) { // Gets an Array of persons, checks if they exist already, if so theyre updated. If not, they are added.
@@ -15,24 +15,31 @@ app.factory('personService', function () {
     personService.delete = function (newPerson) {
         for (var i = 0; i < persons.length; i++) {
             if (persons[i].id == newPerson.id) {
-                console.log("Har nå funnet personet som skal bli slettet. Nr: " + i);
                 persons.splice(i, 1);
-                console.log("Objektet er slettet... Håper jeg.. ");
             } else {
-                console.log("Objektet finnes ikke. ");
             }
         }
     };
 
-    personService.add = function (newPerson) { // //
-        //console.log("I personService.add(), skal generere id (generateId()). ");
-        console.log(newPerson);
+    personService.add = function (newPerson) {
         var test = generateId();
-        console.log("Testnr = " + test);
         newPerson.id = test;
-        console.log("Generert ID, skal legge til ny person i listen NÅ: ");
         persons.push(newPerson);
-        console.log("Nytt objekt er lagt til, idnr = " + newPerson.id);
+    };
+
+    personService.addRoommate = function(person, mate){ // Dato (ankomst og avreise) skal også inn.
+        console.log("I addRoommate - dobbeltrom. ");
+        person.roommate = mate;
+        mate.roommate = person;
+        personUpdate(person, person.index);
+        personUpdate(mate, mate.index);
+        console.log("I addRoommate - gikk bra. " + person);
+    };
+
+    personService.addRoom = function(person){ // Inn med dato.
+        console.log("I addRoom() - enkeltrom. ");
+        personUpdate(person, person.index);
+        person.roommate = 'Enkeltrom';
     };
 
     personService.get = function () {
@@ -40,17 +47,13 @@ app.factory('personService', function () {
     };
 
     function generateId() {
-        console.log("i generateId()");
         var highestId = 0;
         for (var i = 0; i < persons.length; i++) {
             if (persons[i].id >= highestId) {
-                console.log("Finner høyeste id og lagrer den.. ");
                 highestId = persons[i].id;
             }
         }
-        var id = highestId + 1;
-        console.log("id = høyeste id +1  : " + id);
-        return id;
+        return highestId + 1;
     }
 
     function personExistsists(newPerson) { // Sjekker om man oppdaterer eller lager nytt objekt.
@@ -62,7 +65,6 @@ app.factory('personService', function () {
                     if (persons[i].id == newPerson.id) {
                         oldPerson.exists = true;
                         oldPerson.index = i;
-                        console.log(oldPerson);
                     }
                 }
             }
