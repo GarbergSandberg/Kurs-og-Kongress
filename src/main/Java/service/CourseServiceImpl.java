@@ -4,6 +4,8 @@ import domain.*;
 import org.springframework.beans.factory.annotation.*;
 import repository.*;
 
+import java.util.*;
+
 /**
  * Created by eiriksandberg on 10.02.2016.
  */
@@ -13,8 +15,12 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseRepository courseRepositoryMock;
 
-    public Course getCourses() {
+    public ArrayList<Course> getCourses(){
         return courseRepositoryMock.getCourses();
+    }
+
+    public Course getMockCourse() {
+        return courseRepositoryMock.getMockCourse();
     }
 
     public Course generateTemplate(){

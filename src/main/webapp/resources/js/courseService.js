@@ -47,6 +47,19 @@ myApp.factory('courseService', ['$http', '$q','$rootScope', function($http, $q, 
                 );
         },
 
+        getCourses: function(callback){
+            return $http.get('getCourses')
+                .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        console.error('Error while getCourses');
+                        return $q.reject(errResponse.data);
+                    }
+                );
+        },
+
         getTemplate: function(callback){
             return $http.get('getTemplate')
                 .then(

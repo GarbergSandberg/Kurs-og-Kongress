@@ -9,6 +9,8 @@ import org.springframework.web.servlet.*;
 import service.*;
 import ui.*;
 
+import java.util.*;
+
 /**
  * Created by Lars on 13.01.16.
  */
@@ -59,14 +61,20 @@ public class homeController {
     @RequestMapping(value = "/getCourseMock", method = RequestMethod.GET)
     @ResponseBody
     public Course getMockCourse() {
-        System.out.println(courseService.getCourses());
-        return courseService.getCourses();
+        System.out.println(courseService.getMockCourse());
+        return courseService.getMockCourse();
     }
 
     @RequestMapping(value = "/getTemplate", method = RequestMethod.GET)
     @ResponseBody
     public Course getTemplate() {
         return courseService.generateTemplate();
+    }
+
+    @RequestMapping(value = "/getCourses", method = RequestMethod.GET)
+    @ResponseBody
+    public ArrayList<Course> getCourses() {
+        return courseService.getCourses();
     }
 
 
