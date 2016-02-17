@@ -25,12 +25,7 @@ public class homeController {
 
     @RequestMapping("/")
     public ModelAndView home(){
-        return new ModelAndView("reg");
-    }
-
-    @RequestMapping("/groupRegister")
-    public ModelAndView regCourse(){
-        return new ModelAndView("groupRegister");
+        return new ModelAndView("mainpage");
     }
 
 
@@ -39,8 +34,8 @@ public class homeController {
         return new ModelAndView("reg");
     }
 
-  /*  @RequestMapping("/registerCourse")
-    public String registerCourse(){return "registerCourse";}*/
+    @RequestMapping("/registerCourse")
+    public ModelAndView registerCourse(){return new ModelAndView("registerCourse");}
 
     @RequestMapping("/registration")
     public String registration(){
@@ -77,6 +72,12 @@ public class homeController {
     @ResponseBody
     public ArrayList<Course> getCourses() {
         return courseService.getCourses();
+    }
+
+    @RequestMapping(value = "/getCourse", method = RequestMethod.GET)
+    @ResponseBody
+    public Course getCourse(@RequestParam(value = "course_id") int id) {
+        return courseService.getCourse(id);
     }
 
 

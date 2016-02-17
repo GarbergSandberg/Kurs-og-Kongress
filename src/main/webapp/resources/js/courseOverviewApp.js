@@ -8,7 +8,16 @@ myApp.controller('OverviewCtrl', ['$scope', 'courseService', function ($scope, c
 
     $scope.panels = [];
 
-    $scope.panels.activePanel = 1;
+    $scope.panels.activePanel = -1;
+
+    $scope.changeCourse = function(id){
+        console.log("DENNE BLIR KJØRT");
+      for (var i = 0; i < $scope.courses.length; i++){
+          if($scope.courses[i].id == id){
+              courseService.editCourse(id);
+          }
+      }
+    };
 
     self.setCourse = function(courseRecieved){
         var course = {};
@@ -25,14 +34,23 @@ myApp.controller('OverviewCtrl', ['$scope', 'courseService', function ($scope, c
         if (c.endDate != null){
             course.endDate = c.endDate;
         }
+        if (c.id != null){
+            course.id = c.id;
+        }
         return course;
     };
+
     self.loadApplication = function(){
         courseService.getCourses().then(function(response) {
             $scope.courses = new Array();
             for (var i = 0; i < response.length; i++){
                 $scope.courses.push(self.setCourse(response[i]));
-                $scope.panels.push({title: $scope.courses[i].title, body: $scope.courses[i].description})
+                var date = new Date($scope.courses[i].startDate);
+                $scope.panels.push({
+                    title: $scope.courses[i].title,
+                    body: $scope.courses[i].description,
+                    startDate: date.toDateString(),
+                    courseID: $scope.courses[i].id})
             }
         }, function(errorResponse){
             console.log("Error in loadApplication()");

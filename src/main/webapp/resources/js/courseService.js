@@ -4,6 +4,8 @@
 
 myApp.factory('courseService', ['$http', '$q','$rootScope', function($http, $q, $rootScope) {
     var form = {};
+    var editCourse ={};
+
     return {
         prepareForm: function(){
             $rootScope.$broadcast('prepareForm');
@@ -58,6 +60,28 @@ myApp.factory('courseService', ['$http', '$q','$rootScope', function($http, $q, 
                         return $q.reject(errResponse.data);
                     }
                 );
+        },
+
+        getCourse: function(courseID){
+            return $http.get('getCourse', {params: {course_id: courseID}})
+                .then(
+                    function (response) {
+                        console.log(response.data);
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        console.error('Error while getCourse');
+                        return $q.reject(errResponse.data);
+                    }
+                );
+        },
+
+        editCourse: function(courseID){
+            editCourse = courseID;
+        },
+
+        getEditCourse: function(){
+            return editCourse;
         },
 
         getTemplate: function(callback){

@@ -9,8 +9,18 @@ import java.util.*;
  */
 public class CourseRepositoryMock implements CourseRepository {
     private Course course = generateCourseMock("Kurs for legeforeningen", "Oppdal", "Dette er et kurs for legeforeningen. Kurset holder sted i Oppdal", 200);
+    private ArrayList<Course> courses = makeCourses();
 
-    public ArrayList<Course> getCourses(){return makeCourses();}
+    public Course getCourse(int id){
+        for (int i = 0; i < courses.size(); i++){
+            if (courses.get(i).getId() == id){
+                return courses.get(i);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Course> getCourses(){return courses;}
 
     public ArrayList<Course> makeCourses(){
         ArrayList<Course> courses = new ArrayList<Course>();
@@ -32,7 +42,8 @@ public class CourseRepositoryMock implements CourseRepository {
         Date startDate = new Date();
         Date endDate = new Date();
         int maxNumber = 200;
-        courses.add(new Course(sessions,events,roles,form,title,location,description,startDate,endDate,maxNumber));
+        int id = 0;
+        courses.add(new Course(sessions,events,roles,form,title,location,description,startDate,endDate,maxNumber,id));
 
         //Course 2
         ArrayList<Session> sessions2 = new ArrayList<Session>();
@@ -51,7 +62,8 @@ public class CourseRepositoryMock implements CourseRepository {
         Date startDate2 = new Date();
         Date endDate2 = new Date();
         int maxNumber2 = 100;
-        courses.add(new Course(sessions2,events2,roles2,form2,title2,location2,description2,startDate2,endDate2,maxNumber2));
+        int id2 = 1;
+        courses.add(new Course(sessions2,events2,roles2,form2,title2,location2,description2,startDate2,endDate2,maxNumber2, id2));
 
         //Course 3
         ArrayList<Session> sessions3 = new ArrayList<Session>();
@@ -70,7 +82,8 @@ public class CourseRepositoryMock implements CourseRepository {
         Date startDate3 = new Date();
         Date endDate3 = new Date();
         int maxNumber3 = 100;
-        courses.add(new Course(sessions3,events3,roles3,form3,title3,location3,description3,startDate3,endDate3,maxNumber3));
+        int id3 = 2;
+        courses.add(new Course(sessions3,events3,roles3,form3,title3,location3,description3,startDate3,endDate3,maxNumber3, id3));
         return courses;
     }
 
@@ -92,7 +105,7 @@ public class CourseRepositoryMock implements CourseRepository {
         Date startDate = new Date();
         Date endDate = new Date();
         int maxNumber = max;
-        return new Course(sessions,events,roles,form,title,location,description,startDate,endDate,maxNumber);
+        return new Course(sessions,events,roles,form,title,location,description,startDate,endDate,maxNumber,12);
     }
 
     public Session generateSessionMock(String t, String d, String l, int id){
@@ -200,7 +213,7 @@ public class CourseRepositoryMock implements CourseRepository {
         requiredWorkplace.add(j);
         requiredWorkplace.add(k);
         Form form = new Form(requiredPersonalia,null,requiredWorkplace,null,null,null);
-        return new Course(null,null,null,form,null,null,null,null,null,200);
+        return new Course(null,null,null,form,null,null,null,null,null,200,12);
     }
 
     public Form generateMockForm2(){

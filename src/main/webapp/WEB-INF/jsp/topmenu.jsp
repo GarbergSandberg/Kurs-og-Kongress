@@ -12,12 +12,12 @@
 <head>
     <link rel="stylesheet" href="resources/css/index.css">
 </head>
-<body class="index_header">
-<div id="header">
+<body>
+<div>
     <nav>
         <ul>
             <li>
-                <a href="/kursogkongress/groupRegister">Registrer kurs</a>
+                <a href="/kursogkongress/reg">Påmeldingskjema</a>
             </li>
         </ul>
     </nav>

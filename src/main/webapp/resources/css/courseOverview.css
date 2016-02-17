@@ -1,0 +1,9 @@
+#jumbo {
+    padding-top: 5px;
+    max-width: 100%;
+    min-width: 100%;
+}
+.container{
+    max-width: 100%;
+    min-width: 100%;
+}

@@ -18,8 +18,9 @@ public class Course {
     private Date startDate;
     private Date endDate;
     private int maxNumber;
+    private int id;
 
-    public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, Form form, String title, String location, String description, Date startDate, Date endDate, int maxNumber) {
+    public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, Form form, String title, String location, String description, Date startDate, Date endDate, int maxNumber, int id) {
         this.sessions = sessions;
         this.events = events;
         this.roles = roles;
@@ -30,6 +31,7 @@ public class Course {
         this.startDate = startDate;
         this.endDate = endDate;
         this.maxNumber = maxNumber;
+        this.id = id;
     }
 
     public Course(){};
@@ -112,5 +114,13 @@ public class Course {
 
     public void setMaxNumber(int maxNumber) {
         this.maxNumber = maxNumber;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

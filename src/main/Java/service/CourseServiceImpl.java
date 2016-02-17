@@ -15,13 +15,13 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseRepository courseRepositoryMock;
 
-    public ArrayList<Course> getCourses(){
-        return courseRepositoryMock.getCourses();
-    }
+    public ArrayList<Course> getCourses(){return courseRepositoryMock.getCourses(); }
 
     public Course getMockCourse() {
         return courseRepositoryMock.getMockCourse();
     }
+
+    public Course getCourse(int id){return courseRepositoryMock.getCourse(id); }
 
     public Course generateTemplate(){
         return courseRepositoryMock.generateTemplate();
