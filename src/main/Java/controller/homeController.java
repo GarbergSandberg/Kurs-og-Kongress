@@ -34,8 +34,10 @@ public class homeController {
     }
 
 
-    @RequestMapping("/groupReg")
-    public String groupReg(){return "groupReg";}
+    @RequestMapping("/reg")
+    public ModelAndView reg(){
+        return new ModelAndView("reg");
+    }
 
   /*  @RequestMapping("/registerCourse")
     public String registerCourse(){return "registerCourse";}*/
