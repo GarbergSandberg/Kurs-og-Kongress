@@ -24,6 +24,14 @@ angular.module('RegApp')
         };
     });
 
+app.controller('MainCtrl', ['$scope', function($scope) {
+    $scope.tabs = [
+        { id: '1', title:'Enkeltpåmelding', content:'resources/jsp/singleReg.jsp' },
+        { id: '2', title:'Gruppepåmelding', content:'resources/jsp/groupReg.jsp'}
+    ];
+    $scope.tabs.activeTab = 'Enkeltpåmelding';
+}]);
+
 app.controller('AddPersonCtrl', ['$scope', 'personService', function ($scope, personService) {
     $scope.persons = personService.get();
     $scope.person = [];
@@ -46,7 +54,7 @@ app.controller('AddPersonCtrl', ['$scope', 'personService', function ($scope, pe
      }; */
 }]);
 
-app.controller('AddRegCtrl', function ($scope, $http) {
+app.controller('AddRegCtrl', function ($scope) {
     //This will hide the DIV by default.
     $scope.roles = ['Sjef', 'Sykepleier', 'Test'];
     $scope.days = [{id: 'Mandag'}, {id: 'Tirsdag'}, {id: 'Onsdag'}];
