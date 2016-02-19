@@ -4,7 +4,7 @@
 
 myApp.factory('courseService', ['$http', '$q','$rootScope', function($http, $q, $rootScope) {
     var form = {};
-    var editCourse ={};
+    var editCourse = undefined;
 
     return {
         prepareForm: function(){

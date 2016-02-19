@@ -19,6 +19,9 @@
             <li>
                 <a href="/kursogkongress/reg">Påmeldingskjema</a>
             </li>
+            <li>
+                <a href="/kursogkongress/courseOverview">Kursoversikt</a>
+            </li>
         </ul>
     </nav>
 </div>

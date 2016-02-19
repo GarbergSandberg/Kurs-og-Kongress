@@ -33,8 +33,8 @@ myApp.factory('sessionService',['$rootScope', function ($rootScope) {
     sessionService.setSessions = function(sessionsSent){
         for (var i = 0; i < sessionsSent.length; i++){
             var newSession = sessionsSent[i];
-            newSession.startDate = new Date(sessionsSent[i].startDate);
-            newSession.endDate = new Date(sessionsSent[i].endDate);
+            newSession.startTime = new Date(sessionsSent[i].startTime);
+            newSession.endTime = new Date(sessionsSent[i].endTime);
             newSession.date = new Date(sessionsSent[i].date);
             sessions.push(newSession);
         }

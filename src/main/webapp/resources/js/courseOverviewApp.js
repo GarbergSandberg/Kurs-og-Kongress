@@ -9,15 +9,10 @@ myApp.controller('OverviewCtrl', ['$scope', 'courseService', function ($scope, c
     $scope.panels = [];
 
     $scope.panels.activePanel = -1;
-
-    $scope.changeCourse = function(id){
-        console.log("DENNE BLIR KJØRT");
-      for (var i = 0; i < $scope.courses.length; i++){
-          if($scope.courses[i].id == id){
-              courseService.editCourse(id);
-          }
-      }
-    };
+    $scope.$watch("panels.activePanel", function(newValue, oldValue) {
+            courseService.editCourse(newValue);
+            console.log(courseService.getEditCourse());
+        });
 
     self.setCourse = function(courseRecieved){
         var course = {};

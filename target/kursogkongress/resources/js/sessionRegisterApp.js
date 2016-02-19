@@ -95,7 +95,6 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
         courseService.prepareForm();
         course.form = courseService.getForm();
         self.sendCourse(course);*/
-        self.getTemplate();
     };
 
     self.sendCourse = function (course) {
@@ -106,50 +105,76 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
         })
     };
 
-    self.getMock = function(){
-        courseService.getMockCourse().then(function(response){
-            courseService.setRecievedForm(response.form);
-            sessionService.setSessions(response.sessions);
-            eventService.setEvents(response.events);
-            $scope.course.title = response.title;
-            $scope.course.startDate = new Date(response.startDate);
-            $scope.course.endDate = new Date(response.endDate);
-            $scope.roles = response.roles;
-            $scope.events = eventService.get();
-            $scope.sessions = sessionService.get();
+    self.getCourse = function(id){
+            courseService.getCourse(id).then(function(response){
+                if (response != null){
+                    $scope.course = response;
+                }
+                if (response.startDate != null){
+                    $scope.course.startDate = new Date(response.startDate);
+                }
+                if (response.endDate != null){
+                    $scope.course.endDate = new Date(response.endDate);
+                }
+                if (response.title != null){
+                    $scope.course.title = response.title;
+                }
+                if (response.description != null){
+                    $scope.course.description = response.description;
+                }
+                if (response.maxNumber != null){
+                    $scope.course.maxNumber = response.maxNumber;
+                }
+                if (response.location != null){
+                    $scope.course.location = response.location;
+                }
+                if (response.roles != null){
+                    $scope.roles= response.roles;
+                }
+                if (response.sessions != null){
+                    sessionService.setSessions(response.sessions);
+                    $scope.sessions = sessionService.get();
+                }
+                if (response.events != null){
+                    eventService.setEvents(response.events);
+                    $scope.events = eventService.get();
+                }
+                if (response.form != null){
+                    courseService.setRecievedForm(response.form);
+                }
         }, function(errorResponse){
-            console.log("Error in getMock()");
+            console.log("Error in getCourse()");
         })
 
     };
 
     self.getTemplate = function(){
-        courseService.getTemplate().then(function(response){
-            if(response.form != null){
-                courseService.setRecievedForm(response.form);
-            }
-            if (response.sessions != null){
-                sessionService.setSessions(response.sessions);
-                $scope.sessions = sessionService.get();
-            }
-            if(response.events != null){
-                eventService.setEvents(response.events);
-                $scope.events = eventService.get();
-            }
-            $scope.course.title = response.title;
-            if (response.startDate != null){
-                $scope.course.startDate = new Date(response.startDate);
-            }
-            if(response.endDate != null){
-                $scope.course.endDate = new Date(response.endDate);
-            }
-            if (response.roles != null){
-                $scope.roles = response.roles
-            }
-        }, function(errorResponse){
-            console.log("Error in getTemplate()");
-        })
-    };
+            courseService.getTemplate().then(function (response) {
+                if (response.form != null) {
+                    courseService.setRecievedForm(response.form);
+                }
+                if (response.sessions != null) {
+                    sessionService.setSessions(response.sessions);
+                    $scope.sessions = sessionService.get();
+                }
+                if (response.events != null) {
+                    eventService.setEvents(response.events);
+                    $scope.events = eventService.get();
+                }
+                $scope.course.title = response.title;
+                if (response.startDate != null) {
+                    $scope.course.startDate = new Date(response.startDate);
+                }
+                if (response.endDate != null) {
+                    $scope.course.endDate = new Date(response.endDate);
+                }
+                if (response.roles != null) {
+                    $scope.roles = response.roles
+                }
+            }, function (errorResponse) {
+                console.log("Error in getTemplate()");
+            });
+    }
 
     Date.prototype.addDays = function(days) {
         var dat = new Date(this.valueOf());
@@ -183,7 +208,12 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
             default: "";
         }
     };
-    self.getTemplate();
+    console.log(courseService.getEditCourse());
+    if(courseService.getEditCourse() == undefined){
+        self.getTemplate();
+    } else{
+        self.getCourse(courseService.getEditCourse());
+    }
 }]);
 
 myApp.controller('RegistrationCtrl', ['$scope', 'courseService', function ($scope, courseService){
