@@ -91,7 +91,6 @@
         </div>
         <hr/>
         <button style="margin-left:2em;" type="button" class="btn btn-primary" ng-click="update(person)"> Lagre</button>
-
         <div class="list-group">
             <a class="list-group-item person" ng-repeat="person in persons">
                 <h4 class="list-group-item-heading event">{{person.firstname}} {{person.lastname}}</h4>
@@ -100,50 +99,65 @@
                     Tittel: {{person.title}}<br>
                     Nummer: {{person.number}}<br>
                     E-Mail: {{person.email}}<br>
-                    Rom: {{person.roommate}}
+                    Rom: {{person.roommate.firstname}}
                 </p>
+                <button type="button" class="btn btn-default btn-sm" ng-click="removePerson(person)">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Slett person
+                </button>
+                <button type="button" class="btn btn-default btn-xs" ng-click="removeRoom(person)">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Slett rom-kamerat.
+                </button>
             </a>
         </div>
     </div>
     <div ng-controller="AddRegCtrl" style="margin-left:3em; margin-right:3em;">
         <h3>Overnatting</h3>
         <label for="accomodation">
-            <input type="checkbox" id="accomodation" ng-model="checkboxAccModel.c1" />
+            <input type="checkbox" id="accomodation" ng-model="checkboxAccModel.c1"/>
             Ønsker overnatting?</label>
 
         <div ng-show="checkboxAccModel.c1">
-            <label> Velg person:  </label>
-            <select ng-options="person as person.firstname for person in firstRoom " ng-model="firstPersonRoom" ng-change="removeSecondPerson(firstPersonRoom)">{{person.firstname}} {{person.lastname}}</select>
+            <label> Velg person: </label>
+            <select ng-options="person as person.firstname for person in persons | filter:checkIfHasRoom" ng-model="firstPersonRoom">{{person.firstname}}
+                {{person.lastname}}</select>
+            <br>
             <br>
             <label>
-                <input type="radio" name="roomType" ng-model="checkboxAccModel.rad" ng-value="true" /> Dobbeltrom
-                <input type="radio" name="roomType" ng-model="checkboxAccModel.rad" ng-value="false" /> Enkeltrom
+                <input type="radio" name="roomType" ng-model="checkboxAccModel.rad" ng-value="true"/> Dobbeltrom
+                <input type="radio" name="roomType" ng-model="checkboxAccModel.rad" ng-value="false"/> Enkeltrom
             </label>
-            <div ng-hide="checkboxAccModel.rad"><button style="margin-left:2em;" type="button" class="btn btn-primary" ng-click="saveRoom(firstPersonRoom)"> Lagre</button></div>
-        </div>
-        <br>
-        <div ng-show="checkboxAccModel.c1 && checkboxAccModel.rad">
-            <label> Deler rom med:  </label>
-            <select ng-options="person as person.firstname for person in secondRoom " ng-model="secondPersonRoom">{{person.firstname}} {{person.lastname}}</select>
-            <button style="margin-left:2em;" type="button" class="btn btn-primary" ng-click="saveRoom(firstPersonRoom, secondPersonRoom)"> Lagre</button>
             <br>
-        </div>
-
-        <form name="datepickerForm" class="form-inline" role="form" ng-show="checkboxAccModel.c1">
-            <!-- http://mgcrea.github.io/angular-strap/#/datepickers -->
-            <div class="form-group">
-                <label class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i> <i
-                        class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
-                <div class="form-group col-xs-6">
-                    <input type="text" class="form-control" ng-model="fromDate" data-min-date="{{minDate}}"
-                           data-max-date="{{maxDate}}" placeholder="From" bs-datepicker>
-                </div>
-                <div class="form-group col-xs-6">
-                    <input type="text" class="form-control" ng-model="untilDate" data-max-date="{{maxDate}}"
-                           data-min-date="{{minDate}}" placeholder="Until" bs-datepicker>
-                </div>
+            <br>
+            <div ng-show="checkboxAccModel.c1 && checkboxAccModel.rad">
+                <label> Deler rom med: {{firstPersonRoom.id}}</label>
+                <select ng-options="person2 as person2.firstname for person2 in persons  | filter:checkIfSelected | filter:checkIfHasRoom"
+                        ng-model="secondPersonRoom"></select>
+                <br>
+                <br>
             </div>
-        </form>
+
+            <form name="datepickerForm" class="form-inline" role="form" ng-show="checkboxAccModel.c1">
+                <!-- http://mgcrea.github.io/angular-strap/#/datepickers -->
+                <div class="form-group">
+                    <label class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i> <i
+                            class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
+                    <div class="form-group col-xs-6">
+                        <input type="text" class="form-control" ng-model="fromDate" data-min-date="{{minDate}}"
+                               data-max-date="{{maxDate}}" placeholder="From" bs-datepicker>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <input type="text" class="form-control" ng-model="untilDate" data-max-date="{{maxDate}}"
+                               data-min-date="{{minDate}}" placeholder="Until" bs-datepicker>
+                    </div>
+                </div>
+            </form> <br>
+            <div ng-show="checkboxAccModel.rad">
+                <button style="margin-left:2em;" type="button" class="btn btn-primary" ng-click="saveRoom(firstPersonRoom, secondPersonRoom)"> Lagre </button>
+            </div>
+            <div ng-hide="checkboxAccModel.rad">
+                <button style="margin-left:2em;" type="button" class="btn btn-primary" ng-click="saveRoom(firstPersonRoom)"> Lagre </button>
+            </div>
+        </div>
 
 
         <hr/>

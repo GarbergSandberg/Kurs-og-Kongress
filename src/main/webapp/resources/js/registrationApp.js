@@ -25,7 +25,7 @@ app.controller('MainCtrl', ['$scope', function($scope) {
         { id: '1', title:'Enkeltpåmelding', content:'resources/jsp/singleReg.jsp' },
         { id: '2', title:'Gruppepåmelding', content:'resources/jsp/groupReg.jsp'}
     ];
-    $scope.tabs.activeTab = 'Enkeltpåmelding';
+    $scope.tabs.activeTab = 'Gruppepåmelding';
 }]);
 
 app.controller('AddPersonCtrl', ['$scope', 'personService', function ($scope, personService) {
@@ -42,11 +42,19 @@ app.controller('AddPersonCtrl', ['$scope', 'personService', function ($scope, pe
         }
         return times;
     };
-    /*
-     $scope.delete = function (newPerson) {
-     console.log("I AddEventCtrl - Skal slette eventet. ");
-     personService.delete(newPerson);
-     }; */
+
+    $scope.removePerson = function(person){
+        for (i = 0; i<$scope.persons.length; i++) {
+            if ($scope.persons[i] === person) {
+                personService.delete(person);
+            }
+        }
+    };
+
+    $scope.removeRoom = function(person){
+        console.log("removeRoom PersonCtrl..");
+        personService.removeRoom(person);
+    };
 }]);
 
 app.controller('AddRegCtrl', ['$scope', 'personService', function ($scope, personService) {
@@ -60,9 +68,9 @@ app.controller('AddRegCtrl', ['$scope', 'personService', function ($scope, perso
     $scope.selectedDays = [];
     $scope.selectedEvents = [];
     $scope.selectedSessions = [];
+    $scope.firstPersonRoom = {};
     $scope.persons = personService.get();
-    $scope.firstRoom = angular.copy($scope.persons);
-    $scope.secondRoom = angular.copy($scope.persons);
+    $scope.hasRoom = personService.getHasRoom();
 
     $scope.checkboxAccModel = {
         c1: false,
@@ -71,17 +79,33 @@ app.controller('AddRegCtrl', ['$scope', 'personService', function ($scope, perso
         another: false
     };
 
-    $scope.removeSecondPerson = function(delPerson){
-        for (var i = 0; i < $scope.secondRoom.length; i++) {
-            if ($scope.secondRoom[i].id == delPerson.id) {
-                $scope.secondRoom.splice(i, 1);
+    $scope.checkIfHasRoom = function(person){
+        for (i = 0; i<$scope.hasRoom.length; i++){
+            if ($scope.hasRoom[i] == person){
+                return false;
             }
         }
+        return true;
+    };
+
+    $scope.checkIfSelected = function(person){
+        if (person == $scope.firstPersonRoom){
+            return false;
+        }
+        return true;
     };
 
     $scope.saveRoom = function(first, second){ // Her skal date også inn.
-        console.log("I saveRoom()");
-        ($scope.checkboxAccModel.rad == true) ? personService.addRoommate(first, second) : personService.addRoom();
+        if ($scope.checkboxAccModel.rad == true){ // Dobbeltrom.
+            personService.hasRoom(first,second);
+            //$scope.hasRoom.push(first); // Legger til personene i ny liste, så man vet hvem som er registrert med overnatting.
+            //$scope.hasRoom.push(second);
+            personService.addRoommate(first, second);
+        } else { // Enkeltrom.
+            //$scope.hasRoom.push(first);
+            personService.hasRoom(first);
+            personService.addRoommate(first);
+        }
     };
 
     $scope.repeat = function (number) {

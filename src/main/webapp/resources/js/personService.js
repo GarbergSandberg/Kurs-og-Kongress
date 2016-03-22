@@ -2,8 +2,10 @@
  * Created by Lars on 10.02.16.
  */
 app.factory('personService', function () {
-    var persons = [{id: '1', firstname: 'Lars', roommate: ''}, {id: '2', firstname: 'Eirik', roommate: ''}, {id: '3', firstname: 'Marius', roommate: ''}];
+    var persons = [{id: '0', firstname: 'Lars', lastname: 'Gar', roommate: null}, {id: '1', firstname: 'Eirik', lastname: 'Sand', roommate: null},
+        {id: '2', firstname: 'Marius', lastname: 'Lauv', roommate: null}];
     var personService = {};
+    var hasRoom = [];
 
     personService.save = function (newPerson) { // Gets an Array of persons, checks if they exist already, if so theyre updated. If not, they are added.
         for (i = 0; i < newPerson.length; i++) {
@@ -28,22 +30,76 @@ app.factory('personService', function () {
     };
 
     personService.addRoommate = function(person, mate){ // Dato (ankomst og avreise) skal også inn.
-        console.log("I addRoommate - dobbeltrom. ");
-        person.roommate = mate;
-        mate.roommate = person;
-        personUpdate(person, person.index);
-        personUpdate(mate, mate.index);
-        console.log("I addRoommate - gikk bra. " + person);
+        console.log("Personservice.addRoommate().. ");
+        if (mate == undefined){ // Endre enkeltrom til en verdi istedenfor fornavn og etternavn.. Da MÅ removeRoom også endres.
+            person.roommate = person;
+            personUpdate(person, person.id);
+            console.log("Personservice.addRoommate() - first added. - enkeltrom ");
+        } else {
+            person.roommate = mate; // Endres til person.roommate = mate?  (objekt istedenfor string).
+            mate.roommate = person;  // Endres til mate.roommate = person?  (objekt istedenfor string).
+            personUpdate(person, person.id);
+            personUpdate(mate, mate.id);
+            console.log("Personservice.addRoommate() - Dobbeltrom added. ");
+        }
+    };
+
+
+
+    personService.hasRoom = function(first, second){
+        console.log("I function hasRoom (Service)");
+        if (second == undefined){
+            hasRoom.push(first);
+        } else {
+            console.log("PUSHET: ");
+            hasRoom.push(first);
+            hasRoom.push(second);
+        }
+    };
+
+    personService.removeRoom = function(person){
+        console.log("I removeRoom (PersonService) ");
+        var idx = hasRoom.indexOf(person);
+        hasRoom.splice(idx, 1);
+        if (person == person.roommate){
+            person.roommate = null;
+            personUpdate(person, person.id);
+        } else { // Slette roommate og roommates roommate.
+            var p2 = person.roommate;
+            p2.roommate = null;
+            person.roommate = null;
+            var idx2 = hasRoom.indexOf(p2);
+            hasRoom.splice(idx2, 1);
+            personUpdate(person, person.id);
+            personUpdate(p2, p2.id);
+
+            /*for (i = 0; i<persons.length; i++){
+                if (person.roommate == (persons[i].firstname + ' ' + persons[i].lastname)){
+                    console.log("Har funnet tilsvarende personer...");
+                    persons[i].roommate = null;
+                    person.roommate = null;
+                    var idx = hasRoom.indexOf(person);
+                    var idx2 = hasRoom.indexOf(person.roommate);
+                    hasRoom.splice(idx, 1);
+                    hasRoom.splice(idx2, 1);
+                    personUpdate(person, person.id);
+                    personUpdate(persons[i], persons[i].id);
+                }
+            }*/
+
+        }
     };
 
     personService.addRoom = function(person){ // Inn med dato.
-        console.log("I addRoom() - enkeltrom. ");
-        personUpdate(person, person.index);
-        person.roommate = 'Enkeltrom';
+        personUpdate(person, person.id);
     };
 
     personService.get = function () {
         return persons;
+    };
+
+    personService.getHasRoom = function(){
+        return hasRoom;
     };
 
     function generateId() {
@@ -79,6 +135,5 @@ app.factory('personService', function () {
             }
         }
     }
-
     return personService;
 });
