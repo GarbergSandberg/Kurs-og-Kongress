@@ -1,6 +1,3 @@
-/**
- * Created by Lars on 10.02.16.
- */
 app.factory('personService', function () {
     var persons = [{id: '0', firstname: 'Lars', lastname: 'Gar', roommate: null}, {id: '1', firstname: 'Eirik', lastname: 'Sand', roommate: null},
         {id: '2', firstname: 'Marius', lastname: 'Lauv', roommate: null}];
@@ -25,14 +22,16 @@ app.factory('personService', function () {
     };
 
     personService.addRoommate = function(person, mate){ // Dato (ankomst og avreise) skal også inn.
+        idx = persons.indexOf(person);
         if (mate == undefined){ // Endre enkeltrom til en verdi istedenfor fornavn og etternavn.. Da MÅ removeRoom også endres.
             person.roommate = person;
-            personUpdate(person, person.index);
+            personUpdate(person, idx);
         } else {
+            idx2 = persons.indexOf(mate);
             person.roommate = mate;
             mate.roommate = person;
-            personUpdate(person, person.index);
-            personUpdate(mate, mate.index);
+            personUpdate(person, idx);
+            personUpdate(mate, idx2);
         }
     };
 
@@ -47,23 +46,25 @@ app.factory('personService', function () {
 
     personService.removeRoom = function(person){
         var idx = hasRoom.indexOf(person);
+        var pIdx = persons.indexOf(person);
         hasRoom.splice(idx, 1);
         if (person.id == person.roommate.id){
             person.roommate = null;
-            personUpdate(person, person.index);
+            personUpdate(person, pIdx);
         } else { // Slette roommate og roommates roommate.
             var p2 = person.roommate;
             p2.roommate = null;
             person.roommate = null;
             var idx2 = hasRoom.indexOf(p2);
+            var pIdx2 = persons.indexOf(p2);
             hasRoom.splice(idx2, 1);
-            personUpdate(person, person.index);
-            personUpdate(p2, p2.index);
+            personUpdate(person, pIdx);
+            personUpdate(p2, pIdx2);
         }
     };
 
     personService.addRoom = function(person){ // Inn med dato.
-        personUpdate(person, person.index);
+        personUpdate(person, persons.indexOf(person));
     };
 
     personService.get = function () {

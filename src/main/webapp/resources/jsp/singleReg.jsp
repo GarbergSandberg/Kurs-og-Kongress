@@ -120,7 +120,7 @@ To change this template use File | Settings | File Templates.
             <td ng-repeat="session in sessions" ng-if="session.day == day.id">
                 <button class="btn btn-lg"
                         ng-class="colorSession(session) ? 'btn-primary' : 'btn-default'"
-                        ng-click="selectSession(session)"> {{session.id}}
+                        ng-click="selectSession(session)"> {{session.id}} <h5>({{session.start | date:'HH:mm'}} - {{session.end | date:'HH:mm'}})</h5>
                 </button>
         </tr>
     </table>

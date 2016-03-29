@@ -33,7 +33,6 @@ app.controller('AddPersonCtrl', ['$scope', 'personService', function ($scope, pe
     $scope.person = [];
 
     $scope.update = function (newPerson) {
-        console.log("Update(person): " + newPerson.firstname);
         personService.save(newPerson);
     };
 
@@ -54,7 +53,6 @@ app.controller('AddPersonCtrl', ['$scope', 'personService', function ($scope, pe
     };
 
     $scope.removeRoom = function(person){
-        console.log("removeRoom PersonCtrl..");
         personService.removeRoom(person);
     };
 }]);
@@ -63,8 +61,20 @@ app.controller('AddRegCtrl', ['$scope', 'personService', function ($scope, perso
     //This will hide the DIV by default.
     $scope.roles = ['Sjef', 'Sykepleier', 'Test'];
     $scope.days = [{id: 'Mandag'}, {id: 'Tirsdag'}, {id: 'Onsdag'}];
-    $scope.sessions = [{day: 'Mandag', id: 'Sangtime'}, {day: 'Mandag', id: 'Gitarkurs'}, {day: 'Mandag', id: 'Korøvelse'},
-        {day: 'Tirsdag', id: 'Sangtime'}, {day: 'Tirsdag', id: 'Gitarkurs'}, {day: 'Tirsdag', id: 'Korøvelse'}];
+
+    $scope.fromDateA = Date.UTC(2016, 1, 10, 12, 0);  // new Date();
+    $scope.untilDateA = Date.UTC(2016, 1, 10, 14, 0);
+    $scope.fromDateB = Date.UTC(2016, 1, 10, 13, 0);  // new Date();
+    $scope.untilDateB = Date.UTC(2016, 1, 10, 15, 0);
+
+    $scope.sessions = [
+        {day: 'Mandag', id: 'Sangtime', start: new Date(Date.UTC(2016, 1, 10, 12, 0)), end: new Date(Date.UTC(2016, 1, 10, 14, 0))},
+        {day: 'Mandag', id: 'Gitarkurs', start: new Date(Date.UTC(2016, 1, 10, 13, 0)), end: new Date(Date.UTC(2016, 1, 10, 15, 0))},
+        {day: 'Mandag', id: 'Korøvelse', start: new Date(Date.UTC(2016, 1, 10, 16, 0)), end: new Date(Date.UTC(2016, 1, 10, 18, 0))},
+        {day: 'Tirsdag', id: 'Sangtime', start: new Date(Date.UTC(2016, 2, 10, 9, 0)), end: new Date(Date.UTC(2016, 2, 10, 12, 0))},
+        {day: 'Tirsdag', id: 'Gitarkurs', start: new Date(Date.UTC(2016, 2, 10, 11, 0)), end: new Date(Date.UTC(2016, 2, 10, 13, 0))},
+        {day: 'Tirsdag', id: 'Korøvelse', start: new Date(Date.UTC(2016, 2, 10, 15, 0)), end: new Date(Date.UTC(2016, 2, 10, 17, 0))}];
+
     $scope.events = [{day: 'Mandag', id: 'Sangtime'}, {day: 'Mandag', id: 'Gitarkurs'}, {day: 'Mandag', id: 'Korøvelse'},
         {day: 'Tirsdag', id: 'Sangtime'}, {day: 'Tirsdag', id: 'Gitarkurs'}, {day: 'Tirsdag', id: 'Korøvelse'}];
     $scope.selectedDays = [];
@@ -97,12 +107,9 @@ app.controller('AddRegCtrl', ['$scope', 'personService', function ($scope, perso
 
     $scope.saveRoom = function(first, second){ // Her skal date også inn.
         if ($scope.checkboxAccModel.rad == true){ // Dobbeltrom.
-            personService.hasRoom(first,second);
-            //$scope.hasRoom.push(first); // Legger til personene i ny liste, så man vet hvem som er registrert med overnatting.
-            //$scope.hasRoom.push(second);
+            personService.hasRoom(first,second); // Legger til personene i ny liste, så man vet hvem som er registrert med overnatting.
             personService.addRoommate(first, second);
         } else { // Enkeltrom.
-            //$scope.hasRoom.push(first);
             personService.hasRoom(first);
             personService.addRoommate(first);
         }
@@ -141,15 +148,16 @@ app.controller('AddRegCtrl', ['$scope', 'personService', function ($scope, perso
 
     $scope.selectSession = function selectSession(session) {
         var idx = $scope.selectedSessions.indexOf(session);
-        // Blir unchecked.
-        if (idx > -1) {
+        if (idx > -1) { // Blir unchecked.
             $scope.selectedSessions.splice(idx, 1);
-        }
-        // Blir checked.
-        else {
-            if (1 > 0) { // Her må man skjekke om tidspunktet (dag og tid) for sesjonen ikke overlapper med en annen sesjon.
-                $scope.selectedSessions.push(session);
-            }
+        } else {
+            var notOverlaps = true;
+            for (i = 0; i<$scope.selectedSessions.length; i++){
+                if ($scope.overlaps(session.start, session.end, $scope.selectedSessions[i].start, $scope.selectedSessions[i].end)){
+                    notOverlaps = false;
+                    break;
+                }
+            } if (notOverlaps) $scope.selectedSessions.push(session);
         }
     };
 
@@ -179,6 +187,14 @@ app.controller('AddRegCtrl', ['$scope', 'personService', function ($scope, perso
     // Endre disse til å returnere true/false, likt som colorEvent() ? (Renere og mindre kode). (Legger til checkbox-value i en array, if -> true.
     $scope.wholeCourse = function wholeCourse() {
         $scope.selectedDays = [];
+    };
+
+    // Ser etter om to datoer/tidspunk overlapper hverandre. Brukes i sesjons-valget.
+    $scope.overlaps = function(startA, endA, startB, endB) { // Hvis overlapper, return true. else false.
+        if (startA <= startB && startB <= endA) return true; // b starts in a
+        if (startA <= endB   && endB   <= endA) return true; // b ends in a
+        if (startB <  startA && endA   <  endB) return true; // a in b
+        return false;
     };
 
     $scope.selectedDate = new Date();

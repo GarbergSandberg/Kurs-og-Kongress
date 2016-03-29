@@ -40,6 +40,10 @@
         </div>
         <hr/>
 
+
+
+
+
         <h3>Påmelding sesjoner</h3>
         <table class="table session">
             <tr ng-repeat="day in days">
@@ -49,11 +53,16 @@
                 <td ng-repeat="session in sessions" ng-if="session.day == day.id">
                     <button class="btn btn-lg"
                             ng-class="colorSession(session) ? 'btn-primary' : 'btn-default'"
-                            ng-click="selectSession(session)"> {{session.id}}
+                            ng-click="selectSession(session)"> {{session.id}} <h5>({{session.start | date:'HH:mm'}} - {{session.end | date:'HH:mm'}})</h5>
                     </button>
             </tr>
         </table>
         <hr/>
+
+
+
+
+
 
 
     </div>
@@ -129,7 +138,7 @@
             <br>
             <br>
             <div ng-show="checkboxAccModel.c1 && checkboxAccModel.rad">
-                <label> Deler rom med: {{firstPersonRoom.id}}</label>
+                <label> Deler rom med: </label>
                 <select ng-options="person2 as person2.firstname for person2 in persons  | filter:checkIfSelected | filter:checkIfHasRoom"
                         ng-model="secondPersonRoom"></select>
                 <br>
@@ -158,8 +167,6 @@
                 <button style="margin-left:2em;" type="button" class="btn btn-primary" ng-click="saveRoom(firstPersonRoom)"> Lagre </button>
             </div>
         </div>
-
-
         <hr/>
     </div>
 
