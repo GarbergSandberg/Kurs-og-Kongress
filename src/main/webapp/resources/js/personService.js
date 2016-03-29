@@ -15,83 +15,55 @@ app.factory('personService', function () {
     };
 
     personService.delete = function (newPerson) {
-        for (var i = 0; i < persons.length; i++) {
-            if (persons[i].id == newPerson.id) {
-                persons.splice(i, 1);
-            } else {
-            }
-        }
+        var idx = persons.indexOf(newPerson);
+        persons.splice(idx, 1);
     };
 
     personService.add = function (newPerson) {
-        var test = generateId();
-        newPerson.id = test;
+        newPerson.id = generateId();
         persons.push(newPerson);
     };
 
     personService.addRoommate = function(person, mate){ // Dato (ankomst og avreise) skal også inn.
-        console.log("Personservice.addRoommate().. ");
         if (mate == undefined){ // Endre enkeltrom til en verdi istedenfor fornavn og etternavn.. Da MÅ removeRoom også endres.
             person.roommate = person;
-            personUpdate(person, person.id);
-            console.log("Personservice.addRoommate() - first added. - enkeltrom ");
+            personUpdate(person, person.index);
         } else {
-            person.roommate = mate; // Endres til person.roommate = mate?  (objekt istedenfor string).
-            mate.roommate = person;  // Endres til mate.roommate = person?  (objekt istedenfor string).
-            personUpdate(person, person.id);
-            personUpdate(mate, mate.id);
-            console.log("Personservice.addRoommate() - Dobbeltrom added. ");
+            person.roommate = mate;
+            mate.roommate = person;
+            personUpdate(person, person.index);
+            personUpdate(mate, mate.index);
         }
     };
 
-
-
     personService.hasRoom = function(first, second){
-        console.log("I function hasRoom (Service)");
         if (second == undefined){
             hasRoom.push(first);
         } else {
-            console.log("PUSHET: ");
             hasRoom.push(first);
             hasRoom.push(second);
         }
     };
 
     personService.removeRoom = function(person){
-        console.log("I removeRoom (PersonService) ");
         var idx = hasRoom.indexOf(person);
         hasRoom.splice(idx, 1);
-        if (person == person.roommate){
+        if (person.id == person.roommate.id){
             person.roommate = null;
-            personUpdate(person, person.id);
+            personUpdate(person, person.index);
         } else { // Slette roommate og roommates roommate.
             var p2 = person.roommate;
             p2.roommate = null;
             person.roommate = null;
             var idx2 = hasRoom.indexOf(p2);
             hasRoom.splice(idx2, 1);
-            personUpdate(person, person.id);
-            personUpdate(p2, p2.id);
-
-            /*for (i = 0; i<persons.length; i++){
-                if (person.roommate == (persons[i].firstname + ' ' + persons[i].lastname)){
-                    console.log("Har funnet tilsvarende personer...");
-                    persons[i].roommate = null;
-                    person.roommate = null;
-                    var idx = hasRoom.indexOf(person);
-                    var idx2 = hasRoom.indexOf(person.roommate);
-                    hasRoom.splice(idx, 1);
-                    hasRoom.splice(idx2, 1);
-                    personUpdate(person, person.id);
-                    personUpdate(persons[i], persons[i].id);
-                }
-            }*/
-
+            personUpdate(person, person.index);
+            personUpdate(p2, p2.index);
         }
     };
 
     personService.addRoom = function(person){ // Inn med dato.
-        personUpdate(person, person.id);
+        personUpdate(person, person.index);
     };
 
     personService.get = function () {
@@ -113,7 +85,7 @@ app.factory('personService', function () {
     }
 
     function personExistsists(newPerson) { // Sjekker om man oppdaterer eller lager nytt objekt.
-        var oldPerson = new Object();
+        var oldPerson = {};
         oldPerson.exists = false;
         if (typeof(newPerson) !== 'undefined') {
             if (persons.length > 0) {

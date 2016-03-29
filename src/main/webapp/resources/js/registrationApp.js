@@ -31,7 +31,9 @@ app.controller('MainCtrl', ['$scope', function($scope) {
 app.controller('AddPersonCtrl', ['$scope', 'personService', function ($scope, personService) {
     $scope.persons = personService.get();
     $scope.person = [];
+
     $scope.update = function (newPerson) {
+        console.log("Update(person): " + newPerson.firstname);
         personService.save(newPerson);
     };
 
@@ -89,10 +91,8 @@ app.controller('AddRegCtrl', ['$scope', 'personService', function ($scope, perso
     };
 
     $scope.checkIfSelected = function(person){
-        if (person == $scope.firstPersonRoom){
-            return false;
-        }
-        return true;
+        return person != $scope.firstPersonRoom;
+
     };
 
     $scope.saveRoom = function(first, second){ // Her skal date også inn.
