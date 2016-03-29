@@ -44,8 +44,8 @@
     </label>
     <br>
     <label>
-        <input type="radio" name="gender" ng-model="person.genfer" ng-value="male"/> Mann
-        <input type="radio" name="gender" ng-model="person.genfer" ng-value="female"/> Kvinne
+        <input type="radio" name="gender" ng-model="person.gender" ng-value="male"/> Mann
+        <input type="radio" name="gender" ng-model="person.gender" ng-value="female"/> Kvinne
     </label>
     <hr/>
 

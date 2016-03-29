@@ -69,7 +69,7 @@
     <div ng-controller="AddPersonCtrl" style="margin-left:3em; margin-right:3em;">
 
         <h3>Personalia</h3>
-        <select ng-model="numberOfPersons" ng-options="n for n in [] | range:1:20"></select>
+        Hvor mange skal legges til?<select ng-model="numberOfPersons" ng-options="n for n in [] | range:1:20"></select>
         <hr/>
 
         <div style="display: inline-block; border-style: groove; max-width: 230px;"
@@ -108,14 +108,17 @@
                     Tittel: {{person.title}}<br>
                     Nummer: {{person.number}}<br>
                     E-Mail: {{person.email}}<br>
-                    Rom: {{person.roommate.firstname}}
+                    <div ng-show="hasRoommate(person)" data-placement="bottom" data-type="info" data-animation="am-fade-and-scale" bs-tooltip="tooltip">
+                        Rom: {{person.roommate.firstname}}
+                        <button type="button" ng-model="tooltip.checked" class="btn btn-default btn-xs" ng-click="removeRoom(person)">
+                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                    </div>
                 </p>
                 <button type="button" class="btn btn-default btn-sm" ng-click="removePerson(person)">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Slett person
                 </button>
-                <button type="button" class="btn btn-default btn-xs" ng-click="removeRoom(person)">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Slett rom-kamerat.
-                </button>
+
             </a>
         </div>
     </div>

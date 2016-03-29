@@ -31,6 +31,7 @@ app.controller('MainCtrl', ['$scope', function($scope) {
 app.controller('AddPersonCtrl', ['$scope', 'personService', function ($scope, personService) {
     $scope.persons = personService.get();
     $scope.person = [];
+    $scope.tooltip = {title: 'Fjern romkamerat'};
 
     $scope.update = function (newPerson) {
         personService.save(newPerson);
@@ -55,6 +56,26 @@ app.controller('AddPersonCtrl', ['$scope', 'personService', function ($scope, pe
     $scope.removeRoom = function(person){
         personService.removeRoom(person);
     };
+
+    $scope.showSaveButton = function(n){
+        console.log("Skjekker om n > 0   : " + n);
+        (n>0) ? true : false;
+    };
+
+    $scope.hasRoommate = function(person){
+        console.log("Er i hasRoommate...")
+        for (i = 0; i<$scope.persons.length; i++) {
+            if ($scope.persons[i] === person) {
+                console.log("Finner riktig person. ")
+                if ($scope.persons[i].roommate == undefined){
+                    console.log("Har ikke roommate. ")
+                    return false;
+                }
+            }
+        }
+        return true;
+    };
+
 }]);
 
 app.controller('AddRegCtrl', ['$scope', 'personService', function ($scope, personService) {
