@@ -17,6 +17,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
     <spring:url value="resources/js/app/loginApp.js" var="appJs"/>
     <spring:url value="resources/js/controllers/loginCtrl.js" var="loginCtrl"/>
+    <spring:url value="resources/js/controllers/homeCtrl.js" var="homeCtrl"/>
     <spring:url value="resources/js/service/loginService.js" var="loginService"/>
 
     <script src="${appJs}"></script>
