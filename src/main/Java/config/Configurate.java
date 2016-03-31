@@ -90,3 +90,5 @@ public class Configurate extends WebMvcConfigurationSupport {
     @Bean
     public CourseRepository courseRepository() {return new CourseRepositoryMock();}
 }
+
+
