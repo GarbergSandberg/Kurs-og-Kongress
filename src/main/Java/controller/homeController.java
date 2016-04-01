@@ -9,6 +9,7 @@ import org.springframework.web.servlet.*;
 import service.*;
 import ui.*;
 
+import javax.servlet.http.*;
 import java.util.*;
 
 /**
@@ -22,6 +23,9 @@ public class homeController {
 
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private LoginService loginService;
 
     @RequestMapping("/")
     public ModelAndView home(){
@@ -37,7 +41,16 @@ public class homeController {
     public ModelAndView registerCourse(){return new ModelAndView("registerCourse");}
 
     @RequestMapping("/courseOverview")
-    public ModelAndView courseOverview(){return new ModelAndView("courseOverview");}
+    public ModelAndView courseOverview(HttpSession session){
+        User u = (User) session.getAttribute("user");
+            if(u == null){
+                System.out.println("Kommer ikke inn gitt");
+                return new ModelAndView("index");
+            } else{
+                System.out.println("Logget inn");
+                return new ModelAndView("courseOverview");
+            }
+    }
 
     @RequestMapping("/registration")
     public String registration(){
@@ -82,5 +95,16 @@ public class homeController {
         return courseService.getCourse(id);
     }
 
+    @RequestMapping(value = "/loginUser", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity getUser(@RequestParam(value = "username") String username, @RequestParam(value = "password") String password, HttpSession session) {
+        User u = loginService.logIn(username,password);
+        if (u != null){
+            session.setAttribute("user", u);
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
 
+    }
 }

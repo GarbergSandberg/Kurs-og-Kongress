@@ -89,6 +89,12 @@ public class Configurate extends WebMvcConfigurationSupport {
 
     @Bean
     public CourseRepository courseRepository() {return new CourseRepositoryMock();}
+
+    @Bean
+    public LoginService loginService() {return new LoginServiceImpl();}
+
+    @Bean
+    public LoginRepository loginRepository() {return new LoginRepositoryMock();}
 }
 
 

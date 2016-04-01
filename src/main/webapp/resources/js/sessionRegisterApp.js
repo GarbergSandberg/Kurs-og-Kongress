@@ -174,7 +174,7 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
             }, function (errorResponse) {
                 console.log("Error in getTemplate()");
             });
-    }
+    };
 
     Date.prototype.addDays = function(days) {
         var dat = new Date(this.valueOf());
@@ -208,11 +208,12 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
             default: "";
         }
     };
-    console.log(courseService.getEditCourse());
-    if(courseService.getEditCourse() == undefined){
+    var cid = sessionStorage.cid;
+    console.log("cid " + cid);
+       if(cid == null){
         self.getTemplate();
     } else{
-        self.getCourse(courseService.getEditCourse());
+        self.getCourse(cid);
     }
 }]);
 
@@ -284,7 +285,7 @@ myApp.controller('RegistrationCtrl', ['$scope', 'courseService', function ($scop
                 break;
             case "default":
                 break;
-        };
+        }
     };
 
     $scope.addInput = function(parameter, type, context) {

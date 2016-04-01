@@ -16,16 +16,35 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
     <spring:url value="resources/js/app/loginApp.js" var="appJs"/>
+    <spring:url value="resources/js/courseOverviewApp.js" var="courseOverviewApp"/>
     <spring:url value="resources/js/controllers/loginCtrl.js" var="loginCtrl"/>
+    <spring:url value="resources/js/controllers/homeCtrl.js" var="homeCtrl"/>
     <spring:url value="resources/js/service/loginService.js" var="loginService"/>
-
+    <spring:url value="resources/js/service/sessionService.js" var="sessionService"/>
     <script src="${appJs}"></script>
     <script src="${loginCtrl}"></script>
     <script src="${loginService}"></script>
+    <script src="${sessionService}"></script>
+    <script src="${courseOverviewApp}"></script>
 </head>
 <body>
 <div ng-app="loginApp">
-    <div ng-view></div>
+    <div ng-controller="loginCtrl">
+        <form role="form" name="form1">
+            Welcome {{user.email}}
+            <div class="form-group">
+                <ul>
+                    <li><label for="usermail">Email</label>
+                        <input type="text" name="username" placeholder="yourname@email.com" required ng-model="user.username" id="usermail"></li>
+                    <li><label for="password">Password</label>
+                        <input type="password" name="password" placeholder="password" required ng-model="user.password" id="password"></li>
+                    <li>
+                        <input class="btn btn-default" type="submit" ng-click="login(user)" value="Login"></li>
+                </ul>
+            </div>
+            {{msgtxt}}
+        </form>
+    </div>
 </div>
 </body>
 </html>

@@ -3,16 +3,18 @@
  */
 var myApp = angular.module('courseOverviewApp', ['ngAnimate', 'mgcrea.ngStrap']);
 
-myApp.controller('OverviewCtrl', ['$scope', 'courseService', function ($scope, courseService) {
+myApp.controller('OverviewCtrl', ['$scope', 'courseService', '$window', function ($scope, courseService, $window) {
     $scope.courses = {};
-
     $scope.panels = [];
-
     $scope.panels.activePanel = -1;
     $scope.$watch("panels.activePanel", function(newValue, oldValue) {
-            courseService.editCourse(newValue);
-            console.log(courseService.getEditCourse());
+        sessionStorage.cid = newValue;
+        console.log(sessionStorage.cid + " = cid");
         });
+
+    $scope.editCourse = function(id){
+        $window.location.href = "/kursogkongress/registerCourse";
+    };
 
     self.setCourse = function(courseRecieved){
         var course = {};

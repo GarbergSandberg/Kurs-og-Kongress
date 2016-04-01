@@ -1,11 +1,18 @@
 
 
-app.factory('loginService', function($http){
-    var mock = {username: 'lars', password: '123'};
+loginApp.factory('loginService', function($http, $location, sessionService, $window){
     return{
-        login:function(user, scope){
-            (user.username == mock.username && user.password == mock.password) ? scope.msgtxt='Correct info' : scope.msgtxt='error info';
-            //var $promise = $http.post('data/user.java'); // Skal hente userdata fra database osv..
+        login:function(user){
+            console.log(user);
+            return $http.get('loginUser', {params: {username: user.username, password: user.password}})
+                .then(
+                    function (success) {
+                            $window.location.href = "/kursogkongress/courseOverview";
+                    },
+                    function (error) {
+                        console.error('Error while login');
+                    }
+                );
         }
     }
 })
