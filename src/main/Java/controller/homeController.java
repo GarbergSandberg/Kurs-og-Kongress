@@ -29,7 +29,7 @@ public class homeController {
 
     @RequestMapping("/")
     public ModelAndView home(){
-        return new ModelAndView("index");
+        return new ModelAndView("registerCourse");
     }
 
     @RequestMapping("/reg")
@@ -67,6 +67,8 @@ public class homeController {
 
     @RequestMapping(value = "/saveinformation_json", method = RequestMethod.POST)
     public ResponseEntity<Void> saveInformation_JSON( @RequestBody Course course )   {
+        System.out.println(course.getTitle());
+        System.out.println(course.getDescription());
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 

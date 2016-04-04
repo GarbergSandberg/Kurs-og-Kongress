@@ -265,5 +265,6 @@
         </div>
         <button type="button" class="btn btn-primary" ng-click="save(course)">Lagre</button>
     </div>
+    </div>
 </body>
 </html>

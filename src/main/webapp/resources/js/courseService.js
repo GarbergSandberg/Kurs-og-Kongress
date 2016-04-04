@@ -4,7 +4,6 @@
 
 myApp.factory('courseService', ['$http', '$q','$rootScope', function($http, $q, $rootScope) {
     var form = {};
-    var editCourse = undefined;
 
     return {
         prepareForm: function(){
@@ -24,6 +23,7 @@ myApp.factory('courseService', ['$http', '$q','$rootScope', function($http, $q, 
         },
 
         sendInfo: function (course) {
+            console.log(course);
             return $http.post('saveinformation_json', course)
                 .then(
                     function (response) {
@@ -74,14 +74,6 @@ myApp.factory('courseService', ['$http', '$q','$rootScope', function($http, $q, 
                         return $q.reject(errResponse.data);
                     }
                 );
-        },
-
-        editCourse: function(courseID){
-            editCourse = courseID;
-        },
-
-        getEditCourse: function(){
-            return editCourse;
         },
 
         getTemplate: function(callback){

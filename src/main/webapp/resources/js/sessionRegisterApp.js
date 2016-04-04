@@ -89,12 +89,14 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
     };
 
     $scope.save = function (course) {
-        /*course.roles = $scope.roles;
+        course.roles = $scope.roles;
         course.sessions = sessionService.get();
         course.events = eventService.get();
         courseService.prepareForm();
         course.form = courseService.getForm();
-        self.sendCourse(course);*/
+        console.log(course.form);
+        console.log(course);
+        self.sendCourse(course);
     };
 
     self.sendCourse = function (course) {
@@ -210,7 +212,7 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
     };
     var cid = sessionStorage.cid;
     console.log("cid " + cid);
-       if(cid == null){
+       if(cid == null){ // not good enough check. Review this.
         self.getTemplate();
     } else{
         self.getCourse(cid);
@@ -219,15 +221,15 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
 
 myApp.controller('RegistrationCtrl', ['$scope', 'courseService', function ($scope, courseService){
     $scope.form = {};
-    $scope.form.checkboxModel = {
+/*    $scope.form.checkboxModel = {
         hotel : false,
         airplane : false
-    };
-    $scope.form.requiredPersonalia = [];
+    };*/
+/*    $scope.form.requiredPersonalia = [];
     $scope.form.optionalPersonalia = [];
     $scope.form.requiredWorkplace = [];
     $scope.form.optionalWorkplace = [];
-    $scope.form.extraInfo = [];
+    $scope.form.extraInfo = [];*/
     $scope.class = ["btn btn-default", "btn btn-default"];
     $scope.hidden = ["ng-hide", "ng-hide"];
     $scope.classPersonalia = ["btn btn-default", "btn btn-default"];
@@ -238,13 +240,13 @@ myApp.controller('RegistrationCtrl', ['$scope', 'courseService', function ($scop
         courseService.setForm($scope.form);
     });
     $scope.$on('recievedForm', function(event, data){
-        if (data.checkboxModel != null) {
+/*        if (data.checkboxModel != null) {
             $scope.form.checkboxModel = data.checkboxModel;
-        }
+        }*/
         if(data.requiredPersonalia != null){
             $scope.form.requiredPersonalia = data.requiredPersonalia;
         }
-        if(data.optionalPersonalia != null){
+/*        if(data.optionalPersonalia != null){
             $scope.form.optionalPersonalia = data.optionalPersonalia;
         }
         if(data.requiredWorkplace != null){
@@ -255,7 +257,7 @@ myApp.controller('RegistrationCtrl', ['$scope', 'courseService', function ($scop
         }
         if (data.extraInfo != null){
             $scope.form.extraInfo = data.extraInfo;
-        }
+        }*/
     });
     $scope.buttonResolver = function(id){
         switch (id){
