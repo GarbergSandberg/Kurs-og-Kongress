@@ -107,8 +107,8 @@ public class CourseRepositoryMock implements CourseRepository {
         String title = "Kurs i gastronomi";
         String location = "Trondheim";
         String description = "Dette er et kurs i forskjellige matopplevelser fra Frankrike";
-        Date startDate = new Date();
-        Date endDate = new Date();
+        Date startDate = dato1;
+        Date endDate = dato2;
         int maxNumber = 200;
         int id = 0;
         courses.add(new Course(sessions,events,roles,form,title,location,description,startDate,endDate,maxNumber,id));
@@ -118,9 +118,9 @@ public class CourseRepositoryMock implements CourseRepository {
         sessions2.add(generateSessionMock("Kurs i franske oster", "Dette er et kurs i franske oster. Oster fra Bordeux", start1, end1, "Trondheim", 0));
         sessions2.add(generateSessionMock("Kurs i vinsmaking", "Dette er et kurs i vinsmaking", start2, end2, "Trondheim", 1));
         sessions2.add(generateSessionMock("Kurs i Chablis", "Dette er et kurs om hvitvin. Nærmere bestemt Chablis",  start3, end3, "Trondheim", 2));
-        sessions2.add(generateSessionMock("Kurs i Javaprogrammering", "Dette er et kurs i Javaprogrammering. Dette kurset passer for viderekommende",  start4, end4,"Trondheim", 0));
-        sessions2.add(generateSessionMock("Kurs i PHP", "Dette er et kurs i PHP", start5, end5, "Trondheim", 1));
-        sessions2.add(generateSessionMock("Kurs i HTML", "Dette er et kurs i HTML 5", start6, end6, "Trondheim", 2));
+        sessions2.add(generateSessionMock("Kurs i Javaprogrammering", "Dette er et kurs i Javaprogrammering. Dette kurset passer for viderekommende",  start4, end4,"Trondheim", 3));
+        sessions2.add(generateSessionMock("Kurs i PHP", "Dette er et kurs i PHP", start5, end5, "Trondheim", 4));
+        sessions2.add(generateSessionMock("Kurs i HTML", "Dette er et kurs i HTML 5", start6, end6, "Trondheim", 5));
         ArrayList<Event> events2 = new ArrayList<Event>();
         events2.add(generateEventMock("Java-zone", 20, 799, "Samfundet", 0));
         events2.add(generateEventMock("Foredrag om AI", 100, 50, "Work-Work", 1));
@@ -150,8 +150,8 @@ public class CourseRepositoryMock implements CourseRepository {
         String title3 = "Kurs i gitarspilling";
         String location3 = "Oslo";
         String description3 = "Dette er et kurs i gitarspilling der vi ser på forskjellige teknikker";
-        Date startDate3 = new Date();
-        Date endDate3 = new Date();
+        Date startDate3 = dato1;
+        Date endDate3 = dato2;
         int maxNumber3 = 100;
         int id3 = 2;
         courses.add(new Course(sessions3,events3,roles3,form3,title3,location3,description3,startDate3,endDate3,maxNumber3, id3));
@@ -184,10 +184,11 @@ public class CourseRepositoryMock implements CourseRepository {
     public Session generateSessionMock(String t, String d, Date sDate, Date eDate, String l, int id){
         String title = t;
         String description = d;
+        Date date = dato1;
         Date start = sDate;
         Date end = eDate;
         String location = l;
-        return new Session(title,description,start,end,location,id);
+        return new Session(title,description,date,start,end,location,id);
     }
 
     public Event generateEventMock(String t, int max, double p, String l, int id){
@@ -196,7 +197,8 @@ public class CourseRepositoryMock implements CourseRepository {
         double price = p;
         String location = l;
         Date date = dato1;
-        return new Event(title,maxNumber,price,location,date,id);
+        Date time = dato1;
+        return new Event(title,maxNumber,price,location,date,time,id);
     }
 
     public ArrayList<String> generateRoleArray(String role1, String role2){

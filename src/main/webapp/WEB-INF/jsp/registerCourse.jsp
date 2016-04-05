@@ -145,7 +145,9 @@
             <div class="container">
                 <div class="jumbotron">
                     <table class="table">
-                        <h4>Personalia <span class="label label-primary">Info</span></h4>
+                        <div ng-show="true" data-placement="bottom" data-type="info" data-animation="am-fade-and-scale" bs-tooltip="tooltip">
+                            <h4>Personalia     <span class="label label-primary">Info</span></h4>
+                        </div>
                         <tr ng-repeat="req in form.requiredPersonalia">
                             <td>
                                 {{req.parameter}} ({{req.type}})

@@ -15,16 +15,17 @@ import java.util.*;
 
 public class StringArrayToInputParameter{
 
-    public ArrayList<InputParameter> convertStringToInputParameter(ArrayList<String> source) {
+    public ArrayList<InputParameter> convertStringToInputParameter(String[] source) {
         ArrayList<InputParameter> array = new ArrayList<InputParameter>();
         if (source != null) {
-            for (String s : source){
-                JSONObject obj = new JSONObject(s);
-                String parameter = obj.getString("parameter");
-                String type = obj.getString("type");
-                InputParameter ip = new InputParameter(parameter,type);
-                array.add(ip);
-            }
+                for (String s : source){
+                    System.out.println(s);
+                    JSONObject obj = new JSONObject(s);
+                    String parameter = obj.getString("parameter");
+                    String type = obj.getString("type");
+                    InputParameter ip = new InputParameter(parameter,type);
+                    array.add(ip);
+                }
         }
         return array;
     }

@@ -2,6 +2,7 @@
  * Created by eiriksandberg on 05.04.2016.
  */
 sessionRegisterApp.controller('RegistrationCtrl', ['$scope', 'courseService', function ($scope, courseService){
+    $scope.tooltip = {title: 'Her skal det inn info om personalia'};
     $scope.form = {};
     $scope.form.checkboxModel = {
         hotel : false,
@@ -81,7 +82,8 @@ sessionRegisterApp.controller('RegistrationCtrl', ['$scope', 'courseService', fu
             }
         }
         if (!exists) {
-            var resolve = {parameter: parameter, type: type}
+            var resolve = {parameter: parameter, type: type};
+            console.log(resolve);
             array.push(resolve);
         }
     };

@@ -45,6 +45,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
         courseService.prepareForm();
         var form = courseService.getForm();
         course.form = undefined; // This reassures that the sending of course will not fail. Because of the complexity of Form object, this have to be sent separately and handled.
+        console.log(typeof course.startDate + "    " + typeof course.endDate)
         self.sendCourse(course,form);
     };
 
@@ -54,7 +55,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
             courseService.sendInfo(course).then(function (successCallback) {
                 console.log("Course sent" + successCallback);
             }, function (errorCallback) {
-                console.log("Error in courseService.sendInfo()" + errorCallback);
+                console.log("Error in courseService.sendInfo() " + errorCallback);
             })
         }, function (errorCallback) {
             console.log("Error in courseService.sendForm()" + errorCallback);

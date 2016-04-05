@@ -5,20 +5,23 @@ import java.util.*;
 /**
  * Created by Lars on 18.01.16.
  */
-public class Event {
+public class
+Event {
     private String title;
     private int maxNumber;
     private double price;
     private String location;
     private Date date;
+    private Date time;
     private int id;
 
-    public Event(String title, int maxNumber, double price, String location, Date date, int id) {
+    public Event(String title, int maxNumber, double price, String location, Date date, Date time, int id) {
         this.title = title;
         this.maxNumber = maxNumber;
         this.price = price;
         this.location = location;
         this.date = date;
+        this.time = time;
         this.id = id;
     }
 
@@ -62,6 +65,14 @@ public class Event {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     public int getId() {

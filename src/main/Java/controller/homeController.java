@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.beans.propertyeditors.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
+import org.springframework.web.bind.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
 import resources.*;
@@ -27,6 +28,11 @@ import java.util.*;
 public class homeController {
     StringArrayToInputParameter parser = new StringArrayToInputParameter();
     Form buffer;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String[].class, new StringArrayPropertyEditor(null));
+    }
 
     @Autowired
     private PersonService personService;
@@ -85,11 +91,11 @@ public class homeController {
 
     @RequestMapping(value = "/form", method = RequestMethod.POST)
     public ResponseEntity<Void> saveForm(
-            @RequestParam(value = "requiredPersonalia", required = false) ArrayList<String> requiredPersonalia,
-            @RequestParam(value = "optionalPersonalia", required = false) ArrayList<String> optionalPersonalia,
-            @RequestParam(value = "requiredWorkplace", required = false) ArrayList<String> requiredWorkplace,
-            @RequestParam(value = "optionalWorkplace", required = false) ArrayList<String> optionalWorkplace,
-            @RequestParam(value = "extraInfo", required = false) ArrayList<String> extraInfo,
+            @RequestParam(value = "requiredPersonalia", required = false) String[] requiredPersonalia,
+            @RequestParam(value = "optionalPersonalia", required = false) String[] optionalPersonalia,
+            @RequestParam(value = "requiredWorkplace", required = false) String[] requiredWorkplace,
+            @RequestParam(value = "optionalWorkplace", required = false) String[] optionalWorkplace,
+            @RequestParam(value = "extraInfo", required = false) String[] extraInfo,
             @RequestParam(value = "checkboxModel", required = false) String checkboxModel
             )   {
         ArrayList<InputParameter> reqPers = parser.convertStringToInputParameter(requiredPersonalia);
@@ -144,6 +150,5 @@ public class homeController {
         } else {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
-
     }
 }

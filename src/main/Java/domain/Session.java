@@ -8,14 +8,16 @@ import java.util.*;
 public class Session {
     private String title;
     private String description;
+    private Date date;
     private Date startTime;
     private Date endTime;
     private String location;
     private int id;
 
-    public Session(String title, String description, Date startTime, Date endTime, String location, int id) {
+    public Session(String title, String description, Date date, Date startTime, Date endTime, String location, int id) {
         this.title = title;
         this.description = description;
+        this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.location = location;
@@ -46,6 +48,14 @@ public class Session {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Date getStartTime() {
