@@ -21,7 +21,7 @@
         </div>
         <div>
             <label for="postalcode">Postnr: </label>
-            <input type="form-control" ng-model="workplace.postalcode" id="postalcode"/>
+            <input type="form-control" dat-ng-model="workplace.postalcode" id="postalcode"/>
         </div>
         <div>
             <label for="place">Sted: </label>
@@ -163,7 +163,7 @@
                 <td align="center" class="session">
                     {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
                 </td>
-                <td ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)"> <!--ng-if="session.day == day.id"-->
+                <td ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)">
                     <button class="btn btn-lg"
                             ng-class="colorSession(session) ? 'btn-primary' : 'btn-default'"
                             ng-click="selectSession(session)"> {{session.title}} <h5>({{session.startTime | date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})</h5>
@@ -172,6 +172,18 @@
             </tr>
         </table>
         <hr/>
+        <h3>Påmelding arrangementer</h3>
+        <table class="table event">
+            <tr ng-repeat="date in dateArray">
+                <td align="center" class="session">
+                    {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
+                </td>
+                <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)" > <!--  -->
+                    <button class="btn btn-lg" name="selectedEvents[]" value="{{event}}" ng-checked="selectedEvent.indexOf(event) > -1"
+                            ng-click="selectEvent(event)" ng-class="colorEvent(event) ? 'btn-primary' : 'btn-default'"> {{event.title}}s
+                    </button> </td>
+            </tr>
+        </table>
 
     </div>
 
