@@ -99,9 +99,9 @@ public class CourseRepositoryMock implements CourseRepository {
         sessions.add(generateSessionMock("Kurs i vinsmaking", "Dette er et kurs i vinsmaking", start2, end2, "Trondheim", 1));
         sessions.add(generateSessionMock("Kurs i Chablis", "Dette er et kurs om hvitvin. Nærmere bestemt Chablis",  start3, end3, "Trondheim", 2));
         ArrayList<Event> events = new ArrayList<Event>();
-        events.add(generateEventMock("Konsert med Kaja Gunnufsen", 20, 250, "Byscenen", 0));
-        events.add(generateEventMock("Topptur på Byåsen", 70, 99, "Byåsens eldorado", 1));
-        events.add(generateEventMock("Oktoberfest i dødens dal", 10, 499, "Dødens dal", 2));
+        events.add(generateEventMock("Konsert med Kaja Gunnufsen", 20, 250, start1, end1, "Byscenen", 0));
+        events.add(generateEventMock("Topptur på Byåsen", 70, 99, start2, end2, "Byåsens eldorado", 1));
+        events.add(generateEventMock("Oktoberfest i dødens dal", 10, 499, start3, end3, "Dødens dal", 2));
         ArrayList<String> roles = generateRoleArray("Hobby", "Profesjonell");
         Form form = generateMockForm();
         String title = "Kurs i gastronomi";
@@ -122,9 +122,9 @@ public class CourseRepositoryMock implements CourseRepository {
         sessions2.add(generateSessionMock("Kurs i PHP", "Dette er et kurs i PHP", start5, end5, "Trondheim", 4));
         sessions2.add(generateSessionMock("Kurs i HTML", "Dette er et kurs i HTML 5", start6, end6, "Trondheim", 5));
         ArrayList<Event> events2 = new ArrayList<Event>();
-        events2.add(generateEventMock("Java-zone", 20, 799, "Samfundet", 0));
-        events2.add(generateEventMock("Foredrag om AI", 100, 50, "Work-Work", 1));
-        events2.add(generateEventMock("Fordrag med Bill Gates", 50, 0, "NTNU Gløshaugen", 2));
+        events2.add(generateEventMock("Java-zone", 20, 799, start1, end1, "Samfundet", 0));
+        events2.add(generateEventMock("Foredrag om AI", 100, 50, start2, end2,"Work-Work", 1));
+        events2.add(generateEventMock("Fordrag med Bill Gates", 50, 0, start3, end3,"NTNU Gløshaugen", 2));
         ArrayList<String> roles2 = generateRoleArray("Elev", "Lærer");
         Form form2 = generateMockForm2();
         String title2 = "Kurs i programmering";
@@ -142,9 +142,9 @@ public class CourseRepositoryMock implements CourseRepository {
         sessions3.add(generateSessionMock("Kurs i sweep picking", "Dette er et kurs i teknikken sweep picking", start8, end8, "Oslo", 1));
         sessions3.add(generateSessionMock("Kurs i arpeggios med Brent Hinds", "Dette er et kurs i arpeggios, holdt av gitaristen, Brent Hinds fra Mastodon", start9, end9, "Oslo", 2));
         ArrayList<Event> events3 = new ArrayList<Event>();
-        events3.add(generateEventMock("Konsert med Marit Larsen", 20, 449, "Sentrum Scene", 0));
-        events3.add(generateEventMock("Stevie Ray Vaughan Tribute", 200, 50, "Café Brasil", 1));
-        events3.add(generateEventMock("Ølkurs med Al Ko Holiker", 50, 0, "Skansen", 2));
+        events3.add(generateEventMock("Konsert med Marit Larsen", 20, 449, start7, end7,"Sentrum Scene", 0));
+        events3.add(generateEventMock("Stevie Ray Vaughan Tribute", 200, 50, start8, end8,"Café Brasil", 1));
+        events3.add(generateEventMock("Ølkurs med Al Ko Holiker", 50, 0, start9, end9,"Skansen", 2));
         ArrayList<String> roles3 = generateRoleArray("Gitarlærer", "Gitarspiller");
         Form form3 = generateMockForm2();
         String title3 = "Kurs i gitarspilling";
@@ -169,7 +169,7 @@ public class CourseRepositoryMock implements CourseRepository {
         ArrayList<Session> sessions = new ArrayList<Session>();
         sessions.add(generateSessionMock("Kurs i hjerte/lunge-redning", "Dette er et kurs i hjerte/lunge redning",  start1, end1, "Trondheim", 1));
         ArrayList<Event> events = new ArrayList<Event>();
-        events.add(generateEventMock("Konsert med Highasakite", 50, 499, "Byscenen", 1));
+        events.add(generateEventMock("Konsert med Highasakite", 50, 499, start1, end1, "Byscenen", 1));
         ArrayList<String> roles = generateRoleArray("Lege", "Ambulansearbeider");
         Form form = generateMockForm();
         String title = t;
@@ -191,14 +191,14 @@ public class CourseRepositoryMock implements CourseRepository {
         return new Session(title,description,date,start,end,location,id);
     }
 
-    public Event generateEventMock(String t, int max, double p, String l, int id){
+    public Event generateEventMock(String t, int max, double p, Date s, Date e, String l, int id){
         String title = t;
         int maxNumber = max;
         double price = p;
         String location = l;
-        Date date = dato1;
-        Date time = dato1;
-        return new Event(title,maxNumber,price,location,date,time,id);
+        Date start = s;
+        Date end = e;
+        return new Event(title,maxNumber,price,location,start,end,id);
     }
 
     public ArrayList<String> generateRoleArray(String role1, String role2){

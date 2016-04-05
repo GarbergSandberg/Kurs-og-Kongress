@@ -3,7 +3,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         { id: '1', title:'Enkeltpåmelding', content:'resources/jsp/singleReg.jsp' },
         { id: '2', title:'Gruppepåmelding', content:'resources/jsp/groupReg.jsp'}
     ];
-    $scope.tabs.activeTab = 'Gruppepåmelding';
+    $scope.tabs.activeTab = 'Enkeltpåmelding';
 
     $scope.days = [{id: 'Mandag'}, {id: 'Tirsdag'}, {id: 'Onsdag'}];
     $scope.selectedEvents = [];
@@ -32,9 +32,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
 
     self.getCourseById = function(id){
         regService.getCourse(id).then(function(response){
-            $scope.course = new Array();
             $scope.course = self.setCourse(response);
-            $scope.diffDays = Math.round(Math.abs(($scope.course.endDate - $scope.course.startDate)/(24*60*60*1000)));
             var currentDate = $scope.course.startDate;
             while (currentDate <= $scope.course.endDate) {
                 $scope.dateArray.push(new Date(currentDate));
@@ -43,6 +41,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
             regService.setCourse($scope.course, $scope.course.roles, $scope.dateArray);
         })
     };
+
 
     $scope.addDays = function(day, days) {
         var dat = new Date(day.valueOf());
@@ -162,26 +161,4 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     $scope.getType = function (key) {
         return Object.prototype.toString.call($scope[key]);
     };
-
-    /* Trenger vel ikke denne?
-     $scope.selectButton = function (index) { // Opprette en isActive for hver dag?
-     $scope.isActive = index;
-     }; */
-
-    /* $scope.fromDateA = Date.UTC(2016, 1, 10, 12, 0);  // new Date();
-     $scope.untilDateA = Date.UTC(2016, 1, 10, 14, 0);
-     $scope.fromDateB = Date.UTC(2016, 1, 10, 13, 0);  // new Date();
-     $scope.untilDateB = Date.UTC(2016, 1, 10, 15, 0); */
-
-
-    /* [
-     {day: 'Mandag', id: 'Sangtime', start: new Date(Date.UTC(2016, 1, 10, 12, 0)), end: new Date(Date.UTC(2016, 1, 10, 14, 0))},
-     {day: 'Mandag', id: 'Gitarkurs', start: new Date(Date.UTC(2016, 1, 10, 13, 0)), end: new Date(Date.UTC(2016, 1, 10, 15, 0))},
-     {day: 'Mandag', id: 'Korøvelse', start: new Date(Date.UTC(2016, 1, 10, 16, 0)), end: new Date(Date.UTC(2016, 1, 10, 18, 0))},
-     {day: 'Tirsdag', id: 'Sangtime', start: new Date(Date.UTC(2016, 2, 10, 9, 0)), end: new Date(Date.UTC(2016, 2, 10, 12, 0))},
-     {day: 'Tirsdag', id: 'Gitarkurs', start: new Date(Date.UTC(2016, 2, 10, 11, 0)), end: new Date(Date.UTC(2016, 2, 10, 13, 0))},
-     {day: 'Tirsdag', id: 'Korøvelse', start: new Date(Date.UTC(2016, 2, 10, 15, 0)), end: new Date(Date.UTC(2016, 2, 10, 17, 0))}];  */
-
-    // $scope.events = [{day: 'Mandag', id: 'Sangtime'}, {day: 'Mandag', id: 'Gitarkurs'}, {day: 'Mandag', id: 'Korøvelse'}, {day: 'Tirsdag', id: 'Sangtime'}, {day: 'Tirsdag', id: 'Gitarkurs'}, {day: 'Tirsdag', id: 'Korøvelse'}];
-
 }]);
