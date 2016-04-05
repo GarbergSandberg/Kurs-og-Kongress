@@ -39,7 +39,7 @@ public class homeController {
 
     @RequestMapping("/")
     public ModelAndView home(){
-        return new ModelAndView("registerCourse");
+        return new ModelAndView("reg");
     }
 
     @RequestMapping("/reg")

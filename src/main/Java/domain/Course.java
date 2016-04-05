@@ -1,8 +1,7 @@
 package domain;
 
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by eiriksandberg on 18.01.2016.

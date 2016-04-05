@@ -5,12 +5,10 @@
 </head>
 <body>
 <div ng-app="RegApp">
-    <div ng-controller="AddRegCtrl" style="margin-left:3em; margin-right:3em;">
-
-        <div class="page-header">
-            <h1>Gruppepåmelding</h1><br>
-        </div>
-
+    <div ng-controller="AddRegCtrl" class="page-header">
+        <h1>Gruppepåmelding til "{{course.title}}"</h1><br>
+    </div>
+    <div ng-controller="AddPersonCtrl" style="margin-left:3em; margin-right:3em;">
         <!-- Arbeidsinfo -->
         <h3>Arbeidsgiverinfo</h3>
         <div>
@@ -40,34 +38,6 @@
         </div>
         <hr/>
 
-
-
-
-
-        <h3>Påmelding sesjoner</h3>
-        <table class="table session">
-            <tr ng-repeat="day in days">
-                <td align="center" class="session">
-                    {{day.id}}<br>
-                </td>
-                <td ng-repeat="session in sessions" ng-if="session.day == day.id">
-                    <button class="btn btn-lg"
-                            ng-class="colorSession(session) ? 'btn-primary' : 'btn-default'"
-                            ng-click="selectSession(session)"> {{session.id}} <h5>({{session.start | date:'HH:mm'}} - {{session.end | date:'HH:mm'}})</h5>
-                    </button>
-            </tr>
-        </table>
-        <hr/>
-
-
-
-
-
-
-
-    </div>
-    <div ng-controller="AddPersonCtrl" style="margin-left:3em; margin-right:3em;">
-
         <h3>Personalia</h3>
         Hvor mange skal legges til?<select ng-model="numberOfPersons" ng-options="n for n in [] | range:1:20"></select>
         <hr/>
@@ -88,6 +58,14 @@
                 <input type="text" ng-model="person[$index].number" id="number"/><br>
                 <label for="mail">Mail: </label><br>
                 <input type="text" ng-model="person[$index].mail" id="mail"/><br>
+                <label ng-repeat="role in roles">
+                    <input type="radio" name="role" ng-model="person.role" ng-value="{{role}}"/> {{role}}
+                </label>
+                <label>
+                    <input type="radio" name="gender" ng-model="person.gender" ng-value="male"/> Mann
+                    <input type="radio" name="gender" ng-model="person.gender" ng-value="female"/> Kvinne
+                </label>
+                <br>
                 <!--Ekstra (utvides om "checked") -->
                 <input type="checkbox" ng-model="checkbox[$index]" ng-change="alert({{$index}})">
                 Bemerkning/spesiell diett/best.nr/kode etc?
@@ -121,8 +99,6 @@
 
             </a>
         </div>
-    </div>
-    <div ng-controller="AddRegCtrl" style="margin-left:3em; margin-right:3em;">
         <h3>Overnatting</h3>
         <label for="accomodation">
             <input type="checkbox" id="accomodation" ng-model="checkboxAccModel.c1"/>
@@ -154,12 +130,12 @@
                     <label class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i> <i
                             class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
                     <div class="form-group col-xs-6">
-                        <input type="text" class="form-control" ng-model="fromDate" data-min-date="{{minDate}}"
-                               data-max-date="{{maxDate}}" placeholder="From" bs-datepicker>
+                        <input type="text" class="form-control" ng-model="course.startDate" data-min-date="{{course.startDate}}"
+                               data-max-date="{{course.endDate}}" placeholder="From" bs-datepicker>
                     </div>
                     <div class="form-group col-xs-6">
-                        <input type="text" class="form-control" ng-model="untilDate" data-max-date="{{maxDate}}"
-                               data-min-date="{{minDate}}" placeholder="Until" bs-datepicker>
+                        <input type="text" class="form-control" ng-model="course.endDate" data-max-date="{{course.endDate}}"
+                               data-min-date="{{course.startDate}}" placeholder="Until" bs-datepicker>
                     </div>
                 </div>
             </form> <br>
@@ -171,6 +147,32 @@
             </div>
         </div>
         <hr/>
+        <h3>Påmelding faglig program</h3>
+        <label>
+            <input type="checkbox" name="allDays" ng-model="allDaysCheck" value="allDays" ng-click="wholeCourse()"> Hele kurset
+        </label> <br>
+        <label ng-repeat="date in dateArray">
+            <input type="checkbox" name="selectedDays[]" value="{{date}}" ng-checked="selectedDays.indexOf(date) > -1"
+                   ng-click="selectDay(date)"> {{date | date:'EEEE'}}
+        </label>
+    </div>
+    <div ng-controller="AddRegCtrl" style="margin-left:3em; margin-right:3em;">
+        <h3>Påmelding sesjoner</h3>
+        <table class="table session">
+            <tr ng-repeat="date in dateArray">
+                <td align="center" class="session">
+                    {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
+                </td>
+                <td ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)"> <!--ng-if="session.day == day.id"-->
+                    <button class="btn btn-lg"
+                            ng-class="colorSession(session) ? 'btn-primary' : 'btn-default'"
+                            ng-click="selectSession(session)"> {{session.title}} <h5>({{session.startTime | date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})</h5>
+                    </button>
+                </td>
+            </tr>
+        </table>
+        <hr/>
+
     </div>
 
 

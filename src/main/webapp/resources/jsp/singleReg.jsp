@@ -18,7 +18,7 @@ To change this template use File | Settings | File Templates.
     </div>
 
     <!-- Radiobuttons (Rolle og kjønn) -->
-    <label ng-repeat="role in roles">
+    <label ng-repeat="role in course.roles">
         <input type="radio" name="role" ng-model="person.role" ng-value="role"/> {{role}}
     </label>
     <br>

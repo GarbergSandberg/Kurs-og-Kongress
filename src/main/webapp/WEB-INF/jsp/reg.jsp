@@ -26,17 +26,26 @@
     <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
-    <spring:url value="resources/js/registrationApp.js" var="appJs"/>
-    <spring:url value="resources/js/eventRegisterService.js" var="appEventService"/>
-    <spring:url value="resources/js/personService.js" var="personService"/>
+    <spring:url value="resources/js/app/registrationApp.js" var="appJs"/>
+    <spring:url value="resources/js/app/courseOverviewApp.js" var="myApp"/>
+    <spring:url value="resources/js/service/eventRegisterService.js" var="appEventService"/>
+    <spring:url value="resources/js/service/personService.js" var="personService"/>
+    <spring:url value="resources/js/service/regService.js" var="regService"/>
+    <spring:url value="resources/js/controllers/addRegCtrl.js" var="regCtrl"/>
+    <spring:url value="resources/js/controllers/addPersonCtrl.js" var="personCtrl"/>
 
     <script src="${appJs}"></script>
+    <script src="${myApp}"></script>
     <script src="${appEventService}"></script>
     <script src="${personService}"></script>
+    <script src="${regService}"></script>
+    <script src="${regCtrl}"></script>
+    <script src="${personCtrl}"></script>
+
 </head>
 <html>
 <body>
-<div ng-app="RegApp" ng-controller="MainCtrl"> <!-- http://mgcrea.github.io/angular-strap/#/tabs [16.02.2016]. -->
+<div ng-app="RegApp" ng-controller="AddRegCtrl"> <!-- http://mgcrea.github.io/angular-strap/#/tabs [16.02.2016]. -->
     <div bs-active-pane="tabs.activeTab" bs-tabs>
         <div ng-repeat="tab in tabs | orderBy:'id'" data-title="{{ tab.title }}" name="{{ tab.title }}" ng-include="tab.content" bs-pane>
         </div>
