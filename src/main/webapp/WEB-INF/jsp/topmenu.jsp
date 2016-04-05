@@ -22,6 +22,9 @@
             <li>
                 <a href="/kursogkongress/courseOverview">Kursoversikt</a>
             </li>
+            <li>
+                <a href="/kursogkongress/registerCourse">Legg til nytt kurs</a>
+            </li>
         </ul>
     </nav>
 </div>
