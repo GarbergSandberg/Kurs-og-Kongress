@@ -20,9 +20,11 @@
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.tpl.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
-    <spring:url value="resources/js/courseOverviewApp.js" var="app"/>
-    <spring:url value="resources/js/courseService.js" var="jsonService"/>
+    <spring:url value="resources/js/app/courseOverviewApp.js" var="app"/>
+    <spring:url value="resources/js/controllers/courseOverviewCtrl.js" var="ctrl"/>
+    <spring:url value="resources/js/service/courseService.js" var="jsonService"/>
     <script src="${app}"></script>
+    <script src="${ctrl}"></script>
     <script src="${jsonService}"></script>
 </head>
 <body ng-app="courseOverviewApp">

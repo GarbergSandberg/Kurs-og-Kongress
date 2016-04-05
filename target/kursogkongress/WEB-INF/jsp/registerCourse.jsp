@@ -17,18 +17,26 @@
     <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
     <!--This is important-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
-    <spring:url value="resources/js/sessionRegisterApp.js" var="appJs"/>
-    <spring:url value="resources/js/sessionRegisterService.js" var="appService"/>
+    <spring:url value="resources/js/app/sessionRegisterApp.js" var="appJs"/>
+    <spring:url value="resources/js/service/sessionRegisterService.js" var="appService"/>
     <spring:url value="resources/html/registerSessionModal.html" var="modalTemplate"/>
-    <spring:url value="resources/js/eventRegisterService.js" var="appEventService"/>
+    <spring:url value="resources/js/service/eventRegisterService.js" var="appEventService"/>
     <spring:url value="resources/html/registerEventModal.html" var="eventModal"/>
-    <spring:url value="resources/js/courseService.js" var="jsonService"/>
+    <spring:url value="resources/js/service/courseService.js" var="jsonService"/>
+    <spring:url value="resources/js/controllers/addCourseCtrl.js" var="addCourseCtrl"/>
+    <spring:url value="resources/js/controllers/addEventCtrl.js" var="addEventCtrl"/>
+    <spring:url value="resources/js/controllers/addSessionCtrl.js" var="addSessionCtrl"/>
+    <spring:url value="resources/js/controllers/makeFormCtrl.js" var="makeFormCtrl"/>
     <script src="${appJs}"></script>
     <script src="${appService}"></script>
     <script src="${jsonService}"></script>
     <script src="${modalTemplate}"></script>
     <script src="${appEventService}"></script>
     <script src="${eventModal}"></script>
+    <script src="${addCourseCtrl}"></script>
+    <script src="${addEventCtrl}"></script>
+    <script src="${addSessionCtrl}"></script>
+    <script src="${makeFormCtrl}"></script>
 </head>
 <body>
 <div ng-app="registerApp" id="sessionRegisterClass">
