@@ -94,6 +94,7 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
         course.events = eventService.get();
         courseService.prepareForm();
         var form = courseService.getForm();
+        course.form = undefined; // This reassures that the sending of course will not fail. Because of the complexity of Form object, this have to be sent separately and handled.
         self.sendCourse(course,form);
     };
 
@@ -113,7 +114,7 @@ myApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'course
     self.getCourse = function(id){
             courseService.getCourse(id).then(function(response){
                 if (response != null){
-                    $scope.course = response;
+                    $scope.course = response;// NB! Course contains form. Must be declared undefined before sending back to server.
                 }
                 if (response.startDate != null){
                     $scope.course.startDate = new Date(response.startDate);
