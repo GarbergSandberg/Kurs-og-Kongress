@@ -212,7 +212,13 @@ public class CourseRepositoryMock implements CourseRepository {
         requiredWorkplace.add(i);
         requiredWorkplace.add(j);
         requiredWorkplace.add(k);
-        Form form = new Form(requiredPersonalia,null,requiredWorkplace,null,null,null);
+
+        //testing
+        ArrayList<InputParameter> optionalPersonalia = new ArrayList<InputParameter>();
+        ArrayList<InputParameter> optionalWorkplace = new ArrayList<InputParameter>();
+        ArrayList<InputParameter> extraInfo = new ArrayList<InputParameter>();
+        CheckboxModel cm = new CheckboxModel(false,false);
+        Form form = new Form(requiredPersonalia,optionalPersonalia,requiredWorkplace,optionalWorkplace,extraInfo,cm);
         return new Course(null,null,null,form,null,null,null,null,null,200,12);
     }
 

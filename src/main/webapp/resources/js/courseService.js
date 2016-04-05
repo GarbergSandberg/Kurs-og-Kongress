@@ -36,6 +36,46 @@ myApp.factory('courseService', ['$http', '$q','$rootScope', function($http, $q, 
                 );
         },
 
+        sendForm: function (form) { //to be deleted
+            console.log(form.optionalPersonalia);
+            var indata = {
+                requiredPersonalia: form.requiredPersonalia,
+                optionalPersonalia: form.optionalPersonalia,
+                requiredWorkplace: form.requiredWorkplace,
+                optionalWorkplace: form.optionalWorkplace,
+                extraInfo: form.extraInfo,
+                checkboxModel: form.checkboxModel
+            };
+            return $http({
+                url: "form",
+                method: "POST",
+                params:indata
+            })
+                .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        console.error('Error while sending form');
+                        return $q.reject(errResponse.data);
+                    }
+                );
+        },
+
+        sendInputParameter: function (input) { //to be deleted
+            console.log(input);
+            return $http.post('inputparameter', input)
+                .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        console.error('Error while sendingInfo');
+                        return $q.reject(errResponse.data);
+                    }
+                );
+        },
+
         getMockCourse: function(callback){
             return $http.get('getCourseMock')
                 .then(

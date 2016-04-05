@@ -34,6 +34,19 @@ public class Course {
         this.id = id;
     }
 
+    public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, String title, String location, String description, Date startDate, Date endDate, int maxNumber, int id) {
+        this.sessions = sessions;
+        this.events = events;
+        this.roles = roles;
+        this.title = title;
+        this.location = location;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.maxNumber = maxNumber;
+        this.id = id;
+    }
+
     public Course(){};
 
     public ArrayList<Session> getSessions() {

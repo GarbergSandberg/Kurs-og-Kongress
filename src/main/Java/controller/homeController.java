@@ -1,14 +1,22 @@
 package controller;
 
+import com.sun.tools.javac.comp.*;
 import domain.*;
+import jdk.nashorn.internal.parser.*;
+import org.json.*;
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.beans.propertyeditors.*;
 import org.springframework.http.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
+import resources.*;
 import service.*;
 import ui.*;
 
+import javax.json.*;
+import javax.json.stream.*;
+import javax.persistence.criteria.*;
 import javax.servlet.http.*;
 import java.util.*;
 
@@ -17,6 +25,8 @@ import java.util.*;
  */
 @Controller
 public class homeController {
+    StringArrayToInputParameter parser = new StringArrayToInputParameter();
+    Form buffer;
 
     @Autowired
     private PersonService personService;
@@ -67,8 +77,35 @@ public class homeController {
 
     @RequestMapping(value = "/saveinformation_json", method = RequestMethod.POST)
     public ResponseEntity<Void> saveInformation_JSON( @RequestBody Course course )   {
+        course.setForm(buffer);
         System.out.println(course.getTitle());
         System.out.println(course.getDescription());
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/form", method = RequestMethod.POST)
+    public ResponseEntity<Void> saveForm(
+            @RequestParam(value = "requiredPersonalia", required = false) ArrayList<String> requiredPersonalia,
+            @RequestParam(value = "optionalPersonalia", required = false) ArrayList<String> optionalPersonalia,
+            @RequestParam(value = "requiredWorkplace", required = false) ArrayList<String> requiredWorkplace,
+            @RequestParam(value = "optionalWorkplace", required = false) ArrayList<String> optionalWorkplace,
+            @RequestParam(value = "extraInfo", required = false) ArrayList<String> extraInfo,
+            @RequestParam(value = "checkboxModel", required = false) String checkboxModel
+            )   {
+        ArrayList<InputParameter> reqPers = parser.convertStringToInputParameter(requiredPersonalia);
+        ArrayList<InputParameter> optPers = parser.convertStringToInputParameter(optionalPersonalia);
+        ArrayList<InputParameter> reqWork = parser.convertStringToInputParameter(requiredWorkplace);
+        ArrayList<InputParameter> optWork = parser.convertStringToInputParameter(optionalWorkplace);
+        ArrayList<InputParameter> xtraInf = parser.convertStringToInputParameter(extraInfo);
+        CheckboxModel cm = parser.convertToCheckboxModel(checkboxModel);
+        buffer = parser.convert(reqPers,optPers,reqWork,optWork,xtraInf,cm);
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/inputparameter", method = RequestMethod.POST)
+    public ResponseEntity<Void> saveInputParameter( @RequestBody InputParameter inputParameter )   {
+        System.out.println("DETTE FUNKET!" + inputParameter.getParameter());
+        System.out.println(inputParameter.getType());
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
