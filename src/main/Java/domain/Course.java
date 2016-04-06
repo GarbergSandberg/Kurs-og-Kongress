@@ -16,10 +16,13 @@ public class Course {
     private String description;
     private Date startDate;
     private Date endDate;
+    private double courseFee;
+    private double courseSingleDayFee;
+    private double dayPackage;
     private int maxNumber;
     private int id;
 
-    public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, Form form, String title, String location, String description, Date startDate, Date endDate, int maxNumber, int id) {
+    public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, Form form, String title, String location, String description, Date startDate, Date endDate, double courseFee, double courseSingleDayFee, double dayPackage, int maxNumber, int id) {
         this.sessions = sessions;
         this.events = events;
         this.roles = roles;
@@ -29,11 +32,14 @@ public class Course {
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.courseFee = courseFee;
+        this.courseSingleDayFee = courseSingleDayFee;
+        this.dayPackage = dayPackage;
         this.maxNumber = maxNumber;
         this.id = id;
     }
 
-    public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, String title, String location, String description, Date startDate, Date endDate, int maxNumber, int id) {
+    public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, String title, String location, String description, Date startDate, Date endDate, double courseFee, double courseSingleDayFee, double dayPackage, int maxNumber, int id) {
         this.sessions = sessions;
         this.events = events;
         this.roles = roles;
@@ -42,6 +48,9 @@ public class Course {
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.courseFee = courseFee;
+        this.courseSingleDayFee = courseSingleDayFee;
+        this.dayPackage = dayPackage;
         this.maxNumber = maxNumber;
         this.id = id;
     }
@@ -134,5 +143,29 @@ public class Course {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public double getCourseFee() {
+        return courseFee;
+    }
+
+    public void setCourseFee(double courseFee) {
+        this.courseFee = courseFee;
+    }
+
+    public double getCourseSingleDayFee() {
+        return courseSingleDayFee;
+    }
+
+    public void setCourseSingleDayFee(double courseSingleDayFee) {
+        this.courseSingleDayFee = courseSingleDayFee;
+    }
+
+    public double getDayPackage() {
+        return dayPackage;
+    }
+
+    public void setDayPackage(double dayPackage) {
+        this.dayPackage = dayPackage;
     }
 }

@@ -45,7 +45,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
         courseService.prepareForm();
         var form = courseService.getForm();
         course.form = undefined; // This reassures that the sending of course will not fail. Because of the complexity of Form object, this have to be sent separately and handled.
-        console.log(typeof course.startDate + "    " + typeof course.endDate)
+        console.log(typeof course.startDate + "    " + typeof course.endDate);
         self.sendCourse(course,form);
     };
 
@@ -86,6 +86,15 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
             }
             if (response.location != null){
                 $scope.course.location = response.location;
+            }
+            if (response.courseFee != null){
+                $scope.course.courseFee = response.courseFee;
+            }
+            if (response.courseSingleDayFee != null){
+                $scope.course.courseSingleDayFee = response.courseSingleDayFee;
+            }
+            if (response.dayPackage != null){
+                $scope.course.dayPackage = response.dayPackage;
             }
             if (response.roles != null){
                 $scope.roles= response.roles;
@@ -169,7 +178,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
     };
     var cid = sessionStorage.cid;
     console.log("cid " + cid);
-    if(cid == null){ // not good enough check. Review this.
+    if(cid == null || cid == -1){ // not good enough check. Review this.
         self.getTemplate();
     } else{
         self.getCourse(cid);

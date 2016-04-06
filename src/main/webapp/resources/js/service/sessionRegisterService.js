@@ -13,11 +13,6 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
         console.log(old.exists + " Exists");
         if (old.exists) {
             sessionUpdate(newSession, old.index);
-            console.log("Modified object = ");
-            for (var property in sessions[old.index]) {
-                console.log(property + "=" + sessions[old.index][property]); // Test. Remove!!
-            }
-
         } else {
             if(newSession.repetitiveSession != undefined) {
                 sessionService.add(newSession);
@@ -28,6 +23,9 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
                 sessionService.add(newSession);
             }
         }
+        for (var i = 0; i < sessions.length; i++){
+            checkIfOverlaps(sessions[i]);
+        }
     };
 
     sessionService.setSessions = function(sessionsSent){
@@ -36,7 +34,13 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
             newSession.startTime = new Date(sessionsSent[i].startTime);
             newSession.endTime = new Date(sessionsSent[i].endTime);
             newSession.date = new Date(sessionsSent[i].date);
+            newSession.hourMinuteStart = convertDate(newSession.startTime.getHours(),newSession.startTime.getMinutes());
+            newSession.hourMinuteEnd = convertDate(newSession.endTime.getHours(),newSession.endTime.getMinutes());
+            newSession.overlap = false;
             sessions.push(newSession);
+        }
+        for (var i = 0; i < sessions.length; i++){
+            checkIfOverlaps(sessions[i]);
         }
     };
 
@@ -56,6 +60,9 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
     sessionService.add = function (newSession) {
         newSession.id = generateId();
         newSession.date = currentDate;
+        newSession.hourMinuteStart = convertDate(newSession.startTime.getHours(),newSession.startTime.getMinutes());
+        newSession.hourMinuteEnd = convertDate(newSession.endTime.getHours(),newSession.endTime.getMinutes());
+        newSession.overlap = false;
         sessions.push(newSession);
         console.log("Pushed object = " + newSession.date);
     };
@@ -116,8 +123,8 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
     function sessionUpdate(session, index) {
         for (var prop in session) {
             if (session[prop] != undefined) {
-                if(prop == "repetitiveSession"){
-                    for (item in session[prop]){
+                if (prop == "repetitiveSession") {
+                    for (item in session[prop]) {
                         addDuplicatedSessions(session);
                         session.repetitiveSession = {};
                     }
@@ -125,6 +132,49 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
                 sessions[index][prop] = session[prop];
             }
         }
+        sessions[index].hourMinuteStart = convertDate(session.startTime.getHours(), session.startTime.getMinutes());
+        sessions[index].hourMinuteEnd = convertDate(session.endTime.getHours(), session.endTime.getMinutes());
+        for (var i = 0; i < sessions.length; i++){
+            checkIfOverlaps(sessions[i]);
+        }
+    }
+
+
+        function convertDate(hours, minutes) {
+            var hoursString = hours.toString();
+            if (hoursString < 10 ){
+                hoursString = '0'+hoursString;
+            }
+            var minutesString = minutes.toString();
+            if (minutesString < 10 ){
+                minutesString = '0'+minutesString;
+            }
+            var string = hoursString + minutesString;
+            var number = parseInt(string);
+            return number;
+        }
+
+    function overlapsTest(startA, endA, startB, endB) { // Hvis overlapper, return true. else false.
+        if (startA <= startB && startB <= endA) return true; // b starts in a
+        if (startA <= endB   && endB   <= endA) return true; // b ends in a
+        if (startB <  startA && endA   <  endB) return true; // a in b
+        return false;
+    };
+
+    function overlaps(A,B){
+        return overlapsTest(A.hourMinuteStart, A.hourMinuteEnd, B.hourMinuteStart, B.hourMinuteEnd);
+    }
+
+    function checkIfOverlaps(session){
+            for (var u = 0; u < sessions.length; u++){
+                if(session.id != sessions[u].id){
+                    if(overlaps(session, sessions[u])){
+                        session.overlap = true;
+                        return
+                    }
+                }
+            }
+            session.overlap = false;
     }
 
     return sessionService;

@@ -100,12 +100,12 @@
                                         bs-modal="modal">+
                         </button>
                     </td>
-                    <td class="session" ng-repeat="session in sessions | filter:date.id">
-                        <button id="sessionButton" data-ng-attr-id="btnId" type="button"
-                                class="btn btn-secondary btn-block"
+                    <td class="session" ng-repeat="session in sessions | filter:date.id | orderBy:'hourMinuteStart'">
+                        <button id="sessionButton" data-ng-attr-id="btnId" type="button" ng-click="showDeleteButton()"
+                                ng-class="(session.overlap == true) ? 'btn btn-danger btn-block' : 'btn btn-default btn-block'"
                                 data-animation="am-fade-and-scale"
                                 data-template-url=${modalTemplate}
-                                        bs-modal="modal">{{session.title}}
+                                        bs-modal="modal">{{session.title}}<h5>({{session.startTime | date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})</h5>
                         </button>
                     </td>
                 </tr>
@@ -138,6 +138,12 @@
         <div class="page-header">
             <h4>Priser</h4>
         </div>
+            <label for="courseFee">Kursavgift:</label>
+            <input class="form-control" ng-model="course.courseFee" id="courseFee" type="number">
+            <label for="courseSingleDayFee">Kursavgift per dag:</label>
+            <input class="form-control" ng-model="course.courseSingleDayFee" id="courseSingleDayFee" type="number">
+            <label for="dayPackage">Dagpakke:</label>
+            <input class="form-control" ng-model="course.dayPackage" id="dayPackage" type="number">
         <div class="page-header">
             <h4>Informasjon til påmeldingsskjema</h4>
         </div>

@@ -13,6 +13,8 @@
                     <textarea ng-model="session.description" class="form-control" id="description" rows="3"></textarea>
                     <label for="location">Sted:</label>
                     <input ng-model="session.location" type="text" class="form-control" id="location">
+                    <label for="maxnumber">Maks antall deltakere:</label>
+                    <input ng-model="session.maxnumber" type="number" class="form-control" id="maxnumber">
                     <div class="form-group">
                         <label class="control-label col-xs-6"><i class="fa fa-clock-o"></i> Start tidspunkt</label>
                         <div class="form-group">
@@ -37,8 +39,8 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" ng-click="delete(session); $hide()">Slett</button>
-                    <button type="button" class="btn btn-primary" ng-click="update(session); $hide()">Lagre</button>
+                    <button type="button" class="btn btn-default" ng-click="delete(session); $hide()" ng-show="deleteButtonCtrl()">Slett</button>
+                    <button type="button" class="btn btn-primary" ng-click="update(session); $hide()" ng-disabled="!session.title || !session.maxnumber || !session.startTime || !session.endTime || !session.location">Lagre</button>
                 </div>
             </div>
         </div>

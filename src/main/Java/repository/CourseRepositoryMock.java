@@ -111,7 +111,7 @@ public class CourseRepositoryMock implements CourseRepository {
         Date endDate = dato2;
         int maxNumber = 200;
         int id = 0;
-        courses.add(new Course(sessions,events,roles,form,title,location,description,startDate,endDate,maxNumber,id));
+        courses.add(new Course(sessions,events,roles,form,title,location,description,startDate,endDate,3560,1250,200,maxNumber,id));
 
         //Course 2
         ArrayList<Session> sessions2 = new ArrayList<Session>();
@@ -134,7 +134,7 @@ public class CourseRepositoryMock implements CourseRepository {
         Date endDate2 = dato2;
         int maxNumber2 = 100;
         int id2 = 1;
-        courses.add(new Course(sessions2,events2,roles2,form2,title2,location2,description2,startDate2,endDate2,maxNumber2, id2));
+        courses.add(new Course(sessions2,events2,roles2,form2,title2,location2,description2,startDate2,endDate2,3560,1250,200,maxNumber2, id2));
 
         //Course 3
         ArrayList<Session> sessions3 = new ArrayList<Session>();
@@ -154,7 +154,7 @@ public class CourseRepositoryMock implements CourseRepository {
         Date endDate3 = dato2;
         int maxNumber3 = 100;
         int id3 = 2;
-        courses.add(new Course(sessions3,events3,roles3,form3,title3,location3,description3,startDate3,endDate3,maxNumber3, id3));
+        courses.add(new Course(sessions3,events3,roles3,form3,title3,location3,description3,startDate3,endDate3,3560,1250,200,maxNumber3, id3));
         return courses;
     }
 
@@ -178,7 +178,7 @@ public class CourseRepositoryMock implements CourseRepository {
         Date startDate = dato1;
         Date endDate = dato2;
         int maxNumber = max;
-        return new Course(sessions,events,roles,form,title,location,description,startDate,endDate,maxNumber,12);
+        return new Course(sessions,events,roles,form,title,location,description,startDate,endDate,3560,1250,200,maxNumber,12);
     }
 
     public Session generateSessionMock(String t, String d, Date sDate, Date eDate, String l, int id){
@@ -188,7 +188,8 @@ public class CourseRepositoryMock implements CourseRepository {
         Date start = sDate;
         Date end = eDate;
         String location = l;
-        return new Session(title,description,date,start,end,location,id);
+        int max = 50;
+        return new Session(title,description,date,start,end,location,max,id);
     }
 
     public Event generateEventMock(String t, int max, double p, Date s, Date e, String l, int id){
@@ -292,7 +293,7 @@ public class CourseRepositoryMock implements CourseRepository {
         ArrayList<InputParameter> extraInfo = new ArrayList<InputParameter>();
         CheckboxModel cm = new CheckboxModel(false,false);
         Form form = new Form(requiredPersonalia,optionalPersonalia,requiredWorkplace,optionalWorkplace,extraInfo,cm);
-        return new Course(null,null,null,form,null,null,null,null,null,200,12);
+        return new Course(null,null,null,form,null,null,null,null,null,3560,1250,200,200,12);
     }
 
     public Form generateMockForm2(){

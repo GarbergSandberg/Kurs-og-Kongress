@@ -12,15 +12,17 @@ public class Session {
     private Date startTime;
     private Date endTime;
     private String location;
+    private int maxnumber;
     private int id;
 
-    public Session(String title, String description, Date date, Date startTime, Date endTime, String location, int id) {
+    public Session(String title, String description, Date date, Date startTime, Date endTime, String location, int maxnumber, int id) {
         this.title = title;
         this.description = description;
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.location = location;
+        this.maxnumber = maxnumber;
         this.id = id;
     }
 
@@ -80,5 +82,13 @@ public class Session {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public int getMaxnumber() {
+        return maxnumber;
+    }
+
+    public void setMaxnumber(int maxnumber) {
+        this.maxnumber = maxnumber;
     }
 }

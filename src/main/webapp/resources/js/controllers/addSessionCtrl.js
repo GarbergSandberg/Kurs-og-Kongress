@@ -5,10 +5,13 @@ sessionRegisterApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionSer
     var myModal = $modal({scope: $scope, templateUrl: '/resources/html/registerSessionModal.html', show: false});
     $scope.dates = sessionService.getDates();
     $scope.repetitiveSession = {};
+    $scope.removeDeleteButton;
     $scope.$on('dates:updated', function(event, data){
         $scope.dates = data;
     });
     $scope.passBtnId = function (id) {
+        $scope.removeDeleteButton = false;
+        console.log($scope.removeDeleteButton);
         console.log(id);
         sessionService.date(id);
         $scope.date = id;
@@ -31,4 +34,11 @@ sessionRegisterApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionSer
         }
         return true;
     };
+    $scope.showDeleteButton = function(){
+        $scope.removeDeleteButton = true;
+        console.log($scope.removeDeleteButton);
+    }
+    $scope.deleteButtonCtrl = function(){
+        return $scope.removeDeleteButton;
+    }
 }]);
