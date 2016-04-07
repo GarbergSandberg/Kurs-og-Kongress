@@ -113,7 +113,7 @@ public class CourseRepositoryMock implements CourseRepository {
         int id = 0;
         courses.add(new Course(sessions,events,roles,form,title,location,description,startDate,endDate,3560,1250,200,maxNumber,id));
 
-        //Course 2
+        //Course 2 heu
         ArrayList<Session> sessions2 = new ArrayList<Session>();
         sessions2.add(generateSessionMock("Kurs i franske oster", "Dette er et kurs i franske oster. Oster fra Bordeux", start1, end1, "Trondheim", 0));
         sessions2.add(generateSessionMock("Kurs i vinsmaking", "Dette er et kurs i vinsmaking", start2, end2, "Trondheim", 1));
