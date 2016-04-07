@@ -1,1 +1,1 @@
-var attenderInfoApp = angular.module('attenderInfoApp', []);
+var attenderInfoApp = angular.module('attenderInfoApp', ['ngAnimate', 'mgcrea.ngStrap']);

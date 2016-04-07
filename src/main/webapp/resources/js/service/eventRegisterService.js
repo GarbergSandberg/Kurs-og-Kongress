@@ -1,9 +1,6 @@
 /**
  * Created by Lars on 03.02.16.
  */
-
-
-
 sessionRegisterApp.factory('eventService', function() {
     var events = [];
     var eventService = {};

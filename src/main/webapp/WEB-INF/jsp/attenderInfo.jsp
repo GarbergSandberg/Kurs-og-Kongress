@@ -9,7 +9,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/fontawesome/4.3.0/css/font-awesome.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/libs.min.css">
+    <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/docs.min.css">
+    <link rel="stylesheet" href="resources/css/courseOverview.css">
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular.min.js" data-semver="1.4.5"></script>
+    <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-animate.min.js" data-semver="1.4.5"></script>
+    <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-sanitize.min.js" data-semver="1.4.5"></script>
+    <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.js" data-semver="v2.3.7"></script>
+    <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.tpl.js" data-semver="v2.3.7"></script>
+    <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
     <spring:url value="resources/js/app/attenderInfoApp.js" var="attender"/>
     <spring:url value="resources/js/controllers/attenderInfoCtrl.js" var="attenderCtrl"/>
     <spring:url value="resources/js/service/attenderInfoService.js" var="attenderService"/>
@@ -20,7 +30,24 @@
 <body>
 <div ng-app="attenderInfoApp">
     <div ng-controller="attenderInfoCtrl">
-        {{test}}
+        <div class="container">
+            <div class="jumbotron" id="jumbo" style="margin-bottom: 2em;">
+                <h2>Søkefilter</h2>
+                <label for="search">Søk etter deltaker:</label>
+                <input class="form-control" ng-model="search" id="search">
+            </div>
+        </div>
+        <table class="table">
+            <tr ng-repeat="name in filtered = (names | filter:search)">
+                <h5 ng-if="filtered == 0" style="text-align: center;">Ingen deltakere</h5>
+                <td>
+                    {{name.firstname}} {{name.lastname}}
+                </td>
+                <td style="text-align: right">
+                    Foredragsholder  <input type="checkbox" ng-model="checkbox">
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
 </body>
