@@ -1,34 +1,46 @@
 package domain;
 
+import java.util.*;
+
 /**
  * Created by Lars on 18.01.16.
  */
 public class Workplace {
-    private String name;
+    private int workplaceID;
+    private String companyName;
     private int postalcode;
-    private String adress;
+    private String location;
+    private String address;
 
-    public Workplace(String name, int postalcode, String adress) {
-        this.name = name;
+    public Workplace(int workplaceID, String companyName, int postalcode, String location, String address) {
+        this.workplaceID = workplaceID;
+        this.companyName = companyName;
         this.postalcode = postalcode;
-        this.adress = adress;
+        this.location = location;
+        this.address = address;
     }
 
-    public String getName() {
-        return name;
+    public Workplace(String companyName, int postalcode, String location, String address) {
+        this.companyName = companyName;
+        this.postalcode = postalcode;
+        this.location = location;
+        this.address = address;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public int getWorkplaceID() {
+        return workplaceID;
     }
 
-    public String getAdress() {
-
-        return adress;
+    public void setWorkplaceID(int workplaceID) {
+        this.workplaceID = workplaceID;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public int getPostalcode() {
@@ -37,6 +49,22 @@ public class Workplace {
 
     public void setPostalcode(int postalcode) {
         this.postalcode = postalcode;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
 

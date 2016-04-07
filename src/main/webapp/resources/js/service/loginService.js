@@ -15,4 +15,4 @@ loginApp.factory('loginService', function($http, $location, sessionService, $win
                 );
         }
     }
-})
+});

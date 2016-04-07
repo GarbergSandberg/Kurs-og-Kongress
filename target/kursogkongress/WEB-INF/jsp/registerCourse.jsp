@@ -154,13 +154,29 @@
                         <div ng-show="true" data-placement="bottom" data-type="info" data-animation="am-fade-and-scale" bs-tooltip="tooltip">
                             <h4>Personalia     <span class="label label-primary">Info</span></h4>
                         </div>
-                        <tr ng-repeat="req in form.requiredPersonalia">
-                            <td>
-                                {{req.parameter}} ({{req.type}})
-                            </td>
-                            <td style="text-align: right">
-                                Må være med
-                            </td>
+                        <tr>
+                            <td>Fornavn: (Input)</td>
+                            <td style="text-align: right">Må være med</td>
+                        </tr>
+                        <tr>
+                            <td>Etternavn: (Input)</td>
+                            <td style="text-align: right">Må være med</td>
+                        </tr>
+                        <tr>
+                            <td>Telefonnummer: (Input)</td>
+                            <td style="text-align: right">Må være med</td>
+                        </tr>
+                        <tr>
+                            <td>E-postadresse: (Input)</td>
+                            <td style="text-align: right">Må være med</td>
+                        </tr>
+                        <tr>
+                            <td>Fødselsår: (Input)</td>
+                            <td style="text-align: right">Må være med</td>
+                        </tr>
+                        <tr>
+                            <td>Bemerkning: (Checkbox)</td>
+                            <td style="text-align: right">Må være med</td>
                         </tr>
                         <tr ng-repeat="opt in form.optionalPersonalia">
                             <td>
@@ -197,13 +213,25 @@
 
                     <table class="table">
                         <h4>Informasjon om arbeidsgiver <span class="label label-primary">Info</span></h4>
-                        <tr ng-repeat="req in form.requiredWorkplace">
-                            <td>
-                                {{req.parameter}} ({{req.type}})
-                            </td>
-                            <td style="text-align: right">
-                                Må være med
-                            </td>
+                        <tr>
+                            <td>Arbeidsplass: (Input)</td>
+                            <td style="text-align: right">Må være med</td>
+                        </tr>
+                        <tr>
+                            <td>Adresse: (Input)</td>
+                            <td style="text-align: right">Må være med</td>
+                        </tr>
+                        <tr>
+                            <td>Postnummer: (Input)</td>
+                            <td style="text-align: right">Må være med</td>
+                        </tr>
+                        <tr>
+                            <td>Sted: (Input)</td>
+                            <td style="text-align: right">Må være med</td>
+                        </tr>
+                        <tr>
+                            <td>Ønsker faktura sendt til annen adresse: (Checkbox)</td>
+                            <td style="text-align: right">Må være med</td>
                         </tr>
                         <tr ng-repeat="opt in form.optionalWorkplace">
                             <td>

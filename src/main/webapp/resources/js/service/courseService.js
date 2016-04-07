@@ -38,9 +38,7 @@ sessionRegisterApp.factory('courseService', ['$http', '$q','$rootScope', functio
 
         sendForm: function (form) { //to be deleted
             var indata = {
-                requiredPersonalia: form.requiredPersonalia,
                 optionalPersonalia: form.optionalPersonalia,
-                requiredWorkplace: form.requiredWorkplace,
                 optionalWorkplace: form.optionalWorkplace,
                 extraInfo: form.extraInfo,
                 checkboxModel: form.checkboxModel

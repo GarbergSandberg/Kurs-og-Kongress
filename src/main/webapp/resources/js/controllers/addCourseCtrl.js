@@ -44,6 +44,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
         course.events = eventService.get();
         courseService.prepareForm();
         var form = courseService.getForm();
+        console.log(form);
         course.form = undefined; // This reassures that the sending of course will not fail. Because of the complexity of Form object, this have to be sent separately and handled.
         console.log(typeof course.startDate + "    " + typeof course.endDate);
         self.sendCourse(course,form);
@@ -116,34 +117,6 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
 
     };
 
-    self.getTemplate = function(){
-        courseService.getTemplate().then(function (response) {
-            if (response.form != null) {
-                courseService.setRecievedForm(response.form);
-            }
-            if (response.sessions != null) {
-                sessionService.setSessions(response.sessions);
-                $scope.sessions = sessionService.get();
-            }
-            if (response.events != null) {
-                eventService.setEvents(response.events);
-                $scope.events = eventService.get();
-            }
-            $scope.course.title = response.title;
-            if (response.startDate != null) {
-                $scope.course.startDate = new Date(response.startDate);
-            }
-            if (response.endDate != null) {
-                $scope.course.endDate = new Date(response.endDate);
-            }
-            if (response.roles != null) {
-                $scope.roles = response.roles
-            }
-        }, function (errorResponse) {
-            console.log("Error in getTemplate()");
-        });
-    };
-
     Date.prototype.addDays = function(days) {
         var dat = new Date(this.valueOf());
         dat.setDate(dat.getDate() + days);
@@ -178,8 +151,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
     };
     var cid = sessionStorage.cid;
     console.log("cid " + cid);
-    if(cid == null || cid == -1){ // not good enough check. Review this.
-        self.getTemplate();
+    if(cid == null || cid == -1){ // not good enough check. Review this. The dirtiest fix of them all.
     } else{
         self.getCourse(cid);
     }

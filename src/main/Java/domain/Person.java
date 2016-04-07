@@ -8,33 +8,38 @@ import java.util.*;
  * Created by Lars on 18.01.16.
  */
 public class Person {
+    private int personID;
     private String firstname;
     private String lastname;
-    private Date birtdate;
-    private String title;
+    private int birthYear;
     private int phonenumber;
-    private Workplace workplace;
-    private int postalcode;
     private String email;
-    private String facturaAdress;
-    private String mark;
-    private ArrayList<String> newInput;
 
-    public Person(String lastname, String firstname, int phonenumber, Workplace workplace, int postalcode, String email) {
-        this.lastname = lastname;
+    public Person(int personID, String firstname, String lastname, int birthYear, int phonenumber, String email) {
+        this.personID = personID;
         this.firstname = firstname;
+        this.lastname = lastname;
+        this.birthYear = birthYear;
         this.phonenumber = phonenumber;
-        this.workplace = workplace;
-        this.postalcode = postalcode;
         this.email = email;
     }
-    public Person(String firstname, String lastname) {
-        this.lastname = lastname;
+
+    public Person(String firstname, String lastname, int birthYear, int phonenumber, String email) {
         this.firstname = firstname;
+        this.lastname = lastname;
+        this.birthYear = birthYear;
+        this.phonenumber = phonenumber;
+        this.email = email;
     }
 
+    public int getPersonID() {
+        return personID;
+    }
 
-    // Getters and setters
+    public void setPersonID(int personID) {
+        this.personID = personID;
+    }
+
     public String getFirstname() {
         return firstname;
     }
@@ -42,6 +47,7 @@ public class Person {
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
+
     public String getLastname() {
         return lastname;
     }
@@ -50,12 +56,12 @@ public class Person {
         this.lastname = lastname;
     }
 
-    public String getTitle() {
-        return title;
+    public int getBirthYear() {
+        return birthYear;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setBirthYear(int birthYear) {
+        this.birthYear = birthYear;
     }
 
     public int getPhonenumber() {
@@ -64,22 +70,6 @@ public class Person {
 
     public void setPhonenumber(int phonenumber) {
         this.phonenumber = phonenumber;
-    }
-
-    public Workplace getWorkplace() {
-        return workplace;
-    }
-
-    public void setWorkplace(Workplace workplace) {
-        this.workplace = workplace;
-    }
-
-    public int getPostalcode() {
-        return postalcode;
-    }
-
-    public void setPostalcode(int postalcode) {
-        this.postalcode = postalcode;
     }
 
     public String getEmail() {

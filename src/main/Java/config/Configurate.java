@@ -73,16 +73,7 @@ public class Configurate extends WebMvcConfigurationSupport {
         return dmds;
     }
 
-    @Bean
-    public PersonRepository repository(){
-        return new PersonDatabaseJdbcTemplateRepositoryImpl();
-        //return new PersonDatabaseRepositoryImpl();
-    }
-
-    @Bean
-    public PersonService personService(){
-        return new PersonServiceImpl();
-    }
+    // Beans to configure services and repositories. Change these to switch from Mock to DB.
 
     @Bean
     public CourseService courseService() {return new CourseServiceImpl();}
@@ -95,6 +86,13 @@ public class Configurate extends WebMvcConfigurationSupport {
 
     @Bean
     public LoginRepository loginRepository() {return new LoginRepositoryMock();}
+
+    @Bean
+    public RegistrationService registrationService() {return new RegistrationServiceImpl();}
+
+    @Bean
+    public RegistrationRepository registrationRepository() {return new RegistrationRepositoryMock();}
+
 }
 
 

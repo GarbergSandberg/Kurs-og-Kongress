@@ -29,9 +29,16 @@
         <put-attribute name="body"   value="/WEB-INF/jsp/reg.jsp"/>
         <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
     </definition>
+
     <definition name="index" template="/WEB-INF/tiles/baseLayout.jsp">
         <put-attribute name="title"  value="Index"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/index.jsp"/>
+        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
+    </definition>
+
+    <definition name="attenderInfo" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title"  value="attenderInfo"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/attenderInfo.jsp"/>
         <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
     </definition>
 </tiles-definitions>

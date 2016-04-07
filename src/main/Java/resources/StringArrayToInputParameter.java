@@ -37,14 +37,12 @@ public class StringArrayToInputParameter{
         return new CheckboxModel(hotel,airplane);
     }
 
-    public Form convert(ArrayList<InputParameter> requiredPersonalia,
-                        ArrayList<InputParameter> optionalPersonalia,
-                        ArrayList<InputParameter> requiredWorkplace,
+    public Form convert(ArrayList<InputParameter> optionalPersonalia,
                         ArrayList<InputParameter> optionalWorkplace,
                         ArrayList<InputParameter> extraInfo,
                         CheckboxModel cm)
     {
-        return new Form(requiredPersonalia,optionalPersonalia,requiredWorkplace,optionalWorkplace,extraInfo,cm);
+        return new Form(optionalPersonalia,optionalWorkplace,extraInfo,cm);
     }
 }
 

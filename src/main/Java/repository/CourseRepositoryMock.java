@@ -126,7 +126,6 @@ public class CourseRepositoryMock implements CourseRepository {
         events2.add(generateEventMock("Foredrag om AI", 100, 50, start2, end2,"Work-Work", 1));
         events2.add(generateEventMock("Fordrag med Bill Gates", 50, 0, start3, end3,"NTNU Gløshaugen", 2));
         ArrayList<String> roles2 = generateRoleArray("Elev", "Lærer");
-        Form form2 = generateMockForm2();
         String title2 = "Kurs i programmering";
         String location2 = "Trondheim";
         String description2 = "Dette er et kurs i forskjellige programmeringsspråk";
@@ -134,7 +133,7 @@ public class CourseRepositoryMock implements CourseRepository {
         Date endDate2 = dato2;
         int maxNumber2 = 100;
         int id2 = 1;
-        courses.add(new Course(sessions2,events2,roles2,form2,title2,location2,description2,startDate2,endDate2,3560,1250,200,maxNumber2, id2));
+        courses.add(new Course(sessions2,events2,roles2,null,title2,location2,description2,startDate2,endDate2,3560,1250,200,maxNumber2, id2));
 
         //Course 3
         ArrayList<Session> sessions3 = new ArrayList<Session>();
@@ -146,7 +145,6 @@ public class CourseRepositoryMock implements CourseRepository {
         events3.add(generateEventMock("Stevie Ray Vaughan Tribute", 200, 50, start8, end8,"Café Brasil", 1));
         events3.add(generateEventMock("Ølkurs med Al Ko Holiker", 50, 0, start9, end9,"Skansen", 2));
         ArrayList<String> roles3 = generateRoleArray("Gitarlærer", "Gitarspiller");
-        Form form3 = generateMockForm2();
         String title3 = "Kurs i gitarspilling";
         String location3 = "Oslo";
         String description3 = "Dette er et kurs i gitarspilling der vi ser på forskjellige teknikker";
@@ -154,7 +152,7 @@ public class CourseRepositoryMock implements CourseRepository {
         Date endDate3 = dato2;
         int maxNumber3 = 100;
         int id3 = 2;
-        courses.add(new Course(sessions3,events3,roles3,form3,title3,location3,description3,startDate3,endDate3,3560,1250,200,maxNumber3, id3));
+        courses.add(new Course(sessions3,events3,roles3,null,title3,location3,description3,startDate3,endDate3,3560,1250,200,maxNumber3, id3));
         return courses;
     }
 
@@ -210,16 +208,14 @@ public class CourseRepositoryMock implements CourseRepository {
     }
 
     public Form generateMockForm(){
-         ArrayList<InputParameter> requiredPersonalia = generateRequiredPersonalia();
          ArrayList<InputParameter> optionalPersonalia = generateOptionalPersonalia();
-         ArrayList<InputParameter> requiredWorkplace = generateRequiredWorkplace();
          ArrayList<InputParameter> optionalWorkplace = generateOptionalWorkplace();
          ArrayList<InputParameter> inputQuestions = generateInputQuestions();
         CheckboxModel cm = new CheckboxModel(true,true);
-        return new Form(requiredPersonalia,optionalPersonalia,requiredWorkplace,optionalWorkplace,inputQuestions,cm);
+        return new Form(optionalPersonalia,optionalWorkplace,inputQuestions,cm);
     }
 
-    public ArrayList<InputParameter> generateRequiredPersonalia(){
+/*    public ArrayList<InputParameter> generateRequiredPersonalia(){
         ArrayList<InputParameter> list = new ArrayList<InputParameter>();
         String a = "Input";
         for (int i = 0; i < 5; i++){
@@ -234,7 +230,7 @@ public class CourseRepositoryMock implements CourseRepository {
             list.add(new InputParameter(i+"ReqWork",a));
         }
         return list;
-    }
+    }*/
     public ArrayList<InputParameter> generateOptionalPersonalia(){
         ArrayList<InputParameter> list = new ArrayList<InputParameter>();
         String a = "Input";
@@ -261,7 +257,7 @@ public class CourseRepositoryMock implements CourseRepository {
     }
 
 
-    public Course generateTemplate(){
+/*    public Course generateTemplate(){
         ArrayList<InputParameter> requiredPersonalia = new ArrayList<InputParameter>();
         InputParameter a = new InputParameter("Fornavn", "Input");
         InputParameter b = new InputParameter("Etternavn", "Input");
@@ -294,9 +290,9 @@ public class CourseRepositoryMock implements CourseRepository {
         CheckboxModel cm = new CheckboxModel(false,false);
         Form form = new Form(requiredPersonalia,optionalPersonalia,requiredWorkplace,optionalWorkplace,extraInfo,cm);
         return new Course(null,null,null,form,null,null,null,null,null,3560,1250,200,200,12);
-    }
+    }*/
 
-    public Form generateMockForm2(){
+/*    public Form generateMockForm2(){
         ArrayList<InputParameter> requiredPersonalia = new ArrayList<InputParameter>();
         InputParameter a = new InputParameter("Fornavn", "Input");
         InputParameter b = new InputParameter("Etternavn", "Input");
@@ -323,6 +319,6 @@ public class CourseRepositoryMock implements CourseRepository {
         requiredWorkplace.add(k);
         Form form = new Form(requiredPersonalia,null,requiredWorkplace,null,null,null);
         return form;
-    }
+    }*/
 
 }

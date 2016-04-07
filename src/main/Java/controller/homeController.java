@@ -35,13 +35,13 @@ public class homeController {
     }
 
     @Autowired
-    private PersonService personService;
-
-    @Autowired
     private CourseService courseService;
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private RegistrationService registrationService;
 
     @RequestMapping("/")
     public ModelAndView home(){
@@ -73,14 +73,6 @@ public class homeController {
         return "registration";
     }
 
-    @RequestMapping("/event")
-    //public String event(){ return "event";}
-    public String event(@ModelAttribute PersonFormBackingBean backingBean) {
-        backingBean.setAllePersoner(personService.getAllePersoner());
-        System.out.println("** ControllerClass.person() ******");
-        return "event";
-    }
-
     @RequestMapping(value = "/saveinformation_json", method = RequestMethod.POST)
     public ResponseEntity<Void> saveInformation_JSON( @RequestBody Course course )   {
         course.setForm(buffer);
@@ -91,20 +83,16 @@ public class homeController {
 
     @RequestMapping(value = "/form", method = RequestMethod.POST)
     public ResponseEntity<Void> saveForm(
-            @RequestParam(value = "requiredPersonalia", required = false) String[] requiredPersonalia,
             @RequestParam(value = "optionalPersonalia", required = false) String[] optionalPersonalia,
-            @RequestParam(value = "requiredWorkplace", required = false) String[] requiredWorkplace,
             @RequestParam(value = "optionalWorkplace", required = false) String[] optionalWorkplace,
             @RequestParam(value = "extraInfo", required = false) String[] extraInfo,
             @RequestParam(value = "checkboxModel", required = false) String checkboxModel
             )   {
-        ArrayList<InputParameter> reqPers = parser.convertStringToInputParameter(requiredPersonalia);
         ArrayList<InputParameter> optPers = parser.convertStringToInputParameter(optionalPersonalia);
-        ArrayList<InputParameter> reqWork = parser.convertStringToInputParameter(requiredWorkplace);
         ArrayList<InputParameter> optWork = parser.convertStringToInputParameter(optionalWorkplace);
         ArrayList<InputParameter> xtraInf = parser.convertStringToInputParameter(extraInfo);
         CheckboxModel cm = parser.convertToCheckboxModel(checkboxModel);
-        buffer = parser.convert(reqPers,optPers,reqWork,optWork,xtraInf,cm);
+        buffer = parser.convert(optPers,optWork,xtraInf,cm);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
@@ -120,12 +108,6 @@ public class homeController {
     public Course getMockCourse() {
         System.out.println(courseService.getMockCourse());
         return courseService.getMockCourse();
-    }
-
-    @RequestMapping(value = "/getTemplate", method = RequestMethod.GET)
-    @ResponseBody
-    public Course getTemplate() {
-        return courseService.generateTemplate();
     }
 
     @RequestMapping(value = "/getCourses", method = RequestMethod.GET)
@@ -150,5 +132,11 @@ public class homeController {
         } else {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
+    }
+
+    @RequestMapping(value = "/getRegistrations", method = RequestMethod.GET)
+    @ResponseBody
+    public ArrayList<Registration> getRegistration(@RequestParam(value = "course_id") int id) {
+        return registrationService.getRegistrations(id);
     }
 }

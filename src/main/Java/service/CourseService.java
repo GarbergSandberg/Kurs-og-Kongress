@@ -14,6 +14,4 @@ public interface CourseService {
     public Course getMockCourse();
 
     public Course getCourse(int id);
-
-    public Course generateTemplate();
 }

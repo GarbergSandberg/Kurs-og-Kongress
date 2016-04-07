@@ -53,6 +53,7 @@
                     <a href="/kursogkongress/registerCourse" class="btn btn-primary">Endre</a>
                     <button type="button" class="btn btn-primary">Statistikk</button>
                     <button type="button" class="btn btn-primary">Fakturering</button>
+                    <button type="button" class="btn btn-primary">Deltakeroversikt</button>
                 </div>
             </div>
         </div>

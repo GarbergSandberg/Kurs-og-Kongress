@@ -8,9 +8,7 @@ sessionRegisterApp.controller('RegistrationCtrl', ['$scope', 'courseService', fu
         hotel : false,
         airplane : false
     };
-    $scope.form.requiredPersonalia = [];
     $scope.form.optionalPersonalia = [];
-    $scope.form.requiredWorkplace = [];
     $scope.form.optionalWorkplace = [];
     $scope.form.extraInfo = [];
     $scope.class = ["btn btn-default", "btn btn-default"];
@@ -26,14 +24,8 @@ sessionRegisterApp.controller('RegistrationCtrl', ['$scope', 'courseService', fu
         if (data.checkboxModel != null) {
             $scope.form.checkboxModel = data.checkboxModel;
         }
-        if(data.requiredPersonalia != null){
-            $scope.form.requiredPersonalia = data.requiredPersonalia;
-        }
         if(data.optionalPersonalia != null){
             $scope.form.optionalPersonalia = data.optionalPersonalia;
-        }
-        if(data.requiredWorkplace != null){
-            $scope.form.requiredWorkplace = data.requiredWorkplace;
         }
         if(data.optionalWorkplace != null){
             $scope.form.optionalWorkplace = data.optionalWorkplace;
