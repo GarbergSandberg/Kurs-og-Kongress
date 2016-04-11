@@ -1,5 +1,6 @@
 package controller;
 
+import com.sun.beans.editors.*;
 import com.sun.tools.javac.comp.*;
 import domain.*;
 import jdk.nashorn.internal.parser.*;
@@ -26,6 +27,8 @@ import java.util.*;
  */
 @Controller
 public class homeController {
+    AESencrp encryptor = new AESencrp();
+    String selectedPerson = "-1";
     StringArrayToInputParameter parser = new StringArrayToInputParameter();
     Form buffer;
 
@@ -33,7 +36,6 @@ public class homeController {
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String[].class, new StringArrayPropertyEditor(null));
     }
-
     @Autowired
     private CourseService courseService;
 
@@ -45,6 +47,7 @@ public class homeController {
 
     @RequestMapping("/")
     public ModelAndView home(){
+        selectedPerson = "-1";
         return new ModelAndView("attenderInfo");
     }
 
@@ -55,6 +58,12 @@ public class homeController {
 
     @RequestMapping("/registerCourse")
     public ModelAndView registerCourse(){return new ModelAndView("registerCourse");}
+
+    @RequestMapping("/personInfo")
+    public ModelAndView personInfo(){return new ModelAndView("personInfo");}
+
+    @RequestMapping("/invoice")
+    public ModelAndView invoice(){return new ModelAndView("invoice");}
 
     @RequestMapping("/courseOverview")
     public ModelAndView courseOverview(HttpSession session){
@@ -138,5 +147,31 @@ public class homeController {
     @ResponseBody
     public ArrayList<Registration> getRegistration(@RequestParam(value = "course_id") int id) {
         return registrationService.getRegistrations(id);
+    }
+
+    @RequestMapping(value = "/setSessionStorageID", method = RequestMethod.GET)
+    @ResponseBody
+    public String setSessionStorageID(@RequestParam(value = "id") String id) {
+        try{
+            selectedPerson = encryptor.encrypt(id);
+        } catch(Exception e){
+            System.out.println("Error in setSessionStorrageID EXCEPTION");
+        }
+        System.out.println("TJOHEI " + selectedPerson);
+        return selectedPerson;
+    }
+
+    @RequestMapping(value = "/checkSessionStorageID", method = RequestMethod.GET)
+    @ResponseBody
+    public String getSessionStorageID(@RequestParam(value = "id") String id) {
+        try{
+            if(selectedPerson.equals(id)){
+                String actualID  = encryptor.decrypt(id);
+                return actualID;
+            }
+        } catch(Exception e){
+            System.out.println("Error in getSessionStorageID");
+        }
+        return null;
     }
 }

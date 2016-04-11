@@ -40,7 +40,7 @@
 </head>
 <body>
 <div ng-app="registerApp" id="sessionRegisterClass">
-    <div ng-controller="AddCourseCtrl" style="margin-left:3em; margin-right:3em;">
+    <div ng-controller="AddCourseCtrl" style="margin-left:5em; margin-right:5em;">
         <div class="page-header">
             <h1>Legg til kurs</h1><br>
             <h4>Generell informasjon om kurset</h4>

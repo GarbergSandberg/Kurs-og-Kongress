@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class Registration {
     private int registrationID;
-    private int courseID;
+    private Course course;
     private ArrayList<Integer> sessionsToAttend;
     private Person person;
     private Workplace workplace;
@@ -17,11 +17,11 @@ public class Registration {
     private ArrayList<InputParameter> optionalWorkplace;
     private ArrayList<InputParameter> extraInfo;
     private String alternativeInvoiceAddress;
-    private Form form;
+    private boolean speaker;
 
-    public Registration(int registrationID, int courseID, ArrayList<Integer> sessionsToAttend, Person person, Workplace workplace, ArrayList<Payment> cost, ArrayList<Date> dates, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, String alternativeInvoiceAddress, Form form) {
+    public Registration(int registrationID, Course course, ArrayList<Integer> sessionsToAttend, Person person, Workplace workplace, ArrayList<Payment> cost, ArrayList<Date> dates, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, String alternativeInvoiceAddress) {
         this.registrationID = registrationID;
-        this.courseID = courseID;
+        this.course = course;
         this.sessionsToAttend = sessionsToAttend;
         this.person = person;
         this.workplace = workplace;
@@ -31,11 +31,10 @@ public class Registration {
         this.optionalWorkplace = optionalWorkplace;
         this.extraInfo = extraInfo;
         this.alternativeInvoiceAddress = alternativeInvoiceAddress;
-        this.form = form;
     }
 
-    public Registration(int courseID, ArrayList<Integer> sessionsToAttend, Person person, Workplace workplace, ArrayList<Payment> cost, ArrayList<Date> dates, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, String alternativeInvoiceAddress, Form form) {
-        this.courseID = courseID;
+    public Registration(Course course, ArrayList<Integer> sessionsToAttend, Person person, Workplace workplace, ArrayList<Payment> cost, ArrayList<Date> dates, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, String alternativeInvoiceAddress) {
+        this.course = course;
         this.sessionsToAttend = sessionsToAttend;
         this.person = person;
         this.workplace = workplace;
@@ -45,7 +44,6 @@ public class Registration {
         this.optionalWorkplace = optionalWorkplace;
         this.extraInfo = extraInfo;
         this.alternativeInvoiceAddress = alternativeInvoiceAddress;
-        this.form = form;
     }
 
     public int getRegistrationID() {
@@ -56,12 +54,12 @@ public class Registration {
         this.registrationID = registrationID;
     }
 
-    public int getCourseID() {
-        return courseID;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCourseID(int courseID) {
-        this.courseID = courseID;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public ArrayList<Integer> getSessionsToAttend() {
@@ -136,11 +134,11 @@ public class Registration {
         this.alternativeInvoiceAddress = alternativeInvoiceAddress;
     }
 
-    public Form getForm() {
-        return form;
+    public boolean isSpeaker() {
+        return speaker;
     }
 
-    public void setForm(Form form) {
-        this.form = form;
+    public void setSpeaker(boolean speaker) {
+        this.speaker = speaker;
     }
 }

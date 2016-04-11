@@ -10,6 +10,8 @@ import java.util.*;
  */
 
 public class RegistrationRepositoryMock implements RegistrationRepository{
+    CourseRepositoryMock m = new CourseRepositoryMock();
+    ArrayList<Course> courses = m.makeCourses();
     ArrayList<Person> persons = generateMockPersons();
     ArrayList<Workplace> workplaces = generateMockWorkplaces();
     ArrayList<Registration> registrations = generateRegistrations();
@@ -18,7 +20,7 @@ public class RegistrationRepositoryMock implements RegistrationRepository{
     public ArrayList<Registration> getRegistrations(int courseID) {
         ArrayList<Registration> reg = new ArrayList<Registration>();
         for (Registration r : registrations){
-            if(r.getCourseID() == courseID){
+            if(r.getCourse().getId() == courseID){
                 reg.add(r);
             }
         }
@@ -27,11 +29,12 @@ public class RegistrationRepositoryMock implements RegistrationRepository{
 
     public ArrayList<Registration> generateRegistrations(){
         ArrayList<Registration> reg = new ArrayList<Registration>();
-        Registration r1 = new Registration(0, 1, sessionIDArray(), persons.get(0), workplaces.get(0), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null,generateMockForm());
-        Registration r2 = new Registration(1, 1, sessionIDArray(), persons.get(1), workplaces.get(0), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null,generateMockForm());
-        Registration r3 = new Registration(2, 1, sessionIDArray(), persons.get(2), workplaces.get(1), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null,generateMockForm());
-        Registration r4 = new Registration(3, 1, sessionIDArray(), persons.get(3), workplaces.get(1), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null,generateMockForm());
-        Registration r5 = new Registration(0, 1, sessionIDArray(), persons.get(4), workplaces.get(1), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null,generateMockForm());
+        Registration r1 = new Registration(0, courses.get(0), sessionIDArray(), persons.get(0), workplaces.get(0), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), "E.C. Dahls gate 2");
+        Registration r2 = new Registration(1, courses.get(0), sessionIDArray(), persons.get(1), workplaces.get(0), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null);
+        Registration r3 = new Registration(2, courses.get(0), sessionIDArray(), persons.get(2), workplaces.get(1), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null);
+        Registration r4 = new Registration(3, courses.get(0), sessionIDArray(), persons.get(3), workplaces.get(1), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null);
+        Registration r5 = new Registration(0, courses.get(0), sessionIDArray(), persons.get(4), workplaces.get(1), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null);
+        r1.setSpeaker(true);
         reg.add(r1);
         reg.add(r2);
         reg.add(r3);
@@ -82,10 +85,8 @@ public class RegistrationRepositoryMock implements RegistrationRepository{
         ArrayList<Date> dates = new ArrayList<Date>();
         Date dato1 = setCalendar(2016,6,6).getTime();
         Date dato2 = setCalendar(2016,6,7).getTime();
-        Date dato3 = setCalendar(2016,6,8).getTime();
         dates.add(dato1);
         dates.add(dato2);
-        dates.add(dato3);
         return dates;
     }
 
@@ -119,26 +120,44 @@ public class RegistrationRepositoryMock implements RegistrationRepository{
 
     public ArrayList<InputParameter> makeOptionalPersonaliaAnswers(){
         ArrayList<InputParameter> optionalPersonalia = new ArrayList<InputParameter>();
-        InputParameter opt1 = new InputParameter("true", "Checkbox");
-        InputParameter opt2 = new InputParameter("Blå", "Input");
+        InputParameter opt1 = new InputParameter("Blå", "Input");
+        InputParameter opt2 = new InputParameter("Gul", "Input");
+        InputParameter opt3 = new InputParameter("Rød", "Input");
+        InputParameter opt4 = new InputParameter("Oransje", "Input");
+        InputParameter opt5 = new InputParameter("Brun", "Input");
         optionalPersonalia.add(opt1);
         optionalPersonalia.add(opt2);
+        optionalPersonalia.add(opt3);
+        optionalPersonalia.add(opt4);
+        optionalPersonalia.add(opt5);
         return optionalPersonalia;
     }
     public ArrayList<InputParameter> makeOptionalWorkplaceAnswers(){
         ArrayList<InputParameter> optionalWorkplace = new ArrayList<InputParameter>();
-        InputParameter opt3 = new InputParameter("true", "Checkbox");
-        InputParameter opt4 = new InputParameter("Jon Jonasen", "Input");
-        optionalWorkplace.add(opt3);
-        optionalWorkplace.add(opt4);
+        InputParameter opt6 = new InputParameter("Arild", "Input");
+        InputParameter opt7 = new InputParameter("Jon", "Input");
+        InputParameter opt8 = new InputParameter("Jonas", "Input");
+        InputParameter opt9 = new InputParameter("Mons", "Input");
+        InputParameter opt10 = new InputParameter("Herman", "Input");
+        optionalWorkplace.add(opt6);
+        optionalWorkplace.add(opt7);
+        optionalWorkplace.add(opt8);
+        optionalWorkplace.add(opt9);
+        optionalWorkplace.add(opt10);
         return optionalWorkplace;
     }
     public ArrayList<InputParameter> makeExtraInfoAnswers(){
         ArrayList<InputParameter> extraInfo = new ArrayList<InputParameter>();
-        InputParameter opt5 = new InputParameter("Har allergi", "Checkbox");
-        InputParameter opt6 = new InputParameter("Favoritt bilmerke", "Input");
-        extraInfo.add(opt5);
-        extraInfo.add(opt6);
+        InputParameter e1 = new InputParameter("Audi", "Input");
+        InputParameter e2 = new InputParameter("BMW", "Input");
+        InputParameter e3 = new InputParameter("Skoda", "Input");
+        InputParameter e4 = new InputParameter("VW", "Input");
+        InputParameter e5 = new InputParameter("Ferrari", "Input");
+        extraInfo.add(e1);
+        extraInfo.add(e2);
+        extraInfo.add(e3);
+        extraInfo.add(e4);
+        extraInfo.add(e5);
         return extraInfo;
     }
 

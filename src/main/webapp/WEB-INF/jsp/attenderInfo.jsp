@@ -20,6 +20,7 @@
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.tpl.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
     <spring:url value="resources/js/app/attenderInfoApp.js" var="attender"/>
     <spring:url value="resources/js/controllers/attenderInfoCtrl.js" var="attenderCtrl"/>
     <spring:url value="resources/js/service/attenderInfoService.js" var="attenderService"/>
@@ -28,7 +29,7 @@
     <script src="${attenderService}"></script>
 </head>
 <body>
-<div ng-app="attenderInfoApp">
+<div ng-app="attenderInfoApp" style="margin-left:3em; margin-right:3em;">
     <div ng-controller="attenderInfoCtrl">
         <div class="container">
             <div class="jumbotron" id="jumbo" style="margin-bottom: 2em;">
@@ -38,13 +39,15 @@
             </div>
         </div>
         <table class="table">
-            <tr ng-repeat="name in filtered = (names | filter:search)">
+            <tr ng-repeat="registration in filtered = (registrations | filter:search)">
                 <h5 ng-if="filtered == 0" style="text-align: center;">Ingen deltakere</h5>
                 <td>
-                    {{name.firstname}} {{name.lastname}}
+                    {{registration.person.firstname}} {{registration.person.lastname}}
                 </td>
                 <td style="text-align: right">
-                    Foredragsholder  <input type="checkbox" ng-model="checkbox">
+                    <button type="button" class="btn btn-default" ng-click="showInvoiceFromList(registration)">Fakturering</button>
+                    <button type="button" class="btn btn-default" ng-click="showInfo(registration)">Oversikt</button>
+                    Foredragsholder  <input type="checkbox" ng-model="registration.speaker">
                 </td>
             </tr>
         </table>

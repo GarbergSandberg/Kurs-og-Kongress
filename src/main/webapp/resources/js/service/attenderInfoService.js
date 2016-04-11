@@ -9,7 +9,6 @@ attenderInfoApp.factory('attenderInfoService', function($http, $rootScope){
         return $http.get('getRegistrations', {params: {course_id: courseID}})
             .then(
                 function (success) {
-                    setNames(success.data);
                     return success.data;
                 },
                 function (error) {
@@ -18,12 +17,33 @@ attenderInfoApp.factory('attenderInfoService', function($http, $rootScope){
             );
     };
 
-    function setNames(success){
-        var temp = [];
-        for(var i = 0; i < success.length; i++){
-            temp.push({firstname: success[i].person.firstname, lastname: success[i].person.lastname});
-        }
-        $rootScope.$broadcast('names:updated', temp);
+    attenderInfoService.setSessionStorageID = function(sessionID){
+        console.log(sessionID + " = personID before encryption");
+        return $http.get('setSessionStorageID', {params: {id: sessionID}})
+            .then(
+                function (success) {
+                    console.log(success.data + " = personID afterEncryption");
+                    sessionStorage.selectedPerson = success.data;
+                },
+                function (error) {
+                    console.error('Error setting sessionStorageID');
+                    console.log(error);
+                }
+            );
+    };
+
+    attenderInfoService.getSessionStorageID = function(sessionID){
+        console.log(sessionID + " = personID sent from client (encrypted)");
+        return $http.get('getSessionStorageID', {params: {id: sessionID}})
+            .then(
+                function (success) {
+                    console.log(success.data + " = personID after decryption");
+                    return success.data;
+                },
+                function (error) {
+                    console.error('Error getting sessionStorageID');
+                }
+            );
     };
 
     return attenderInfoService;
