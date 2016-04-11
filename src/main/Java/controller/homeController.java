@@ -65,6 +65,9 @@ public class homeController {
     @RequestMapping("/invoice")
     public ModelAndView invoice(){return new ModelAndView("invoice");}
 
+    @RequestMapping("/attenderInfo")
+    public ModelAndView attenderInfo(){return new ModelAndView("attenderInfo");}
+
     @RequestMapping("/courseOverview")
     public ModelAndView courseOverview(HttpSession session){
         User u = (User) session.getAttribute("user");
@@ -149,26 +152,25 @@ public class homeController {
         return registrationService.getRegistrations(id);
     }
 
-    @RequestMapping(value = "/setSessionStorageID", method = RequestMethod.GET)
+    @RequestMapping(value = "/setSessionStorageID", method = RequestMethod.GET, produces="text/plain")
     @ResponseBody
-    public String setSessionStorageID(@RequestParam(value = "id") String id) {
+    public String setSessionStorageID(@RequestParam(value = "id", required = false) String id) {
         try{
             selectedPerson = encryptor.encrypt(id);
         } catch(Exception e){
             System.out.println("Error in setSessionStorrageID EXCEPTION");
         }
-        System.out.println("TJOHEI " + selectedPerson);
         return selectedPerson;
     }
 
-    @RequestMapping(value = "/checkSessionStorageID", method = RequestMethod.GET)
+    @RequestMapping(value = "/getSessionStorageID", method = RequestMethod.GET, produces="text/plain")
     @ResponseBody
-    public String getSessionStorageID(@RequestParam(value = "id") String id) {
+    public String getSessionStorageID(@RequestParam(value = "id", required = false) String id) {
         try{
-            if(selectedPerson.equals(id)){
+            System.out.println("SELECTED PERSON: " + selectedPerson);
                 String actualID  = encryptor.decrypt(id);
+                System.out.println("ACTUAL ID: " + actualID);
                 return actualID;
-            }
         } catch(Exception e){
             System.out.println("Error in getSessionStorageID");
         }

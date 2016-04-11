@@ -31,7 +31,6 @@ sessionRegisterApp.factory('courseService', ['$http', '$q','$rootScope', functio
                     },
                     function (errResponse) {
                         console.error('Error while sendingInfo');
-                        return $q.reject(errResponse.data);
                     }
                 );
         },

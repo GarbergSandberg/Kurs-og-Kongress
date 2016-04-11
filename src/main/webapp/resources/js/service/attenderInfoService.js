@@ -5,7 +5,6 @@ attenderInfoApp.factory('attenderInfoService', function($http, $rootScope){
     var attenderInfoService = {};
 
     attenderInfoService.getRegistrations = function(courseID){
-        console.log(courseID + " = courseID");
         return $http.get('getRegistrations', {params: {course_id: courseID}})
             .then(
                 function (success) {
@@ -22,7 +21,7 @@ attenderInfoApp.factory('attenderInfoService', function($http, $rootScope){
         return $http.get('setSessionStorageID', {params: {id: sessionID}})
             .then(
                 function (success) {
-                    console.log(success.data + " = personID afterEncryption");
+                    console.log(success.data.toString() + " = personID afterEncryption");
                     sessionStorage.selectedPerson = success.data;
                 },
                 function (error) {

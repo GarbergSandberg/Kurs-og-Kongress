@@ -10,44 +10,30 @@ attenderInfoApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoService',
     $scope.registrations = [];
     $scope.selectedParticipant = {};
     $scope.showInfo = function(registration){
-        console.log(registration + "    " + registration.person.personID);
-        sessionStorage.selectedPerson = registration.person.personID;
-        /*attenderInfoService.setSessionStorageID(name.personID);*/
-        $window.location.href = "/kursogkongress/personInfo";
+        self.setSessionID(registration.person.personID);
     };
     $scope.showInvoice = function(){
         $window.location.href = "/kursogkongress/invoice";
     };
 
     $scope.showInvoiceFromList = function(registration){
-        sessionStorage.selectedPerson = registration.person.personID;
-        $window.location.href = "/kursogkongress/invoice";
+        self.setSessionIDFromList(registration.person.personID);
     };
 
 
 
     self.resolveInfo = function() {
         var sid = sessionStorage.selectedPerson;
-        console.log("SID: " + sid);
-        if (sid !== undefined) {
-            $scope.selectedParticipant = self.findPerson(sid);
-            $scope.selectedParticipant.attendingSessions = self.findSessions($scope.selectedParticipant);
-            $scope.selectedParticipant.attendingFullCourse = self.isAttendingFullCourse($scope.selectedParticipant);
-            $scope.selectedParticipant.totalAmount = self.calculateTotal($scope.selectedParticipant.cost);
-        }
-
-
-/*        var sid = sessionStorage.selectedPerson;
-        console.log("SID: " + sid);
         if(sid !== undefined){
-            console.log("Er inne her");
             attenderInfoService.getSessionStorageID(sessionStorage.selectedPerson).then(function(success){
-                console.log(success);
-                $scope.selectedParticipant = self.findPerson(id);
+                $scope.selectedParticipant = self.findPerson(success);
+                $scope.selectedParticipant.attendingSessions = self.findSessions($scope.selectedParticipant);
+                $scope.selectedParticipant.attendingFullCourse = self.isAttendingFullCourse($scope.selectedParticipant);
+                $scope.selectedParticipant.totalAmount = self.calculateTotal($scope.selectedParticipant.cost);
             }, function(error){
                 console.log("Noe gikk galt her");
             });
-        }*/
+        }
     };
 
     self.findPerson = function(id){
@@ -94,7 +80,6 @@ attenderInfoApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoService',
     self.isAttendingFullCourse = function(registration){
         var courseLength = self.getDates(new Date(registration.course.startDate), new Date(registration.course.endDate)).length;
         var daysAttending = registration.dates.length;
-        console.log(courseLength + "    " + daysAttending);
         if(courseLength == daysAttending){
             return true;
         } else{
@@ -120,13 +105,28 @@ attenderInfoApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoService',
 
     self.calculateTotal = function(registration){
         var total = 0;
-        console.log("selectedparticipant.cost = " + registration);
         if(registration !== undefined){
             for (var i = 0; i < registration.length; i++){
                 total += registration[i].amount;
             }
         }
         return total;
+    };
+
+    self.setSessionID = function(id){
+        attenderInfoService.setSessionStorageID(id).then(function(successCallback){
+            $window.location.href = "/kursogkongress/personInfo";
+        }, function(errorCallback){
+            console.log("error in setSessionID");
+        });
+    };
+
+    self.setSessionIDFromList = function(id){
+        attenderInfoService.setSessionStorageID(id).then(function(successCallback){
+            $window.location.href = "/kursogkongress/invoice";
+        }, function(errorCallback){
+            console.log("error in setSessionIDFromList");
+        });
     };
 
     self.getReg();
