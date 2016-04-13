@@ -18,6 +18,9 @@ public class Form {
         this.checkboxModel = checkboxModel;
     }
 
+    public Form() {
+    }
+
     public ArrayList<InputParameter> getOptionalPersonalia() {
         return optionalPersonalia;
     }

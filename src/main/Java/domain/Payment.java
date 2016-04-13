@@ -12,6 +12,9 @@ public class Payment {
         this.description = description;
     }
 
+    public Payment() {
+    }
+
     public double getAmount() {
         return amount;
     }
@@ -26,5 +29,13 @@ public class Payment {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "amount=" + amount +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

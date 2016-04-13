@@ -22,6 +22,9 @@ public class Accomondation {
         this.doubleroom = doubleroom;
     }
 
+    public Accomondation() {
+    }
+
     public int getId() {
         return id;
     }
@@ -68,5 +71,17 @@ public class Accomondation {
 
     public void setDoubleroom(boolean doubleroom) {
         this.doubleroom = doubleroom;
+    }
+
+    @Override
+    public String toString() {
+        return "Accomondation{" +
+                "id=" + id +
+                ", roommate='" + roommate + '\'' +
+                ", hotelID=" + hotelID +
+                ", fromDate=" + fromDate +
+                ", toDate=" + toDate +
+                ", doubleroom=" + doubleroom +
+                '}';
     }
 }

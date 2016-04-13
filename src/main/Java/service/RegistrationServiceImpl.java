@@ -18,5 +18,6 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public ArrayList<Registration> getRegistrations(int courseID) {
         return registrationRepository.getRegistrations(courseID);
+
     }
 }

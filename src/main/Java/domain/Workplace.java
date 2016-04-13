@@ -18,11 +18,7 @@ public class Workplace {
         this.address = address;
     }
 
-    public Workplace(String companyName, int postalcode, String location, String address) {
-        this.companyName = companyName;
-        this.postalcode = postalcode;
-        this.location = location;
-        this.address = address;
+    public Workplace() {
     }
 
     public int getWorkplaceID() {
@@ -63,6 +59,17 @@ public class Workplace {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Workplace{" +
+                "workplaceID=" + workplaceID +
+                ", companyName='" + companyName + '\'' +
+                ", postalcode=" + postalcode +
+                ", location='" + location + '\'' +
+                ", address='" + address + '\'' +
+                '}';
     }
 }
 

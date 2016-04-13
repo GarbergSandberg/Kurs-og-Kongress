@@ -53,6 +53,9 @@ public class Registration {
         this.role = role;
     }
 
+    public Registration() {
+    }
+
     public int getRegistrationID() {
         return registrationID;
     }
@@ -171,5 +174,26 @@ public class Registration {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "Registration{" +
+                "registrationID=" + registrationID +
+                ", course=" + course +
+                ", sessionsToAttend=" + sessionsToAttend +
+                ", eventsToAttend=" + eventsToAttend +
+                ", accomondation=" + accomondation +
+                ", person=" + person +
+                ", workplace=" + workplace +
+                ", cost=" + cost +
+                ", dates=" + dates +
+                ", optionalPersonalia=" + optionalPersonalia +
+                ", optionalWorkplace=" + optionalWorkplace +
+                ", extraInfo=" + extraInfo +
+                ", alternativeInvoiceAddress='" + alternativeInvoiceAddress + '\'' +
+                ", speaker=" + speaker +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

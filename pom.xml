@@ -50,18 +50,13 @@
       <artifactId>json</artifactId>
       <version>20160212</version>
     </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.3.0</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>kursogkongress</finalName>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
-    </plugins>
   </build>
 </project>

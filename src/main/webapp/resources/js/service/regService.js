@@ -61,10 +61,25 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
             return $http.post('saveReg', registration)
                 .then(
                     function (response) {
+                        console.log("Success!");
                         return response.data;
                     },
                     function (errResponse) {
-                        console.error('Error while sendRegistration (service)');
+                        return $q.reject(errResponse.data);
+                    }
+                );
+        },
+
+        sendPerson: function (person) {
+            console.log(person);
+            return $http.post('sendPerson', person)
+                .then(
+                    function (response) {
+                        console.log("Success!");
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        console.log("Error in sendPerson (service)");
                         return $q.reject(errResponse.data);
                     }
                 );

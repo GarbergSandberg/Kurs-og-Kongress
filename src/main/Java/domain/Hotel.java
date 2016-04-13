@@ -18,6 +18,9 @@ public class Hotel {
         this.address = address;
     }
 
+    public Hotel() {
+    }
+
     public String getName() {
         return name;
     }

@@ -5,6 +5,7 @@ import com.sun.tools.javac.comp.*;
 import domain.*;
 import jdk.nashorn.internal.parser.*;
 import org.json.*;
+import org.springframework.beans.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.beans.propertyeditors.*;
 import org.springframework.http.*;
@@ -49,7 +50,7 @@ public class homeController {
     @RequestMapping("/")
     public ModelAndView home(){
         selectedPerson = "-1";
-        return new ModelAndView("registerCourse");
+        return new ModelAndView("reg");
     }
 
     @RequestMapping("/reg")
@@ -87,13 +88,18 @@ public class homeController {
     }
 
     @RequestMapping(value = "/saveReg", method = RequestMethod.POST)
-    public ResponseEntity<Void> saveReg( @RequestBody Registration registration )   {
-        System.out.println(registration.getPerson().getFirstname());
+    public ResponseEntity<Void> saveRegistration( @RequestBody Registration registration )   {
+        System.out.println(registration.toString());
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/sendPerson", method = RequestMethod.POST)
+    public ResponseEntity<Void> sendPersonHTTP(@RequestBody Person person)   {
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/saveinformation_json", method = RequestMethod.POST)
-    public ResponseEntity<Void> saveInformation_JSON( @RequestBody Course course )   {
+    public ResponseEntity<Void> saveInformation_JSON(@RequestBody Course course )   {
         course.setForm(buffer);
         System.out.println(course.getTitle());
         System.out.println(course.getDescription());

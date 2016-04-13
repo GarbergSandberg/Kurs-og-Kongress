@@ -1,10 +1,7 @@
 package domain;
 
-import java.util.*;
 
-/**
- * import org.hibernate.validator.constraints.Email;
- import org.hibernate.validator.constraints.NotEmpty;
+/*
  * Created by Lars on 18.01.16.
  */
 public class Person {
@@ -16,8 +13,21 @@ public class Person {
     private String email;
     private String gender;
 
+
     public Person(int personID, String firstname, String lastname, int birthYear, int phonenumber, String email, String gender) {
         this.personID = personID;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.birthYear = birthYear;
+        this.phonenumber = phonenumber;
+        this.email = email;
+        this.gender = gender;
+    }
+
+    public Person() {
+    }
+
+    public Person(String firstname, String lastname, int birthYear, int phonenumber, String email, String gender) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthYear = birthYear;
@@ -80,5 +90,18 @@ public class Person {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "personID=" + personID +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", birthYear=" + birthYear +
+                ", phonenumber=" + phonenumber +
+                ", email='" + email + '\'' +
+                ", gender='" + gender + '\'' +
+                '}';
     }
 }

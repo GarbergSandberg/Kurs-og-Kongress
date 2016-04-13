@@ -61,18 +61,25 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         console.log(registration);
         console.log($scope.selectedEvents);
         console.log($scope.selectedSessions);
+        registration.person.personID = 1;
+        registration.person.birthYear = 2019;
+        registration.person.phonenumber = 99292929;
         self.sendRegistration(registration);
-        /*        var registration = {};
-        registration.persons = person;
-        registration.sessions = [1];
-        registration.workplace = workplace;
-        registration.events = $scope.selectedEvents;
-        registration.price = $scope.findPrice();
-        registration.selectedDays = $scope.selectedDays;
-        var form = $scope.course.form;
-        $scope.course.form = undefined;
+    };
 
-        $scope.sendAll($scope.course, form);*/
+    $scope.inputParameterResolver = function(registration){
+        var answer = registration.optionalPersonalia;
+        for (var prop in answer){
+            if (answer[prop] != undefined) {
+                console.log("PROP: " + prop + " SVAR: " + answer);
+                console.log("Answer.prop: " + answer[prop]);
+                var i = parseInt(prop);
+                console.log(i + " dsdsadasdsa");
+                console.log("Prøver å finne type: " + $scope.course.optionalPersonalia[0]);
+                var inputParameter = {parameter: answer[prop], type: $scope.course.optionalPersonalia[0]};
+                console.log("KLARTE DET!!! " + inputParameter);
+            }
+        }
     };
 
     $scope.sendAll = function(course, form){ // Funker ikke. Sender person-array, skal ikke gjøre det..
