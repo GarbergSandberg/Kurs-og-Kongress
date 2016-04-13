@@ -21,22 +21,28 @@
     <spring:url value="resources/js/service/sessionRegisterService.js" var="appService"/>
     <spring:url value="resources/html/registerSessionModal.html" var="modalTemplate"/>
     <spring:url value="resources/js/service/eventRegisterService.js" var="appEventService"/>
+    <spring:url value="resources/js/service/accomondationService.js" var="accomondationService"/>
     <spring:url value="resources/html/registerEventModal.html" var="eventModal"/>
+    <spring:url value="resources/html/accomondationModal.html" var="accomondationModal"/>
     <spring:url value="resources/js/service/courseService.js" var="jsonService"/>
     <spring:url value="resources/js/controllers/addCourseCtrl.js" var="addCourseCtrl"/>
     <spring:url value="resources/js/controllers/addEventCtrl.js" var="addEventCtrl"/>
     <spring:url value="resources/js/controllers/addSessionCtrl.js" var="addSessionCtrl"/>
     <spring:url value="resources/js/controllers/makeFormCtrl.js" var="makeFormCtrl"/>
+    <spring:url value="resources/js/controllers/addAccomondationCtrl.js" var="addAccomondationCtrl"/>
     <script src="${appJs}"></script>
     <script src="${appService}"></script>
     <script src="${jsonService}"></script>
+    <script src="${accomondationService}"></script>
     <script src="${modalTemplate}"></script>
     <script src="${appEventService}"></script>
     <script src="${eventModal}"></script>
+    <script src="${accomondationModal}"></script>
     <script src="${addCourseCtrl}"></script>
     <script src="${addEventCtrl}"></script>
     <script src="${addSessionCtrl}"></script>
     <script src="${makeFormCtrl}"></script>
+    <script src="${addAccomondationCtrl}"></script>
 </head>
 <body>
 <div ng-app="registerApp" id="sessionRegisterClass">
@@ -144,6 +150,33 @@
             <input class="form-control" ng-model="course.courseSingleDayFee" id="courseSingleDayFee" type="number">
             <label for="dayPackage">Dagpakke:</label>
             <input class="form-control" ng-model="course.dayPackage" id="dayPackage" type="number">
+
+
+
+        <div class="page-header">
+            <h4>Overnatting</h4>
+        </div>
+        <div ng-controller="AddAccomondationCtrl">
+            <div class="list-group">
+                <a class="list-group-item active plusbutton" data-animation="am-fade-and-scale"
+                   data-template-url=${accomondationModal}
+                           bs-modal="modal">
+                    <h4 class="list-group-item-heading">+</h4>
+                </a>
+            </div>
+            <div class="list-group">
+                <a class="list-group-item event" ng-repeat="accomondation in accomondations" data-animation="am-fade-and-scale"
+                   data-template-url=${accomondationModal}
+                           bs-modal="modal">
+                    <h4 class="list-group-item-heading event">{{accomondation.name}}</h4>
+                    <p class="list-group-item-text">
+                        Pris dobbeltrom: {{accomondation.doubleprice}}<br>
+                        Pris enkeltrom: {{accomondation.singleprice}}<br>
+                        Adresse: {{accomondation.address}}
+                    </p>
+                </a>
+            </div>
+        </div>
         <div class="page-header">
             <h4>Informasjon til påmeldingsskjema</h4>
         </div>

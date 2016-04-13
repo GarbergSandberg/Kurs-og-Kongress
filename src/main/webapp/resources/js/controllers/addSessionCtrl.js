@@ -2,7 +2,7 @@
  * Created by eiriksandberg on 05.04.2016.
  */
 sessionRegisterApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionService', function ($scope, $modal, sessionService) {
-    var myModal = $modal({scope: $scope, templateUrl: '/resources/html/registerSessionModal.html', show: false});
+    //var myModal = $modal({scope: $scope, templateUrl: '/resources/html/registerSessionModal.html', show: false});
     $scope.dates = sessionService.getDates();
     $scope.repetitiveSession = {};
     $scope.removeDeleteButton;
@@ -16,9 +16,9 @@ sessionRegisterApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionSer
         sessionService.date(id);
         $scope.date = id;
     };
-    $scope.showModal = function () {
+    /*$scope.showModal = function () {
         myModal.$promise.then(myModal.show);
-    };
+    };*/
     $scope.delete = function (newSession) {
         console.log("I AddSessionCtrl - Skal slette eventet. ");
         sessionService.delete(newSession);

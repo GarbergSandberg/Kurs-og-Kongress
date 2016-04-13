@@ -102,6 +102,7 @@ sessionRegisterApp.factory('courseService', ['$http', '$q','$rootScope', functio
             return $http.get('getCourse', {params: {course_id: courseID}})
                 .then(
                     function (response) {
+                        console.log("HER: ");
                         console.log(response.data);
                         return response.data;
                     },

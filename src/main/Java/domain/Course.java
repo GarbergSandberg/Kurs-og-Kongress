@@ -10,6 +10,7 @@ public class Course {
     private ArrayList<Session> sessions;
     private ArrayList<Event> events;
     private ArrayList<String> roles;
+    private ArrayList<Accomondation> accomondations;
     private Form form;
     private String title;
     private String location;
@@ -21,6 +22,24 @@ public class Course {
     private double dayPackage;
     private int maxNumber;
     private int id;
+
+    public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, ArrayList<Accomondation> accomondations, Form form, String title, String location, String description, Date startDate, Date endDate, double courseFee, double courseSingleDayFee, double dayPackage, int maxNumber, int id) {
+        this.sessions = sessions;
+        this.events = events;
+        this.roles = roles;
+        this.accomondations = accomondations;
+        this.form = form;
+        this.title = title;
+        this.location = location;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.courseFee = courseFee;
+        this.courseSingleDayFee = courseSingleDayFee;
+        this.dayPackage = dayPackage;
+        this.maxNumber = maxNumber;
+        this.id = id;
+    }
 
     public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, Form form, String title, String location, String description, Date startDate, Date endDate, double courseFee, double courseSingleDayFee, double dayPackage, int maxNumber, int id) {
         this.sessions = sessions;
@@ -80,6 +99,10 @@ public class Course {
     public void setRoles(ArrayList<String> roles) {
         this.roles = roles;
     }
+
+    public ArrayList<Accomondation> getAccomondations() {return accomondations;}
+
+    public void setAccomondations(ArrayList<Accomondation> accomondations) {this.accomondations = accomondations;}
 
     public Form getForm() {
         return form;

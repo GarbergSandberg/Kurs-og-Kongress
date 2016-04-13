@@ -1,7 +1,7 @@
 /**
  * Created by eiriksandberg on 05.04.2016.
  */
-sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'courseService', 'eventService', function ($scope, $modal, sessionService, courseService, eventService) {
+sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'courseService', 'accomondationService', 'eventService', function ($scope, $modal, sessionService, courseService, accomondationService, eventService) {
     $scope.course = {};
     $scope.roles = [];
     $scope.$watch("course.startDate", function(newValue, oldValue) {
@@ -42,6 +42,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
         course.roles = $scope.roles;
         course.sessions = sessionService.get();
         course.events = eventService.get();
+        course.accomondations = accomondationService.get();
         courseService.prepareForm();
         var form = courseService.getForm();
         console.log(form);
@@ -110,6 +111,12 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
             }
             if (response.form != null){
                 courseService.setRecievedForm(response.form);
+            }
+            console.log("Skal sette accomondations.. " + response.accomondations);
+            if (response.accomondations != null){
+                accomondationService.setaccomondations(response.accomondations);
+                $scope.accomondations = accomondationService.get();
+                console.log($scope.accomondations);
             }
         }, function(errorResponse){
             console.log("Error in getCourse()");
