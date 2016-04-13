@@ -2,9 +2,7 @@ package domain;
 
 import java.util.*;
 
-/**
- * Created by eiriksandberg on 07.04.2016.
- */
+
 public class Registration {
     private int registrationID;
     private Course course;
@@ -18,6 +16,18 @@ public class Registration {
     private ArrayList<InputParameter> extraInfo;
     private String alternativeInvoiceAddress;
     private boolean speaker;
+
+    public Registration(ArrayList<Integer> sessionsToAttend, Person person, Workplace workplace, ArrayList<Payment> cost, ArrayList<Date> dates) {
+        this.sessionsToAttend = sessionsToAttend;
+        this.person = person;
+        this.workplace = workplace;
+        this.cost = cost;
+        this.dates = dates;
+    }
+
+    public Registration(int registrationID) {
+        this.registrationID = registrationID; // private ArrayList<Integer> sessionsToAttend;
+    }
 
     public Registration(int registrationID, Course course, ArrayList<Integer> sessionsToAttend, Person person, Workplace workplace, ArrayList<Payment> cost, ArrayList<Date> dates, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, String alternativeInvoiceAddress) {
         this.registrationID = registrationID;
