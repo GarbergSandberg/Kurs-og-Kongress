@@ -1,7 +1,5 @@
 package domain;
 
-import java.util.*;
-
 /**
  * Created by Lars on 18.01.16.
  */
@@ -24,6 +22,12 @@ public class Workplace {
         this.companyName = companyName;
         this.postalcode = postalcode;
         this.location = location;
+        this.address = address;
+    }
+
+    public Workplace(String companyName, int postalcode, String address) {
+        this.companyName = companyName;
+        this.postalcode = postalcode;
         this.address = address;
     }
 
