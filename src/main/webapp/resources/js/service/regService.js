@@ -1,38 +1,77 @@
-app.factory('regService', ['$http', '$q','$rootScope', function($http, $q, $rootScope) {
+app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
     var form = {};
     var editCourse = undefined;
     var roles;
     var course;
     var days;
 
+
     return {
-        setCourse: function(newCourse, newRoles, newDays){
+        sendForm: function (form) { //to be deleted
+            var indata = {
+                optionalPersonalia: form.optionalPersonalia,
+                optionalWorkplace: form.optionalWorkplace,
+                extraInfo: form.extraInfo,
+                checkboxModel: form.checkboxModel
+            };
+            return $http({
+                url: "form",
+                method: "POST",
+                params:indata
+            })
+                .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        console.error('Error while sending form');
+                        return $q.reject(errResponse.data);
+                    }
+                );
+        },
+
+        setCourse: function (newCourse, newRoles, newDays) {
             $rootScope.$broadcast('courseSet', course);
             $rootScope.$broadcast('dateSet', newDays);
             $rootScope.$broadcast('rolesSet', newRoles);
+            $rootScope.$broadcast('formSet', form);
             course = newCourse;
             roles = newRoles;
             days = newDays;
         },
 
-        prepareForm: function(){
+        prepareForm: function () {
             $rootScope.$broadcast('prepareForm');
         },
 
-        setForm: function(newForm){
+        setForm: function (newForm) {
             form = newForm;
         },
 
-        getForm: function(){
+        getForm: function () {
             return form;
         },
 
-        setRecievedForm: function(form){
+        setRecievedForm: function (form) {
             $rootScope.$broadcast('recievedForm', form);
         },
 
-        sendInfo: function (course) {
-            return $http.post('saveinformation_json', course)
+        sendRegistration: function (registration) {
+            console.log(registration);
+            return $http.post('saveReg', registration)
+                .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        console.error('Error while sendRegistration (service)');
+                        return $q.reject(errResponse.data);
+                    }
+                );
+        },
+
+        sendInfo: function (newcourse) {
+            return $http.post('saveinformation_json', newcourse)
                 .then(
                     function (response) {
                         return response.data;
@@ -44,7 +83,7 @@ app.factory('regService', ['$http', '$q','$rootScope', function($http, $q, $root
                 );
         },
 
-        getMockCourse: function(callback){
+        getMockCourse: function (callback) {
             return $http.get('getCourseMock')
                 .then(
                     function (response) {
@@ -57,7 +96,7 @@ app.factory('regService', ['$http', '$q','$rootScope', function($http, $q, $root
                 );
         },
 
-        getCourses: function(callback){
+        getCourses: function (callback) {
             return $http.get('getCourses')
                 .then(
                     function (response) {
@@ -70,7 +109,7 @@ app.factory('regService', ['$http', '$q','$rootScope', function($http, $q, $root
                 );
         },
 
-        getCourse: function(courseID){
+        getCourse: function (courseID) {
             return $http.get('getCourse', {params: {course_id: courseID}})
                 .then(
                     function (response) {
@@ -84,15 +123,15 @@ app.factory('regService', ['$http', '$q','$rootScope', function($http, $q, $root
                 );
         },
 
-        editCourse: function(courseID){
+        editCourse: function (courseID) {
             editCourse = courseID;
         },
 
-        getEditCourse: function(){
+        getEditCourse: function () {
             return editCourse;
         },
 
-        getTemplate: function(callback){
+        getTemplate: function (callback) {
             return $http.get('getTemplate')
                 .then(
                     function (response) {
