@@ -7,19 +7,15 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     $scope.selectedEvents = [];
     $scope.selectedSessions = [];
     $scope.selectedDays = [];
-
     $scope.courses = [];
     $scope.course = [];
     $scope.dateArray = [];
-
     $scope.persons = personService.get();
     $scope.$on('personSet', function(event, data){
         $scope.persons = data;
     });
     $scope.person = [];
-
     $scope.attendDate = [];
-
     $scope.tooltip = {title: 'Fjern romkamerat'};
     $scope.firstPersonRoom = {};
     $scope.hasRoom = personService.getHasRoom();
@@ -60,9 +56,13 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         //sendAll($scope.course, $scope.course.form, registration);
     };
 
-    $scope.saveSingleRegistration = function(person, workplace){ // Må sende med course.id, course.form, session, workplace, person, pris.
+    $scope.saveSingleRegistration = function(registration){ // Må sende med course.id, course.form, session, workplace, person, pris.
         // courseID, sessions[], events[], person, workplace, price[], datestoAttend[], optPersonalia, optWorkplace, extraInfo, alternativFakturaadresse, form
-        var registration = {};
+        console.log(registration);
+        console.log($scope.selectedEvents);
+        console.log($scope.selectedSessions);
+        self.sendRegistration(registration);
+        /*        var registration = {};
         registration.persons = person;
         registration.sessions = [1];
         registration.workplace = workplace;
@@ -72,7 +72,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         var form = $scope.course.form;
         $scope.course.form = undefined;
 
-        $scope.sendAll($scope.course, form);
+        $scope.sendAll($scope.course, form);*/
     };
 
     $scope.sendAll = function(course, form){ // Funker ikke. Sender person-array, skal ikke gjøre det..
@@ -330,7 +330,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         else { return false }
     };
 
-    $scope.selectAccomondation = function selectSession(accomondation) {
+    $scope.selectAccomondation = function (accomondation) {
         $scope.selectedAccomondation = accomondation;
     };
 

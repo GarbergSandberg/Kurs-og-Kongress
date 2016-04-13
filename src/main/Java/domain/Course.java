@@ -10,7 +10,7 @@ public class Course {
     private ArrayList<Session> sessions;
     private ArrayList<Event> events;
     private ArrayList<String> roles;
-    private ArrayList<Accomondation> accomondations;
+    private ArrayList<Hotel> hotels;
     private Form form;
     private String title;
     private String location;
@@ -23,11 +23,11 @@ public class Course {
     private int maxNumber;
     private int id;
 
-    public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, ArrayList<Accomondation> accomondations, Form form, String title, String location, String description, Date startDate, Date endDate, double courseFee, double courseSingleDayFee, double dayPackage, int maxNumber, int id) {
+    public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, ArrayList<Hotel> hotels, Form form, String title, String location, String description, Date startDate, Date endDate, double courseFee, double courseSingleDayFee, double dayPackage, int maxNumber, int id) {
         this.sessions = sessions;
         this.events = events;
         this.roles = roles;
-        this.accomondations = accomondations;
+        this.hotels = hotels;
         this.form = form;
         this.title = title;
         this.location = location;
@@ -100,9 +100,9 @@ public class Course {
         this.roles = roles;
     }
 
-    public ArrayList<Accomondation> getAccomondations() {return accomondations;}
+    public ArrayList<Hotel> getHotels() {return hotels;}
 
-    public void setAccomondations(ArrayList<Accomondation> accomondations) {this.accomondations = accomondations;}
+    public void setHotels(ArrayList<Hotel> hotels) {this.hotels = hotels;}
 
     public Form getForm() {
         return form;

@@ -28,11 +28,11 @@ public class RegistrationRepositoryMock implements RegistrationRepository{
 
     public ArrayList<Registration> generateRegistrations(){
         ArrayList<Registration> reg = new ArrayList<Registration>();
-        Registration r1 = new Registration(0, courses.get(0), sessionIDArray(), persons.get(0), workplaces.get(0), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), "E.C. Dahls gate 2");
-        Registration r2 = new Registration(1, courses.get(0), sessionIDArray(), persons.get(1), workplaces.get(0), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null);
-        Registration r3 = new Registration(2, courses.get(0), sessionIDArray(), persons.get(2), workplaces.get(1), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null);
-        Registration r4 = new Registration(3, courses.get(0), sessionIDArray(), persons.get(3), workplaces.get(1), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null);
-        Registration r5 = new Registration(0, courses.get(0), sessionIDArray(), persons.get(4), workplaces.get(1), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null);
+        Registration r1 = new Registration(0, courses.get(0), sessionIDArray(), sessionIDArray(), generateAccomondation(), persons.get(0), workplaces.get(0), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), "E.C. Dahls gate 2", "Lærer");
+        Registration r2 = new Registration(1, courses.get(0), sessionIDArray(), sessionIDArray(), generateAccomondation(), persons.get(1), workplaces.get(0), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null, "Elev");
+        Registration r3 = new Registration(2, courses.get(0), sessionIDArray(), sessionIDArray(), generateAccomondation(), persons.get(2), workplaces.get(1), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null, "Elev");
+        Registration r4 = new Registration(3, courses.get(0), sessionIDArray(), sessionIDArray(), generateAccomondation(), persons.get(3), workplaces.get(1), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null, "Elev");
+        Registration r5 = new Registration(0, courses.get(0), sessionIDArray(), sessionIDArray(), generateAccomondation(), persons.get(4), workplaces.get(1), generatePayments(), setDates(), makeOptionalPersonaliaAnswers(),makeOptionalWorkplaceAnswers(),makeExtraInfoAnswers(), null, "Elev");
         r1.setSpeaker(true);
         reg.add(r1);
         reg.add(r2);
@@ -57,11 +57,11 @@ public class RegistrationRepositoryMock implements RegistrationRepository{
 
     public ArrayList<Person> generateMockPersons(){
         ArrayList<Person> array = new ArrayList<Person>();
-        Person p1 = new Person(1, "Eirik", "Sandberg", 1994, 99463401, "eirik.sandberg@live.no");
-        Person p2 = new Person(2, "Lars", "Garberg", 1994, 92392373, "lars_er_kul@hesterbest.no");
-        Person p3 = new Person(3, "Ola", "Nordmann", 1989, 12345678, "ola@gmail.com");
-        Person p4 = new Person(4, "Mats", "Nilsen", 1991, 48732817, "mats.nilsen@gmail.com");
-        Person p5 = new Person(5, "Roy", "Moe", 1965, 91828374, "roy.moe@hotmail.com");
+        Person p1 = new Person(1, "Eirik", "Sandberg", 1994, 99463401, "eirik.sandberg@live.no", "Mann");
+        Person p2 = new Person(2, "Lars", "Garberg", 1994, 92392373, "lars_er_kul@hesterbest.no", "Mann");
+        Person p3 = new Person(3, "Ola", "Nordmann", 1989, 12345678, "ola@gmail.com", "Mann");
+        Person p4 = new Person(4, "Mats", "Nilsen", 1991, 48732817, "mats.nilsen@gmail.com", "Mann");
+        Person p5 = new Person(5, "Roy", "Moe", 1965, 91828374, "roy.moe@hotmail.com", "Mann");
         array.add(p1);
         array.add(p2);
         array.add(p3);
@@ -158,6 +158,11 @@ public class RegistrationRepositoryMock implements RegistrationRepository{
         extraInfo.add(e4);
         extraInfo.add(e5);
         return extraInfo;
+    }
+
+    public Accomondation generateAccomondation(){
+        Accomondation accomondation = new Accomondation(0,"Torjus", 0, new Date(), new Date(), true);
+        return accomondation;
     }
 
 

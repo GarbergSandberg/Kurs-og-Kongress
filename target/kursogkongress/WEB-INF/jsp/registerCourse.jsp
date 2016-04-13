@@ -45,8 +45,8 @@
     <script src="${addAccomondationCtrl}"></script>
 </head>
 <body>
-<div ng-app="registerApp" id="sessionRegisterClass">
-    <div ng-controller="AddCourseCtrl" style="margin-left:5em; margin-right:5em;">
+<div ng-app="registerApp" id="sessionRegisterClass" style="margin-left:3em; margin-right:3em;">
+    <div ng-controller="AddCourseCtrl">
         <div class="page-header">
             <h1>Legg til kurs</h1><br>
             <h4>Generell informasjon om kurset</h4>
@@ -165,7 +165,7 @@
                 </a>
             </div>
             <div class="list-group">
-                <a class="list-group-item event" ng-repeat="accomondation in accomondations" data-animation="am-fade-and-scale"
+                <a class="list-group-item event" ng-repeat="accomondation in hotels" data-animation="am-fade-and-scale"
                    data-template-url=${accomondationModal}
                            bs-modal="modal">
                     <h4 class="list-group-item-heading event">{{accomondation.name}}</h4>

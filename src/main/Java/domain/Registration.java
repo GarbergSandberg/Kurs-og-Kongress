@@ -7,6 +7,8 @@ public class Registration {
     private int registrationID;
     private Course course;
     private ArrayList<Integer> sessionsToAttend;
+    private ArrayList<Integer> eventsToAttend;
+    private Accomondation accomondation;
     private Person person;
     private Workplace workplace;
     private ArrayList<Payment> cost;
@@ -15,24 +17,15 @@ public class Registration {
     private ArrayList<InputParameter> optionalWorkplace;
     private ArrayList<InputParameter> extraInfo;
     private String alternativeInvoiceAddress;
-    private boolean speaker;
+    private boolean speaker; // no constructor. Needs to be set via method.
+    private String role;
 
-    public Registration(ArrayList<Integer> sessionsToAttend, Person person, Workplace workplace, ArrayList<Payment> cost, ArrayList<Date> dates) {
-        this.sessionsToAttend = sessionsToAttend;
-        this.person = person;
-        this.workplace = workplace;
-        this.cost = cost;
-        this.dates = dates;
-    }
-
-    public Registration(int registrationID) {
-        this.registrationID = registrationID; // private ArrayList<Integer> sessionsToAttend;
-    }
-
-    public Registration(int registrationID, Course course, ArrayList<Integer> sessionsToAttend, Person person, Workplace workplace, ArrayList<Payment> cost, ArrayList<Date> dates, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, String alternativeInvoiceAddress) {
+    public Registration(int registrationID, Course course, ArrayList<Integer> sessionsToAttend, ArrayList<Integer> eventsToAttend, Accomondation accomondation, Person person, Workplace workplace, ArrayList<Payment> cost, ArrayList<Date> dates, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, String alternativeInvoiceAddress, String role) {
         this.registrationID = registrationID;
         this.course = course;
         this.sessionsToAttend = sessionsToAttend;
+        this.eventsToAttend = eventsToAttend;
+        this.accomondation = accomondation;
         this.person = person;
         this.workplace = workplace;
         this.cost = cost;
@@ -41,11 +34,15 @@ public class Registration {
         this.optionalWorkplace = optionalWorkplace;
         this.extraInfo = extraInfo;
         this.alternativeInvoiceAddress = alternativeInvoiceAddress;
+        this.role = role;
     }
 
-    public Registration(Course course, ArrayList<Integer> sessionsToAttend, Person person, Workplace workplace, ArrayList<Payment> cost, ArrayList<Date> dates, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, String alternativeInvoiceAddress) {
+    public Registration(int registrationID, Course course, ArrayList<Integer> sessionsToAttend, ArrayList<Integer> eventsToAttend, Accomondation accomondation, Person person, Workplace workplace, ArrayList<Payment> cost, ArrayList<Date> dates, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, String role) {
+        this.registrationID = registrationID;
         this.course = course;
         this.sessionsToAttend = sessionsToAttend;
+        this.eventsToAttend = eventsToAttend;
+        this.accomondation = accomondation;
         this.person = person;
         this.workplace = workplace;
         this.cost = cost;
@@ -53,7 +50,7 @@ public class Registration {
         this.optionalPersonalia = optionalPersonalia;
         this.optionalWorkplace = optionalWorkplace;
         this.extraInfo = extraInfo;
-        this.alternativeInvoiceAddress = alternativeInvoiceAddress;
+        this.role = role;
     }
 
     public int getRegistrationID() {
@@ -78,6 +75,22 @@ public class Registration {
 
     public void setSessionsToAttend(ArrayList<Integer> sessionsToAttend) {
         this.sessionsToAttend = sessionsToAttend;
+    }
+
+    public ArrayList<Integer> getEventsToAttend() {
+        return eventsToAttend;
+    }
+
+    public void setEventsToAttend(ArrayList<Integer> eventsToAttend) {
+        this.eventsToAttend = eventsToAttend;
+    }
+
+    public Accomondation getAccomondation() {
+        return accomondation;
+    }
+
+    public void setAccomondation(Accomondation accomondation) {
+        this.accomondation = accomondation;
     }
 
     public Person getPerson() {
@@ -150,5 +163,13 @@ public class Registration {
 
     public void setSpeaker(boolean speaker) {
         this.speaker = speaker;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

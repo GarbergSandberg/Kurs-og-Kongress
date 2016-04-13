@@ -25,36 +25,36 @@ To change this template use File | Settings | File Templates.
         <form>
             <div>
                 <label for="firstname">Fornavn: </label>
-                <input type="form-control" ng-model="nyperson.firstname" id="firstname"/>
+                <input type="form-control" ng-model="registration.person.firstname" id="firstname"/>
             </div>
             <div>
                 <label for="lastname">Etternavn: </label>
-                <input type="form-control" ng-model="nyperson.lastname" id="lastname"/>
+                <input type="form-control" ng-model="registration.person.lastname" id="lastname"/>
             </div>
             <div>
                 <label for="number">Nummer: </label>
-                <input type="form-control" ng-model="nyperson.number" id="number"/>
+                <input type="form-control" ng-model="registration.person.phonenumber" id="number"/>
             </div>
             <div>
                 <label for="mail">Mail: </label>
-                <input type="form-control" ng-model="nyperson.mail" id="mail"/>
+                <input type="form-control" ng-model="registration.person.email" id="mail"/>
             </div>
             <div>
                 <label for="birthyear">Fødselsår: </label>
-                <input type="form-control" ng-model="nyperson.birthyear" id="birthyear"/>
+                <input type="form-control" ng-model="registration.person.birthYear" id="birthyear"/>
             </div>
             <div ng-repeat="opt in course.form.optionalPersonalia">
                 <label for="opt">{{opt.parameter}}: </label>
-                <input type="checkbox" ng-hide="whichType(opt.type)" ng-model="nyperson.opt[$index]" id="opt"/>
-                <input type="text" ng-show="whichType(opt.type)" ng-model="nyperson.opt[$index]" id="opt"/><br>
+                <input type="checkbox" ng-hide="whichType(opt.type)" ng-model="registration.optionalPersonalia[$index]" id="opt"/>
+                <input type="text" ng-show="whichType(opt.type)" ng-model="registration.optionalPersonalia[$index]" id="opt"/><br>
             </div>
             <label ng-repeat="role in course.roles">
-                <input type="radio" name="role" ng-model="nyperson.role" ng-value="role"/> {{role}}
+                <input type="radio" name="role" ng-model="registration.role" ng-value="role"/> {{role}}
             </label>
             <br>
             <label>
-                <input type="radio" name="gender" value="Mann" ng-model="nyperson.gender"> Mann
-                <input type="radio" name="gender" value="Kvinne" ng-model="nyperson.gender"> Kvinne
+                <input type="radio" name="gender" value="Mann" ng-model="registration.person.gender"> Mann
+                <input type="radio" name="gender" value="Kvinne" ng-model="registration.person.gender"> Kvinne
             </label>
             <br>
             <!--Ekstra (utvides om "checked") -->
@@ -64,15 +64,19 @@ To change this template use File | Settings | File Templates.
         <h3>Arbeidsgiverinfo</h3>
         <div>
             <label for="name">Arbeidsplass: </label>
-            <input type="form-control" ng-model="workplace.name" id="name"/><br>
+            <input type="form-control" ng-model="registration.workplace.companyName" id="name"/><br>
         </div>
         <div>
             <label for="adress">Adresse: </label>
-            <input type="form-control" ng-model="workplace.address" id="adress"/><br>
+            <input type="form-control" ng-model="registration.workplace.address" id="adress"/><br>
         </div>
         <div>
             <label for="postalcode">Postnr: </label>
-            <input type="form-control" ng-model="workplace.postalcode" id="postalcode"/><br>
+            <input type="form-control" ng-model="registration.workplace.postalcode" id="postalcode"/><br>
+        </div>
+        <div>
+            <label for="location">Sted: </label>
+            <input type="form-control" ng-model="registration.workplace.location" id="location"/><br>
         </div>
         <!-- Ekstra (utvides om "checked") -->
         <label for="another">
@@ -81,12 +85,12 @@ To change this template use File | Settings | File Templates.
         </label>
         <div ng-show="checkboxAccModel.another">
             Alternativ fakturaadresse:
-            <input type="form-control" ng-model="workplace.facturaAddress" id="facturaAdress" size="40"/><br>
+            <input type="form-control" ng-model="registration.alternativeInvoiceAddress" id="facturaAdress" size="40"/><br>
         </div>
         <div ng-repeat="opt in course.form.optionalWorkplace">
-            <label for="opt">{{opt.parameter}}: </label>
-            <input type="checkbox" ng-hide="whichType(opt.type)" ng-model="workplace.opt[$index]" id="opt"/>
-            <input type="text" ng-show="whichType(opt.type)" ng-model="workplace.opt[$index]" id="opt"/><br>
+            <label for="opt2">{{opt.parameter}}: </label>
+            <input type="checkbox" ng-hide="whichType(opt.type)" ng-model="registration.optionalWorkplace[$index]" id="opt2"/>
+            <input type="text" ng-show="whichType(opt.type)" ng-model="registration.optionalWorkplace[$index]" id="opt2"/><br>
         </div>
         <hr/>
         <hr/>
@@ -105,7 +109,7 @@ To change this template use File | Settings | File Templates.
         <div ng-show="checkboxAccModel.c1 && checkboxAccModel.rad">
             <label>
                 <label for="place">Del rom med: </label>
-                <input type="form-control" ng-model="Accomodation.share" id="shareWith"/>
+                <input type="form-control" ng-model="registration.accomondation.roommate" id="shareWith"/>
             </label>
         </div>
 
@@ -115,12 +119,12 @@ To change this template use File | Settings | File Templates.
                 <label class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i> <i
                         class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
                 <div class="form-group col-xs-6">
-                    <input type="text" class="form-control" ng-model="course.startDate"
+                    <input type="text" class="form-control" ng-model="registration.accomondation.fromDate"
                            data-min-date="{{course.startDate}}"
                            data-max-date="{{course.endDate}}" placeholder="From" bs-datepicker>
                 </div>
                 <div class="form-group col-xs-6">
-                    <input type="text" class="form-control" ng-model="course.endDate" data-max-date="{{course.endDate}}"
+                    <input type="text" class="form-control" ng-model="registration.accomondation.toDate" data-max-date="{{course.endDate}}"
                            data-min-date="{{course.startDate}}" placeholder="Until" bs-datepicker>
                 </div>
             </div>
@@ -174,7 +178,7 @@ To change this template use File | Settings | File Templates.
         </table>
         <br>
         <button style="margin-left:2em;" type="button" class="btn btn-primary"
-                ng-click="saveSingleRegistration(nyperson, workplace)">
+                ng-click="saveSingleRegistration(registration)">
             Send påmelding
         </button>
     </div>

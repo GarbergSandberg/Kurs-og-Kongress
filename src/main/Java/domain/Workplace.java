@@ -25,12 +25,6 @@ public class Workplace {
         this.address = address;
     }
 
-    public Workplace(String companyName, int postalcode, String address) {
-        this.companyName = companyName;
-        this.postalcode = postalcode;
-        this.address = address;
-    }
-
     public int getWorkplaceID() {
         return workplaceID;
     }

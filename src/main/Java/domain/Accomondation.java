@@ -1,56 +1,72 @@
 package domain;
 
+import java.util.*;
+
 /**
- * Created by Lars on 12.04.2016.
+ * Created by eiriksandberg on 13.04.2016.
  */
 public class Accomondation {
-    int id;
-    private String name;
-    private double doubleprice;
-    private double singleprice;
-    private String address;
+    private int id;
+    private String roommate; // can be null || ""
+    private int hotelID;
+    private Date fromDate;
+    private Date toDate;
+    private boolean doubleroom; // false = singleroom; true =
 
-    public Accomondation(int id, String name, double doubleprice, double singleprice, String address) {
+    public Accomondation(int id, String roommate, int hotelID, Date fromDate, Date toDate, boolean doubleroom) {
         this.id = id;
-        this.name = name;
-        this.doubleprice = doubleprice;
-        this.singleprice = singleprice;
-        this.address = address;
+        this.roommate = roommate;
+        this.hotelID = hotelID;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+        this.doubleroom = doubleroom;
     }
 
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
     }
 
-    public int getId() {return id;}
-
-    public void setId(int id) {this.id = id;}
-
-    public void setName(String name) {
-        this.name = name;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public double getDoubleprice() {
-        return doubleprice;
+    public String getRoommate() {
+        return roommate;
     }
 
-    public void setDoubleprice(double doubleprice) {
-        this.doubleprice = doubleprice;
+    public void setRoommate(String roommate) {
+        this.roommate = roommate;
     }
 
-    public double getSingleprice() {
-        return singleprice;
+    public int getHotelID() {
+        return hotelID;
     }
 
-    public void setSingleprice(double singleprice) {
-        this.singleprice = singleprice;
+    public void setHotelID(int hotelID) {
+        this.hotelID = hotelID;
     }
 
-    public String getAddress() {
-        return address;
+    public Date getFromDate() {
+        return fromDate;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
+    }
+
+    public boolean isDoubleroom() {
+        return doubleroom;
+    }
+
+    public void setDoubleroom(boolean doubleroom) {
+        this.doubleroom = doubleroom;
     }
 }

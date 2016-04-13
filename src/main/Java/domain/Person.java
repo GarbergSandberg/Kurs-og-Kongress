@@ -14,22 +14,16 @@ public class Person {
     private int birthYear;
     private int phonenumber;
     private String email;
+    private String gender;
 
-    public Person(int personID, String firstname, String lastname, int birthYear, int phonenumber, String email) {
+    public Person(int personID, String firstname, String lastname, int birthYear, int phonenumber, String email, String gender) {
         this.personID = personID;
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthYear = birthYear;
         this.phonenumber = phonenumber;
         this.email = email;
-    }
-
-    public Person(String firstname, String lastname, int birthYear, int phonenumber, String email) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.birthYear = birthYear;
-        this.phonenumber = phonenumber;
-        this.email = email;
+        this.gender = gender;
     }
 
     public int getPersonID() {
@@ -78,5 +72,13 @@ public class Person {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

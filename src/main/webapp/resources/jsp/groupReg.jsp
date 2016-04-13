@@ -133,7 +133,7 @@
                     ng-model="firstPersonRoom"></select>
             <br>
             <label>Velg hotell: </label>
-            <div  ng-repeat="accomondation in course.accomondations">
+            <div  ng-repeat="accomondation in course.hotels">
                     <button class="btn btn-md"
                             ng-class="colorAccomondation(accomondation) ? 'btn-primary' : 'btn-default'"
                             ng-click="selectAccomondation(accomondation)"> <label>{{accomondation.name}}</label>

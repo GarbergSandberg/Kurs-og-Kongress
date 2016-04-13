@@ -77,9 +77,9 @@ public class CourseRepositoryMock implements CourseRepository {
         events.add(generateEventMock("Topptur på Byåsen", 70, 99, start2, end2, "Byåsens eldorado", 1));
         events.add(generateEventMock("Oktoberfest i dødens dal", 10, 499, start3, end3, "Dødens dal", 2));
         ArrayList<String> roles = generateRoleArray("Hobby", "Profesjonell");
-        ArrayList<Accomondation> accomondations = new ArrayList<Accomondation>();
-        accomondations.add(generateAccomondationMock(0,"Scandic Nidelven", 1200, 700, "Nidelvveien 12"));
-        accomondations.add(generateAccomondationMock(1,"Britannia", 1400, 750, "Kongens gate 12"));
+        ArrayList<Hotel> hotels = new ArrayList<Hotel>();
+        hotels.add(generateAccomondationMock(0,"Scandic Nidelven", 1200, 700, "Nidelvveien 12"));
+        hotels.add(generateAccomondationMock(1,"Britannia", 1400, 750, "Kongens gate 12"));
         Form form = generateMockForm();
         String title = "Kurs i gastronomi";
         String location = "Trondheim";
@@ -88,7 +88,7 @@ public class CourseRepositoryMock implements CourseRepository {
         Date endDate = dato2;
         int maxNumber = 200;
         int id = 0;
-        courses.add(new Course(sessions,events,roles,accomondations,form,title,location,description,startDate,endDate,3560,1250,200,maxNumber,id));
+        courses.add(new Course(sessions,events,roles, hotels,form,title,location,description,startDate,endDate,3560,1250,200,maxNumber,id));
 
         //Course 2 heu
         ArrayList<Session> sessions2 = new ArrayList<Session>();
@@ -103,7 +103,7 @@ public class CourseRepositoryMock implements CourseRepository {
         events2.add(generateEventMock("Foredrag om AI", 100, 50, start2, end2,"Work-Work", 1));
         events2.add(generateEventMock("Fordrag med Bill Gates", 50, 0, start3, end3,"NTNU Gløshaugen", 2));
         ArrayList<String> roles2 = generateRoleArray("Elev", "Lærer");
-        ArrayList<Accomondation> accomondations2 = new ArrayList<Accomondation>();
+        ArrayList<Hotel> accomondations2 = new ArrayList<Hotel>();
         accomondations2.add(generateAccomondationMock(0,"Scandic Lerkendal", 900, 500, "Lerkendal station"));
         accomondations2.add(generateAccomondationMock(1,"Quality Comfort", 1000, 590, "Prinsens gate 12"));
         String title2 = "Kurs i programmering";
@@ -132,7 +132,7 @@ public class CourseRepositoryMock implements CourseRepository {
         Date endDate3 = dato2;
         int maxNumber3 = 100;
         int id3 = 2;
-        courses.add(new Course(sessions3,events3,roles3,accomondations,null,title3,location3,description3,startDate3,endDate3,3560,1250,200,maxNumber3, id3));
+        courses.add(new Course(sessions3,events3,roles3, hotels,null,title3,location3,description3,startDate3,endDate3,3560,1250,200,maxNumber3, id3));
         return courses;
     }
 
@@ -180,13 +180,13 @@ public class CourseRepositoryMock implements CourseRepository {
         return new Event(title,maxNumber,price,location,start,end,id);
     }
 
-    public Accomondation generateAccomondationMock(int i,String n, double d, double s, String a){
+    public Hotel generateAccomondationMock(int i, String n, double d, double s, String a){
         int id = i;
         String name = n;
         double doubleprice = d;
         double singleprice = s;
         String address = a;
-        return new Accomondation(id, name, doubleprice, singleprice, address);
+        return new Hotel(id, name, doubleprice, singleprice, address);
     }
 
     public ArrayList<String> generateRoleArray(String role1, String role2){

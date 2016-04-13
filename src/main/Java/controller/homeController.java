@@ -86,6 +86,12 @@ public class homeController {
         return "registration";
     }
 
+    @RequestMapping(value = "/saveReg", method = RequestMethod.POST)
+    public ResponseEntity<Void> saveReg( @RequestBody Registration registration )   {
+        System.out.println(registration.getPerson().getFirstname());
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
+
     @RequestMapping(value = "/saveinformation_json", method = RequestMethod.POST)
     public ResponseEntity<Void> saveInformation_JSON( @RequestBody Course course )   {
         course.setForm(buffer);
