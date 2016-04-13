@@ -1,7 +1,6 @@
 package repository;
 
 import domain.*;
-import org.springframework.stereotype.*;
 
 import java.util.*;
 

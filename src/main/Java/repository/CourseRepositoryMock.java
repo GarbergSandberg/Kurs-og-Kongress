@@ -50,32 +50,6 @@ public class CourseRepositoryMock implements CourseRepository {
     Date end8 = setCalendar(2016,6,8,13,30).getTime();
     Date end9 = setCalendar(2016,6,8,16,0).getTime();
 
-    /*
-
-    Calendar start1 = new GregorianCalendar(1,6,2016,10,0);
-    Calendar start2 = new GregorianCalendar(1,6,2016,12,0);
-    Calendar start3 = new GregorianCalendar(1,6,2016,15,0);
-    Calendar start4 = new GregorianCalendar(2,6,2016,9,0);
-    Calendar start5 = new GregorianCalendar(2,6,2016,11,0);
-    Calendar start6 = new GregorianCalendar(2,6,2016,13,0);
-    Calendar start7 = new GregorianCalendar(3,6,2016,10,0);
-    Calendar start8 = new GregorianCalendar(3,6,2016,12,0);
-    Calendar start9 = new GregorianCalendar(3,6,2016,14,0);
-
-    Calendar end1 = new GregorianCalendar(1,6,2016,13,0);
-    Calendar end2 = new GregorianCalendar(1,6,2016,14,0);
-    Calendar end3 = new GregorianCalendar(1,6,2016,17,0);
-    Calendar end4 = new GregorianCalendar(2,6,2016,12,30);
-    Calendar end5 = new GregorianCalendar(2,6,2016,12,0);
-    Calendar end6 = new GregorianCalendar(2,6,2016,15,0);
-    Calendar end7 = new GregorianCalendar(3,6,2016,12,0);
-    Calendar end8 = new GregorianCalendar(3,6,2016,13,30);
-    Calendar end9 = new GregorianCalendar(3,6,2016,16,0);
-
-     */
-    
-    
-
     private Course course = generateCourseMock("Kurs for legeforeningen", "Oppdal", "Dette er et kurs for legeforeningen. Kurset holder sted i Oppdal", 200);
     private ArrayList<Course> courses = makeCourses();
 
@@ -103,6 +77,9 @@ public class CourseRepositoryMock implements CourseRepository {
         events.add(generateEventMock("Topptur på Byåsen", 70, 99, start2, end2, "Byåsens eldorado", 1));
         events.add(generateEventMock("Oktoberfest i dødens dal", 10, 499, start3, end3, "Dødens dal", 2));
         ArrayList<String> roles = generateRoleArray("Hobby", "Profesjonell");
+        ArrayList<Accomondation> accomondations = new ArrayList<Accomondation>();
+        accomondations.add(generateAccomondationMock(0,"Scandic Nidelven", 1200, 700, "Nidelvveien 12"));
+        accomondations.add(generateAccomondationMock(1,"Britannia", 1400, 750, "Kongens gate 12"));
         Form form = generateMockForm();
         String title = "Kurs i gastronomi";
         String location = "Trondheim";
@@ -111,7 +88,7 @@ public class CourseRepositoryMock implements CourseRepository {
         Date endDate = dato2;
         int maxNumber = 200;
         int id = 0;
-        courses.add(new Course(sessions,events,roles,form,title,location,description,startDate,endDate,3560,1250,200,maxNumber,id));
+        courses.add(new Course(sessions,events,roles,accomondations,form,title,location,description,startDate,endDate,3560,1250,200,maxNumber,id));
 
         //Course 2 heu
         ArrayList<Session> sessions2 = new ArrayList<Session>();
@@ -126,6 +103,9 @@ public class CourseRepositoryMock implements CourseRepository {
         events2.add(generateEventMock("Foredrag om AI", 100, 50, start2, end2,"Work-Work", 1));
         events2.add(generateEventMock("Fordrag med Bill Gates", 50, 0, start3, end3,"NTNU Gløshaugen", 2));
         ArrayList<String> roles2 = generateRoleArray("Elev", "Lærer");
+        ArrayList<Accomondation> accomondations2 = new ArrayList<Accomondation>();
+        accomondations2.add(generateAccomondationMock(0,"Scandic Lerkendal", 900, 500, "Lerkendal station"));
+        accomondations2.add(generateAccomondationMock(1,"Quality Comfort", 1000, 590, "Prinsens gate 12"));
         String title2 = "Kurs i programmering";
         String location2 = "Trondheim";
         String description2 = "Dette er et kurs i forskjellige programmeringsspråk";
@@ -133,7 +113,7 @@ public class CourseRepositoryMock implements CourseRepository {
         Date endDate2 = dato2;
         int maxNumber2 = 100;
         int id2 = 1;
-        courses.add(new Course(sessions2,events2,roles2,null,title2,location2,description2,startDate2,endDate2,3560,1250,200,maxNumber2, id2));
+        courses.add(new Course(sessions2,events2,roles2,accomondations2,null,title2,location2,description2,startDate2,endDate2,3560,1250,200,maxNumber2, id2));
 
         //Course 3
         ArrayList<Session> sessions3 = new ArrayList<Session>();
@@ -152,7 +132,7 @@ public class CourseRepositoryMock implements CourseRepository {
         Date endDate3 = dato2;
         int maxNumber3 = 100;
         int id3 = 2;
-        courses.add(new Course(sessions3,events3,roles3,null,title3,location3,description3,startDate3,endDate3,3560,1250,200,maxNumber3, id3));
+        courses.add(new Course(sessions3,events3,roles3,accomondations,null,title3,location3,description3,startDate3,endDate3,3560,1250,200,maxNumber3, id3));
         return courses;
     }
 
@@ -200,6 +180,15 @@ public class CourseRepositoryMock implements CourseRepository {
         return new Event(title,maxNumber,price,location,start,end,id);
     }
 
+    public Accomondation generateAccomondationMock(int i,String n, double d, double s, String a){
+        int id = i;
+        String name = n;
+        double doubleprice = d;
+        double singleprice = s;
+        String address = a;
+        return new Accomondation(id, name, doubleprice, singleprice, address);
+    }
+
     public ArrayList<String> generateRoleArray(String role1, String role2){
         ArrayList<String> roles = new ArrayList<String>();
         roles.add(role1);
@@ -215,36 +204,22 @@ public class CourseRepositoryMock implements CourseRepository {
         return new Form(optionalPersonalia,optionalWorkplace,inputQuestions,cm);
     }
 
-/*    public ArrayList<InputParameter> generateRequiredPersonalia(){
-        ArrayList<InputParameter> list = new ArrayList<InputParameter>();
-        String a = "Input";
-        for (int i = 0; i < 5; i++){
-            list.add(new InputParameter(i+"ReqPers",a));
-        }
-        return list;
-    }
-    public ArrayList<InputParameter> generateRequiredWorkplace(){
-        ArrayList<InputParameter> list = new ArrayList<InputParameter>();
-        String a = "Input";
-        for (int i = 0; i < 5; i++){
-            list.add(new InputParameter(i+"ReqWork",a));
-        }
-        return list;
-    }*/
     public ArrayList<InputParameter> generateOptionalPersonalia(){
         ArrayList<InputParameter> list = new ArrayList<InputParameter>();
         String a = "Input";
-        for (int i = 0; i < 5; i++){
+        list.add(new InputParameter("Tittel", a));
+        /*for (int i = 0; i < 5; i++){
             list.add(new InputParameter(i+"OptPers",a));
-        }
+        }*/
         return list;
     }
     public ArrayList<InputParameter> generateOptionalWorkplace(){
         ArrayList<InputParameter> list = new ArrayList<InputParameter>();
         String a = "Input";
-        for (int i = 0; i < 5; i++){
+        list.add(new InputParameter("Antall arbeidere", a));
+        /*for (int i = 0; i < 5; i++){
             list.add(new InputParameter(i+"OptWork",a));
-        }
+        }*/
         return list;
     }
     public ArrayList<InputParameter> generateInputQuestions(){
@@ -255,6 +230,47 @@ public class CourseRepositoryMock implements CourseRepository {
         }
         return list;
     }
+
+    /*
+
+    Calendar start1 = new GregorianCalendar(1,6,2016,10,0);
+    Calendar start2 = new GregorianCalendar(1,6,2016,12,0);
+    Calendar start3 = new GregorianCalendar(1,6,2016,15,0);
+    Calendar start4 = new GregorianCalendar(2,6,2016,9,0);
+    Calendar start5 = new GregorianCalendar(2,6,2016,11,0);
+    Calendar start6 = new GregorianCalendar(2,6,2016,13,0);
+    Calendar start7 = new GregorianCalendar(3,6,2016,10,0);
+    Calendar start8 = new GregorianCalendar(3,6,2016,12,0);
+    Calendar start9 = new GregorianCalendar(3,6,2016,14,0);
+
+    Calendar end1 = new GregorianCalendar(1,6,2016,13,0);
+    Calendar end2 = new GregorianCalendar(1,6,2016,14,0);
+    Calendar end3 = new GregorianCalendar(1,6,2016,17,0);
+    Calendar end4 = new GregorianCalendar(2,6,2016,12,30);
+    Calendar end5 = new GregorianCalendar(2,6,2016,12,0);
+    Calendar end6 = new GregorianCalendar(2,6,2016,15,0);
+    Calendar end7 = new GregorianCalendar(3,6,2016,12,0);
+    Calendar end8 = new GregorianCalendar(3,6,2016,13,30);
+    Calendar end9 = new GregorianCalendar(3,6,2016,16,0);
+
+     */
+
+    /*    public ArrayList<InputParameter> generateRequiredPersonalia(){
+            ArrayList<InputParameter> list = new ArrayList<InputParameter>();
+            String a = "Input";
+            for (int i = 0; i < 5; i++){
+                list.add(new InputParameter(i+"ReqPers",a));
+            }
+            return list;
+        }
+        public ArrayList<InputParameter> generateRequiredWorkplace(){
+            ArrayList<InputParameter> list = new ArrayList<InputParameter>();
+            String a = "Input";
+            for (int i = 0; i < 5; i++){
+                list.add(new InputParameter(i+"ReqWork",a));
+            }
+            return list;
+        }*/
 
 
 /*    public Course generateTemplate(){
