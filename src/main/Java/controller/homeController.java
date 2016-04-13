@@ -36,6 +36,7 @@ public class homeController {
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(String[].class, new StringArrayPropertyEditor(null));
     }
+
     @Autowired
     private CourseService courseService;
 
@@ -48,7 +49,7 @@ public class homeController {
     @RequestMapping("/")
     public ModelAndView home(){
         selectedPerson = "-1";
-        return new ModelAndView("attenderInfo");
+        return new ModelAndView("registerCourse");
     }
 
     @RequestMapping("/reg")
