@@ -32,7 +32,6 @@
     <spring:url value="resources/js/service/personService.js" var="personService"/>
     <spring:url value="resources/js/service/regService.js" var="regService"/>
     <spring:url value="resources/js/controllers/addRegCtrl.js" var="regCtrl"/>
-    <spring:url value="resources/js/controllers/addPersonCtrl.js" var="personCtrl"/>
 
     <script src="${appJs}"></script>
     <script src="${myApp}"></script>
@@ -40,7 +39,6 @@
     <script src="${personService}"></script>
     <script src="${regService}"></script>
     <script src="${regCtrl}"></script>
-    <script src="${personCtrl}"></script>
 
 </head>
 <html>
