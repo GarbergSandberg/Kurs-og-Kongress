@@ -35,7 +35,7 @@ To change this template use File | Settings | File Templates.
             </div>
             <div>
                 <label for="number">Nummer: </label>
-                <input type="form-control" ng-model="registration.person.phonenumber" id="number"/>
+                <input type="form-control" ng-model="registration.person.phonenumber" id="number" type="number"/>
             </div>
             <div>
                 <label for="mail">Mail: </label>
@@ -43,7 +43,7 @@ To change this template use File | Settings | File Templates.
             </div>
             <div>
                 <label for="birthyear">Fødselsår: </label>
-                <input type="form-control" ng-model="registration.person.birthYear" id="birthyear"/>
+                <input type="form-control" ng-model="registration.person.birthYear" id="birthyear" type="number"/>
             </div>
             <div ng-repeat="opt in course.form.optionalPersonalia">
                 <label for="opt">{{opt.parameter}}: </label>
@@ -74,7 +74,7 @@ To change this template use File | Settings | File Templates.
         </div>
         <div>
             <label for="postalcode">Postnr: </label>
-            <input type="form-control" ng-model="registration.workplace.postalcode" id="postalcode"/><br>
+            <input type="form-control" ng-model="registration.workplace.postalcode" id="postalcode" type="number"/><br>
         </div>
         <div>
             <label for="location">Sted: </label>

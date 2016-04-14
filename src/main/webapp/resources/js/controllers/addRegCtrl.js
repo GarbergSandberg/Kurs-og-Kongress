@@ -8,7 +8,10 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     $scope.selectedSessions = [];
     $scope.selectedDays = [];
     $scope.courses = [];
-    $scope.course = [];
+    $scope.course = {};
+    $scope.$on('courseSet', function(event, data){
+        $scope.course = data;
+    });
     $scope.dateArray = [];
     $scope.persons = personService.get();
     $scope.$on('personSet', function(event, data){
@@ -58,28 +61,14 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
 
     $scope.saveSingleRegistration = function(registration){ // Må sende med course.id, course.form, session, workplace, person, pris.
         // courseID, sessions[], events[], person, workplace, price[], datestoAttend[], optPersonalia, optWorkplace, extraInfo, alternativFakturaadresse, form
-        console.log(registration);
-        console.log($scope.selectedEvents);
-        console.log($scope.selectedSessions);
-        registration.person.personID = 1;
-        registration.person.birthYear = 2019;
-        registration.person.phonenumber = 99292929;
+        var optionals = self.inputParameterResolver(registration);
+        registration.optionalPersonalia = optionals.optionalPersonalia;
+        registration.optionalWorkplace = optionals.optionalWorkplace;
+        registration.extraInfo = optionals.extraInfo;
+        registration.cost = self.findPrice($scope.selectedDays.length, $scope.allDaysCheck);//
+        registration.sessionsToAttend = self.resolveID($scope.selectedSessions);
+        registration.eventsToAttend = self.resolveID($scope.selectedEvents);
         self.sendRegistration(registration);
-    };
-
-    $scope.inputParameterResolver = function(registration){
-        var answer = registration.optionalPersonalia;
-        for (var prop in answer){
-            if (answer[prop] != undefined) {
-                console.log("PROP: " + prop + " SVAR: " + answer);
-                console.log("Answer.prop: " + answer[prop]);
-                var i = parseInt(prop);
-                console.log(i + " dsdsadasdsa");
-                console.log("Prøver å finne type: " + $scope.course.optionalPersonalia[0]);
-                var inputParameter = {parameter: answer[prop], type: $scope.course.optionalPersonalia[0]};
-                console.log("KLARTE DET!!! " + inputParameter);
-            }
-        }
     };
 
     $scope.sendAll = function(course, form){ // Funker ikke. Sender person-array, skal ikke gjøre det..
@@ -104,15 +93,19 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         });
     };
 
-    $scope.findPrice = function(){ // Finn ut hvilke dager han skal delta på, multipliser med course.dagpakke og course.kursavgift.
-        var ant = $scope.selectedDays.length;
+    self.findPrice = function(ant, allDaysCheck){ // Finn ut hvilke dager han skal delta på, multipliser med course.dagpakke og course.kursavgift.
         var price = [];
-        if ($scope.allDaysCheck == true || $scope.selectedDays.length == $scope.dateArray.length){
-            price[0] = {amount: $scope.course.courseFee, description: 'test'};
-            price[1] = {amount: $scope.course.dayPackage * $scope.dateArray.length, description: 'test2'};
+        console.log($scope.dateArray.length + " dateArray.length");
+        if (allDaysCheck == true || ant == $scope.dateArray.length){
+            price.push({amount: $scope.course.courseFee, description: 'Kursavgift'});
+            for (var i = 0; i < $scope.dateArray.length; i++){
+                price.push({amount: $scope.course.dayPackage, description: 'Dagpakke'});
+            }
         } else {
-            price[0] = {amount: $scope.course.courseSingleDayFee*ant, description: 'test'};
-            price[1] = {amount: ($scope.course.dayPackage * ant), description: "test2"};
+            price.push({amount: $scope.course.courseSingleDayFee*ant, description: 'Kursavgift'});
+            for (var u = 0; u < ant; u++){
+                price.push({amount: ($scope.course.dayPackage), description: "Dagpakke"})
+            }
         }
         return price;
     };
@@ -207,16 +200,19 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         }
     };
 
-    $scope.selectDay = function selectDay(day) {  // http://stackoverflow.com/questions/14514461/angularjs-how-to-bind-to-list-of-checkbox-values
-        var idx = $scope.selectedDays.indexOf(day);
+    $scope.selectDay = function(day){
         $scope.allDaysCheck = false;
-        if (idx > -1) {
-            $scope.selectedDays.splice(idx, 1);
-        } else {
-            $scope.selectedDays.push(day);
-            if ($scope.selectedDays.length == $scope.dateArray.length){
-                $scope.allDaysCheck = true;
+        for(var i = 0; i < $scope.selectedDays.length; i++){
+            if (day == $scope.selectedDays[i]){
+                $scope.selectedDays.splice(i,1);
+                console.log($scope.selectedDays[i] + " er fjernet. Lengden på tabell er nå " + $scope.selectedDays.length);
+                return;
             }
+        }
+        $scope.selectedDays.push(day);
+        console.log(day + " er pushet. Lengden på tabell er nå " + $scope.selectedDays.length);
+        if ($scope.selectedDays.length == $scope.dateArray.length){
+            $scope.allDaysCheck = true;
         }
     };
 
@@ -242,6 +238,34 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
             }
             regService.setCourse($scope.course, $scope.course.roles, $scope.dateArray);
         })
+    };
+
+    self.inputParameterResolver = function(registration){
+        var optionalPersonalia = [];
+        var optionalWorkplace = [];
+        var extraInfo = [];
+        for (var prop in registration.optionalPersonalia){ // Prop is indexnumber for the question in course.form.optionalPersonalia
+            if (registration.optionalPersonalia[prop] != undefined) {
+                var i = parseInt(prop);
+                var inputParameter = {parameter: registration.optionalPersonalia[prop], type: $scope.course.form.optionalPersonalia[i].type};
+                optionalPersonalia.push(inputParameter);
+            }
+        }
+        for (var prop in registration.optionalWorkplace){ // Prop is indexnumber for the question in course.form.optionalWorkplace
+            if (registration.optionalWorkplace[prop] != undefined) {
+                var i = parseInt(prop);
+                var inputParameter = {parameter: registration.optionalWorkplace[prop], type: $scope.course.form.optionalWorkplace[i].type};
+                optionalWorkplace.push(inputParameter);
+            }
+        }
+        for (var prop in registration.extraInfo){ // Prop is indexnumber for the question in course.form.extraInfo
+            if (registration.extraInfo[prop] != undefined) {
+                var i = parseInt(prop);
+                var inputParameter = {parameter: registration.extraInfo[prop], type: $scope.course.form.extraInfo[i].type};
+                extraInfo.push(inputParameter);
+            }
+        }
+        return {optionalPersonalia: optionalPersonalia, optionalWorkplace: optionalWorkplace, extraInfo: extraInfo};
     };
 
 
@@ -361,8 +385,18 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
                     notOverlaps = false;
                     break;
                 }
-            } if (notOverlaps) $scope.selectedSessions.push(session);
+            } if (notOverlaps){
+                $scope.selectedSessions.push(session);
+            }
         }
+    };
+
+    self.resolveID = function(sessions){
+        var ids = [];
+        for (var i = 0; i < sessions.length; i++){
+            ids.push(sessions[i].id);
+        }
+        return ids;
     };
 
     $scope.selectEvent = function selectEvent(event) {

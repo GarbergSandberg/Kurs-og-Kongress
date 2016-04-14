@@ -31,7 +31,7 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
         },
 
         setCourse: function (newCourse, newRoles, newDays) {
-            $rootScope.$broadcast('courseSet', course);
+            $rootScope.$broadcast('courseSet', newCourse);
             $rootScope.$broadcast('dateSet', newDays);
             $rootScope.$broadcast('rolesSet', newRoles);
             $rootScope.$broadcast('formSet', form);
@@ -136,14 +136,6 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
                         return $q.reject(errResponse.data);
                     }
                 );
-        },
-
-        editCourse: function (courseID) {
-            editCourse = courseID;
-        },
-
-        getEditCourse: function () {
-            return editCourse;
         },
 
         getTemplate: function (callback) {

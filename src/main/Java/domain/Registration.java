@@ -37,22 +37,6 @@ public class Registration {
         this.role = role;
     }
 
-    public Registration(int registrationID, Course course, ArrayList<Integer> sessionsToAttend, ArrayList<Integer> eventsToAttend, Accomondation accomondation, Person person, Workplace workplace, ArrayList<Payment> cost, ArrayList<Date> dates, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, String role) {
-        this.registrationID = registrationID;
-        this.course = course;
-        this.sessionsToAttend = sessionsToAttend;
-        this.eventsToAttend = eventsToAttend;
-        this.accomondation = accomondation;
-        this.person = person;
-        this.workplace = workplace;
-        this.cost = cost;
-        this.dates = dates;
-        this.optionalPersonalia = optionalPersonalia;
-        this.optionalWorkplace = optionalWorkplace;
-        this.extraInfo = extraInfo;
-        this.role = role;
-    }
-
     public Registration() {
     }
 
