@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-<<<<<<< HEAD
-  <component name="DataSourceManagerImpl" format="xml" hash="577136630">
-    <data-source source="LOCAL" name="Derby (Remote) - kursogkongressDB;create=true@localhost" uuid="335c377c-e96b-40a0-b291-6886d9dafdf1">
-=======
-  <component name="DataSourceManagerImpl" format="xml" hash="2139674240">
-    <data-source source="LOCAL" name="Derby  - testDB;create=true@localhost" uuid="c83b08da-7c00-4e00-b260-2b7fd7298841">
->>>>>>> origin/Kurs-og-Kongress
+  <component name="DataSourceManagerImpl" format="xml" hash="3025486067">
+    <data-source source="LOCAL" name="Derby (Remote) - kursogkongressDB;create=true@localhost" uuid="eb23f7d8-c2e3-4d76-93b9-945a7d1a8c7d">
       <driver-ref>derby.remote</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.apache.derby.jdbc.ClientDriver</jdbc-driver>

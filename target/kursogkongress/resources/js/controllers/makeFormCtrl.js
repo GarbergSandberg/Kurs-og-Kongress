@@ -4,10 +4,7 @@
 sessionRegisterApp.controller('RegistrationCtrl', ['$scope', 'courseService', function ($scope, courseService){
     $scope.tooltip = {title: 'Her skal det inn info om personalia'};
     $scope.form = {};
-    $scope.form.checkboxModel = {
-        hotel : false,
-        airplane : false
-    };
+    $scope.form.airplane = false;
     $scope.form.optionalPersonalia = [];
     $scope.form.optionalWorkplace = [];
     $scope.form.extraInfo = [];
@@ -21,8 +18,8 @@ sessionRegisterApp.controller('RegistrationCtrl', ['$scope', 'courseService', fu
         courseService.setForm($scope.form);
     });
     $scope.$on('recievedForm', function(event, data){
-        if (data.checkboxModel != null) {
-            $scope.form.checkboxModel = data.checkboxModel;
+        if (data.airplane != null) {
+            $scope.form.airplane = data.airplane;
         }
         if(data.optionalPersonalia != null){
             $scope.form.optionalPersonalia = data.optionalPersonalia;

@@ -6,6 +6,7 @@ import java.util.*;
  * Created by eiriksandberg on 10.02.2016.
  */
 public class Form {
+    private int id;
     private ArrayList<InputParameter> optionalPersonalia;
     private ArrayList<InputParameter> optionalWorkplace;
     private ArrayList<InputParameter> extraInfo;
