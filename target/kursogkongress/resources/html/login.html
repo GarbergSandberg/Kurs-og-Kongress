@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form role="form" name="form1">
+    Welcome {{user.email}}
+    <div class="form-group">
+        <ul>
+            <li><label for="usermail">Email</label>
+                <input type="text" name="username" placeholder="yourname@email.com" required ng-model="user.username" id="usermail"></li>
+            <li><label for="password">Password</label>
+                <input type="password" name="password" placeholder="password" required ng-model="user.password" id="password"></li>
+            <li>
+                <input class="btn btn-default" type="submit" ng-click="login(user)" value="Login"></li>
+        </ul>
+    </div>
+    {{msgtxt}}
+</form>
+
+</body>
+</html>

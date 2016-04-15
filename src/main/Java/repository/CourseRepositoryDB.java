@@ -15,7 +15,7 @@ public class CourseRepositoryDB implements CourseRepository{
     JdbcTemplate jdbcTemplateObject;
 
     private final String sqlGetCourse = "select * from Course where idCourse = ?";
-    private final String sqlGetSession = "select * from Session where idSession = ?";
+    private final String sqlGetSession = "select * from Session where COURSE_IDCOURSE = ?";
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
@@ -28,6 +28,8 @@ public class CourseRepositoryDB implements CourseRepository{
         Course course = new Course();
         try{
             course = (Course) jdbcTemplateObject.queryForObject(sqlGetCourse, new Object[]{id}, new CourseMapper());
+            course.setSessions(getSessions(id));
+            System.out.println(course.getSessions().get(0).toString());
         } catch (Exception e){
             System.out.println("Feil i getCourse! Finner ikke kurs " + e);
             course = null;
@@ -36,14 +38,9 @@ public class CourseRepositoryDB implements CourseRepository{
         return course;
     }
 
-/*    public Session getSession(int id){
-        Session session = new Session();
-        try{
-            session = (Session) jdbcTemplateObject.queryForObject(sqlGetSession, new Object[]{id}, new)
-        } catch(Exception e){
-
-        }
-    }*/
+    public ArrayList<Session> getSessions(int courseID){
+        return (ArrayList<Session>) jdbcTemplateObject.query(sqlGetSession, new Object[]{courseID}, new SessionMapper());
+    }
 
     public ArrayList<Course> getCourses() {
         return null;

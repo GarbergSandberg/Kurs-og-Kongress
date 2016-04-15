@@ -91,4 +91,18 @@ public class Session {
     public void setMaxnumber(int maxnumber) {
         this.maxnumber = maxnumber;
     }
+
+    @Override
+    public String toString() {
+        return "Session{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", date=" + date +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", location='" + location + '\'' +
+                ", maxnumber=" + maxnumber +
+                ", id=" + id +
+                '}';
+    }
 }

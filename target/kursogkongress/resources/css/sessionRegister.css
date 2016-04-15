@@ -1,0 +1,65 @@
+#sessionRegisterClass{
+    background-color: white;
+}
+
+table.session{
+    table-layout: fixed;
+    max-width: 100%;
+}
+
+td.session {
+    overflow: hidden;
+    max-width: 120px;
+    min-width: 120px;
+    height: 70px;
+}
+
+a.person{
+    display: inline-block;
+    max-width: 250px;
+    min-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: hand;
+}
+
+.btn-block {
+    display: table-cell;
+    height: 70px;
+    font-size: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#sessionButton{
+    font-size: small;
+}
+
+a.event{
+    display: inline-block;
+    max-width: 250px;
+    min-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: hand;
+}
+
+h4.event{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+a.plusbutton{
+    display: inline-block;
+    max-width: 400px;
+    min-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    cursor: hand;
+}
+
+table.modal{
+    max-width: 100%;
+}

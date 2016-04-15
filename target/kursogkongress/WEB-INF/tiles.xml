@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+    <definition name="mainpage" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title"  value="Index"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/registerCourse.jsp"/>
+        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
+    </definition>
+
+    <definition name="registerCourse" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title"  value="Index"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/registerCourse.jsp"/>
+        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
+    </definition>
+
+    <definition name="courseOverview" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title"  value="Index"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/courseOverview.jsp"/>
+        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
+    </definition>
+
+    <definition name="reg" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title"  value="Index"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/reg.jsp"/>
+        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
+    </definition>
+
+    <definition name="index" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title"  value="Index"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/index.jsp"/>
+        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
+    </definition>
+
+    <definition name="attenderInfo" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title"  value="test"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/attenderInfo.jsp"/>
+        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
+    </definition>
+
+    <definition name="personInfo" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title"  value="test"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/participantInfo.jsp"/>
+        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
+    </definition>
+
+    <definition name="invoice" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title"  value="test"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/invoice.jsp"/>
+        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
+    </definition>
+</tiles-definitions>
