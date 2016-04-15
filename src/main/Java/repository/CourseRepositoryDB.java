@@ -20,6 +20,7 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String sqlGetCourseRoles = "select role from CourseRole where COURSE_IDCOURSE = ?";
     private final String sqlGetHotels = "select * from Hotel where COURSE_IDCOURSE = ?";
     private final String sqlGetForm = "select * from Form where COURSE_IDCOURSE = ?";
+    private final String sqlGetCourseIDs = "select idcourse from course";
 
     private final String sqlGetOptionaPersonaliaInputParameters = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALPERSONALIA, OPTIONALPERSONALIA, FORM " +
             "where FORM.IDFORM = OPTIONALPERSONALIA.FORM_IDFORM AND " +
@@ -45,7 +46,15 @@ public class CourseRepositoryDB implements CourseRepository{
     }
 
     public ArrayList<Course> getCourses() {
-        return null;
+        ArrayList<Course> courses = new ArrayList<Course>();
+        List<Integer> courseIDs = jdbcTemplateObject.query(sqlGetCourseIDs, new Object[]{}, new SupportMapper());
+        for (Integer i : courseIDs){
+            System.out.println(i);
+            courses.add(getCourse(i));
+            System.out.println("Course with id " + courses.get(i).getId() + " is called " + courses.get(i).getTitle());
+        }
+        System.out.println("Number of courses: " + courses.size());
+        return courses;
     }
 
     public Course getCourse(int id) {
@@ -58,7 +67,7 @@ public class CourseRepositoryDB implements CourseRepository{
             course.setHotels(getHotels(id));
             course.setForm(getForm(id));
         } catch (Exception e){
-            System.out.println("Feil i getCourse! Finner ikke kurs " + e);
+            System.out.println("Error in getCourse() " + e);
             course = null;
         }
         System.out.println(course.toString());
@@ -73,7 +82,7 @@ public class CourseRepositoryDB implements CourseRepository{
             form.setOptionalWorkplace(getOptionalWorkplace(form.getId()));
             form.setExtraInfo(getExtraInfo(form.getId()));
         } catch(Exception e){
-            System.out.println("Feil i getForm! " + e);
+            System.out.println("Error in getForm! " + e);
             form = null;
         }
         System.out.println(form.toString());

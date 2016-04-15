@@ -10,6 +10,6 @@ import java.sql.*;
 public class SupportMapper implements RowMapper<Integer> {
 
     public Integer mapRow(ResultSet rs, int i) throws SQLException{
-        return rs.getInt("inputparameter_idinputparameter");
+        return rs.getInt("idCourse");
     }
 }
