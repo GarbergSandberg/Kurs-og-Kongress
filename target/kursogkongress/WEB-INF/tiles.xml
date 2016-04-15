@@ -53,4 +53,10 @@
         <put-attribute name="body"   value="/WEB-INF/jsp/invoice.jsp"/>
         <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
     </definition>
+    <definition name="courseStatistics" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title"  value="test"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/courseStatistics.jsp"/>
+        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
+    </definition>
+
 </tiles-definitions>

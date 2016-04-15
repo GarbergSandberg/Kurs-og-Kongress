@@ -39,7 +39,6 @@
     <script src="${personService}"></script>
     <script src="${regService}"></script>
     <script src="${regCtrl}"></script>
-
 </head>
 <html>
 <body>
