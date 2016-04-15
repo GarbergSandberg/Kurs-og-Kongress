@@ -4,6 +4,8 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         { id: '2', title:'Gruppepåmelding', content:'resources/jsp/groupReg.jsp'}
     ];
     $scope.tabs.activeTab = 'Gruppepåmelding';
+    $scope.registration = {};
+    $scope.registrations = regService.get();
     $scope.selectedEvents = [];
     $scope.selectedSessions = [];
     $scope.selectedDays = [];
@@ -21,11 +23,13 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     $scope.attendDate = [];
     $scope.tooltip = {title: 'Fjern romkamerat'};
     $scope.firstPersonRoom = {};
-    $scope.hasRoom = personService.getHasRoom();
+    $scope.secondPersonRoom = {};
+    $scope.hasRoom = [];
 
+    $scope.newacc = {};
 
     $scope.saveGroupRegistration = function(workplace){ // Må sende med course.id, course.form, session, workplace, person, pris.
-        var registration = {};
+        /*var registration = {};
         registration.registrationID = 'Hei';
         registration.check = 'beeesj';
         //var form = $scope.course.form;
@@ -119,8 +123,9 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         another: false
     };
 
-    $scope.update = function (newPerson) {
-        personService.save(newPerson);
+    $scope.update = function (registrations) { // Sender med et registrations-objekt som inneholder en person hver.
+        regService.saveReg(registrations);
+        personService.save(registrations);
     };
 
     $scope.repeat = function (number) {
@@ -132,8 +137,8 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     };
 
     $scope.removePerson = function(person){
-        for (i = 0; i<$scope.persons.length; i++) {
-            if ($scope.persons[i] === person) {
+        for (i = 0; i<$scope.registrations.length; i++) {
+            if ($scope.registrations.persons[i] === person) {
                 personService.delete(person);
             }
         }
@@ -144,54 +149,58 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     };
 
     $scope.getPersonName = function(id){
-        var p = personService.getPerson(id);
+        return regService.getPersonName(id);
+        /*var p = personService.getPerson(id);
         if (p == undefined) return null;
-        else return  (personService.getPerson(id).firstname + " " + personService.getPerson(id).lastname);
+        else return  (personService.getPerson(id).firstname + " " + personService.getPerson(id).lastname); */
     };
 
-    $scope.removeRoom = function(person){
-        personService.removeRoom(person);
+    $scope.removeRoom = function(reg){
+        var idx = $scope.hasRoom.indexOf(reg.person.personID);
+        $scope.hasRoom.splice(idx,1);
+        if (reg.accomondation.doubleroom){
+            var p = regService.getPersonsRegistration(reg.accomondation.roommateID);
+            regService.removeRoom(p);
+            regService.removeRoom(reg.person);
+            var idx2 = $scope.hasRoom.indexOf(p.personID);
+            $scope.hasRoom.splice(idx2, 1);
+        } else regService.removeRoom(reg.person);
     };
 
     $scope.hasRoommate = function(person){
-        for (i = 0; i<$scope.persons.length; i++) {
-            if ($scope.persons[i] === person) {
-                if ($scope.persons[i].accomondation == undefined){
-                    return false;
-                }
-            }
-        }
-        return true;
+        return regService.hasRoommate(person);
     };
 
-    $scope.checkIfHasRoom = function(person){
+    $scope.checkIfHasRoom = function(obj){
         for (i = 0; i<$scope.hasRoom.length; i++){
-            if ($scope.hasRoom[i] == person){
+            if ($scope.hasRoom[i] == obj.person.personID){
                 return false;
             }
         }
         return true;
     };
 
-    $scope.checkIfSelected = function(person){
-        return person != $scope.firstPersonRoom;
-
+    $scope.checkIfSelected = function(obj){
+        if ($scope.firstPersonRoom == null || obj.person.personID == $scope.firstPersonRoom.personID) return false;
+        else return true;
     };
 
 
     $scope.saveRoom = function(acc, first, second){ // Her skal date også inn.
-        console.log("Person: " + first.firstname + ",  " + first.personID);
-        var accomondation = {};
-        accomondation.startDate = acc.startDate;
-        accomondation.endDate = acc.endDate;
-        accomondation.hotelID = $scope.selectedAccomondation.id;
-        if ($scope.checkboxAccModel.rad == true){ // Dobbeltrom.
-            personService.hasRoom(first,second);
-            personService.addRoommate(accomondation, first, second);
-        } else { // Enkeltrom.
-            personService.hasRoom(first);
-            personService.addRoommate(accomondation, first);
+        if ($scope.checkboxAccModel.rad){ // Dobbeltrom. Validering: first.personID !== undefined && second !== undefined (funker ikke når dobbeltrom + secondPerson ikke er valgt).
+                acc.doubleroom = true;
+                acc.selectedAccomondation = $scope.selectedAccomondation;
+                regService.saveRoom(acc, first, second);
+                $scope.hasRoom.push(first.personID);
+                $scope.hasRoom.push(second.personID);
+        } else { // Enkeltrom.  Validering: if (first.personID !== undefined && !$scope.checkboxAccModel.rad)
+            acc.doubleroom = false;
+            acc.selectedAccomondation = $scope.selectedAccomondation;
+            regService.saveRoom(acc, first);
+            $scope.hasRoom.push(first.personID);
+            //personService.addRoommate(accomondation, first);
         }
+        console.log($scope.hasRoom);
     };
 
     // Endre disse til å returnere true/false, likt som colorEvent() ? (Renere og mindre kode). (Legger til checkbox-value i en array, if -> true.
@@ -326,8 +335,8 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         if (c.dayPackage != null){
             course.dayPackage = c.dayPackage;
         }
-        if (c.accomondations != null){
-            course.accomondations = c.accomondations;
+        if (c.hotels != null){
+            course.hotels = c.hotels;
         }
         return course;
     };
@@ -422,8 +431,8 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     };
 
     $scope.selectedDate = new Date();
-    $scope.fromDate = Date.UTC(2016, 1, 10);  // new Date();
-    $scope.untilDate = Date.UTC(2016, 1, 15);
+    $scope.newacc.startDate = Date.UTC(2016, 6, 7);  // new Date();
+    $scope.newacc.endDate = Date.UTC(2016, 6, 7);
     $scope.minDate = Date.UTC(2016, 1, 9);  // new Date();
     $scope.maxDate = Date.UTC(2016, 1, 15);
     $scope.getType = function (key) {

@@ -1,11 +1,6 @@
 package controller;
 
-import com.sun.beans.editors.*;
-import com.sun.tools.javac.comp.*;
 import domain.*;
-import jdk.nashorn.internal.parser.*;
-import org.json.*;
-import org.springframework.beans.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.beans.propertyeditors.*;
 import org.springframework.http.*;
@@ -15,11 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.*;
 import resources.*;
 import service.*;
-import ui.*;
 
-import javax.json.*;
-import javax.json.stream.*;
-import javax.persistence.criteria.*;
 import javax.servlet.http.*;
 import java.util.*;
 
@@ -108,13 +99,6 @@ public class homeController {
         System.out.println("DETTE FUNKET!" + inputParameter.getParameter());
         System.out.println(inputParameter.getType());
         return new ResponseEntity<Void>(HttpStatus.CREATED);
-    }
-
-    @RequestMapping(value = "/getCourseMock", method = RequestMethod.GET)
-    @ResponseBody
-    public Course getMockCourse() {
-        System.out.println(courseService.getMockCourse());
-        return courseService.getMockCourse();
     }
 
     @RequestMapping(value = "/getCourses", method = RequestMethod.GET)

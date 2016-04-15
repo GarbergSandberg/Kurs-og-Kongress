@@ -5,14 +5,16 @@ app.factory('personService', ['$rootScope', function ($rootScope) {
     var personService = {};
     var hasRoom = [];
 
-    personService.save = function (newPerson) { // Gets an Array of persons, checks if they exist already, if so theyre updated. If not, they are added.
-        for (i = 0; i < newPerson.length; i++) {
-            var old = personExistsists(newPerson[i]);
-            console.log("Gender : " + newPerson.gender);
+    personService.save = function (registrations) { // Gets an Array of persons, checks if they exist already, if so theyre updated. If not, they are added.
+        for (i = 0; i < persons.length; i++) {
+            var old = personExistsists(registrations[i].person);
+            console.log("Gender : " + registrations[i].person.gender);
             if (old.exists) {
-                personUpdate(newPerson[i], old.index);
+                console.log("Gammel eksisterer.");
+                personUpdate(registrations[i].person, old.index);
             } else {
-                personService.add(newPerson[i]);
+                console.log("Legger til ny.")
+                personService.add(registrations[i].person);
             }
         }
     };
@@ -23,25 +25,25 @@ app.factory('personService', ['$rootScope', function ($rootScope) {
     };
 
     personService.add = function (newPerson) {
-        newPerson.id = generateId();
+        newPerson.personID = generateId();
         console.log("Ny person: " + newPerson.firstname + ", " + newPerson.gender);
         persons.push(newPerson);
         $rootScope.$broadcast('personSet', persons);
     };
 
-    personService.addRoommate = function (acc, person, mate) { // Dato (ankomst og avreise) skal også inn.
-        var accomondation = acc;
+    // FJERNES: (?)
+    personService.addRoommate = function (person, mate) { // Dato (ankomst og avreise) skal også inn.
         idx = persons.indexOf(person);
         if (mate == undefined) { // Endre enkeltrom til en verdi istedenfor fornavn og etternavn.. Da MÅ removeRoom også endres.
-            accomondation.roommateID = person.personID;
-            accomondation.doubleroom = false;
             personUpdate(person, idx);
         } else {
             idx2 = persons.indexOf(mate);
             accomondation.doubleroom = true;
-            var accomondation2 = accomondation;
+            var accomondation2 = angular.copy(accomondation);
             accomondation.roommateID = mate.personID;
+            console.log("her: " + accomondation.roommateID + " , " + accomondation2.roommateID);
             accomondation2.roommateID = person.personID;
+            console.log("her2: " + accomondation.roommateID + " ,  " + accomondation2.roommateID);
             console.log("acc.roommateID = " + mate.personID + ", acc2.roommateID = " + person.personID);
             console.log("BLABLALBA:");
             person.accomondation = accomondation;
@@ -60,13 +62,14 @@ app.factory('personService', ['$rootScope', function ($rootScope) {
             hasRoom.push(first);
             hasRoom.push(second);
         }
+        $rootScope.$broadcast('hasRoomSet', hasRoom);
     };
 
     personService.removeRoom = function (person) {
         var idx = hasRoom.indexOf(person);
         var pIdx = persons.indexOf(person);
         hasRoom.splice(idx, 1);
-        if (person.id == person.roommate.id) {
+        if (person.personID == person.roommate.personID) {
             person.roommate = null;
             personUpdate(person, pIdx);
         } else { // Slette roommate og roommates roommate.
@@ -102,8 +105,8 @@ app.factory('personService', ['$rootScope', function ($rootScope) {
     function generateId() {
         var highestId = 0;
         for (var i = 0; i < persons.length; i++) {
-            if (persons[i].id >= highestId) {
-                highestId = persons[i].id;
+            if (persons[i].personID >= highestId) {
+                highestId = persons[i].personID;
             }
         }
         return (highestId + 1);
@@ -115,7 +118,7 @@ app.factory('personService', ['$rootScope', function ($rootScope) {
         if (typeof(newPerson) !== 'undefined') {
             if (persons.length > 0) {
                 for (var i = 0; i < persons.length; i++) {
-                    if (persons[i].id == newPerson.id) {
+                    if (persons[i].personID == newPerson.personID) {
                         oldPerson.exists = true;
                         oldPerson.index = i;
                     }

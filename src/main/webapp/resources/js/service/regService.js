@@ -4,9 +4,119 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
     var roles;
     var course;
     var days;
-
+    var registrations = [{
+        person: {
+            personID: 0,
+            firstname: 'Lars',
+            lastname: 'Gar',
+            birthYear: 1994,
+            phonenumber: 93643247,
+            email: 'la@ga.no',
+            accomondation: null
+        }
+    },
+        {
+            person: {
+                personID: 1,
+                firstname: 'Eirik',
+                lastname: 'Sand',
+                birthYear: 1994,
+                phonenumber: 93245342,
+                email: 'ei@sa.no',
+                accomondation: null
+            }
+        },
+        {
+            person: {
+                personID: 2,
+                firstname: 'Marius',
+                lastname: 'Lauv',
+                birthYear: 1991,
+                phonenumber: 11111111,
+                email: 'ma@la.no',
+                accomondation: null
+            }
+        }];
 
     return {
+        saveRoom: function (acc, first, second) {
+            console.log("Her kommer registrasjonsinfo: ");
+            if (second !== undefined) {
+                for (var i = 0; i < registrations.length; i++) {
+                    if (registrations[i].person.personID == first.personID) {
+                        registrations[i].accomondation = angular.copy(acc);
+                        registrations[i].accomondation.roommateID = second.personID;
+                        console.log(registrations[i]);
+                    }
+                    if (registrations[i].person.personID == second.personID) {
+                        registrations[i].accomondation = angular.copy(acc);
+                        registrations[i].accomondation.roommateID = first.personID;
+                        console.log(registrations[i]);
+                    }
+                }
+            } else {
+                for (var i = 0; i < registrations.length; i++) {
+                    if (registrations[i].person.personID == first.personID) {
+                        registrations[i].accomondation = angular.copy(acc);
+                        registrations[i].accomondation.roommateID = first.personID;
+                        console.log(registrations[i]);
+                    }
+                }
+            }
+
+        },
+
+        removeRoom: function (person) {
+            var p = {};
+            for (var i = 0; i < registrations.length; i++) {
+                if (registrations[i].person.personID == person.personID) {
+                    p = registrations[i].accomondation.roommateID;
+                    registrations[i].accomondation = undefined;
+                }
+            }
+            for (var i = 0; i < registrations.length; i++) {
+                if (registrations[i].person.personID == p) {
+                    registrations[i].accomondation = undefined;
+                }
+            }
+        },
+
+        hasRoommate: function (person) {
+            for (i = 0; i < registrations.length; i++) {
+                if (registrations[i].person == person) {
+                    if (registrations[i].accomondation !== undefined) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        },
+
+        getPersonName: function (id) {
+            for (var i = 0; i < registrations.length; i++) {
+                if (registrations[i].person.personID == id) {
+                    if (registrations[i].accomondation != null) {
+                        return registrations[i].person.firstname + " " + registrations[i].person.lastname;
+                    }
+
+                }
+            }
+            return null;
+        },
+
+        getPersonsRegistration: function (id) {
+            for (var i = 0; i < registrations.length; i++) {
+                if (registrations[i].person.personID == id) {
+                    return registrations[i];
+                }
+            }
+            return null;
+        },
+
+        get: function () {
+            return registrations;
+        },
+
         sendForm: function (form) { //to be deleted
             var indata = {
                 optionalPersonalia: form.optionalPersonalia,
@@ -17,7 +127,7 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
             return $http({
                 url: "form",
                 method: "POST",
-                params:indata
+                params: indata
             })
                 .then(
                     function (response) {
@@ -128,11 +238,9 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
             return $http.get('getCourse', {params: {course_id: courseID}})
                 .then(
                     function (response) {
-                        console.log(response.data);
                         return response.data;
                     },
                     function (errResponse) {
-                        console.error('Error while getCourse');
                         return $q.reject(errResponse.data);
                     }
                 );
