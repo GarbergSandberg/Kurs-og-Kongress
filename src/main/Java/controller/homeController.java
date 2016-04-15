@@ -30,8 +30,6 @@ import java.util.*;
 public class homeController {
     AESencrp encryptor = new AESencrp();
     String selectedPerson = "-1";
-    StringArrayToInputParameter parser = new StringArrayToInputParameter();
-    Form buffer;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -49,6 +47,7 @@ public class homeController {
 
     @RequestMapping("/")
     public ModelAndView home(){
+        courseService.getCourse(0);
         selectedPerson = "-1";
         return new ModelAndView("reg");
     }
@@ -100,24 +99,7 @@ public class homeController {
 
     @RequestMapping(value = "/saveinformation_json", method = RequestMethod.POST)
     public ResponseEntity<Void> saveInformation_JSON(@RequestBody Course course )   {
-        course.setForm(buffer);
-        System.out.println(course.getTitle());
-        System.out.println(course.getDescription());
-        return new ResponseEntity<Void>(HttpStatus.CREATED);
-    }
-
-    @RequestMapping(value = "/form", method = RequestMethod.POST)
-    public ResponseEntity<Void> saveForm(
-            @RequestParam(value = "optionalPersonalia", required = false) String[] optionalPersonalia,
-            @RequestParam(value = "optionalWorkplace", required = false) String[] optionalWorkplace,
-            @RequestParam(value = "extraInfo", required = false) String[] extraInfo,
-            @RequestParam(value = "checkboxModel", required = false) String checkboxModel
-            )   {
-        ArrayList<InputParameter> optPers = parser.convertStringToInputParameter(optionalPersonalia);
-        ArrayList<InputParameter> optWork = parser.convertStringToInputParameter(optionalWorkplace);
-        ArrayList<InputParameter> xtraInf = parser.convertStringToInputParameter(extraInfo);
-        CheckboxModel cm = parser.convertToCheckboxModel(checkboxModel);
-        buffer = parser.convert(optPers,optWork,xtraInf,cm);
+        System.out.println(course.toString());
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 

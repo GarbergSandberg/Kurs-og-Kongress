@@ -15,7 +15,7 @@ public class RegistrationRepositoryMock implements RegistrationRepository{
     ArrayList<Workplace> workplaces = generateMockWorkplaces();
     ArrayList<Registration> registrations = generateRegistrations();
 
-    @Override
+
     public ArrayList<Registration> getRegistrations(int courseID) {
         ArrayList<Registration> reg = new ArrayList<Registration>();
         for (Registration r : registrations){
@@ -112,8 +112,7 @@ public class RegistrationRepositoryMock implements RegistrationRepository{
         InputParameter opt6 = new InputParameter("Favoritt bilmerke", "Input");
         extraInfo.add(opt5);
         extraInfo.add(opt6);
-        CheckboxModel cm = new CheckboxModel(true, true);
-        Form form = new Form(optionalPersonalia,optionalWorkplace,extraInfo,cm);
+        Form form = new Form(optionalPersonalia,optionalWorkplace,extraInfo,true);
         return form;
     }
 

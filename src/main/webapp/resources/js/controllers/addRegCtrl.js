@@ -68,6 +68,8 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         registration.cost = self.findPrice($scope.selectedDays.length, $scope.allDaysCheck);//
         registration.sessionsToAttend = self.resolveID($scope.selectedSessions);
         registration.eventsToAttend = self.resolveID($scope.selectedEvents);
+        registration.course = $scope.course;
+        registration.dates = $scope.selectedDays;
         self.sendRegistration(registration);
     };
 

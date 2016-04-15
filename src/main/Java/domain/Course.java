@@ -191,4 +191,25 @@ public class Course {
     public void setDayPackage(double dayPackage) {
         this.dayPackage = dayPackage;
     }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "sessions=" + sessions +
+                ", events=" + events +
+                ", roles=" + roles +
+                ", hotels=" + hotels +
+                ", form=" + form +
+                ", title='" + title + '\'' +
+                ", location='" + location + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", courseFee=" + courseFee +
+                ", courseSingleDayFee=" + courseSingleDayFee +
+                ", dayPackage=" + dayPackage +
+                ", maxNumber=" + maxNumber +
+                ", id=" + id +
+                '}';
+    }
 }

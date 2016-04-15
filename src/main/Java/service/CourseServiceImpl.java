@@ -17,9 +17,5 @@ public class CourseServiceImpl implements CourseService {
 
     public ArrayList<Course> getCourses(){return courseRepositoryMock.getCourses(); }
 
-    public Course getMockCourse() {
-        return courseRepositoryMock.getMockCourse();
-    }
-
     public Course getCourse(int id){return courseRepositoryMock.getCourse(id); }
 }

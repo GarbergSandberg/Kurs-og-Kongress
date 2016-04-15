@@ -11,7 +11,5 @@ public interface CourseService {
 
     public ArrayList<Course> getCourses();
 
-    public Course getMockCourse();
-
     public Course getCourse(int id);
 }

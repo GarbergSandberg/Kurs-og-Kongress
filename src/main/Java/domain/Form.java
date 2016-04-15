@@ -9,13 +9,13 @@ public class Form {
     private ArrayList<InputParameter> optionalPersonalia;
     private ArrayList<InputParameter> optionalWorkplace;
     private ArrayList<InputParameter> extraInfo;
-    private CheckboxModel checkboxModel;
+    private boolean airplane;
 
-    public Form(ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, CheckboxModel checkboxModel) {
+    public Form(ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, boolean airplane) {
         this.optionalPersonalia = optionalPersonalia;
         this.optionalWorkplace = optionalWorkplace;
         this.extraInfo = extraInfo;
-        this.checkboxModel = checkboxModel;
+        this.airplane = airplane;
     }
 
     public Form() {
@@ -45,11 +45,21 @@ public class Form {
         this.extraInfo = extraInfo;
     }
 
-    public CheckboxModel getCheckboxModel() {
-        return checkboxModel;
+    public boolean isAirplane() {
+        return airplane;
     }
 
-    public void setCheckboxModel(CheckboxModel checkboxModel) {
-        this.checkboxModel = checkboxModel;
+    public void setAirplane(boolean airplane) {
+        this.airplane = airplane;
+    }
+
+    @Override
+    public String toString() {
+        return "Form{" +
+                "optionalPersonalia=" + optionalPersonalia +
+                ", optionalWorkplace=" + optionalWorkplace +
+                ", extraInfo=" + extraInfo +
+                ", airplane=" + airplane +
+                '}';
     }
 }

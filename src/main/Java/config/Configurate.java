@@ -1,6 +1,7 @@
 
 package config;
 
+import org.apache.commons.dbcp.*;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.datasource.*;
 import org.springframework.web.servlet.*;
@@ -10,6 +11,9 @@ import org.springframework.web.servlet.view.tiles3.*;
 import repository.*;
 import service.*;
 
+import javax.activation.*;
+import javax.sql.*;
+import javax.sql.DataSource;
 import java.sql.*;
 
 @Configuration
@@ -58,7 +62,7 @@ public class Configurate extends WebMvcConfigurationSupport {
         configurer.enable();
     }
 
-    @Bean
+/*    @Bean
     public DriverManagerDataSource dataSource(){
         String url = "jdbc:derby://localhost:1527/testDB;create=true";
         DriverManagerDataSource dmds = new DriverManagerDataSource(url);
@@ -71,6 +75,15 @@ public class Configurate extends WebMvcConfigurationSupport {
             System.out.println(" Konfig.Feil ved henting av conncetion() " + e);
         }
         return dmds;
+    }*/
+
+    @Bean
+    public DataSource dataSource() throws Exception{
+        Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+        String url = "jdbc:derby://localhost:1527/kursogkongressDB;user=kursogkongress;password=123";
+        BasicDataSource bds = new BasicDataSource();
+        bds.setUrl(url);
+        return bds;
     }
 
     // Beans to configure services and repositories. Change these to switch from Mock to DB.
@@ -79,7 +92,7 @@ public class Configurate extends WebMvcConfigurationSupport {
     public CourseService courseService() {return new CourseServiceImpl();}
 
     @Bean
-    public CourseRepository courseRepository() {return new CourseRepositoryMock();}
+    public CourseRepository courseRepository() {return new CourseRepositoryDB();}
 
     @Bean
     public LoginService loginService() {return new LoginServiceImpl();}

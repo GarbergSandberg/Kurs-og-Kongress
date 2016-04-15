@@ -300,9 +300,7 @@
                     </span>
                     <h4>Annet <span class="label label-primary">Info</span></h4>
                     <div class="checkbox">
-                        <label><input type="checkbox" ng-model="form.checkboxModel.hotel">Kurs og Kongress kan ordne
-                            hotel</label><br>
-                        <label><input type="checkbox" ng-model="form.checkboxModel.airplane">Kurs og Kongress kan ordne bestillingsskjema for fly</label>
+                        <label><input type="checkbox" ng-model="form.airplane">Kurs og Kongress kan ordne bestillingsskjema for fly</label>
                     </div>
                     <h4>Tilleggsspørsmål     <span class="label label-primary">Info</span></h4>
                     <table class="table">
