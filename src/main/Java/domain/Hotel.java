@@ -4,7 +4,7 @@ package domain;
  * Created by Lars on 12.04.2016.
  */
 public class Hotel {
-    int id;
+    private int id;
     private String name;
     private double doubleprice;
     private double singleprice;
@@ -55,5 +55,16 @@ public class Hotel {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Hotel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", doubleprice=" + doubleprice +
+                ", singleprice=" + singleprice +
+                ", address='" + address + '\'' +
+                '}';
     }
 }

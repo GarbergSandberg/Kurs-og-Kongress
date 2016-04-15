@@ -12,7 +12,8 @@ public class Form {
     private ArrayList<InputParameter> extraInfo;
     private boolean airplane;
 
-    public Form(ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, boolean airplane) {
+    public Form(int id, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, boolean airplane) {
+        this.id = id;
         this.optionalPersonalia = optionalPersonalia;
         this.optionalWorkplace = optionalWorkplace;
         this.extraInfo = extraInfo;
@@ -20,6 +21,14 @@ public class Form {
     }
 
     public Form() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public ArrayList<InputParameter> getOptionalPersonalia() {

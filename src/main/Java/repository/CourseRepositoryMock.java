@@ -200,7 +200,7 @@ public class CourseRepositoryMock implements CourseRepository {
          ArrayList<InputParameter> optionalPersonalia = generateOptionalPersonalia();
          ArrayList<InputParameter> optionalWorkplace = generateOptionalWorkplace();
          ArrayList<InputParameter> inputQuestions = generateInputQuestions();
-        return new Form(optionalPersonalia,optionalWorkplace,inputQuestions,true);
+        return new Form(0,optionalPersonalia,optionalWorkplace,inputQuestions,true);
     }
 
     public ArrayList<InputParameter> generateOptionalPersonalia(){

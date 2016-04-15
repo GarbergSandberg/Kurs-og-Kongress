@@ -12,6 +12,8 @@ public class FormMapper implements RowMapper<Form> {
 
     public Form mapRow(ResultSet rs, int i) throws SQLException{
         Form form = new Form();
+        form.setId(rs.getInt("idForm"));
+        form.setAirplane(rs.getBoolean("airplane"));
         return form;
     }
 }

@@ -29,4 +29,12 @@ public class InputParameter {
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "InputParameter{" +
+                "parameter='" + parameter + '\'' +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

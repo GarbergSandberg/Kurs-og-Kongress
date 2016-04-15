@@ -112,7 +112,7 @@ public class RegistrationRepositoryMock implements RegistrationRepository{
         InputParameter opt6 = new InputParameter("Favoritt bilmerke", "Input");
         extraInfo.add(opt5);
         extraInfo.add(opt6);
-        Form form = new Form(optionalPersonalia,optionalWorkplace,extraInfo,true);
+        Form form = new Form(0,optionalPersonalia,optionalWorkplace,extraInfo,true);
         return form;
     }
 
