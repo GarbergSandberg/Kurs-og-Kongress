@@ -4,4 +4,4 @@
 .idea/workspace.xml
 
 target/kursogkongress.war
-src/main/Java/config/Configurate.java
+src/main/Java/config/DatabaseConfig.java
