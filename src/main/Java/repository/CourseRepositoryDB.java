@@ -15,7 +15,9 @@ public class CourseRepositoryDB implements CourseRepository{
     JdbcTemplate jdbcTemplateObject;
 
     private final String sqlGetCourse = "select * from Course where idCourse = ?";
-    private final String sqlGetSession = "select * from Session where COURSE_IDCOURSE = ?";
+    private final String sqlGetSessions = "select * from Session where COURSE_IDCOURSE = ?";
+    private final String sqlGetEvents = "select * from Event where COURSE_IDCOURSE = ?";
+    private final String sqlGetCourseRoles = "select role from CourseRole where COURSE_IDCOURSE = ?";
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
@@ -29,7 +31,11 @@ public class CourseRepositoryDB implements CourseRepository{
         try{
             course = (Course) jdbcTemplateObject.queryForObject(sqlGetCourse, new Object[]{id}, new CourseMapper());
             course.setSessions(getSessions(id));
+            course.setEvents(getEvents(id));
+            course.setRoles(getRoles(id));
             System.out.println(course.getSessions().get(0).toString());
+            System.out.println(course.getEvents().get(0).toString());
+            System.out.println(course.getRoles().toString());
         } catch (Exception e){
             System.out.println("Feil i getCourse! Finner ikke kurs " + e);
             course = null;
@@ -39,7 +45,15 @@ public class CourseRepositoryDB implements CourseRepository{
     }
 
     public ArrayList<Session> getSessions(int courseID){
-        return (ArrayList<Session>) jdbcTemplateObject.query(sqlGetSession, new Object[]{courseID}, new SessionMapper());
+        return (ArrayList<Session>) jdbcTemplateObject.query(sqlGetSessions, new Object[]{courseID}, new SessionMapper());
+    }
+
+    public ArrayList<Event> getEvents (int courseID){
+        return (ArrayList<Event>) jdbcTemplateObject.query(sqlGetEvents, new Object[]{courseID}, new EventMapper());
+    }
+
+    public ArrayList<String> getRoles (int courseID){
+        return (ArrayList<String>) jdbcTemplateObject.query(sqlGetCourseRoles, new Object[]{courseID}, new CourseRoleMapper());
     }
 
     public ArrayList<Course> getCourses() {

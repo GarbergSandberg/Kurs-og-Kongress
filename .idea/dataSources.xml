@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="3025486067">
-    <data-source source="LOCAL" name="Derby (Remote) - kursogkongressDB;create=true@localhost" uuid="eb23f7d8-c2e3-4d76-93b9-945a7d1a8c7d">
+  <component name="DataSourceManagerImpl" format="xml" hash="1706868119">
+    <data-source source="LOCAL" name="Derby (Remote) - kursogkongressDB@localhost" uuid="e7a9b981-07dd-4c93-8edb-6220e16fab69">
       <driver-ref>derby.remote</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.apache.derby.jdbc.ClientDriver</jdbc-driver>
-      <jdbc-url>jdbc:derby://localhost:1527/kursogkongressDB;create=true</jdbc-url>
+      <jdbc-url>jdbc:derby://localhost:1527/$USER_HOME$/.netbeans-derby/kursogkongressDB</jdbc-url>
     </data-source>
   </component>
 </project>

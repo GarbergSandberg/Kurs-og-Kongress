@@ -58,20 +58,20 @@ public class Event {
         this.location = location;
     }
 
-    public Date getDate() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setDate(Date date) {
-        this.startTime = date;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Date getTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setTime(Date time) {
-        this.endTime = time;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public int getId() {
@@ -80,5 +80,18 @@ public class Event {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "title='" + title + '\'' +
+                ", maxNumber=" + maxNumber +
+                ", price=" + price +
+                ", location='" + location + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", id=" + id +
+                '}';
     }
 }
