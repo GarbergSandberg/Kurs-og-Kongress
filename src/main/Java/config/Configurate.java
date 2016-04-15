@@ -62,25 +62,10 @@ public class Configurate extends WebMvcConfigurationSupport {
         configurer.enable();
     }
 
-/*    @Bean
-    public DriverManagerDataSource dataSource(){
-        String url = "jdbc:derby://localhost:1527/testDB;create=true";
-        DriverManagerDataSource dmds = new DriverManagerDataSource(url);
-        dmds.setDriverClassName("org.apache.derby.jdbc.ClientDriver");
-        try{
-            Connection con = dmds.getConnection();
-            System.out.println(" *********  Konfig " + con );
-            //getAllePersoner(con); //brukes for testing av oppkobling
-        }catch(Exception e){
-            System.out.println(" Konfig.Feil ved henting av conncetion() " + e);
-        }
-        return dmds;
-    }*/
-
     @Bean
     public DataSource dataSource() throws Exception{
         Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
-        String url = "jdbc:derby://localhost:1527/kursogkongressDB;user=kursogkongress;password=123";
+        String url = DatabaseConfig.url;
         BasicDataSource bds = new BasicDataSource();
         bds.setUrl(url);
         return bds;

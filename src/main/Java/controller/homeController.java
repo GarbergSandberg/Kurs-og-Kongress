@@ -110,13 +110,6 @@ public class homeController {
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/getCourseMock", method = RequestMethod.GET)
-    @ResponseBody
-    public Course getMockCourse() {
-        System.out.println(courseService.getMockCourse());
-        return courseService.getMockCourse();
-    }
-
     @RequestMapping(value = "/getCourses", method = RequestMethod.GET)
     @ResponseBody
     public ArrayList<Course> getCourses() {
