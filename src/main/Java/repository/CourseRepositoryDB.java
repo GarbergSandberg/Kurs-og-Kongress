@@ -56,6 +56,8 @@ public class CourseRepositoryDB implements CourseRepository{
         return (ArrayList<String>) jdbcTemplateObject.query(sqlGetCourseRoles, new Object[]{courseID}, new CourseRoleMapper());
     }
 
+    // test
+
     public ArrayList<Course> getCourses() {
         return null;
     }
