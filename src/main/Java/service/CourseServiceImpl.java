@@ -13,9 +13,11 @@ import java.util.*;
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
-    private CourseRepository courseRepositoryMock;
+    private CourseRepository courseRepository;
 
-    public ArrayList<Course> getCourses(){return courseRepositoryMock.getCourses(); }
+    public ArrayList<Course> getCourses(){return courseRepository.getCourses(); }
 
-    public Course getCourse(int id){return courseRepositoryMock.getCourse(id); }
+    public Course getCourse(int id){return courseRepository.getCourse(id); }
+
+    public ArrayList<Registration> getRegistrations(int id){return courseRepository.getRegistrations(id);}
 }

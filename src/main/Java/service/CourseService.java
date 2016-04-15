@@ -12,4 +12,6 @@ public interface CourseService {
     public ArrayList<Course> getCourses();
 
     public Course getCourse(int id);
+
+    public ArrayList<Registration> getRegistrations(int id);
 }

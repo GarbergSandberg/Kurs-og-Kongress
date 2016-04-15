@@ -1,12 +1,15 @@
+/*
 package repository;
 
 import domain.*;
 
 import java.util.*;
 
+*/
 /**
  * Created by eiriksandberg on 10.02.2016.
- */
+ *//*
+
 public class CourseRepositoryMock implements CourseRepository {
 
     public Calendar setCalendar(int year, int month,int day, int hour, int minute){
@@ -207,18 +210,22 @@ public class CourseRepositoryMock implements CourseRepository {
         ArrayList<InputParameter> list = new ArrayList<InputParameter>();
         String a = "Input";
         list.add(new InputParameter("Tittel", a));
-        /*for (int i = 0; i < 5; i++){
+        */
+/*for (int i = 0; i < 5; i++){
             list.add(new InputParameter(i+"OptPers",a));
-        }*/
+        }*//*
+
         return list;
     }
     public ArrayList<InputParameter> generateOptionalWorkplace(){
         ArrayList<InputParameter> list = new ArrayList<InputParameter>();
         String a = "Input";
         list.add(new InputParameter("Antall arbeidere", a));
-        /*for (int i = 0; i < 5; i++){
+        */
+/*for (int i = 0; i < 5; i++){
             list.add(new InputParameter(i+"OptWork",a));
-        }*/
+        }*//*
+
         return list;
     }
     public ArrayList<InputParameter> generateInputQuestions(){
@@ -230,7 +237,8 @@ public class CourseRepositoryMock implements CourseRepository {
         return list;
     }
 
-    /*
+    */
+/*
 
     Calendar start1 = new GregorianCalendar(1,6,2016,10,0);
     Calendar start2 = new GregorianCalendar(1,6,2016,12,0);
@@ -252,9 +260,11 @@ public class CourseRepositoryMock implements CourseRepository {
     Calendar end8 = new GregorianCalendar(3,6,2016,13,30);
     Calendar end9 = new GregorianCalendar(3,6,2016,16,0);
 
-     */
+     *//*
 
-    /*    public ArrayList<InputParameter> generateRequiredPersonalia(){
+
+    */
+/*    public ArrayList<InputParameter> generateRequiredPersonalia(){
             ArrayList<InputParameter> list = new ArrayList<InputParameter>();
             String a = "Input";
             for (int i = 0; i < 5; i++){
@@ -269,9 +279,11 @@ public class CourseRepositoryMock implements CourseRepository {
                 list.add(new InputParameter(i+"ReqWork",a));
             }
             return list;
-        }*/
+        }*//*
 
 
+
+*/
 /*    public Course generateTemplate(){
         ArrayList<InputParameter> requiredPersonalia = new ArrayList<InputParameter>();
         InputParameter a = new InputParameter("Fornavn", "Input");
@@ -305,8 +317,10 @@ public class CourseRepositoryMock implements CourseRepository {
         CheckboxModel cm = new CheckboxModel(false,false);
         Form form = new Form(requiredPersonalia,optionalPersonalia,requiredWorkplace,optionalWorkplace,extraInfo,cm);
         return new Course(null,null,null,form,null,null,null,null,null,3560,1250,200,200,12);
-    }*/
+    }*//*
 
+
+*/
 /*    public Form generateMockForm2(){
         ArrayList<InputParameter> requiredPersonalia = new ArrayList<InputParameter>();
         InputParameter a = new InputParameter("Fornavn", "Input");
@@ -334,6 +348,7 @@ public class CourseRepositoryMock implements CourseRepository {
         requiredWorkplace.add(k);
         Form form = new Form(requiredPersonalia,null,requiredWorkplace,null,null,null);
         return form;
-    }*/
+    }*//*
 
-}
+
+}*/

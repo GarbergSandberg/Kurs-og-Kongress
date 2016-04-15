@@ -38,9 +38,9 @@ public class homeController {
 
     @RequestMapping("/")
     public ModelAndView home(){
-        courseService.getCourses();
+        courseService.getRegistrations(0);
         selectedPerson = "-1";
-        return new ModelAndView("reg");
+        return new ModelAndView("index");
     }
 
     @RequestMapping("/reg")

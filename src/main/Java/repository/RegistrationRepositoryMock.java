@@ -1,12 +1,15 @@
+/*
 package repository;
 
 import domain.*;
 
 import java.util.*;
 
+*/
 /**
  * Created by eiriksandberg on 07.04.2016.
- */
+ *//*
+
 
 public class RegistrationRepositoryMock implements RegistrationRepository{
     CourseRepositoryMock m = new CourseRepositoryMock();
@@ -185,4 +188,4 @@ public class RegistrationRepositoryMock implements RegistrationRepository{
         date.set(Calendar.DAY_OF_MONTH, day);
         return date;
     }
-}
+}*/

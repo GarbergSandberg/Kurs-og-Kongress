@@ -85,7 +85,7 @@ public class Configurate extends WebMvcConfigurationSupport {
     public RegistrationService registrationService() {return new RegistrationServiceImpl();}
 
     @Bean
-    public RegistrationRepository registrationRepository() {return new RegistrationRepositoryMock();}
+    public RegistrationRepository registrationRepository() {return new RegistrationRepositoryDB();}
 
 }
 
