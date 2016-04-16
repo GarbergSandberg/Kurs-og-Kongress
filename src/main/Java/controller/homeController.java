@@ -40,7 +40,7 @@ public class homeController {
     public ModelAndView home(){
         courseService.getRegistrations(0);
         selectedPerson = "-1";
-        return new ModelAndView("index");
+        return new ModelAndView("courseStatistics");
     }
 
     @RequestMapping("/reg")
@@ -59,6 +59,9 @@ public class homeController {
 
     @RequestMapping("/attenderInfo")
     public ModelAndView attenderInfo(){return new ModelAndView("attenderInfo");}
+
+    @RequestMapping("/courseStatistics")
+    public ModelAndView courseStatistics(){return new ModelAndView("courseStatistics");}
 
     @RequestMapping("/courseOverview")
     public ModelAndView courseOverview(HttpSession session){
