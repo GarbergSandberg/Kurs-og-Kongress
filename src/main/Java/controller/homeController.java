@@ -128,7 +128,7 @@ public class homeController {
     @RequestMapping(value = "/getRegistrations", method = RequestMethod.GET)
     @ResponseBody
     public ArrayList<Registration> getRegistration(@RequestParam(value = "course_id") int id) {
-        return registrationService.getRegistrations(id);
+        return courseService.getRegistrations(id);
     }
 
     @RequestMapping(value = "/setSessionStorageID", method = RequestMethod.GET, produces="text/plain")

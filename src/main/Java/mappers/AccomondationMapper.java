@@ -12,7 +12,7 @@ public class AccomondationMapper implements RowMapper<Accomondation>{
         Accomondation accomondation = new Accomondation();
         accomondation.setId(rs.getInt("idAccomondation"));
         accomondation.setRoommate(rs.getString("roommate"));
-        accomondation.setHotelID(rs.getInt("hotelID"));
+        accomondation.setHotelID(rs.getInt("hotel_idHotel"));
         accomondation.setFromDate((rs.getDate("fromDate")));
         accomondation.setToDate(rs.getDate("toDate"));
         accomondation.setDoubleroom(rs.getBoolean("doubleroom"));

@@ -23,30 +23,45 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String sqlGetForm = "select * from Form where COURSE_IDCOURSE = ?";
     private final String sqlGetCourseIDs = "select idcourse from course";
 
+    private final String sqlGetOptionaPersonaliaInputParameters = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALPERSONALIA, OPTIONALPERSONALIA_HAS_FORM, FORM " +
+            "where FORM.IDFORM = OPTIONALPERSONALIA_HAS_FORM.FORM_IDFORM AND " +
+            "OPTIONALPERSONALIA_HAS_FORM.OPTIONALPERSONALIA_IDOPTIONALPERSONALIA = INPUTPARAMETER_HAS_OPTIONALPERSONALIA.OPTIONALPERSONALIA_IDOPTIONALPERSONALIA AND " +
+            "INPUTPARAMETER_HAS_OPTIONALPERSONALIA.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and FORM_IDFORM = ?";
 
-    //Registration sql
+    private final String getSqlGetOptionaWorkplaceInputParameters = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALWORKPLACE, OPTIONALWORKPLACE_HAS_FORM, FORM " +
+            "where FORM.IDFORM = OPTIONALWORKPLACE_HAS_FORM.FORM_IDFORM AND " +
+            "OPTIONALWORKPLACE_HAS_FORM.OPTIONALWORKPLACE_IDOPTIONALWORKPLACE = INPUTPARAMETER_HAS_OPTIONALWORKPLACE.OPTIONALWORKPLACE_IDOPTIONALWORKPLACE AND " +
+            "INPUTPARAMETER_HAS_OPTIONALWORKPLACE.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and FORM_IDFORM = ?";
+
+    private final String getSqlGetExtraInfoInputParameters = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_EXTRAINFO, EXTRAINFO_HAS_FORM, FORM " +
+            "where FORM.IDFORM = EXTRAINFO_HAS_FORM.FORM_IDFORM AND " +
+            "EXTRAINFO_HAS_FORM.EXTRAINFO_IDEXTRAINFO = INPUTPARAMETER_HAS_EXTRAINFO.EXTRAINFO_IDEXTRAINFO AND " +
+            "INPUTPARAMETER_HAS_EXTRAINFO.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and FORM_IDFORM = ?";
+
+
+    //Registration sqls
     private final String sqlGetRegistration = "select * from Registration where course_idcourse = ?";
     private final String sqlGetSessionsToAttend = "select sessionid from sessionid where registration_idregistration = ?";
     private final String sqlGetEventsToAttend = "select eventid from eventid where registration_idregistration = ?";
     private final String sqlGetAccomondation = "select IDACCOMONDATION, HOTEL_IDHOTEL, ROOMMATE, FROMDATE, TODATE, DOUBLEROOM  from accomondation join REGISTRATION on ACCOMONDATION.IDACCOMONDATION = REGISTRATION.ACCOMONDATION_IDACCOMONDATION where ACCOMONDATION.IDACCOMONDATION = ?";
     private final String sqlGetAccomondationID = "select accomondation_idaccomondation from registration where idregistration = ?";
+    private final String sqlGetPerson = "select * from person where idperson = ?";
+    private final String sqlGetForeignKeys = "select accomondation_idaccomondation, person_idperson, workplace_idworkplace, extrainfo_idextrainfo, optionalworkplace_idoptionalworkplace, optionalpersonalia_idoptionalpersonalia from registration where idregistration = ?";
+    private final String sqlGetWorkplace = "select * from workplace where idworkplace = ?";
+    private final String sqlGetPayments = "select * from payment where registration_idregistration = ?";
+    private final String sqlGetDates = "select date from date where registration_idregistration = ?";
 
+    private final String sqlGetExtraInfoAnswers = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_EXTRAINFO, REGISTRATION " +
+            "where REGISTRATION.EXTRAINFO_IDEXTRAINFO =INPUTPARAMETER_HAS_EXTRAINFO.EXTRAINFO_IDEXTRAINFO and " +
+            "INPUTPARAMETER_HAS_EXTRAINFO.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and REGISTRATION.IDREGISTRATION = ?";
 
+    private final String sqlGetOptionalPersonaliaAnswers = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALPERSONALIA, REGISTRATION " +
+            "where REGISTRATION.OPTIONALPERSONALIA_IDOPTIONALPERSONALIA = INPUTPARAMETER_HAS_OPTIONALPERSONALIA.OPTIONALPERSONALIA_IDOPTIONALPERSONALIA and " +
+            "INPUTPARAMETER_HAS_OPTIONALPERSONALIA.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and REGISTRATION.IDREGISTRATION = ?";
 
-    private final String sqlGetOptionaPersonaliaInputParameters = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALPERSONALIA, OPTIONALPERSONALIA, FORM " +
-            "where FORM.IDFORM = OPTIONALPERSONALIA.FORM_IDFORM AND " +
-            "OPTIONALPERSONALIA.IDOPTIONALPERSONALIA = INPUTPARAMETER_HAS_OPTIONALPERSONALIA.OPTIONALPERSONALIA_IDOPTIONALPERSONALIA AND " +
-            "INPUTPARAMETER_HAS_OPTIONALPERSONALIA.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and FORM_IDFORM = ?";
-
-    private final String getSqlGetOptionaWorkplaceInputParameters = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALWORKPLACE, OPTIONALWORKPLACE, FORM " +
-            "where FORM.IDFORM = OPTIONALWORKPLACE.FORM_IDFORM AND " +
-            "OPTIONALWORKPLACE.IDOPTIONALWORKPLACE = INPUTPARAMETER_HAS_OPTIONALWORKPLACE.OPTIONALWORKPLACE_IDOPTIONALWORKPLACE AND " +
-            "INPUTPARAMETER_HAS_OPTIONALWORKPLACE.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and FORM_IDFORM = ?";
-
-    private final String getSqlGetExtraInfoInputParameters = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_EXTRAINFO, EXTRAINFO, FORM " +
-            "where FORM.IDFORM = EXTRAINFO.FORM_IDFORM AND " +
-            "EXTRAINFO.IDEXTRAINFO = INPUTPARAMETER_HAS_EXTRAINFO.EXTRAINFO_IDEXTRAINFO AND " +
-            "INPUTPARAMETER_HAS_EXTRAINFO.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and FORM_IDFORM = ?";
+    private final String sqlGetOptionalWorkplaceAnswers = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALWORKPLACE, REGISTRATION " +
+            "where REGISTRATION.OPTIONALWORKPLACE_IDOPTIONALWORKPLACE = INPUTPARAMETER_HAS_OPTIONALWORKPLACE.OPTIONALWORKPLACE_IDOPTIONALWORKPLACE and " +
+            "INPUTPARAMETER_HAS_OPTIONALWORKPLACE.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and REGISTRATION.IDREGISTRATION = ?";
 
 
     @Autowired
@@ -109,19 +124,36 @@ public class CourseRepositoryDB implements CourseRepository{
         try{
             registrations = (ArrayList<Registration>) jdbcTemplateObject.query(sqlGetRegistration, new Object[]{courseID}, new RegistrationMapper());
             System.out.println("Registration.size = "+ registrations.size());
+            Course course = getCourse(courseID);
+            System.out.println(course.getForm().getOptionalPersonalia().toString());
             for (int i = 0; i < registrations.size();i++){
                 Registration r = registrations.get(i);
+                r.setCourse(course);
                 System.out.println(r.toString());
                 System.out.println("REGISTRATION " + r.getRegistrationID());
-                r.setCourse(getCourse(courseID));
                 ArrayList<Integer> sessionIDs = (ArrayList<Integer>) jdbcTemplateObject.query(sqlGetSessionsToAttend, new Object[]{r.getRegistrationID()}, new SupportMapper());
-                System.out.println(sessionIDs.size() + " TJOHEIEHIFEHRIF");
                 r.setSessionsToAttend(sessionIDs);
                 ArrayList<Integer> eventIDs = (ArrayList<Integer>) jdbcTemplateObject.query(sqlGetEventsToAttend, new Object[]{r.getRegistrationID()}, new SupportMapper());
-                System.out.println(sessionIDs.size() + "   22TJOHEIEHIFEHRIF");
                 r.setSessionsToAttend(eventIDs);
-                r.setAccomondation(getAccomondation(r.getRegistrationID()));
-                System.out.println(r.toString());
+                RegistrationForeignKeys foreignKeys = getForeignKeys(r.getRegistrationID());
+                r.setAccomondation(getAccomondation(foreignKeys.getAccomondationID()));
+                System.out.println(r.getAccomondation().toString());
+                r.setPerson(getPerson(foreignKeys.getPersonID()));
+                System.out.println(r.getPerson().toString());
+                r.setWorkplace(getWorkplace(foreignKeys.getWorkplaceID()));
+                System.out.println(r.getWorkplace().toString());
+                ArrayList<Payment> payments = (ArrayList<Payment>) jdbcTemplateObject.query(sqlGetPayments, new Object[]{r.getRegistrationID()}, new PaymentMapper());
+                r.setCost(payments);
+                System.out.println(r.getCost().toString());
+                ArrayList<Date> dates = (ArrayList<Date>) jdbcTemplateObject.query(sqlGetDates, new Object[]{r.getRegistrationID()}, new DateMapper());
+                r.setDates(dates);
+                System.out.println(dates.toString());
+                r.setOptionalPersonalia(getOptionalPersonaliaAnswers(r.getRegistrationID()));
+                System.out.println(r.getOptionalPersonalia().toString());
+                r.setOptionalWorkplace(getOptionalWorkplaceAnswers(r.getRegistrationID()));
+                System.out.println(r.getOptionalWorkplace().toString());
+                r.setExtraInfo(getExtraInfoAnswers(r.getRegistrationID()));
+                System.out.println(r.getExtraInfo().toString());
             }
         } catch(Exception e){
             System.out.println("Error in getRegistrations() " + e);
@@ -130,9 +162,20 @@ public class CourseRepositoryDB implements CourseRepository{
         return registrations;
     }
 
-    public Accomondation getAccomondation (int registrationID){
-        int accomondationID = jdbcTemplateObject.queryForObject(sqlGetAccomondationID, new Object[]{registrationID}, new SupportMapper());
+    public Accomondation getAccomondation (int accomondationID){
         return jdbcTemplateObject.queryForObject(sqlGetAccomondation, new Object[]{accomondationID}, new AccomondationMapper());
+    }
+
+    public Person getPerson (int personID){
+        return jdbcTemplateObject.queryForObject(sqlGetPerson, new Object[]{personID}, new PersonMapper());
+    }
+
+    public Workplace getWorkplace (int workplaceID){
+        return jdbcTemplateObject.queryForObject(sqlGetWorkplace, new Object[]{workplaceID}, new WorkplaceMapper());
+    }
+
+    public RegistrationForeignKeys getForeignKeys (int registrationID){
+        return jdbcTemplateObject.queryForObject(sqlGetForeignKeys, new Object[]{registrationID}, new RegistrationForeignKeyMapper());
     }
 
     public ArrayList<Session> getSessions(int courseID){
@@ -161,5 +204,17 @@ public class CourseRepositoryDB implements CourseRepository{
 
     public ArrayList<InputParameter> getExtraInfo(int formID) {
         return (ArrayList<InputParameter>) jdbcTemplateObject.query(getSqlGetExtraInfoInputParameters, new Object[]{formID}, new InputParameterMapper());
+    }
+
+    public ArrayList<InputParameter> getOptionalPersonaliaAnswers(int registrationID) {
+        return (ArrayList<InputParameter>) jdbcTemplateObject.query(sqlGetOptionalPersonaliaAnswers, new Object[]{registrationID}, new InputParameterMapper());
+    }
+
+    public ArrayList<InputParameter> getOptionalWorkplaceAnswers(int registrationID) {
+        return (ArrayList<InputParameter>) jdbcTemplateObject.query(sqlGetOptionalWorkplaceAnswers, new Object[]{registrationID}, new InputParameterMapper());
+    }
+
+    public ArrayList<InputParameter> getExtraInfoAnswers(int registrationID) {
+        return (ArrayList<InputParameter>) jdbcTemplateObject.query(sqlGetExtraInfoAnswers, new Object[]{registrationID}, new InputParameterMapper());
     }
 }
