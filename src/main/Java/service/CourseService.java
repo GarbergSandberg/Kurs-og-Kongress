@@ -15,5 +15,7 @@ public interface CourseService {
 
     public ArrayList<Registration> getRegistrations(int id);
 
+    public int getCountRegistrations(int id);
+
     public boolean saveCourse(Course course);
 }

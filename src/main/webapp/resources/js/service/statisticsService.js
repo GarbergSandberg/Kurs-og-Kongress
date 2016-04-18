@@ -1,8 +1,24 @@
 /**
  * Created by Lars on 15.04.2016.
  */
-sessionRegisterApp.factory('statisticsService', function($http, $rootScope){
+sessionRegisterApp.factory('statisticsService', ['$http', '$q','$rootScope', function($http, $q, $rootScope) {
     var statisticsService = {};
+
+    statisticsService.getCountRegistrations = function(courseID){
+        return $http.get('getCountRegistrations', {params: {course_id: courseID}})
+            .then(
+                function(success){
+                    var i = success.data;
+                    console.log("::::::: " + success.data);
+                    console.log("::::::: " + i);
+                    return i;
+                },
+                function(error){
+                    console.log("Feil i getAntRegistrations" + error);
+                }
+            )
+
+    };
 
     statisticsService.getRegistrations = function(courseID){
         return $http.get('getRegistrations', {params: {course_id: courseID}})
@@ -46,4 +62,4 @@ sessionRegisterApp.factory('statisticsService', function($http, $rootScope){
     };
 
     return statisticsService;
-});
+}]);

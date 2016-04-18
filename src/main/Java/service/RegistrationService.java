@@ -10,4 +10,6 @@ import java.util.*;
 public interface RegistrationService {
 
     public ArrayList<Registration> getRegistrations(int courseID);
+
+
 }

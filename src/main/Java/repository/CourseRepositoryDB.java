@@ -78,6 +78,7 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String sqlGetWorkplace = "select * from workplace where idworkplace = ?";
     private final String sqlGetPayments = "select * from payment where registration_idregistration = ?";
     private final String sqlGetDates = "select date from date where registration_idregistration = ?";
+    private final String sqlGetCountRegistrations = "select count(*) from REGISTRATION where course_idcourse = ?";
 
     private final String sqlGetExtraInfoAnswers = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_EXTRAINFO, REGISTRATION " +
             "where REGISTRATION.EXTRAINFO_IDEXTRAINFO =INPUTPARAMETER_HAS_EXTRAINFO.EXTRAINFO_IDEXTRAINFO and " +
@@ -559,5 +560,16 @@ public class CourseRepositoryDB implements CourseRepository{
 
     public ArrayList<InputParameter> getExtraInfoAnswers(int registrationID) {
         return (ArrayList<InputParameter>) jdbcTemplateObject.query(sqlGetExtraInfoAnswers, new Object[]{registrationID}, new InputParameterMapper());
+    }
+
+    public int getCountRegistrations(int courseId){
+        int i = -1;
+        try {
+            i = (int)jdbcTemplateObject.queryForObject(sqlGetCountRegistrations, new Object[]{courseId}, Integer.class);
+            System.out.println("******************************************************************" + i);
+        } catch (Exception e) {
+            System.out.println("Feil i getCountReg");
+        }
+        return i;
     }
 }

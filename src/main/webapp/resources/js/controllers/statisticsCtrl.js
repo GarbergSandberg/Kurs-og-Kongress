@@ -1,11 +1,11 @@
-sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'statisticsService',  function ($scope, courseService, statisticsService) {
+sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'statisticsService', '$window',  function ($scope, courseService, statisticsService, $window) {
     // JSP-side-stuff
     $scope.showInfo = function(registration){
         self.setSessionID(registration.person.personID);
     };
 
     self.setSessionID = function(id){
-        attenderInfoService.setSessionStorageID(id).then(function(successCallback){
+        statisticsService.setSessionStorageID(id).then(function(successCallback){
             $window.location.href = "/kursogkongress/personInfo";
         }, function(errorCallback){
             console.log("error in setSessionID");
@@ -14,7 +14,16 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
 
     // Kurs-stuff
     $scope.course = {};
-    $scope.course.title = "heidu";
+    $scope.countReg = {};
+
+    $scope.getCountRegistrations = function(){ // Brukes ikke? men fungerer..!
+        var a = {};
+        console.log("Trykker på knappen");
+        statisticsService.getCountRegistrations($scope.course.id).then(function(result) {
+            console.log(result);
+            $scope.countReg = result;
+        });
+    };
 
 
     self.setCourse = function(courseRecieved){
@@ -69,7 +78,7 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
     };
 
     self.loadApplication = function(){
-        var id = 0; // id må settes til kurs-id'en som blir valgt av brukeren (brukeren må ha tilgang til det kurset).
+        var id = 1; // id må settes til kurs-id'en som blir valgt av brukeren (brukeren må ha tilgang til det kurset).
         courseService.getCourse(id).then(function(response){
             $scope.course = self.setCourse(response);
             self.loadRegistrations(); // Henter påmeldinger for det aktuelle kurset.
@@ -96,6 +105,7 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
     };
 
     self.mapRegistration = function(registrations){
+        $scope.countReg = registrations.length;
         for (var i = 0; i < registrations.length; i++){
             var registration = registrations[i];
             if (registration != null){

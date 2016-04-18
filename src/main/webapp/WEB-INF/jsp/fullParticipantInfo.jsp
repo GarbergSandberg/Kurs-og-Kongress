@@ -71,10 +71,26 @@
             </tr>
             <tr>
                 <td>
-                    Rolle
+                    Telefon
                 </td>
                 <td>
-                    {{selectedParticipant.person.role}}
+                    {{selectedParticipant.person.phonenumber}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    E-post
+                </td>
+                <td>
+                    {{selectedParticipant.person.email}}
+                </td>
+            </tr>
+            <tr ng-repeat="personalia in selectedParticipant.course.form.optionalPersonalia">
+                <td>
+                    {{personalia.parameter}}
+                </td>
+                <td>
+                    {{selectedParticipant.optionalPersonalia[$index].parameter}}
                 </td>
             </tr>
             <tr style="color: #ff2c27" ng-if="selectedParticipant.alternativeInvoiceAddress">
@@ -151,6 +167,8 @@
                 </td>
             </tr>
         </table>
+        <button type="button" class="btn btn-default" ng-click="showInvoice()">Fakturering</button>
+        <button type="button" class="btn btn-default" ng-click="changeRegistration()">Endre</button>
     </div>
 </div>
 </body>
