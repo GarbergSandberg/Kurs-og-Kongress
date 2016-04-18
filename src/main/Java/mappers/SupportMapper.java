@@ -13,11 +13,22 @@ public class SupportMapper implements RowMapper<Integer> {
         ResultSetMetaData meta = rs.getMetaData();
         String name = meta.getTableName(1).toLowerCase();
         if (name.equals("course")) {
+            System.out.println("Dette funker!!!! " + rs.getInt("idCourse"));
             return rs.getInt("idCourse");
         } else if (name.equals("sessionid")) {
             return rs.getInt("sessionid");
         } else if (name.equals("eventid")) {
             return rs.getInt("eventid");
+        } else if (name.equals("optionalpersonalia")){
+            return rs.getInt("idoptionalpersonalia");
+        } else if (name.equals("optionalworkplace")){
+            return rs.getInt("idoptionalworkplace");
+        } else if (name.equals("extrainfo")){
+            return rs.getInt("idextrainfo");
+        } else if (name.equals("inputparameter")){
+            return rs.getInt("idinputparameter");
+        } else if(name.equals("form")){
+            return rs.getInt("idform");
         } else{
             return null;
         }

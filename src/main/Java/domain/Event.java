@@ -10,21 +10,22 @@ public class Event {
     private int maxNumber;
     private double price;
     private String location;
-    private Date startTime;
-    private Date endTime;
+    private Date date;
+    private Date time;
     private int id;
 
-    public Event(String title, int maxNumber, double price, String location, Date start, Date end, int id) {
+    public Event(String title, int maxNumber, double price, String location, Date date, Date time, int id) {
         this.title = title;
         this.maxNumber = maxNumber;
         this.price = price;
         this.location = location;
-        this.startTime = start;
-        this.endTime = end;
+        this.date = date;
+        this.time = time;
         this.id = id;
     }
 
-    public Event(){};
+    public Event() {
+    }
 
     public String getTitle() {
         return title;
@@ -58,20 +59,20 @@ public class Event {
         this.location = location;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Date getDate() {
+        return date;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public Date getTime() {
+        return time;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setTime(Date time) {
+        this.time = time;
     }
 
     public int getId() {
@@ -85,13 +86,13 @@ public class Event {
     @Override
     public String toString() {
         return "Event{" +
-                "title='" + title + '\'' +
-                ", maxNumber=" + maxNumber +
-                ", price=" + price +
+                "id=" + id +
+                ", time=" + time +
+                ", date=" + date +
                 ", location='" + location + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", id=" + id +
+                ", price=" + price +
+                ", maxNumber=" + maxNumber +
+                ", title='" + title + '\'' +
                 '}';
     }
 }

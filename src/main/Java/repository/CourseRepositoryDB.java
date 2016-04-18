@@ -14,7 +14,7 @@ public class CourseRepositoryDB implements CourseRepository{
     private DataSource dataSource;
     JdbcTemplate jdbcTemplateObject;
 
-    //Course sqls
+    //Get Course sqls
     private final String sqlGetCourse = "select * from Course where idCourse = ?";
     private final String sqlGetSessions = "select * from Session where COURSE_IDCOURSE = ?";
     private final String sqlGetEvents = "select * from Event where COURSE_IDCOURSE = ?";
@@ -22,21 +22,42 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String sqlGetHotels = "select * from Hotel where COURSE_IDCOURSE = ?";
     private final String sqlGetForm = "select * from Form where COURSE_IDCOURSE = ?";
     private final String sqlGetCourseIDs = "select idcourse from course";
-
     private final String sqlGetOptionaPersonaliaInputParameters = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALPERSONALIA, OPTIONALPERSONALIA_HAS_FORM, FORM " +
             "where FORM.IDFORM = OPTIONALPERSONALIA_HAS_FORM.FORM_IDFORM AND " +
             "OPTIONALPERSONALIA_HAS_FORM.OPTIONALPERSONALIA_IDOPTIONALPERSONALIA = INPUTPARAMETER_HAS_OPTIONALPERSONALIA.OPTIONALPERSONALIA_IDOPTIONALPERSONALIA AND " +
             "INPUTPARAMETER_HAS_OPTIONALPERSONALIA.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and FORM_IDFORM = ?";
-
     private final String getSqlGetOptionaWorkplaceInputParameters = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALWORKPLACE, OPTIONALWORKPLACE_HAS_FORM, FORM " +
             "where FORM.IDFORM = OPTIONALWORKPLACE_HAS_FORM.FORM_IDFORM AND " +
             "OPTIONALWORKPLACE_HAS_FORM.OPTIONALWORKPLACE_IDOPTIONALWORKPLACE = INPUTPARAMETER_HAS_OPTIONALWORKPLACE.OPTIONALWORKPLACE_IDOPTIONALWORKPLACE AND " +
             "INPUTPARAMETER_HAS_OPTIONALWORKPLACE.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and FORM_IDFORM = ?";
-
     private final String getSqlGetExtraInfoInputParameters = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_EXTRAINFO, EXTRAINFO_HAS_FORM, FORM " +
             "where FORM.IDFORM = EXTRAINFO_HAS_FORM.FORM_IDFORM AND " +
             "EXTRAINFO_HAS_FORM.EXTRAINFO_IDEXTRAINFO = INPUTPARAMETER_HAS_EXTRAINFO.EXTRAINFO_IDEXTRAINFO AND " +
             "INPUTPARAMETER_HAS_EXTRAINFO.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and FORM_IDFORM = ?";
+
+    // Save course sqls
+    private final String getMaxIDOptionalPersonalia = "select max(idoptionalpersonalia) from optionalpersonalia";
+    private final String getMaxIDOptionalWorkplace = "select max(IDOPTIONALWORKPLACE) from OPTIONALWORKPLACE";
+    private final String getMaxIDExtraInfo = "SELECT max(IDEXTRAINFO) FROM  EXTRAINFO";
+    private final String getMaxIDInputParameter = "SELECT max(IDINPUTPARAMETER) FROM  INPUTPARAMETER";
+    private final String setInputParameter = "insert into inputparameter values (?,?,?)";
+    private final String setInputParameterHasOptionalPersonalia = "insert into inputparameter_has_optionalpersonalia values (?,?)";
+    private final String setInputParameterHasOptionalWorkplace = "insert into inputparameter_has_optionalworkplace values (?,?)";
+    private final String setInputParameterHasExtraInfo = "insert into inputparameter_has_extrainfo values (?,?)";
+    private final String setOptionalPersonalia = "insert into optionalpersonalia values (?)";
+    private final String setOptionalWorkplace = "insert into optionalworkplace values (?)";
+    private final String setExtrainfo = "insert into extrainfo values (?)";
+    private final String setOptionalPersonaliaHasForm = "insert into optionalpersonalia_has_form values (?,?)";
+    private final String setOptionalWorkplaceHasForm = "insert into optionalworkplace_has_form values (?,?)";
+    private final String setExtraInfoHasForm = "insert into extrainfo_has_form values (?,?)";
+    private final String setSession = "INSERT INTO SESSION VALUES (DEFAULT ,?,?,?,?,?,?,?,?)";
+    private final String setEvent = "INSERT INTO EVENT VALUES (DEFAULT,?,?,?,?,?,?,?)";
+    private final String setRoles = "INSERT INTO COURSEROLE VALUES (DEFAULT,?,?)";
+    private final String setHotel = "insert into hotel values (DEFAULT,?,?,?,?,?)";
+    private final String setCourse = "INSERT INTO COURSE VALUES (?,?,?,?,?,?,?,?,?,?)";
+    private final String setForm = "INSERT INTO FORM VALUES (?,?,?)";
+    private final String getMaxIDForm = "SELECT max(idform) FROM form";
+    private final String getMaxIDCourse = "select max(idcourse) from course";
 
 
     //Registration sqls
@@ -74,10 +95,10 @@ public class CourseRepositoryDB implements CourseRepository{
     public ArrayList<Course> getCourses() {
         ArrayList<Course> courses = new ArrayList<Course>();
         List<Integer> courseIDs = jdbcTemplateObject.query(sqlGetCourseIDs, new Object[]{}, new SupportMapper());
+        System.out.println("ANTALL KURS = " + courseIDs.size());
         for (Integer i : courseIDs){
-            System.out.println(i);
+            System.out.println("KURSNUMMMER " + i);
             courses.add(getCourse(i));
-            System.out.println("Course with id " + courses.get(i).getId() + " is called " + courses.get(i).getTitle());
         }
         System.out.println("Number of courses: " + courses.size());
         return courses;
@@ -96,11 +117,11 @@ public class CourseRepositoryDB implements CourseRepository{
             System.out.println("Course.events: " + course.getEvents().toString());
             System.out.println("Course.roles: " + course.getRoles().toString());
             System.out.println("Course.form: " + course.getForm().toString());
+            System.out.println(course.toString());
         } catch (Exception e){
             System.out.println("Error in getCourse() " + e);
             course = null;
         }
-        System.out.println(course.toString());
         return course;
     }
 
@@ -111,11 +132,11 @@ public class CourseRepositoryDB implements CourseRepository{
             form.setOptionalPersonalia(getOptionalPersonalia(form.getId()));
             form.setOptionalWorkplace(getOptionalWorkplace(form.getId()));
             form.setExtraInfo(getExtraInfo(form.getId()));
+            System.out.println(form.toString());
         } catch(Exception e){
             System.out.println("Error in getForm! " + e);
             form = null;
         }
-        System.out.println(form.toString());
         return form;
     }
 
@@ -160,6 +181,221 @@ public class CourseRepositoryDB implements CourseRepository{
             registrations = null;
         }
         return registrations;
+    }
+
+    public boolean saveCourse(Course course){
+        try{
+            System.out.println("Kommer hit");
+            Integer courseID = jdbcTemplateObject.queryForObject(getMaxIDCourse, new Object[]{}, Integer.class);
+            System.out.println(courseID);
+            courseID++;
+            jdbcTemplateObject.update(setCourse, new Object[]{
+                    courseID, course.getTitle(), course.getLocation(), course.getDescription(), course.getStartDate(), course.getEndDate(), course.getCourseFee(), course.getCourseSingleDayFee(), course.getDayPackage(), course.getMaxNumber()
+            });
+            if(course.getSessions() != null){
+                saveSessions(course.getSessions(), courseID);
+            }
+            if(course.getEvents() != null){
+                saveEvents(course.getEvents(), courseID);
+            }
+            if(course.getRoles() != null){
+                setRoles(courseID, course.getRoles());
+            }
+            if(course.getHotels() != null){
+                setHotels(courseID, course.getHotels());
+            }
+            if(course.getForm() != null){
+                saveForm(course.getForm(), courseID);
+            }
+        } catch(Exception e){
+            System.out.println("Error in saveCourse() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean saveForm(Form form, int courseID){
+        try{
+            int id = jdbcTemplateObject.queryForObject(getMaxIDForm, new Object[]{}, Integer.class);
+            System.out.println("OLD FORM ID: " + id);
+            id++;
+            System.out.println("NEW FORM ID: " + id);
+            jdbcTemplateObject.update(setForm, new Object[]{
+                    id, form.isAirplane(), courseID
+            });
+            saveOptionalPersonalia(form.getOptionalPersonalia(),id);
+            saveOptionalWorkplace(form.getOptionalWorkplace(),id);
+            saveExtraInfo(form.getExtraInfo(), id);
+        } catch(Exception e){
+            System.out.println("Error in saveForm() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean saveSessions(ArrayList<Session> sessions, int courseID){
+        System.out.println("COURSE ID I SAVE SESSION: " + courseID);
+        try{
+            for (Session s : sessions){
+                jdbcTemplateObject.update(setSession, new Object[]{
+                        s.getTitle(), s.getDescription(), s.getDate(), s.getStartTime(), s.getEndTime(), s.getLocation(), s.getMaxnumber(), courseID
+                });
+            }
+        }catch (Exception e){
+            System.out.println("Error in saveSessions() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean saveEvents(ArrayList<Event> events, int courseID){
+        try{
+            for (Event e : events){
+                jdbcTemplateObject.update(setEvent, new Object[]{
+                        e.getTitle(), e.getPrice(), e.getMaxNumber(), e.getLocation(), e.getDate(), e.getTime(), courseID
+                });
+            }
+        }catch (Exception e){
+            System.out.println("Error in saveEvents() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean setRoles(int courseID, ArrayList<String> roles){
+        try{
+            for (String role : roles){
+                jdbcTemplateObject.update(setRoles, new Object[]{
+                        role, courseID
+                });
+            }
+        } catch(Exception e){
+            System.out.println("Error in setRoles() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean setHotels(int courseID, ArrayList<Hotel> hotels){
+        try{
+            for (Hotel hotel : hotels){
+                jdbcTemplateObject.update(setHotel, new Object[]{
+                        courseID, hotel.getName(), hotel.getDoubleprice(), hotel.getSingleprice(), hotel.getAddress()
+                });
+            }
+        } catch(Exception e){
+            System.out.println("Error in setHotels() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean saveOptionalPersonalia(ArrayList<InputParameter> list, int formID){
+        try{
+            Integer id = jdbcTemplateObject.queryForObject(getMaxIDOptionalPersonalia, new Object[]{}, Integer.class);
+            System.out.println("OLD OPTIONALPERSONALIA ID: " + id);
+            id++;
+            System.out.println("NEW OPTIONALPERSONALIA ID: " + id);
+            jdbcTemplateObject.update(setOptionalPersonalia, new Object[]{
+                    id
+            });
+            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            for (InputParameter ip : list){
+                System.out.println("OLD OPTIONALPERSONALIA INPUTPARAMETER ID: " + inputid);
+                inputid++;
+                System.out.println("NEW OPTIONALPERSONALIA INPUTPARAMETER ID: " + inputid);
+                insertInputParameter(ip, inputid, id, "optionalpersonalia");
+            }
+            jdbcTemplateObject.update(setOptionalPersonaliaHasForm, new Object[]{
+                    id,
+                    formID
+            });
+        } catch(Exception e){
+            System.out.println("Error in saveOptionalPersonalia() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean saveOptionalWorkplace(ArrayList<InputParameter> list, int formID){
+        try{
+            Integer id = jdbcTemplateObject.queryForObject(getMaxIDOptionalWorkplace, new Object[]{}, Integer.class);
+            System.out.println("OLD OPTIONALWORKPLACE ID: " + id);
+            id++;
+            System.out.println("NEW OPTIONALWORKPLACE ID: " + id);
+            jdbcTemplateObject.update(setOptionalWorkplace, new Object[]{
+                    id
+            });
+            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            for (InputParameter ip : list){
+                System.out.println("OLD OPTIONALWORKPLACE INPUTPARAMETER ID: " + inputid);
+                inputid++;
+                System.out.println("NEW OPTIONALWORKPLACE INPUTPARAMETER ID: " + inputid);
+                insertInputParameter(ip, inputid, id, "optionalworkplace");
+            }
+            jdbcTemplateObject.update(setOptionalWorkplaceHasForm, new Object[]{
+                    id,
+                    formID
+            });
+        } catch(Exception e){
+            System.out.println("Error in saveOptionalWorkplace() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean saveExtraInfo(ArrayList<InputParameter> list, int formID){
+        try{
+            Integer id = jdbcTemplateObject.queryForObject(getMaxIDExtraInfo, new Object[]{}, Integer.class);
+            System.out.println("OLD EXTRAINFO ID: " + id);
+            id++;
+            System.out.println("NEW EXTRAINFO ID: " + id);
+            jdbcTemplateObject.update(setExtrainfo, new Object[]{
+                    id
+            });
+            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            for (InputParameter ip : list){
+                System.out.println("OLD EXTRAINFO INPUTPARAMETER ID: " + inputid);
+                inputid++;
+                System.out.println("NEW  EXTRAINFOINPUTPARAMETER ID: " + inputid);
+                insertInputParameter(ip, inputid, id, "extrainfo");
+            }
+            jdbcTemplateObject.update(setExtraInfoHasForm, new Object[]{
+                    id,
+                    formID
+            });
+        } catch(Exception e){
+            System.out.println("Error in saveExtraInfo() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean insertInputParameter(InputParameter ip, int inputParameterID, int optionalTableID, String optionalTable){
+        jdbcTemplateObject.update(setInputParameter, new Object[]{
+                inputParameterID,
+                ip.getParameter(),
+                ip.getType()
+        });
+        if (optionalTable.equals("optionalpersonalia")){
+            jdbcTemplateObject.update(setInputParameterHasOptionalPersonalia, new Object[]{
+                    inputParameterID,
+                    optionalTableID
+            });
+        }
+        if (optionalTable.equals("optionalworkplace")){
+            jdbcTemplateObject.update(setInputParameterHasOptionalWorkplace, new Object[]{
+                    inputParameterID,
+                    optionalTableID
+            });
+        }
+        if (optionalTable.equals("extrainfo")){
+            jdbcTemplateObject.update(setInputParameterHasExtraInfo, new Object[]{
+                    inputParameterID,
+                    optionalTableID
+            });
+        }
+        return true;
     }
 
     public Accomondation getAccomondation (int accomondationID){
