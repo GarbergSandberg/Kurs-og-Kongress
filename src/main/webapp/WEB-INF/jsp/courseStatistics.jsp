@@ -33,24 +33,92 @@
 </head>
 <body>
 <div ng-app="registerApp">
-    <div ng-controller="statisticsCtrl">
+    <div ng-controller="statisticsCtrl" style="margin-left:3em; margin-right:3em;">
         <!-- INFORMASJON OM KURSET -->
-        <h1>{{course.title}}</h1>
         <div class="container">
-            <div class="jumbotron">
+            <div class="jumbotron clearfix">
                 <div class="col-sm-6 col-md-6 col-lg-6">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    <label> <span style="float: left;">Kurs: </span> </label><span style="float: right;">{{course.title}} </span>
+                    <br>
+                    <label> <span style="float: left;">Beskrivelse: </span> </label><span style="float: right;">{{course.description}} </span>
+                    <br>
+                    <label> <span style="float: left;">Sted: </span> </label><span style="float: right;">{{course.location}}</span>
+                    <br>
+                    <label> <span style="float: left;">Startdato: </span> </label><span style="float: right;">{{course.startDate | date: 'dd-MM-yyyy'}} </span>
+                    <br>
+                    <label> <span style="float: left;">Sluttdato: </span> </label><span style="float: right;">{{course.endDate | date: 'dd-MM-yyyy'}}</span>
+                    <br>
+
                 </div>
+                <!--<hr width="1" size="200" /> -->
                 <div class="col-sm-6 col-md-6 col-lg-6">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                    <label> <span style="float: left;">Hotell: </span> </label>
+                         <span ng-repeat="hotel in course.hotels" style="float: right;">{{hotel.name}}, &nbsp <br></span><br>
+                    <label> <span style="float: left;">Maks antall deltakere: </span> </label>
+                        <span style="float: right;">{{course.maxNumber}} stk</span> <br>
+                    <label> <span style="float: left;">Kursavgift (hele kurset): </span> </label>
+                        <span style="float: right;">{{course.courseFee}} kr</span> <br>
+                    <label> <span style="float: left;">Kursavgift (per dag): </span> </label>
+                        <span style="float: right;">{{course.courseSingleDayFee}} kr</span> <br>
+                    <label> <span style="float: left;">Dagpakkepris: </span> </label>
+                    <span style="float: right;">{{course.dayPackage}} kr</span> <br>
+                    <br>
+                </div>
+                <hr>
+                &nbsp
+                <hr>
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <label> Sesjoner: </label>
+                        <span ng-repeat="session in course.sessions" style="float: right;">
+                            {{session.title}}, &nbsp; {{session.startTime}} - {{session.endTime}}<br> </span> <br>
+                    </span>
+                </div>
+                <!--<hr width="1" size="200" /> -->
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <label> Events: </label>
+                        <span ng-repeat="event in course.events" style="float: right;">
+                            {{event.title}}, &nbsp; {{event.startTime}}, {{event.endTime}}<br> </span> <br>
+                    </span>
                 </div>
             </div>
         </div>
 
 
-
         <!-- INFORMASJON OM DE PÅMELDTE -->
+        <div class="container">
+            <div class="jumbotron" id="jumbo" style="margin-bottom: 2em;">
+                <h2>Søkefilter</h2>
+                <label for="search">Søk etter deltaker:</label>
+                <input class="form-control" ng-model="search" id="search">
+            </div>
+        </div>
+        <table class="table">
+            <tr>
+                <td style="text-align: left;">Navn: </td>
+                <td style="text-align: center;">Arbeidsplass: </td>
+            </tr>
+            <tr ng-repeat="registration in filtered = (registrations | filter:search)">
+                <h5 ng-if="filtered == 0" style="text-align: center;">Ingen deltakere</h5>
+                <td style="text-align: left">
+                    {{registration.person.firstname}} {{registration.person.lastname}}
+                </td>
+                <td style="text-align: center">
+                    {{registration.workplace.companyName}}
+                </td>
+                <td style="text-align: right">
+                    <button type="button" class="btn btn-default" ng-click="showInfo(registration)">Oversikt</button>
+                </td>
+            </tr>
+        </table>
+
+        <div>.</div>
+        <div>.</div>
+        <div>.</div>
+        <div>.</div>
+        <div>.</div>
+
+
+
     </div>
 </div>
 </body>

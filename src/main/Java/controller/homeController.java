@@ -54,6 +54,9 @@ public class homeController {
     @RequestMapping("/personInfo")
     public ModelAndView personInfo(){return new ModelAndView("personInfo");}
 
+    @RequestMapping("/fullPersonInfo")
+    public ModelAndView fullPersonInfo(){return new ModelAndView("fullPersonInfo");}
+
     @RequestMapping("/invoice")
     public ModelAndView invoice(){return new ModelAndView("invoice");}
 

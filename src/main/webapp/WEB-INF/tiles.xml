@@ -47,6 +47,11 @@
         <put-attribute name="body"   value="/WEB-INF/jsp/participantInfo.jsp"/>
         <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
     </definition>
+    <definition name="fullPersonInfo" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title"  value="test"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/fullParticipantInfo.jsp"/>
+        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
+    </definition>
 
     <definition name="invoice" template="/WEB-INF/tiles/baseLayout.jsp">
         <put-attribute name="title"  value="test"/>
