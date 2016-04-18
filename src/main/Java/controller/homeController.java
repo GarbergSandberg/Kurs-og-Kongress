@@ -137,6 +137,14 @@ public class homeController {
         return courseService.getRegistrations(id);
     }
 
+    @RequestMapping(value = "/getCountRegistrations", method = RequestMethod.GET)
+    @ResponseBody
+    public int getCountRegistrations(@RequestParam(value = "course_id") int id) {
+        int i = courseService.getCountRegistrations(id);
+        System.out.println("Controller: ************************* " + i);
+        return i;
+    }
+
     @RequestMapping(value = "/setSessionStorageID", method = RequestMethod.GET, produces="text/plain")
     @ResponseBody
     public String setSessionStorageID(@RequestParam(value = "id", required = false) String id) {

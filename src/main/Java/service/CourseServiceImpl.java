@@ -21,5 +21,7 @@ public class CourseServiceImpl implements CourseService {
 
     public ArrayList<Registration> getRegistrations(int id){return courseRepository.getRegistrations(id);}
 
+    public int getCountRegistrations(int id) {return courseRepository.getCountRegistrations(id);}
+
     public boolean saveCourse(Course course){return courseRepository.saveCourse(course);}
 }

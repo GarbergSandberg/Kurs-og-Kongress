@@ -16,4 +16,6 @@ public interface CourseRepository {
     public ArrayList<Registration> getRegistrations(int id);
 
     public boolean saveCourse(Course course);
+
+    public int getCountRegistrations(int id);
 }
