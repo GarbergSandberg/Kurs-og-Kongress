@@ -18,7 +18,7 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String sqlGetCourse = "select * from Course where idCourse = ?";
     private final String sqlGetSessions = "select * from Session where COURSE_IDCOURSE = ?";
     private final String sqlGetEvents = "select * from Event where COURSE_IDCOURSE = ?";
-    private final String sqlGetCourseRoles = "select role from CourseRole where COURSE_IDCOURSE = ?";
+    private final String sqlGetCourseRoles = "select role from CourseRole where COURSE_IDCOURSE = ? order by IDCOURSEROLE";
     private final String sqlGetHotels = "select * from Hotel where COURSE_IDCOURSE = ?";
     private final String sqlGetForm = "select * from Form where COURSE_IDCOURSE = ?";
     private final String sqlGetCourseIDs = "select idcourse from course";
@@ -59,6 +59,13 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String getMaxIDForm = "SELECT max(idform) FROM form";
     private final String getMaxIDCourse = "select max(idcourse) from course";
 
+
+    // Update course sqls
+    private final String updateCourse = "update course set title = ?, location = ?, description = ?, startdate = ?, enddate = ?, coursefee = ?, coursesingledayfee = ?, daypackage = ?, maxnumber = ? where idcourse = ?";
+    private final String updateSessions = "update session set title = ?, description = ?, date = ?, starttime = ?, endtime = ?, location = ?, maxnumber = ? where idsession = ?";
+    private final String updateEvents = "update event set title = ?, price = ?, maxnumber = ?, location = ?, date = ?, time = ? where idevent = ?";
+    private final String deleteRole = "delete from courserole where idcourserole = ?";
+    private final String getRoleID = "select idcourserole from courserole where course_idcourse = ? order by IDCOURSEROLE";
 
     //Registration sqls
     private final String sqlGetRegistration = "select * from Registration where course_idcourse = ?";
@@ -183,9 +190,9 @@ public class CourseRepositoryDB implements CourseRepository{
         return registrations;
     }
 
+
     public boolean saveCourse(Course course){
         try{
-            System.out.println("Kommer hit");
             Integer courseID = jdbcTemplateObject.queryForObject(getMaxIDCourse, new Object[]{}, Integer.class);
             System.out.println(courseID);
             courseID++;
@@ -214,6 +221,25 @@ public class CourseRepositoryDB implements CourseRepository{
         return true;
     }
 
+/*    public boolean updateCourse(Course course){
+        try{
+            jdbcTemplateObject.update(updateCourse, new Object[]{
+                    course.getTitle(), course.getLocation(), course.getDescription(), course.getStartDate(), course.getEndDate(), course.getCourseFee(), course.getCourseSingleDayFee(), course.getDayPackage(), course.getMaxNumber(), course.getId()
+            });
+            if(course.getSessions() != null){
+                updateSessions(course.getSessions(), courseID);
+            }
+            if(course.getEvents() != null){
+                updateEvents(course.getEvents(), courseID);
+            }
+            if(course.getRoles() != null){
+                updateRoles(course.getId(), course.getRoles());
+            }
+        }catch (Exception e){
+
+        }
+    }*/
+
     public boolean saveForm(Form form, int courseID){
         try{
             int id = jdbcTemplateObject.queryForObject(getMaxIDForm, new Object[]{}, Integer.class);
@@ -234,15 +260,39 @@ public class CourseRepositoryDB implements CourseRepository{
     }
 
     public boolean saveSessions(ArrayList<Session> sessions, int courseID){
-        System.out.println("COURSE ID I SAVE SESSION: " + courseID);
         try{
             for (Session s : sessions){
                 jdbcTemplateObject.update(setSession, new Object[]{
                         s.getTitle(), s.getDescription(), s.getDate(), s.getStartTime(), s.getEndTime(), s.getLocation(), s.getMaxnumber(), courseID
                 });
+                System.out.println(s.getTitle() + " is saved (session)");
             }
         }catch (Exception e){
             System.out.println("Error in saveSessions() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateSessions(ArrayList<Session> sessions, int courseID){
+        try{
+            ArrayList<Session> sessionsToBeSaved = new ArrayList<Session>();
+            for (Session s : sessions){
+                if(s.getId() != -1){
+                    jdbcTemplateObject.update(setSession, new Object[]{
+                            s.getTitle(), s.getDescription(), s.getDate(), s.getStartTime(), s.getEndTime(), s.getLocation(), s.getMaxnumber(), s.getId()
+                    });
+                    System.out.println(s.getTitle() + " is updated (session)"
+                    );
+                } else{
+                    sessionsToBeSaved.add(s);
+                }
+            }
+            if (!sessionsToBeSaved.isEmpty()){
+                saveSessions(sessionsToBeSaved, courseID);
+            }
+        }catch (Exception e){
+            System.out.println("Error in updateSessions() " + e);
             return false;
         }
         return true;
@@ -254,9 +304,33 @@ public class CourseRepositoryDB implements CourseRepository{
                 jdbcTemplateObject.update(setEvent, new Object[]{
                         e.getTitle(), e.getPrice(), e.getMaxNumber(), e.getLocation(), e.getDate(), e.getTime(), courseID
                 });
+                System.out.println(e.getTitle() + " is saved (event)");
             }
         }catch (Exception e){
             System.out.println("Error in saveEvents() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateEvents(ArrayList<Event> events, int courseID){
+        try{
+            ArrayList<Event> eventsToBeSaved = new ArrayList<Event>();
+            for (Event e : events){
+                if(e.getId() != -1){
+                    jdbcTemplateObject.update(setEvent, new Object[]{
+                            e.getTitle(), e.getPrice(), e.getMaxNumber(), e.getLocation(), e.getDate(), e.getTime(), e.getId()
+                    });
+                    System.out.println(e.getTitle() + " is updated (event)");
+                } else{
+                    eventsToBeSaved.add(e);
+                }
+            }
+            if (!eventsToBeSaved.isEmpty()){
+                saveEvents(eventsToBeSaved, courseID);
+            }
+        }catch (Exception e){
+            System.out.println("Error in updateEvents() " + e);
             return false;
         }
         return true;
@@ -271,6 +345,39 @@ public class CourseRepositoryDB implements CourseRepository{
             }
         } catch(Exception e){
             System.out.println("Error in setRoles() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateRoles(int courseID, ArrayList<String> newRoles){
+        try{
+            ArrayList<String> toBeDeleted = new ArrayList<String>();
+            ArrayList<String> oldRoles = getRoles(courseID);
+            ArrayList<Integer> oldRoleIDs = (ArrayList<Integer>) jdbcTemplateObject.query(getRoleID, new Object[]{courseID}, new SupportMapper());
+            for (int i = 0; i < newRoles.size(); i++){
+                for (int u = 0; u < oldRoles.size(); u++){
+                    if(newRoles.get(i).equals(oldRoles.get(u))){
+                        newRoles.remove(i);
+                        oldRoles.remove(u);
+                        oldRoleIDs.remove(u);
+                    }
+                }
+            }
+            if(!newRoles.isEmpty()){
+                System.out.println("New roles is not empty. Setting new roles");
+                setRoles(courseID, newRoles);
+            }
+            if(!oldRoles.isEmpty()){
+                System.out.println("Old roles is not empty. deleting old roles");
+                for(int i = 0; i < oldRoles.size(); i++){
+                    jdbcTemplateObject.update(deleteRole, new Object[]{
+                            oldRoleIDs.get(i)
+                    });
+                }
+            }
+        }catch (Exception e){
+            System.out.println("Error in updateRoles() " + e);
             return false;
         }
         return true;

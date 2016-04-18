@@ -7,6 +7,7 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
     var sessions = [];
     var sessionService = {};
     var currentDate = "";
+    var temporaryIDs = [];
 
     sessionService.save = function (newSession) {
         var old = sessionExists(newSession);
@@ -31,6 +32,7 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
     sessionService.setSessions = function(sessionsSent){
         for (var i = 0; i < sessionsSent.length; i++){
             var newSession = sessionsSent[i];
+            newSession.id = sessionsSent[i].id;
             newSession.startTime = new Date(sessionsSent[i].startTime);
             newSession.endTime = new Date(sessionsSent[i].endTime);
             newSession.date = new Date(sessionsSent[i].date);
@@ -101,6 +103,7 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
             }
         }
         var id = highestId + 1;
+        temporaryIDs.push(id);
         return id;
     }
 
@@ -175,7 +178,20 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
                 }
             }
             session.overlap = false;
-    }
+    };
+
+    sessionService.destroyTempIDs = function(){
+        if (temporaryIDs.length > 0){
+            for (var i = 0; i < temporaryIDs.length; i++){
+                for (var u = 0; u < sessions.length; u++){
+                    if(temporaryIDs[i] == sessions[u].id){
+                        console.log("Fjerner id på sesjon " + sessions[u].id);
+                        sessions[u].id = -1;
+                    }
+                }
+            }
+        }
+    };
 
     return sessionService;
 }]);

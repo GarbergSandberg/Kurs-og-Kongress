@@ -1,6 +1,6 @@
 
 
-loginApp.factory('loginService', function($http, $location, sessionService, $window){
+loginApp.factory('loginService', function($http, $location, $window){
     return{
         login:function(user){
             console.log(user);

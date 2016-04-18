@@ -38,6 +38,10 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
     };
 
     self.loadApplication = function(){
+        if(sessionStorage.cid !== undefined || sessionStorage.cid){
+            console.log("Fjerner sessionStorage!!");
+            sessionStorage.removeItem("cid");
+        }
         courseService.getCourses().then(function(response) {
             $scope.courses = new Array();
             for (var i = 0; i < response.length; i++){
