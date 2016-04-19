@@ -633,7 +633,7 @@ public class CourseRepositoryDB implements CourseRepository{
                 boolean isNewIP = true;
                 for (int u = 0; u < inputParametersToBeDeleted.size(); u++){
                     if(newParameters.get(i).getId() == inputParametersToBeDeleted.get(u).getId()){
-                        System.out.println("Parameter to be ignored: " + newParameters.get(i).getParameter() + " and " + inputParametersToBeDeleted.get(u));
+                        System.out.println("Parameter to be ignored: " + newParameters.get(u).getParameter() + " and " + inputParametersToBeDeleted.get(u));
                         inputParametersToBeDeleted.remove(u);
                         isNewIP = false;
                     }
@@ -705,7 +705,7 @@ public class CourseRepositoryDB implements CourseRepository{
                 boolean isNewIP = true;
                 for (int u = 0; u < inputParametersToBeDeleted.size(); u++){
                     if(newParameters.get(i).getId() == inputParametersToBeDeleted.get(u).getId()){
-                        System.out.println("Parameter to be ignored: " + newParameters.get(i).getParameter() + " and " + inputParametersToBeDeleted.get(u));
+                        System.out.println("Parameter to be ignored: " + newParameters.get(u).getParameter() + " and " + inputParametersToBeDeleted.get(u));
                         inputParametersToBeDeleted.remove(u);
                         isNewIP = false;
                     }
