@@ -40,7 +40,7 @@ public class homeController {
     public ModelAndView home(){
         courseService.getCourses();
         selectedPerson = "-1";
-        return new ModelAndView("courseStatistics");
+        return new ModelAndView("registerCourse");
     }
 
     @RequestMapping("/reg")
@@ -55,7 +55,17 @@ public class homeController {
     public ModelAndView personInfo(){return new ModelAndView("personInfo");}
 
     @RequestMapping("/fullPersonInfo")
-    public ModelAndView fullPersonInfo(){return new ModelAndView("fullPersonInfo");}
+    public ModelAndView fullPersonInfo(HttpSession session){
+    User u = (User) session.getAttribute("user");
+        if (u == null){
+            return new ModelAndView("index");
+        } else if (u.isAdmin()){
+            return new ModelAndView("fullPersonInfo");
+        } else {
+            System.out.println("Har ikke administratortilgang. ");
+            return new ModelAndView("courseOverview");
+        }
+    }
 
     @RequestMapping("/invoice")
     public ModelAndView invoice(){return new ModelAndView("invoice");}

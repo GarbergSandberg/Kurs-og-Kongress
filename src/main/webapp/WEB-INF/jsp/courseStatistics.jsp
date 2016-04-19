@@ -26,10 +26,18 @@
     <spring:url value="resources/js/controllers/statisticsCtrl.js" var="statisticsCtrl"/>
     <spring:url value="resources/js/service/statisticsService.js" var="statisticsService"/>
     <spring:url value="resources/js/service/courseService.js" var="courseService"/>
+    <spring:url value="resources/js/service/sessionRegisterService.js" var="sessionRegisterService"/>
+    <spring:url value="resources/js/service/eventRegisterService.js" var="eventRegisterService"/>
+    <spring:url value="resources/js/service/hotelService.js" var="hotelService"/>
+    <spring:url value="resources/js/service/attenderInfoService.js" var="attenderInfoService"/>
     <script src="${session}"></script>
     <script src="${statisticsCtrl}"></script>
     <script src="${statisticsService}"></script>
     <script src="${courseService}"></script>
+    <script src="${sessionRegisterService}"></script>
+    <script src="${eventRegisterService}"></script>
+    <script src="${hotelService}"></script>
+    <script src="${attenderInfoService}"></script>
 </head>
 <body>
 <div ng-app="registerApp">

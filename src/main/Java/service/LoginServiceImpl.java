@@ -14,8 +14,8 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private LoginRepository loginRepository;
 
-    public boolean addUser(String username, String password) {
-        return loginRepository.addUser(username, password);
+    public boolean addUser(String username, String password, boolean isAdmin) {
+        return loginRepository.addUser(username, password, isAdmin);
     }
 
     public User logIn(String username, String password) {

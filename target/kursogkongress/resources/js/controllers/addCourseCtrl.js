@@ -1,7 +1,7 @@
 /**
  * Created by eiriksandberg on 05.04.2016.
  */
-sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'courseService', 'accomondationService', 'eventService', function ($scope, $modal, sessionService, courseService, accomondationService, eventService) {
+sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'courseService', 'hotelService', 'eventService', function ($scope, $modal, sessionService, courseService, hotelService, eventService) {
     $scope.course = {};
     $scope.roles = [];
     $scope.$watch("course.startDate", function(newValue, oldValue) {
@@ -9,6 +9,10 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
             var dates = self.getDates($scope.course.startDate, $scope.course.endDate);
             sessionService.setDates(dates);
         }
+    });
+    $scope.$on('setHotels', function(event, data){
+        console.log("Course er satt.. broadcast..");
+        $scope.course.hotels = data;
     });
 
     $scope.$watch("course.endDate", function(newValue, oldValue) {
@@ -40,9 +44,11 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
 
     $scope.save = function (course) {
         course.roles = $scope.roles;
+        sessionService.destroyTempIDs();
+        eventService.destroyTempIDs();
         course.sessions = sessionService.get();
         course.events = eventService.get();
-        course.accomondations = accomondationService.get();
+        course.hotels = hotelService.get();
         courseService.prepareForm();
         course.form = courseService.getForm();
         //course.form = undefined; // This reassures that the sending of course will not fail. Because of the complexity of Form object, this have to be sent separately and handled.
@@ -105,16 +111,15 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
             if (response.form != null){
                 courseService.setRecievedForm(response.form);
             }
-            console.log("Skal sette accomondations.. " + response.accomondations);
-            if (response.accomondations != null){
-                accomondationService.setaccomondations(response.accomondations);
-                $scope.accomondations = accomondationService.get();
-                console.log($scope.accomondations);
+            console.log("Skal sette hoteller.. " + response.hotels);
+            if (response.hotels != null){
+                hotelService.sethotels(response.hotels);
+                $scope.hotels = hotelService.get();
+                console.log($scope.hotels);
             }
         }, function(errorResponse){
             console.log("Error in getCourse()");
         })
-
     };
 
     Date.prototype.addDays = function(days) {
@@ -152,6 +157,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
     var cid = sessionStorage.cid;
     console.log("cid " + cid);
     if(cid == null || cid == -1){ // not good enough check. Review this. The dirtiest fix of them all.
+        $scope.course.id = -1;
     } else{
         self.getCourse(cid);
     }

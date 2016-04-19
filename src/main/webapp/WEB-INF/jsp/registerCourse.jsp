@@ -21,7 +21,7 @@
     <spring:url value="resources/js/service/sessionRegisterService.js" var="appService"/>
     <spring:url value="resources/html/registerSessionModal.html" var="modalTemplate"/>
     <spring:url value="resources/js/service/eventRegisterService.js" var="appEventService"/>
-    <spring:url value="resources/js/service/accomondationService.js" var="accomondationService"/>
+    <spring:url value="resources/js/service/hotelService.js" var="hotelService"/>
     <spring:url value="resources/html/registerEventModal.html" var="eventModal"/>
     <spring:url value="resources/html/accomondationModal.html" var="accomondationModal"/>
     <spring:url value="resources/js/service/courseService.js" var="jsonService"/>
@@ -29,11 +29,11 @@
     <spring:url value="resources/js/controllers/addEventCtrl.js" var="addEventCtrl"/>
     <spring:url value="resources/js/controllers/addSessionCtrl.js" var="addSessionCtrl"/>
     <spring:url value="resources/js/controllers/makeFormCtrl.js" var="makeFormCtrl"/>
-    <spring:url value="resources/js/controllers/addAccomondationCtrl.js" var="addAccomondationCtrl"/>
+    <spring:url value="resources/js/controllers/addHotelCtrl.js" var="addHotelCtrl"/>
     <script src="${appJs}"></script>
     <script src="${appService}"></script>
     <script src="${jsonService}"></script>
-    <script src="${accomondationService}"></script>
+    <script src="${hotelService}"></script>
     <script src="${modalTemplate}"></script>
     <script src="${appEventService}"></script>
     <script src="${eventModal}"></script>
@@ -42,7 +42,7 @@
     <script src="${addEventCtrl}"></script>
     <script src="${addSessionCtrl}"></script>
     <script src="${makeFormCtrl}"></script>
-    <script src="${addAccomondationCtrl}"></script>
+    <script src="${addHotelCtrl}"></script>
 </head>
 <body>
 <div ng-app="registerApp" id="sessionRegisterClass" style="margin-left:3em; margin-right:3em;">
@@ -156,7 +156,7 @@
         <div class="page-header">
             <h4>Overnatting</h4>
         </div>
-        <div ng-controller="AddAccomondationCtrl">
+        <div ng-controller="addHotelCtrl">
             <div class="list-group">
                 <a class="list-group-item active plusbutton" data-animation="am-fade-and-scale"
                    data-template-url=${accomondationModal}
@@ -165,14 +165,14 @@
                 </a>
             </div>
             <div class="list-group">
-                <a class="list-group-item event" ng-repeat="accomondation in hotels" data-animation="am-fade-and-scale"
+                <a class="list-group-item event" ng-repeat="hotel in course.hotels" data-animation="am-fade-and-scale"
                    data-template-url=${accomondationModal}
                            bs-modal="modal">
-                    <h4 class="list-group-item-heading event">{{accomondation.name}}</h4>
+                    <h4 class="list-group-item-heading event">{{hotel.name}}</h4>
                     <p class="list-group-item-text">
-                        Pris dobbeltrom: {{accomondation.doubleprice}}<br>
-                        Pris enkeltrom: {{accomondation.singleprice}}<br>
-                        Adresse: {{accomondation.address}}
+                        Pris dobbeltrom: {{hotel.doubleprice}}<br>
+                        Pris enkeltrom: {{hotel.singleprice}}<br>
+                        Adresse: {{hotel.address}}
                     </p>
                 </a>
             </div>

@@ -1,7 +1,7 @@
 /**
  * Created by eiriksandberg on 07.04.2016.
  */
-attenderInfoApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoService', '$window', function ($scope, attenderInfoService, $window) {
+sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoService', 'statisticsService', '$window', function ($scope, attenderInfoService, statisticsService, $window) {
     $scope.tabs = [
         {title:'Oversikt', content:'resources/jsp/participantInfo.jsp'},
         {title:'Fakturering', content:'resources/jsp/invoice.jsp'}
@@ -20,16 +20,16 @@ attenderInfoApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoService',
         self.setSessionIDFromList(registration.person.personID);
     };
 
-
-
     self.resolveInfo = function() {
         var sid = sessionStorage.selectedPerson;
         if(sid !== undefined){
-            attenderInfoService.getSessionStorageID(sessionStorage.selectedPerson).then(function(success){
+            attenderInfoService.getSessionStorageID(sid).then(function(success){
                 $scope.selectedParticipant = self.findPerson(success);
+                console.log($scope.selectedParticipant);
                 $scope.selectedParticipant.attendingSessions = self.findSessions($scope.selectedParticipant);
                 $scope.selectedParticipant.attendingFullCourse = self.isAttendingFullCourse($scope.selectedParticipant);
                 $scope.selectedParticipant.totalAmount = self.calculateTotal($scope.selectedParticipant.cost);
+                console.log($scope.selectedParticipant);
             }, function(error){
                 console.log("Noe gikk galt her");
             });
@@ -45,6 +45,7 @@ attenderInfoApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoService',
     };
 
     self.findSessions = function (registration) {
+        console.log(registration);
         var sessionArray = [];
         for (var i = 0; i < registration.sessionsToAttend.length; i++){
             var u = registration.sessionsToAttend[i];
@@ -59,13 +60,17 @@ attenderInfoApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoService',
         return sessionArray;
     };
 
-    self.getReg = function(){
-        attenderInfoService.getRegistrations(0).then(function(success){
-            console.log("Length: " + success.length);
-            self.mapRegistration(success);
-            self.resolveInfo();
-        }, function(error){
-        });
+    self.getReg = function(){ // Må her ta inn cid...
+        var cid = sessionStorage.selectedCourse;
+        if (cid !== undefined){
+            attenderInfoService.getRegistrations(cid).then(function(success){
+                console.log("Length: " + success.length);
+                self.mapRegistration(success);
+                self.resolveInfo();
+            }, function(error){
+                console.log("Error");
+            });
+        } else console.log("sid = undefined");
     };
 
     self.mapRegistration = function(registrations){
@@ -85,7 +90,7 @@ attenderInfoApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoService',
         } else{
             return false;
         }
-    }
+    };
 
     Date.prototype.addDays = function(days) {
         var dat = new Date(this.valueOf());
@@ -116,6 +121,7 @@ attenderInfoApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoService',
     self.setSessionID = function(id){
         attenderInfoService.setSessionStorageID(id).then(function(successCallback){
             $window.location.href = "/kursogkongress/personInfo";
+            console.log("ok. ");
         }, function(errorCallback){
             console.log("error in setSessionID");
         });
@@ -128,6 +134,5 @@ attenderInfoApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoService',
             console.log("error in setSessionIDFromList");
         });
     };
-
     self.getReg();
 }]);

@@ -21,15 +21,21 @@
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.tpl.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
-    <spring:url value="resources/js/app/attenderInfoApp.js" var="attender"/>
+    <spring:url value="resources/js/app/sessionRegisterApp.js" var="sessionRegisterApp"/>
     <spring:url value="resources/js/controllers/attenderInfoCtrl.js" var="attenderCtrl"/>
     <spring:url value="resources/js/service/attenderInfoService.js" var="attenderService"/>
-    <script src="${attender}"></script>
+    <spring:url value="resources/js/service/statisticsService.js" var="statisticsService"/>
+    <spring:url value="resources/js/service/sessionRegisterService.js" var="sessionRegisterService"/>
+    <spring:url value="resources/js/service/eventRegisterService.js" var="eventRegisterService"/>
+    <script src="${sessionRegisterApp}"></script>
     <script src="${attenderCtrl}"></script>
     <script src="${attenderService}"></script>
+    <script src="${statisticsService}"></script>
+    <script src="${sessionRegisterService}"></script>
+    <script src="${eventRegisterService}"></script>
 </head>
 <body>
-<div ng-app="attenderInfoApp" style="margin-left:3em; margin-right:3em;">
+<div ng-app="registerApp" style="margin-left:3em; margin-right:3em;">
     <div ng-controller="attenderInfoCtrl">
         <table class="table">
             <tr style="color: #ff2c27" ng-if="selectedParticipant.speaker">

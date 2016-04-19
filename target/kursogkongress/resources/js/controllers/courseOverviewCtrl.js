@@ -6,7 +6,7 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
     $scope.panels = [];
     $scope.panels.activePanel = -1;
     $scope.$watch("panels.activePanel", function(newValue, oldValue) {
-        if(newValue !== undefined || newValue !== -1){
+        if(newValue !== undefined || newValue !== -1 || $scope.courses[newValue].id !== undefined){
             sessionStorage.cid = $scope.courses[newValue].id;
             console.log(sessionStorage.cid + " = cid");
         }
@@ -38,6 +38,10 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
     };
 
     self.loadApplication = function(){
+        if(sessionStorage.cid !== undefined || sessionStorage.cid){
+            console.log("Fjerner sessionStorage!!");
+            sessionStorage.removeItem("cid");
+        }
         courseService.getCourses().then(function(response) {
             $scope.courses = new Array();
             for (var i = 0; i < response.length; i++){
