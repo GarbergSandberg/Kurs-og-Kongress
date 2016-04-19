@@ -7,9 +7,10 @@ import domain.*;
  */
 public interface LoginService {
 
-    public boolean addUser(String username, String password);
+    public boolean addUser(String username, String password, boolean isAdmin);
 
     public User logIn(String username, String password);
 
     public String hash(String input);
 }
+

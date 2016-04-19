@@ -6,7 +6,7 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
     $scope.panels = [];
     $scope.panels.activePanel = -1;
     $scope.$watch("panels.activePanel", function(newValue, oldValue) {
-        if(newValue !== undefined || newValue !== -1){
+        if(newValue !== undefined || newValue !== -1 || $scope.courses[newValue].id !== undefined){
             sessionStorage.cid = $scope.courses[newValue].id;
             console.log(sessionStorage.cid + " = cid");
         }
