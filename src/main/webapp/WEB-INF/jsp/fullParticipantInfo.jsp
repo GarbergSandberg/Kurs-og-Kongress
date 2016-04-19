@@ -37,6 +37,8 @@
 <body>
 <div ng-app="registerApp" style="margin-left:3em; margin-right:3em;">
     <div ng-controller="attenderInfoCtrl">
+        <button type="button" class="btn btn-default" ng-click="showInvoice()">Fakturering</button>
+        <button type="button" class="btn btn-default" ng-click="changeRegistration()">Endre</button>
         <table class="table">
             <tr style="color: #ff2c27" ng-if="selectedParticipant.speaker">
                 <td>
@@ -63,32 +65,53 @@
                 <td>
                     Navn
                 </td>
-                <td>
+                <td ng-hide="change">
                     {{selectedParticipant.person.firstname}} {{selectedParticipant.person.lastname}}
+                </td>
+                <td ng-show="change">
+                    <input type="text" ng-model="selectedParticipant.person.firstname">
+                    <input type="text" ng-model="selectedParticipant.person.lastname">
                 </td>
             </tr>
             <tr>
                 <td>
                     Fødselsår
                 </td>
-                <td>
+                <td ng-hide="change">
                     {{selectedParticipant.person.birthYear}}
+                </td>
+                <td ng-show="change">
+                    <input type="text" ng-model="selectedParticipant.person.birthYear">
                 </td>
             </tr>
             <tr>
                 <td>
                     Telefon
                 </td>
-                <td>
+                <td ng-hide="change">
                     {{selectedParticipant.person.phonenumber}}
+                </td>
+                <td ng-show="change">
+                    <input type="text" ng-model="selectedParticipant.person.phonenumber">
                 </td>
             </tr>
             <tr>
                 <td>
                     E-post
                 </td>
-                <td>
+                <td ng-hide="change">
                     {{selectedParticipant.person.email}}
+                </td>
+                <td ng-show="change">
+                    <input type="text" ng-model="selectedParticipant.person.email">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Rolle
+                </td>
+                <td>
+                    {{selectedParticipant.person.role}}
                 </td>
             </tr>
             <tr ng-repeat="personalia in selectedParticipant.course.form.optionalPersonalia">
@@ -103,10 +126,16 @@
                 <td>
                     Faktureringsadresse
                 </td>
-                <td>
+                <td ng-hide="change">
                     {{selectedParticipant.alternativeInvoiceAddress}}
                 </td>
+                <td ng-show="change">
+                    <input type="text" ng-model="selectedParticipant.person.alternativeInvoiceAddress">
+                </td>
             </tr>
+
+
+
             <tr>
                 <td>
                     <h4>Arbeidsgiverinfo</h4>
@@ -117,16 +146,41 @@
                 <td>
                     Bedriftsnavn
                 </td>
-                <td>
+                <td ng-hide="change">
                     {{selectedParticipant.workplace.companyName}}
+                </td>
+                <td ng-show="change">
+                    <input type="text" ng-model="selectedParticipant.workplace.companyName">
                 </td>
             </tr>
             <tr>
-                <td>
+                <td ng-hide="change">
                     Adresse
                 </td>
-                <td>
+                <td ng-hide="change">
                     {{selectedParticipant.workplace.address}}, {{selectedParticipant.workplace.postalcode}} {{selectedParticipant.workplace.location}}
+                </td>
+                <td ng-show="change">
+                    Veiadresse
+                </td>
+                <td ng-show="change">
+                    <input type="text" ng-model="selectedParticipant.workplace.address">
+                </td>
+            </tr>
+            <tr ng-show="change">
+                <td>
+                    Postnummer
+                </td>
+                <td>
+                    <input type="text" ng-model="selectedParticipant.workplace.postalcode">
+                </td>
+            </tr>
+            <tr ng-show="change">
+                <td>
+                    Sted
+                </td>
+                <td>
+                    <input type="text" ng-model="selectedParticipant.workplace.location">
                 </td>
             </tr>
             <tr ng-repeat="workplace in selectedParticipant.course.form.optionalWorkplace">

@@ -1,12 +1,12 @@
 sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'statisticsService', 'sessionService', 'eventService', 'hotelService', 'attenderInfoService', '$window',  function ($scope, courseService, statisticsService, sessionService, eventService, hotelService, attenderInfoService, $window) {
     // JSP-side-stuff
     $scope.showInfo = function(registration){
-        self.setSessionID(registration.person.personID);
+        self.setSessionID(registration);
 
     };
 
-    self.setSessionID = function(id){
-        attenderInfoService.setSessionStorageID(id).then(function(successCallback){
+    self.setSessionID = function(registration){
+        attenderInfoService.setSessionStorageID(registration).then(function(successCallback){
             $window.location.href = "/kursogkongress/personInfo";
         }, function(errorCallback){
             console.log("error in setSessionID");

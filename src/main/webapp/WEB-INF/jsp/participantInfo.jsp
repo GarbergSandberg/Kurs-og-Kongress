@@ -161,6 +161,7 @@
                 </td>
             </tr>
         </table>
+        <button type="button" class="btn btn-default" ng-click="showStatistics()">Kursoversikt</button>
     </div>
 </div>
 </body>

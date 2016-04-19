@@ -5,3 +5,5 @@ target/kursogkongress.war
 src/main/Java/config/DatabaseConfig.java
 
 target/kursogkongress.war
+
+src/main/Java/config/DatabaseConfig.java

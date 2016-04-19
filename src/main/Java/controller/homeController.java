@@ -52,9 +52,6 @@ public class homeController {
     public ModelAndView registerCourse(){return new ModelAndView("registerCourse");}
 
     @RequestMapping("/personInfo")
-    public ModelAndView personInfo(){return new ModelAndView("personInfo");}
-
-    @RequestMapping("/fullPersonInfo")
     public ModelAndView fullPersonInfo(HttpSession session){
     User u = (User) session.getAttribute("user");
         if (u == null){
@@ -62,8 +59,7 @@ public class homeController {
         } else if (u.isAdmin()){
             return new ModelAndView("fullPersonInfo");
         } else {
-            System.out.println("Har ikke administratortilgang. ");
-            return new ModelAndView("courseOverview");
+            return new ModelAndView("personInfo");
         }
     }
 

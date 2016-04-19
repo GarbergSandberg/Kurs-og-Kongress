@@ -10,12 +10,15 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
     $scope.registrations = [];
     $scope.selectedParticipant = {};
     $scope.showInfo = function(registration){
-        self.setSessionID(registration.person.personID);
+        if (registration !== undefined){
+            self.setSessionID(registration.person.personID);
+        } else {
+            $window.location.href = "/kursogkongress/personInfo";
+        }
     };
     $scope.showInvoice = function(){
         $window.location.href = "/kursogkongress/invoice";
     };
-
     $scope.showInvoiceFromList = function(registration){
         self.setSessionIDFromList(registration.person.personID);
     };
@@ -135,4 +138,9 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         });
     };
     self.getReg();
+
+    $scope.changeRegistration = function(){
+        console.log("Setter change = true");
+        $scope.change = !$scope.change;
+    }
 }]);

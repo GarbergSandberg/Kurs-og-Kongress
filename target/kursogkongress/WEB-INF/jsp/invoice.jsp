@@ -21,15 +21,25 @@
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.tpl.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
-    <spring:url value="resources/js/app/attenderInfoApp.js" var="attender"/>
-    <spring:url value="resources/js/controllers/attenderInfoCtrl.js" var="attenderCtrl"/>
-    <spring:url value="resources/js/service/attenderInfoService.js" var="attenderService"/>
-    <script src="${attender}"></script>
-    <script src="${attenderCtrl}"></script>
-    <script src="${attenderService}"></script>
+    <spring:url value="resources/js/app/sessionRegisterApp.js" var="session"/>
+    <spring:url value="resources/js/controllers/attenderInfoCtrl.js" var="attenderInfoCtrl"/>
+    <spring:url value="resources/js/service/statisticsService.js" var="statisticsService"/>
+    <spring:url value="resources/js/service/courseService.js" var="courseService"/>
+    <spring:url value="resources/js/service/sessionRegisterService.js" var="sessionRegisterService"/>
+    <spring:url value="resources/js/service/eventRegisterService.js" var="eventRegisterService"/>
+    <spring:url value="resources/js/service/hotelService.js" var="hotelService"/>
+    <spring:url value="resources/js/service/attenderInfoService.js" var="attenderInfoService"/>
+    <script src="${session}"></script>
+    <script src="${attenderInfoCtrl}"></script>
+    <script src="${statisticsService}"></script>
+    <script src="${courseService}"></script>
+    <script src="${sessionRegisterService}"></script>
+    <script src="${eventRegisterService}"></script>
+    <script src="${hotelService}"></script>
+    <script src="${attenderInfoService}"></script>
 </head>
 <body>
-<div ng-app="attenderInfoApp" style="margin-left:7em; margin-right:7em;">
+<div ng-app="registerApp" style="margin-left:7em; margin-right:7em;">
     <div ng-controller="attenderInfoCtrl">
         <table class="table">
             <tr>
@@ -77,6 +87,7 @@
                     {{selectedParticipant.totalAmount | number : 2}} kr
                 </td>
             </tr>
+            <button type="button" class="btn btn-default" ng-click="showInfo()">Personinfo</button>
         </div>
     </div>
 </body>
