@@ -40,6 +40,8 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
 
     $scope.save = function (course) {
         course.roles = $scope.roles;
+        sessionService.destroyTempIDs();
+        eventService.destroyTempIDs();
         course.sessions = sessionService.get();
         course.events = eventService.get();
         course.accomondations = accomondationService.get();
@@ -152,6 +154,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
     var cid = sessionStorage.cid;
     console.log("cid " + cid);
     if(cid == null || cid == -1){ // not good enough check. Review this. The dirtiest fix of them all.
+        $scope.course.id = -1;
     } else{
         self.getCourse(cid);
     }

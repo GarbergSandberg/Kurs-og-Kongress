@@ -4,6 +4,8 @@ import domain.*;
 import mappers.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.jdbc.core.*;
+
+import javax.persistence.criteria.*;
 import javax.sql.DataSource;
 import java.util.*;
 
@@ -22,15 +24,15 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String sqlGetHotels = "select * from Hotel where COURSE_IDCOURSE = ?";
     private final String sqlGetForm = "select * from Form where COURSE_IDCOURSE = ?";
     private final String sqlGetCourseIDs = "select idcourse from course";
-    private final String sqlGetOptionaPersonaliaInputParameters = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALPERSONALIA, OPTIONALPERSONALIA_HAS_FORM, FORM " +
+    private final String sqlGetOptionaPersonaliaInputParameters = "select IDINPUTPARAMETER, parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALPERSONALIA, OPTIONALPERSONALIA_HAS_FORM, FORM " +
             "where FORM.IDFORM = OPTIONALPERSONALIA_HAS_FORM.FORM_IDFORM AND " +
             "OPTIONALPERSONALIA_HAS_FORM.OPTIONALPERSONALIA_IDOPTIONALPERSONALIA = INPUTPARAMETER_HAS_OPTIONALPERSONALIA.OPTIONALPERSONALIA_IDOPTIONALPERSONALIA AND " +
             "INPUTPARAMETER_HAS_OPTIONALPERSONALIA.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and FORM_IDFORM = ?";
-    private final String getSqlGetOptionaWorkplaceInputParameters = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALWORKPLACE, OPTIONALWORKPLACE_HAS_FORM, FORM " +
+    private final String getSqlGetOptionaWorkplaceInputParameters = "select IDINPUTPARAMETER, parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALWORKPLACE, OPTIONALWORKPLACE_HAS_FORM, FORM " +
             "where FORM.IDFORM = OPTIONALWORKPLACE_HAS_FORM.FORM_IDFORM AND " +
             "OPTIONALWORKPLACE_HAS_FORM.OPTIONALWORKPLACE_IDOPTIONALWORKPLACE = INPUTPARAMETER_HAS_OPTIONALWORKPLACE.OPTIONALWORKPLACE_IDOPTIONALWORKPLACE AND " +
             "INPUTPARAMETER_HAS_OPTIONALWORKPLACE.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and FORM_IDFORM = ?";
-    private final String getSqlGetExtraInfoInputParameters = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_EXTRAINFO, EXTRAINFO_HAS_FORM, FORM " +
+    private final String getSqlGetExtraInfoInputParameters = "select IDINPUTPARAMETER, parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_EXTRAINFO, EXTRAINFO_HAS_FORM, FORM " +
             "where FORM.IDFORM = EXTRAINFO_HAS_FORM.FORM_IDFORM AND " +
             "EXTRAINFO_HAS_FORM.EXTRAINFO_IDEXTRAINFO = INPUTPARAMETER_HAS_EXTRAINFO.EXTRAINFO_IDEXTRAINFO AND " +
             "INPUTPARAMETER_HAS_EXTRAINFO.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and FORM_IDFORM = ?";
@@ -63,9 +65,24 @@ public class CourseRepositoryDB implements CourseRepository{
     // Update course sqls
     private final String updateCourse = "update course set title = ?, location = ?, description = ?, startdate = ?, enddate = ?, coursefee = ?, coursesingledayfee = ?, daypackage = ?, maxnumber = ? where idcourse = ?";
     private final String updateSessions = "update session set title = ?, description = ?, date = ?, starttime = ?, endtime = ?, location = ?, maxnumber = ? where idsession = ?";
+    private final String deleteSession = "update session set course_idcourse = null where idsession = ?";
     private final String updateEvents = "update event set title = ?, price = ?, maxnumber = ?, location = ?, date = ?, time = ? where idevent = ?";
+    private final String deleteEvent = "update event set course_idcourse = null where idevent = ?";
     private final String deleteRole = "delete from courserole where idcourserole = ?";
     private final String getRoleID = "select idcourserole from courserole where course_idcourse = ? order by IDCOURSEROLE";
+    private final String deleteHotel = "update hotel set course_idcourse = null where idhotel = ?";
+    private final String updateHotel = "update hotel set name = ?, doubleprice = ?, singleprice = ?, address = ? where course_idcourse = ?";
+    private final String updateForm = "update form set airplane = ? where course_idcourse = ?";
+    private final String deleteInputParameter = "delete from inputparameter where idinputparameter = ?";
+    private final String deleteInputParameterHasOptionalPers = "delete from inputparameter_has_optionalpersonalia where inputparameter_idinputparameter = ?";
+    private final String deleteInputParameterHasOptionalWork = "delete from inputparameter_has_optionalworkplace where inputparameter_idinputparameter = ?";
+    private final String deleteInputParameterHasExtraInfo = "delete from inputparameter_has_extrainfo where inputparameter_idinputparameter = ?";
+    private final String updateOptionalWork = "update OPTIONALWORKPLACE_HAS_FORM set OPTIONALWORKPLACE_IDOPTIONALWORKPLACE = ? where form_idForm = ?";
+    private final String updateOptionalPers = "update optionalpersonalia_has_form set optionalpersonalia_idoptionalpersonalia = ? where form_idForm = ?";
+    private final String updateExtra = "update EXTRAINFO_HAS_FORM set EXTRAINFO_IDEXTRAINFO = ? where form_idForm = ?";
+    private final String getOptPersID = "select OPTIONALPERSONALIA_IDOPTIONALPERSONALIA from OPTIONALPERSONALIA_HAS_FORM where FORM_IDFORM = ?";
+    private final String getOptWorkID = "select OPTIONALWORKPLACE_IDOPTIONALWORKPLACE From OPTIONALWORKPLACE_HAS_FORM WHERE FORM_IDFORM = ?";
+    private final String getExtraID = "SELECT EXTRAINFO_IDEXTRAINFO from EXTRAINFO_HAS_FORM WHERE FORM_IDFORM = ?";
 
     //Registration sqls
     private final String sqlGetRegistration = "select * from Registration where course_idcourse = ?";
@@ -194,26 +211,31 @@ public class CourseRepositoryDB implements CourseRepository{
 
     public boolean saveCourse(Course course){
         try{
-            Integer courseID = jdbcTemplateObject.queryForObject(getMaxIDCourse, new Object[]{}, Integer.class);
-            System.out.println(courseID);
-            courseID++;
-            jdbcTemplateObject.update(setCourse, new Object[]{
-                    courseID, course.getTitle(), course.getLocation(), course.getDescription(), course.getStartDate(), course.getEndDate(), course.getCourseFee(), course.getCourseSingleDayFee(), course.getDayPackage(), course.getMaxNumber()
-            });
-            if(course.getSessions() != null){
-                saveSessions(course.getSessions(), courseID);
-            }
-            if(course.getEvents() != null){
-                saveEvents(course.getEvents(), courseID);
-            }
-            if(course.getRoles() != null){
-                setRoles(courseID, course.getRoles());
-            }
-            if(course.getHotels() != null){
-                setHotels(courseID, course.getHotels());
-            }
-            if(course.getForm() != null){
-                saveForm(course.getForm(), courseID);
+            System.out.println("ID TIL KURS FRA SERVER ER " + course.getId());
+            if(course.getId() != -1){
+                updateCourse(course);
+            } else{
+                Integer courseID = jdbcTemplateObject.queryForObject(getMaxIDCourse, new Object[]{}, Integer.class);
+                System.out.println(courseID);
+                courseID++;
+                jdbcTemplateObject.update(setCourse, new Object[]{
+                        courseID, course.getTitle(), course.getLocation(), course.getDescription(), course.getStartDate(), course.getEndDate(), course.getCourseFee(), course.getCourseSingleDayFee(), course.getDayPackage(), course.getMaxNumber()
+                });
+                if(course.getSessions() != null){
+                    saveSessions(course.getSessions(), courseID);
+                }
+                if(course.getEvents() != null){
+                    saveEvents(course.getEvents(), courseID);
+                }
+                if(course.getRoles() != null){
+                    setRoles(courseID, course.getRoles());
+                }
+                if(course.getHotels() != null){
+                    setHotels(courseID, course.getHotels());
+                }
+                if(course.getForm() != null){
+                    saveForm(course.getForm(), courseID);
+                }
             }
         } catch(Exception e){
             System.out.println("Error in saveCourse() " + e);
@@ -222,24 +244,32 @@ public class CourseRepositoryDB implements CourseRepository{
         return true;
     }
 
-/*    public boolean updateCourse(Course course){
+    public boolean updateCourse(Course course){
         try{
             jdbcTemplateObject.update(updateCourse, new Object[]{
                     course.getTitle(), course.getLocation(), course.getDescription(), course.getStartDate(), course.getEndDate(), course.getCourseFee(), course.getCourseSingleDayFee(), course.getDayPackage(), course.getMaxNumber(), course.getId()
             });
             if(course.getSessions() != null){
-                updateSessions(course.getSessions(), courseID);
+                updateSessions(course.getSessions(), course.getId());
             }
             if(course.getEvents() != null){
-                updateEvents(course.getEvents(), courseID);
+                updateEvents(course.getEvents(), course.getId());
             }
             if(course.getRoles() != null){
                 updateRoles(course.getId(), course.getRoles());
             }
+            if(course.getHotels() != null){
+                updateHotels(course.getId(), course.getHotels());
+            }
+            if(course.getForm() != null){
+                updateForm(course.getForm(), course.getId());
+            }
         }catch (Exception e){
-
+            System.out.println("Error in updateCourse! " + e);
+            return false;
         }
-    }*/
+        return true;
+    }
 
     public boolean saveForm(Form form, int courseID){
         try{
@@ -255,6 +285,24 @@ public class CourseRepositoryDB implements CourseRepository{
             saveExtraInfo(form.getExtraInfo(), id);
         } catch(Exception e){
             System.out.println("Error in saveForm() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateForm(Form form, int courseID){
+        try{
+            jdbcTemplateObject.update(updateForm, new Object[]{
+                    form.isAirplane(), courseID
+            });
+            int optionalPersonaliaID = jdbcTemplateObject.queryForObject(getOptPersID, new Object[]{form.getId()}, Integer.class);
+            int optionalWorkplaceID = jdbcTemplateObject.queryForObject(getOptWorkID, new Object[]{form.getId()}, Integer.class);
+            int extraID = jdbcTemplateObject.queryForObject(getExtraID, new Object[]{form.getId()}, Integer.class);
+            updateOptionalPersonalia(form.getOptionalPersonalia(), form.getId(), optionalPersonaliaID);
+            updateOptionalWorkplace(form.getOptionalWorkplace(), form.getId(), optionalWorkplaceID);
+            updateExtraInfo(form.getExtraInfo(), form.getId(), extraID);
+        } catch(Exception e){
+            System.out.println("Error in updateForm() " + e);
             return false;
         }
         return true;
@@ -277,10 +325,29 @@ public class CourseRepositoryDB implements CourseRepository{
 
     public boolean updateSessions(ArrayList<Session> sessions, int courseID){
         try{
+            ArrayList<Session> sessionsToBeDeleted = getSessions(courseID);
+            System.out.println("sessionsToBeDeleted.size() from DB " + sessionsToBeDeleted.size());
+            for (int i = 0; i < sessions.size(); i++){
+                for (int u = 0; u < sessionsToBeDeleted.size(); u++){
+                    if(sessions.get(i).getId() == sessionsToBeDeleted.get(u).getId()){
+                        sessionsToBeDeleted.remove(u);
+                    }
+                }
+            }
+            System.out.println("sessionsToBeDeleted.size() after removal " + sessionsToBeDeleted.size());
+            if(!sessionsToBeDeleted.isEmpty()){
+                System.out.println("SessionsToBeDeleted is not empty");
+                for(Session s : sessionsToBeDeleted){
+                    System.out.println("Deleting session " +  s.getTitle() + " with id " + s.getId());
+                    jdbcTemplateObject.update(deleteSession, new Object[]{
+                            s.getId()
+                    });
+                }
+            }
             ArrayList<Session> sessionsToBeSaved = new ArrayList<Session>();
             for (Session s : sessions){
                 if(s.getId() != -1){
-                    jdbcTemplateObject.update(setSession, new Object[]{
+                    jdbcTemplateObject.update(updateSessions, new Object[]{
                             s.getTitle(), s.getDescription(), s.getDate(), s.getStartTime(), s.getEndTime(), s.getLocation(), s.getMaxnumber(), s.getId()
                     });
                     System.out.println(s.getTitle() + " is updated (session)"
@@ -290,6 +357,7 @@ public class CourseRepositoryDB implements CourseRepository{
                 }
             }
             if (!sessionsToBeSaved.isEmpty()){
+                System.out.println("Courseid i sessionsToBeSaved " + courseID);
                 saveSessions(sessionsToBeSaved, courseID);
             }
         }catch (Exception e){
@@ -316,10 +384,29 @@ public class CourseRepositoryDB implements CourseRepository{
 
     public boolean updateEvents(ArrayList<Event> events, int courseID){
         try{
+            ArrayList<Event> eventsToBeDeleted = getEvents(courseID);
+            System.out.println("eventsToBeDeleted.size() from DB " + eventsToBeDeleted.size());
+            for (int i = 0; i < events.size(); i++){
+                for (int u = 0; u < eventsToBeDeleted.size(); u++){
+                    if(events.get(i).getId() == eventsToBeDeleted.get(u).getId()){
+                        eventsToBeDeleted.remove(u);
+                    }
+                }
+            }
+            System.out.println("eventsToBeDeleted.size() after removal " + eventsToBeDeleted.size());
+            if(!eventsToBeDeleted.isEmpty()){
+                System.out.println("EventsToBeDeleted is not empty");
+                for(Event e : eventsToBeDeleted){
+                    System.out.println("Deleting event " + e.getTitle() + " with id " + e.getId());
+                    jdbcTemplateObject.update(deleteEvent, new Object[]{
+                            e.getId()
+                    });
+                }
+            }
             ArrayList<Event> eventsToBeSaved = new ArrayList<Event>();
             for (Event e : events){
                 if(e.getId() != -1){
-                    jdbcTemplateObject.update(setEvent, new Object[]{
+                    jdbcTemplateObject.update(updateEvents, new Object[]{
                             e.getTitle(), e.getPrice(), e.getMaxNumber(), e.getLocation(), e.getDate(), e.getTime(), e.getId()
                     });
                     System.out.println(e.getTitle() + " is updated (event)");
@@ -388,8 +475,48 @@ public class CourseRepositoryDB implements CourseRepository{
         try{
             for (Hotel hotel : hotels){
                 jdbcTemplateObject.update(setHotel, new Object[]{
-                        courseID, hotel.getName(), hotel.getDoubleprice(), hotel.getSingleprice(), hotel.getAddress()
+                        hotel.getName(), hotel.getDoubleprice(), hotel.getSingleprice(), hotel.getAddress(), courseID
                 });
+            }
+        } catch(Exception e){
+            System.out.println("Error in setHotels() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateHotels(int courseID, ArrayList<Hotel> hotels){
+        try{
+            ArrayList<Hotel> hotelsToBeDeleted = getHotels(courseID);
+            for (int i = 0; i < hotels.size(); i++){
+                for (int u = 0; u < hotelsToBeDeleted.size(); u++){
+                    if(hotels.get(i).getId() == hotelsToBeDeleted.get(u).getId()){
+                        hotelsToBeDeleted.remove(u);
+                    }
+                }
+            }
+            if(!hotelsToBeDeleted.isEmpty()){
+                System.out.println("HotelsToBeDeleted is not empty");
+                for(Hotel h : hotelsToBeDeleted){
+                    System.out.println("Deleting hotel " + h.getName() + " with id " + h.getId());
+                    jdbcTemplateObject.update(deleteHotel, new Object[]{
+                            h.getId()
+                    });
+                }
+            }
+            ArrayList<Hotel> hotelsToBeAdded = new ArrayList<Hotel>();
+            for (Hotel hotel : hotels){
+                if (hotel.getId() != -1){
+                    jdbcTemplateObject.update(updateHotel, new Object[]{
+                            hotel.getName(), hotel.getDoubleprice(), hotel.getSingleprice(), hotel.getAddress(), courseID
+                    });
+                } else{
+                    System.out.println("New hotel detected! Adding hotel " + hotel.getName());
+                    hotelsToBeAdded.add(hotel);
+                }
+            }
+            if(!hotelsToBeAdded.isEmpty()){
+                setHotels(courseID, hotelsToBeAdded);
             }
         } catch(Exception e){
             System.out.println("Error in setHotels() " + e);
@@ -425,6 +552,51 @@ public class CourseRepositoryDB implements CourseRepository{
         return true;
     }
 
+    public boolean updateOptionalPersonalia(ArrayList<InputParameter> newParameters, int formID, int optionalPersonaliaID){
+        try{
+            ArrayList<InputParameter> inputParametersToBeDeleted = getOptionalPersonalia(formID);
+            ArrayList<InputParameter> inputParametersToBeAdded = new ArrayList<InputParameter>();
+            System.out.println("Inputparameterstobedeleted before removal = " + inputParametersToBeDeleted.size());
+            for (int i = 0; i < newParameters.size(); i++){
+                boolean isNewIP = true;
+                for (int u = 0; u < inputParametersToBeDeleted.size(); u++){
+                    if(newParameters.get(i).getId() == inputParametersToBeDeleted.get(u).getId()){
+                        System.out.println("Parameter to be ignored: " + newParameters.get(u).getParameter() + " and " + inputParametersToBeDeleted.get(u));
+                        inputParametersToBeDeleted.remove(u);
+                        isNewIP = false;
+                    }
+                }
+                if(isNewIP){
+                    inputParametersToBeAdded.add(newParameters.get(i));
+                }
+            }
+            System.out.println("Inputparameterstobedeleted after removal = " + inputParametersToBeDeleted.size());
+            if(!inputParametersToBeDeleted.isEmpty()){
+                System.out.println("inputParametersToBeDeleted is not empty");
+                for(InputParameter ip : inputParametersToBeDeleted){
+                    System.out.println("Deleting parameter " + ip.getParameter() + " with id " + ip.getId());
+                    jdbcTemplateObject.update(deleteInputParameterHasOptionalPers, new Object[]{
+                            ip.getId()
+                    });
+                    jdbcTemplateObject.update(deleteInputParameter, new Object[]{
+                            ip.getId()
+                    });
+                }
+            }
+            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            System.out.println("Inputparameters to be added.size() " + inputParametersToBeAdded.size());
+            for (InputParameter ip : inputParametersToBeAdded){
+                inputid++;
+                System.out.println("Adding new inputparameter " + ip.toString());
+                insertInputParameter(ip, inputid, optionalPersonaliaID, "optionalpersonalia");
+            }
+        } catch (Exception e){
+            System.out.println("Error in updateOptionalPersonalia");
+            return false;
+        }
+        return true;
+    }
+
     public boolean saveOptionalWorkplace(ArrayList<InputParameter> list, int formID){
         try{
             Integer id = jdbcTemplateObject.queryForObject(getMaxIDOptionalWorkplace, new Object[]{}, Integer.class);
@@ -452,6 +624,51 @@ public class CourseRepositoryDB implements CourseRepository{
         return true;
     }
 
+    public boolean updateOptionalWorkplace(ArrayList<InputParameter> newParameters, int formID, int optionalWorkplaceID){
+        try{
+            ArrayList<InputParameter> inputParametersToBeDeleted = getOptionalWorkplace(formID);
+            ArrayList<InputParameter> inputParametersToBeAdded = new ArrayList<InputParameter>();
+            System.out.println("Inputparameterstobedeleted before removal (Workplace) = " + inputParametersToBeDeleted.size());
+            for (int i = 0; i < newParameters.size(); i++){
+                boolean isNewIP = true;
+                for (int u = 0; u < inputParametersToBeDeleted.size(); u++){
+                    if(newParameters.get(i).getId() == inputParametersToBeDeleted.get(u).getId()){
+                        System.out.println("Parameter to be ignored: " + newParameters.get(i).getParameter() + " and " + inputParametersToBeDeleted.get(u));
+                        inputParametersToBeDeleted.remove(u);
+                        isNewIP = false;
+                    }
+                }
+                if(isNewIP){
+                    inputParametersToBeAdded.add(newParameters.get(i));
+                }
+            }
+            System.out.println("Inputparameterstobedeleted after removal = " + inputParametersToBeDeleted.size());
+            if(!inputParametersToBeDeleted.isEmpty()){
+                System.out.println("inputParametersToBeDeleted is not empty");
+                for(InputParameter ip : inputParametersToBeDeleted){
+                    System.out.println("Deleting parameter " + ip.getParameter() + " with id " + ip.getId());
+                    jdbcTemplateObject.update(deleteInputParameterHasOptionalWork, new Object[]{
+                            ip.getId()
+                    });
+                    jdbcTemplateObject.update(deleteInputParameter, new Object[]{
+                            ip.getId()
+                    });
+                }
+            }
+            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            System.out.println("Inputparameters to be added.size() " + inputParametersToBeAdded.size());
+            for (InputParameter ip : inputParametersToBeAdded){
+                inputid++;
+                System.out.println("Adding new inputparameter " + ip.toString());
+                insertInputParameter(ip, inputid, optionalWorkplaceID, "optionalworkplace");
+            }
+        } catch (Exception e){
+            System.out.println("Error in updateOptionalWorkplace");
+            return false;
+        }
+        return true;
+    }
+
     public boolean saveExtraInfo(ArrayList<InputParameter> list, int formID){
         try{
             Integer id = jdbcTemplateObject.queryForObject(getMaxIDExtraInfo, new Object[]{}, Integer.class);
@@ -474,6 +691,51 @@ public class CourseRepositoryDB implements CourseRepository{
             });
         } catch(Exception e){
             System.out.println("Error in saveExtraInfo() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateExtraInfo(ArrayList<InputParameter> newParameters, int formID, int ExtraInfoID){
+        try{
+            ArrayList<InputParameter> inputParametersToBeDeleted = getExtraInfo(formID);
+            ArrayList<InputParameter> inputParametersToBeAdded = new ArrayList<InputParameter>();
+            System.out.println("Inputparameterstobedeleted before removal (ExtraInfo) = " + inputParametersToBeDeleted.size());
+            for (int i = 0; i < newParameters.size(); i++){
+                boolean isNewIP = true;
+                for (int u = 0; u < inputParametersToBeDeleted.size(); u++){
+                    if(newParameters.get(i).getId() == inputParametersToBeDeleted.get(u).getId()){
+                        System.out.println("Parameter to be ignored: " + newParameters.get(i).getParameter() + " and " + inputParametersToBeDeleted.get(u));
+                        inputParametersToBeDeleted.remove(u);
+                        isNewIP = false;
+                    }
+                }
+                if(isNewIP){
+                    inputParametersToBeAdded.add(newParameters.get(i));
+                }
+            }
+            System.out.println("Inputparameterstobedeleted after removal = " + inputParametersToBeDeleted.size());
+            if(!inputParametersToBeDeleted.isEmpty()){
+                System.out.println("inputParametersToBeDeleted is not empty");
+                for(InputParameter ip : inputParametersToBeDeleted){
+                    System.out.println("Deleting parameter " + ip.getParameter() + " with id " + ip.getId());
+                    jdbcTemplateObject.update(deleteInputParameterHasExtraInfo, new Object[]{
+                            ip.getId()
+                    });
+                    jdbcTemplateObject.update(deleteInputParameter, new Object[]{
+                            ip.getId()
+                    });
+                }
+            }
+            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            System.out.println("Inputparameters to be added.size() " + inputParametersToBeAdded.size());
+            for (InputParameter ip : inputParametersToBeAdded){
+                inputid++;
+                System.out.println("Adding new inputparameter " + ip.toString());
+                insertInputParameter(ip, inputid, ExtraInfoID, "extrainfo");
+            }
+        } catch (Exception e){
+            System.out.println("Error in updateExtraInfo");
             return false;
         }
         return true;

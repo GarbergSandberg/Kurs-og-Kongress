@@ -4,6 +4,7 @@
 sessionRegisterApp.factory('eventService', function() {
     var events = [];
     var eventService = {};
+    var temporaryIDs = [];
 
     eventService.save = function(newEvent){
         var old = eventExists(newEvent);
@@ -46,6 +47,7 @@ sessionRegisterApp.factory('eventService', function() {
     eventService.setEvents = function(eventsSent){
         for (var i = 0; i < eventsSent.length; i++){
             var newEvent = eventsSent[i];
+            newEvent.id = eventsSent[i].id;
             newEvent.date = new Date(eventsSent[i].date);
             newEvent.time = new Date(eventsSent[i].time);
             events.push(newEvent);
@@ -60,6 +62,7 @@ sessionRegisterApp.factory('eventService', function() {
             }
         }
         var id = highestId + 1;
+        temporaryIDs.push(id);
         return id;
     }
 
@@ -93,6 +96,19 @@ sessionRegisterApp.factory('eventService', function() {
             }
         }
     }
+
+    eventService.destroyTempIDs = function(){
+        if (temporaryIDs.length > 0){
+            for (var i = 0; i < temporaryIDs.length; i++){
+                for (var u = 0; u < events.length; u++){
+                    if(temporaryIDs[i] == events[u].id){
+                        console.log("Fjerner id på event " + events[u].id);
+                        events[u].id = -1;
+                    }
+                }
+            }
+        }
+    };
 
     return eventService;
 });
