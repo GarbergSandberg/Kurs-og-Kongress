@@ -66,7 +66,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
     self.getCourse = function(id){
         courseService.getCourse(id).then(function(response){
             if (response != null){
-                $scope.course = response;// NB! Course contains form. Must be declared undefined before sending back to server.
+                $scope.course = response;
             }
             if (response.startDate != null){
                 console.log("startDate.." + response.startDate);

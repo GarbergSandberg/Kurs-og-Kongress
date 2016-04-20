@@ -96,15 +96,12 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String sqlGetPayments = "select * from payment where registration_idregistration = ?";
     private final String sqlGetDates = "select date from date where registration_idregistration = ?";
     private final String sqlGetCountRegistrations = "select count(*) from REGISTRATION where course_idcourse = ?";
-
     private final String sqlGetExtraInfoAnswers = "select IDINPUTPARAMETER, parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_EXTRAINFO, REGISTRATION " +
             "where REGISTRATION.EXTRAINFO_IDEXTRAINFO =INPUTPARAMETER_HAS_EXTRAINFO.EXTRAINFO_IDEXTRAINFO and " +
             "INPUTPARAMETER_HAS_EXTRAINFO.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and REGISTRATION.IDREGISTRATION = ?";
-
     private final String sqlGetOptionalPersonaliaAnswers = "select IDINPUTPARAMETER, parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALPERSONALIA, REGISTRATION " +
             "where REGISTRATION.OPTIONALPERSONALIA_IDOPTIONALPERSONALIA = INPUTPARAMETER_HAS_OPTIONALPERSONALIA.OPTIONALPERSONALIA_IDOPTIONALPERSONALIA and " +
             "INPUTPARAMETER_HAS_OPTIONALPERSONALIA.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and REGISTRATION.IDREGISTRATION = ?";
-
     private final String sqlGetOptionalWorkplaceAnswers = "select IDINPUTPARAMETER, parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALWORKPLACE, REGISTRATION " +
             "where REGISTRATION.OPTIONALWORKPLACE_IDOPTIONALWORKPLACE = INPUTPARAMETER_HAS_OPTIONALWORKPLACE.OPTIONALWORKPLACE_IDOPTIONALWORKPLACE and " +
             "INPUTPARAMETER_HAS_OPTIONALWORKPLACE.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and REGISTRATION.IDREGISTRATION = ?";
@@ -122,6 +119,17 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String getMaxAccomondationID = "select max(idaccomondation) from accomondation";
     private final String getMaxPersonID = "select max(idperson) from person";
     private final String getMaxWorkplaceID= "select max(idworkplace) from workplace";
+
+    // updateRegistration sqls
+    private final String deleteOldSessionIDs = "delete from sessionid where registration_idregistration = ?";
+    private final String deleteOldEventIDs = "delete from EVENTID where REGISTRATION_IDREGISTRATION = ?";
+    private final String updateAccomondation = "update accomondation set roommate = ?, fromdate = ?, todate = ?, doubleroom = ?, hotel_hotelID = ? where idaccomondation = ?";
+    private final String updatePerson = "update person set firstname = ?, lastname = ?, birthyear = ?, phonenumber = ?, email = ?, gender = ? where idperson = ?";
+    private final String updateWorkplace = "update workplace set companyname = ?, postalcode = ?, location = ?, address = ? where idworkplace = ?";
+    private final String deletePayments = "delete from payment where registration_idregistration = ?";
+    private final String deleteDates = "delete from date where REGISTRATION_IDREGISTRATION = ?";
+    private final String updateInputParameterAnswer = "update INPUTPARAMETER set parameter = ?, TYPE = ? where IDINPUTPARAMETER = ?";
+    private final String updateRegistration = "update registration set alternativeinvoiceaddress = ?, speaker = ?, role = ? where idregistration = ?";
 
 
     @Autowired
@@ -256,6 +264,52 @@ public class CourseRepositoryDB implements CourseRepository{
             }
         } catch (Exception e){
             System.out.println("Error in saveRegistration() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateRegistration(Registration registration){
+        try{
+            if (registration.getRegistrationID() != -1){
+                jdbcTemplateObject.update(setRegistration, new Object[]{
+                        registration.getAlternativeInvoiceAddress(), registration.isSpeaker(), registration.getRole()
+                });
+                if(registration.getSessionsToAttend() != null){
+                    updateSessionsToAttend(registration.getSessionsToAttend(), registration.getRegistrationID());
+                }
+                if(registration.getEventsToAttend() != null){
+                    updateEventsToAttend(registration.getEventsToAttend(), registration.getRegistrationID());
+                }
+                if(registration.getAccomondation() != null){
+                    updateAccomondation(registration.getAccomondation());
+                }
+                if(registration.getPerson() != null){
+                    updatePerson(registration.getPerson());
+                }
+                if(registration.getWorkplace() != null){
+                    updateWorkplace(registration.getWorkplace());
+                }
+                if(registration.getCost() != null){
+                    updatePayment(registration.getCost(), registration.getRegistrationID());
+                }
+                if(registration.getDates() != null){
+                    updateDates(registration.getDates(), registration.getRegistrationID());
+                }
+                if(registration.getOptionalPersonalia() != null){
+                    updateOptionalPersonaliaAnswers(registration.getOptionalPersonalia(), registration.getRegistrationID());
+                }
+                if(registration.getOptionalWorkplace() != null){
+                    updateOptionalWorkplaceAnswers(registration.getOptionalWorkplace(), registration.getRegistrationID());
+                }
+                if(registration.getExtraInfo() != null){
+                    updateExtraInfoAnswers(registration.getExtraInfo(), registration.getRegistrationID());
+                }
+            } else{
+                System.out.println("Tries to update course with id = -1. Try add it instead");
+            }
+        } catch(Exception e){
+            System.out.println("Error in update registration " + e);
             return false;
         }
         return true;
@@ -901,6 +955,19 @@ public class CourseRepositoryDB implements CourseRepository{
         return true;
     }
 
+    public boolean updateSessionsToAttend(ArrayList<Integer> list, int registrationID){
+        try{
+            jdbcTemplateObject.update(deleteOldSessionIDs, new Object[]{
+                    registrationID
+            });
+            setSessionsToAttend(list, registrationID);
+        } catch(Exception e){
+            System.out.println("Error in updateSessions() " + e);
+            return false;
+        }
+        return true;
+    }
+
     public boolean setEventsToAttend(ArrayList<Integer> list, int registrationID){
         try{
             for (Integer i : list)
@@ -909,6 +976,19 @@ public class CourseRepositoryDB implements CourseRepository{
                 });
         }catch (Exception e){
             System.out.println("Error in setEventsToAttend() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateEventsToAttend(ArrayList<Integer> list, int registrationID){
+        try{
+            jdbcTemplateObject.update(deleteOldEventIDs, new Object[]{
+                    registrationID
+            });
+            setEventsToAttend(list, registrationID);
+        } catch(Exception e){
+            System.out.println("Error in updateEvents() " + e);
             return false;
         }
         return true;
@@ -928,6 +1008,18 @@ public class CourseRepositoryDB implements CourseRepository{
         }
     }
 
+    public boolean updateAccomondation(Accomondation accomondation){
+        try{
+            jdbcTemplateObject.update(updateAccomondation, new Object[]{
+                    accomondation.getRoommate(), accomondation.getFromDate(), accomondation.getToDate(), accomondation.isDoubleroom(), accomondation.getHotelID(), accomondation.getId()
+            });
+            return true;
+        } catch (Exception e){
+            System.out.println("Error in updateAccomondation() " + e);
+            return false;
+        }
+    }
+
     public Integer setPerson(Person person){
         try{
             int personID = jdbcTemplateObject.queryForObject(getMaxPersonID, new Object[]{}, Integer.class);
@@ -940,6 +1032,18 @@ public class CourseRepositoryDB implements CourseRepository{
             System.out.println("Error in setPerson " + e);
             return null;
         }
+    }
+
+    public boolean updatePerson(Person person){
+        try{
+            jdbcTemplateObject.update(updatePerson, new Object[]{
+                    person.getFirstname(), person.getLastname(), person.getBirthYear(), person.getPhonenumber(), person.getEmail(), person.getGender(), person.getPersonID()
+            });
+        } catch(Exception e){
+            System.out.println("Error in updatePerson " + e);
+            return false;
+        }
+        return true;
     }
 
     public Integer setWorkplace(Workplace workplace){
@@ -956,6 +1060,18 @@ public class CourseRepositoryDB implements CourseRepository{
         }
     }
 
+    public boolean updateWorkplace(Workplace workplace){
+        try{
+            jdbcTemplateObject.update(updateWorkplace, new Object[]{
+                    workplace.getCompanyName(), workplace.getPostalcode(), workplace.getLocation(), workplace.getAddress(), workplace.getWorkplaceID()
+            });
+        } catch(Exception e){
+            System.out.println("Error in updateWorkplace " + e);
+            return false;
+        }
+        return true;
+    }
+
     public boolean setPayment(Payment payment, int registrationID){
         try{
             jdbcTemplateObject.update(setPayment, new Object[]{
@@ -963,6 +1079,21 @@ public class CourseRepositoryDB implements CourseRepository{
             });
         } catch (Exception e){
             System.out.println("Error in setPayment " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updatePayment(ArrayList<Payment> payments, int registrationID){
+        try{
+            jdbcTemplateObject.update(deletePayments, new Object[]{
+                    registrationID
+            });
+            for(Payment p : payments){
+                setPayment(p, registrationID);
+            }
+        } catch (Exception e){
+            System.out.println("Error in updatePayment " + e);
             return false;
         }
         return true;
@@ -977,6 +1108,19 @@ public class CourseRepositoryDB implements CourseRepository{
             }
         } catch (Exception e){
             System.out.println("Error in setDates " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateDates(ArrayList<Date> dates, int registrationID){
+        try{
+            jdbcTemplateObject.update(deleteDates, new Object[]{
+                    registrationID
+            });
+            setDates(dates, registrationID);
+        } catch (Exception e){
+            System.out.println("Error in updateDates() " + e);
             return false;
         }
         return true;
@@ -1003,6 +1147,25 @@ public class CourseRepositoryDB implements CourseRepository{
         }
     }
 
+    public boolean updateOptionalPersonaliaAnswers(ArrayList<InputParameter> list, int registrationID){
+        try{
+            ArrayList<InputParameter> oldAnswers = getOptionalPersonaliaAnswers(registrationID);
+            if (list.size() == oldAnswers.size()){
+                for (int i = 0; i < list.size(); i++){
+                    jdbcTemplateObject.update(updateInputParameterAnswer, new Object[]{
+                            list.get(i).getParameter(), list.get(i).getType(), oldAnswers.get(i).getId()
+                    });
+                }
+            } else{
+                System.out.println("Error!!! Number of old input parameters and new doesn't add up! ");
+            }
+        } catch(Exception e){
+            System.out.println("Error in updateOptionalPersonaliaAnswers " + e);
+            return false;
+        }
+        return true;
+    }
+
     public Integer saveOptionalWorkplaceAnswers(ArrayList<InputParameter> list){
         try{
             Integer id = jdbcTemplateObject.queryForObject(getMaxIDOptionalWorkplace, new Object[]{}, Integer.class);
@@ -1024,6 +1187,25 @@ public class CourseRepositoryDB implements CourseRepository{
         }
     }
 
+    public boolean updateOptionalWorkplaceAnswers(ArrayList<InputParameter> list, int registrationID){
+        try{
+            ArrayList<InputParameter> oldAnswers = getOptionalWorkplaceAnswers(registrationID);
+            if (list.size() == oldAnswers.size()){
+                for (int i = 0; i < list.size(); i++){
+                    jdbcTemplateObject.update(updateInputParameterAnswer, new Object[]{
+                            list.get(i).getParameter(), list.get(i).getType(), oldAnswers.get(i).getId()
+                    });
+                }
+            } else{
+                System.out.println("Error!!! Number of old input parameters and new doesn't add up! ");
+            }
+        } catch(Exception e){
+            System.out.println("Error in updateOptionalWorkplaceAnswers " + e);
+            return false;
+        }
+        return true;
+    }
+
     public Integer saveExtraInfoAnswers(ArrayList<InputParameter> list){
         try{
             Integer id = jdbcTemplateObject.queryForObject(getMaxIDExtraInfo, new Object[]{}, Integer.class);
@@ -1043,6 +1225,25 @@ public class CourseRepositoryDB implements CourseRepository{
             System.out.println("Error in saveExtraInfo() " + e);
             return null;
         }
+    }
+
+    public boolean updateExtraInfoAnswers(ArrayList<InputParameter> list, int registrationID){
+        try{
+            ArrayList<InputParameter> oldAnswers = getExtraInfoAnswers(registrationID);
+            if (list.size() == oldAnswers.size()){
+                for (int i = 0; i < list.size(); i++){
+                    jdbcTemplateObject.update(updateInputParameterAnswer, new Object[]{
+                            list.get(i).getParameter(), list.get(i).getType(), oldAnswers.get(i).getId()
+                    });
+                }
+            } else{
+                System.out.println("Error!!! Number of old input parameters and new doesn't add up! ");
+            }
+        } catch(Exception e){
+            System.out.println("Error in updateExtraInfoAnswers " + e);
+            return false;
+        }
+        return true;
     }
 
 
