@@ -19,10 +19,6 @@ To change this template use File | Settings | File Templates.
         <div class="page-header">
             <h1>Enkeltpåmelding til {{course.title}}</h1><br>
         </div>
-        <button style="margin-left:2em;" type="button" class="btn btn-primary"
-                ng-click="inputParameterResolver(registration)">
-            blerlpe
-        </button>
         <h3>Personalia</h3>
         <form>
             <div>
@@ -47,8 +43,8 @@ To change this template use File | Settings | File Templates.
             </div>
             <div ng-repeat="opt in course.form.optionalPersonalia">
                 <label for="opt">{{opt.parameter}}: </label>
-                <input type="checkbox" ng-hide="whichType(opt.type)" ng-model="registration.optionalPersonalia[$index]" id="opt"/>
-                <input type="text" ng-show="whichType(opt.type)" ng-model="registration.optionalPersonalia[$index]" id="opt"/><br>
+                <input type="checkbox" ng-if="!whichType(opt.type)" ng-model="registration.optionalPersonalia[$index]" ng-init="registration.optionalPersonalia[$index]='false'" value="false" id="opt"/>
+                <input type="text" ng-if="whichType(opt.type)" ng-model="registration.optionalPersonalia[$index]" ng-init="registration.optionalPersonalia[$index]=''" value="" id="opt"/><br>
             </div>
             <label ng-repeat="role in course.roles">
                 <input type="radio" name="role" ng-model="registration.role" ng-value="role"/> {{role}}
@@ -91,8 +87,8 @@ To change this template use File | Settings | File Templates.
         </div>
         <div ng-repeat="opt in course.form.optionalWorkplace">
             <label for="opt2">{{opt.parameter}}: </label>
-            <input type="checkbox" ng-hide="whichType(opt.type)" ng-model="registration.optionalWorkplace[$index]" id="opt2"/>
-            <input type="text" ng-show="whichType(opt.type)" ng-model="registration.optionalWorkplace[$index]" id="opt2"/><br>
+            <input type="checkbox" ng-if="!whichType(opt.type)" ng-model="registration.optionalWorkplace[$index]" ng-init="registration.optionalWorkplace[$index]='false'" value="false" id="opt2"/>
+            <input type="text" ng-if="whichType(opt.type)" ng-model="registration.optionalWorkplace[$index]" ng-init="registration.optionalWorkplace[$index]=''" value="" id="opt2"/><br>
         </div>
         <hr/>
         <hr/>

@@ -15,9 +15,9 @@ public class SessionMapper implements RowMapper<Session> {
         session.setId(rs.getInt("idSession"));
         session.setTitle(rs.getString("title"));
         session.setDescription(rs.getString("description"));
-        session.setDate(rs.getDate("date"));
-        session.setStartTime(rs.getDate("startTime"));
-        session.setEndTime(rs.getDate("endTime"));
+        session.setDate(new Date(rs.getTimestamp("date").getTime()));
+        session.setStartTime(new Date(rs.getTimestamp("startTime").getTime()));
+        session.setEndTime(new Date(rs.getTimestamp("endTime").getTime()));
         session.setLocation(rs.getString("location"));
         session.setMaxnumber(rs.getInt("maxNumber"));
         return session;

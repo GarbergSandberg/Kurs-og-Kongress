@@ -97,17 +97,31 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String sqlGetDates = "select date from date where registration_idregistration = ?";
     private final String sqlGetCountRegistrations = "select count(*) from REGISTRATION where course_idcourse = ?";
 
-    private final String sqlGetExtraInfoAnswers = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_EXTRAINFO, REGISTRATION " +
+    private final String sqlGetExtraInfoAnswers = "select IDINPUTPARAMETER, parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_EXTRAINFO, REGISTRATION " +
             "where REGISTRATION.EXTRAINFO_IDEXTRAINFO =INPUTPARAMETER_HAS_EXTRAINFO.EXTRAINFO_IDEXTRAINFO and " +
             "INPUTPARAMETER_HAS_EXTRAINFO.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and REGISTRATION.IDREGISTRATION = ?";
 
-    private final String sqlGetOptionalPersonaliaAnswers = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALPERSONALIA, REGISTRATION " +
+    private final String sqlGetOptionalPersonaliaAnswers = "select IDINPUTPARAMETER, parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALPERSONALIA, REGISTRATION " +
             "where REGISTRATION.OPTIONALPERSONALIA_IDOPTIONALPERSONALIA = INPUTPARAMETER_HAS_OPTIONALPERSONALIA.OPTIONALPERSONALIA_IDOPTIONALPERSONALIA and " +
             "INPUTPARAMETER_HAS_OPTIONALPERSONALIA.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and REGISTRATION.IDREGISTRATION = ?";
 
-    private final String sqlGetOptionalWorkplaceAnswers = "select parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALWORKPLACE, REGISTRATION " +
+    private final String sqlGetOptionalWorkplaceAnswers = "select IDINPUTPARAMETER, parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_OPTIONALWORKPLACE, REGISTRATION " +
             "where REGISTRATION.OPTIONALWORKPLACE_IDOPTIONALWORKPLACE = INPUTPARAMETER_HAS_OPTIONALWORKPLACE.OPTIONALWORKPLACE_IDOPTIONALWORKPLACE and " +
             "INPUTPARAMETER_HAS_OPTIONALWORKPLACE.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and REGISTRATION.IDREGISTRATION = ?";
+
+    // saveRegistration sqls
+    private final String setRegistration = "insert into registration values (?,?,?,?,?,?,?,?,?,?,?)";
+    private final String setSessionsToAttend = "insert into sessionid values (default,?,?)";
+    private final String setEventsToAttend = "insert into EVENTID values (default,?,?)";
+    private final String setAccomondation = "insert into accomondation values(?,?,?,?,?,?)";
+    private final String setPerson = "insert into person values (?,?,?,?,?,?,?)";
+    private final String setWorkplace = "insert into workplace values(?,?,?,?,?)";
+    private final String setPayment = "insert into PAYMENT VALUES (DEFAULT,?,?,?)";
+    private final String setDate = "INSERT INTO DATE VALUES (DEFAULT, ?,?)";
+    private final String getMaxRegistrationID = "select max(idregistration) from registration";
+    private final String getMaxAccomondationID = "select max(idaccomondation) from accomondation";
+    private final String getMaxPersonID = "select max(idperson) from person";
+    private final String getMaxWorkplaceID= "select max(idworkplace) from workplace";
 
 
     @Autowired
@@ -179,11 +193,16 @@ public class CourseRepositoryDB implements CourseRepository{
                 System.out.println("REGISTRATION " + r.getRegistrationID());
                 ArrayList<Integer> sessionIDs = (ArrayList<Integer>) jdbcTemplateObject.query(sqlGetSessionsToAttend, new Object[]{r.getRegistrationID()}, new SupportMapper());
                 r.setSessionsToAttend(sessionIDs);
+                System.out.println("SessionsToAttend " + sessionIDs.toString());
                 ArrayList<Integer> eventIDs = (ArrayList<Integer>) jdbcTemplateObject.query(sqlGetEventsToAttend, new Object[]{r.getRegistrationID()}, new SupportMapper());
-                r.setSessionsToAttend(eventIDs);
+                r.setEventsToAttend(eventIDs);
+                System.out.println("EventsToAttend " + eventIDs.toString());
                 RegistrationForeignKeys foreignKeys = getForeignKeys(r.getRegistrationID());
-                r.setAccomondation(getAccomondation(foreignKeys.getAccomondationID()));
-                System.out.println(r.getAccomondation().toString());
+                int accomondationID = foreignKeys.getAccomondationID();
+                if (accomondationID != 0){
+                    r.setAccomondation(getAccomondation(foreignKeys.getAccomondationID()));
+                }
+                System.out.println("ACCOMONDATION ID = " + foreignKeys.getAccomondationID());
                 r.setPerson(getPerson(foreignKeys.getPersonID()));
                 System.out.println(r.getPerson().toString());
                 r.setWorkplace(getWorkplace(foreignKeys.getWorkplaceID()));
@@ -206,6 +225,40 @@ public class CourseRepositoryDB implements CourseRepository{
             registrations = null;
         }
         return registrations;
+    }
+
+    public boolean saveRegistration(Registration registration){
+        try{
+            Integer personID = setPerson(registration.getPerson());
+            Integer workplaceID = setWorkplace(registration.getWorkplace());
+            Integer accomondationID = setAccomondation(registration.getAccomondation());
+            Integer optionalPersonaliaID = saveOptionalPersonaliaAnswers(registration.getOptionalPersonalia());
+            Integer optionalWorkplaceID = saveOptionalWorkplaceAnswers(registration.getOptionalWorkplace());
+            Integer extraInfoID = saveExtraInfoAnswers(registration.getExtraInfo());
+            Integer registrationID = jdbcTemplateObject.queryForObject(getMaxRegistrationID, new Object[]{}, Integer.class);
+            registrationID++;
+            jdbcTemplateObject.update(setRegistration, new Object[]{
+                    registrationID,
+                    registration.getAlternativeInvoiceAddress(), registration.isSpeaker(),
+                    registration.getRole(), registration.getCourse().getId(),
+                    accomondationID,
+                    personID,
+                    workplaceID,
+                    extraInfoID,
+                    optionalWorkplaceID,
+                    optionalPersonaliaID
+            });
+            setSessionsToAttend(registration.getSessionsToAttend(), registrationID);
+            setEventsToAttend(registration.getEventsToAttend(), registrationID);
+            setDates(registration.getDates(), registrationID);
+            for (Payment p : registration.getCost()){
+                setPayment(p, registrationID);
+            }
+        } catch (Exception e){
+            System.out.println("Error in saveRegistration() " + e);
+            return false;
+        }
+        return true;
     }
 
 
@@ -834,4 +887,163 @@ public class CourseRepositoryDB implements CourseRepository{
         }
         return i;
     }
+
+    public boolean setSessionsToAttend(ArrayList<Integer> list, int registrationID){
+        try{
+            for (Integer i : list)
+            jdbcTemplateObject.update(setSessionsToAttend, new Object[]{
+                    i, registrationID
+            });
+        }catch (Exception e){
+            System.out.println("Error in setSessionsToAttend() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean setEventsToAttend(ArrayList<Integer> list, int registrationID){
+        try{
+            for (Integer i : list)
+                jdbcTemplateObject.update(setEventsToAttend, new Object[]{
+                        i, registrationID
+                });
+        }catch (Exception e){
+            System.out.println("Error in setEventsToAttend() " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public Integer setAccomondation(Accomondation accomondation){
+        try{
+            int accomondationID = jdbcTemplateObject.queryForObject(getMaxAccomondationID, new Object[]{}, Integer.class);
+            accomondationID++;
+            jdbcTemplateObject.update(setAccomondation, new Object[]{
+                    accomondationID, accomondation.getRoommate(), accomondation.getFromDate(), accomondation.getToDate(), accomondation.isDoubleroom(), accomondation.getHotelID()
+            });
+            return accomondationID;
+        } catch(Exception e){
+            System.out.println("Error in setAccomondation() " + e);
+            return null;
+        }
+    }
+
+    public Integer setPerson(Person person){
+        try{
+            int personID = jdbcTemplateObject.queryForObject(getMaxPersonID, new Object[]{}, Integer.class);
+            personID++;
+            jdbcTemplateObject.update(setPerson, new Object[]{
+                    personID, person.getFirstname(), person.getLastname(), person.getBirthYear(), person.getPhonenumber(), person.getEmail(), person.getGender()
+            });
+            return personID;
+        } catch (Exception e){
+            System.out.println("Error in setPerson " + e);
+            return null;
+        }
+    }
+
+    public Integer setWorkplace(Workplace workplace){
+        try{
+            int workplaceID = jdbcTemplateObject.queryForObject(getMaxWorkplaceID, new Object[]{}, Integer.class);
+            workplaceID++;
+            jdbcTemplateObject.update(setWorkplace, new Object[]{
+                    workplaceID, workplace.getCompanyName(), workplace.getPostalcode(), workplace.getLocation(), workplace.getAddress()
+            });
+            return workplaceID;
+        } catch (Exception e){
+            System.out.println("Error in setWorkplace " + e);
+            return null;
+        }
+    }
+
+    public boolean setPayment(Payment payment, int registrationID){
+        try{
+            jdbcTemplateObject.update(setPayment, new Object[]{
+                    payment.getAmount(), payment.getDescription(), registrationID
+            });
+        } catch (Exception e){
+            System.out.println("Error in setPayment " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean setDates(ArrayList<Date> dates, int registrationID){
+        try{
+            for(Date d : dates){
+                jdbcTemplateObject.update(setDate, new Object[]{
+                        d, registrationID
+                });
+            }
+        } catch (Exception e){
+            System.out.println("Error in setDates " + e);
+            return false;
+        }
+        return true;
+    }
+
+    public Integer saveOptionalPersonaliaAnswers(ArrayList<InputParameter> list){
+        try{
+            Integer id = jdbcTemplateObject.queryForObject(getMaxIDOptionalPersonalia, new Object[]{}, Integer.class);
+            id++;
+            jdbcTemplateObject.update(setOptionalPersonalia, new Object[]{
+                    id
+            });
+            System.out.println("OptionalPersonaliaID containing answers = " + id);
+            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            for (InputParameter ip : list){
+                inputid++;
+                insertInputParameter(ip, inputid, id, "optionalpersonalia");
+                System.out.println("ADDED OPTIONALPERSONALIA ANSWER " + ip);
+            }
+            return id;
+        } catch(Exception e){
+            System.out.println("Error in saveOptionalPersonaliaAnswers() " + e);
+            return null;
+        }
+    }
+
+    public Integer saveOptionalWorkplaceAnswers(ArrayList<InputParameter> list){
+        try{
+            Integer id = jdbcTemplateObject.queryForObject(getMaxIDOptionalWorkplace, new Object[]{}, Integer.class);
+            id++;
+            jdbcTemplateObject.update(setOptionalWorkplace, new Object[]{
+                    id
+            });
+            System.out.println("OptionalWorkplaceID containing answers = " + id);
+            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            for (InputParameter ip : list){
+                inputid++;
+                insertInputParameter(ip, inputid, id, "optionalworkplace");
+                System.out.println("ADDED OPTIONALWORKPLACE ANSWER " + ip);
+            }
+            return id;
+        } catch(Exception e){
+            System.out.println("Error in saveOptionalWorkplaceAnswers() " + e);
+            return null;
+        }
+    }
+
+    public Integer saveExtraInfoAnswers(ArrayList<InputParameter> list){
+        try{
+            Integer id = jdbcTemplateObject.queryForObject(getMaxIDExtraInfo, new Object[]{}, Integer.class);
+            id++;
+            jdbcTemplateObject.update(setExtrainfo, new Object[]{
+                    id
+            });
+            System.out.println("ExtraInfoID containing answers = " + id);
+            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            for (InputParameter ip : list){
+                inputid++;
+                insertInputParameter(ip, inputid, id, "extrainfo");
+                System.out.println("ADDED EXTRAINFO ANSWER " + ip);
+            }
+            return id;
+        } catch(Exception e){
+            System.out.println("Error in saveExtraInfo() " + e);
+            return null;
+        }
+    }
+
+
 }

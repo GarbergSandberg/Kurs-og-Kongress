@@ -12,6 +12,6 @@ import java.util.Date;
 public class DateMapper implements RowMapper<Date> {
 
     public Date mapRow(ResultSet rs, int i) throws SQLException {
-        return rs.getDate("date");
+        return (new Date(rs.getTimestamp("date").getTime()));
     }
 }

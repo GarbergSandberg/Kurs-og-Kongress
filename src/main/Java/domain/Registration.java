@@ -37,8 +37,7 @@ public class Registration {
         this.role = role;
     }
 
-    public Registration() {
-    }
+    public Registration() {}
 
     public int getRegistrationID() {
         return registrationID;

@@ -38,9 +38,8 @@ public class homeController {
 
     @RequestMapping("/")
     public ModelAndView home(){
-        courseService.getCourses();
         selectedPerson = "-1";
-        return new ModelAndView("registerCourse");
+        return new ModelAndView("singleRegistration");
     }
 
     @RequestMapping("/reg")
@@ -69,6 +68,9 @@ public class homeController {
     @RequestMapping("/attenderInfo")
     public ModelAndView attenderInfo(){return new ModelAndView("attenderInfo");}
 
+    @RequestMapping("/singleRegistration")
+    public ModelAndView singleRegistration(){return new ModelAndView("singleRegistration");}
+
     @RequestMapping("/courseStatistics")
     public ModelAndView courseStatistics(){return new ModelAndView("courseStatistics");}
 
@@ -91,7 +93,7 @@ public class homeController {
 
     @RequestMapping(value = "/saveReg", method = RequestMethod.POST)
     public ResponseEntity<Void> saveRegistration( @RequestBody Registration registration )   {
-        System.out.println(registration.toString());
+        courseService.saveRegistration(registration);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
@@ -140,6 +142,8 @@ public class homeController {
     @RequestMapping(value = "/getRegistrations", method = RequestMethod.GET)
     @ResponseBody
     public ArrayList<Registration> getRegistration(@RequestParam(value = "course_id") int id) {
+        System.out.println("PÅMELDING HER: *****************");
+        System.out.println(courseService.getRegistrations(id).toString());
         return courseService.getRegistrations(id);
     }
 

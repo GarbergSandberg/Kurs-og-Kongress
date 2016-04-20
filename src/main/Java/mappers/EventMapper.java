@@ -14,8 +14,8 @@ public class EventMapper implements RowMapper<Event> {
         event.setPrice(rs.getDouble("price"));
         event.setMaxNumber(rs.getInt("maxNumber"));
         event.setLocation(rs.getString("location"));
-        event.setDate(rs.getDate("date"));
-        event.setTime(rs.getDate("time"));
+        event.setDate(new Date(rs.getTimestamp("date").getTime()));
+        event.setTime(new Date(rs.getTimestamp("time").getTime()));
         return event;
     }
 }

@@ -15,6 +15,11 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         $scope.course = data;
     });
     $scope.dateArray = [];
+    $scope.$on('dateSet', function(event, data){
+        $scope.dateArray = data;
+        console.log($scope.dateArray.length + " = dateArray.length");
+        console.log($scope.dateArray);
+    });
     $scope.persons = personService.get();
     $scope.$on('personSet', function(event, data){
         $scope.persons = data;
@@ -204,10 +209,16 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     };
 
     // Endre disse til å returnere true/false, likt som colorEvent() ? (Renere og mindre kode). (Legger til checkbox-value i en array, if -> true.
-    $scope.wholeCourse = function wholeCourse() {
-        for (var i = 0; i<$scope.dateArray; i++){
-            $scope.selectedDays.push($scope.dateArray[i]);
-            console.log(i + " Er checked: " + $scope.selectedDays[i]);
+    $scope.wholeCourse = function(checked) {
+        if(checked == true){
+            $scope.selectedDays = [];
+            for (var i = 0; i<$scope.dateArray.length; i++){
+                $scope.selectedDays.push($scope.dateArray[i]);
+                console.log(i + " Er checked: " + $scope.selectedDays[i]);
+            }
+        } else{
+            $scope.selectedDays = [];
+            console.log("Tabellen er tom")
         }
     };
 
@@ -216,7 +227,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         for(var i = 0; i < $scope.selectedDays.length; i++){
             if (day == $scope.selectedDays[i]){
                 $scope.selectedDays.splice(i,1);
-                console.log($scope.selectedDays[i] + " er fjernet. Lengden på tabell er nå " + $scope.selectedDays.length);
+                console.log(day + " er fjernet. Lengden på tabell er nå " + $scope.selectedDays.length);
                 return;
             }
         }
@@ -243,9 +254,16 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         regService.getCourse(id).then(function(response){
             $scope.course = self.setCourse(response);
             var currentDate = $scope.course.startDate;
-            while (currentDate <= $scope.course.endDate) {
+            if($scope.course.startDate == $scope.course.endDate){
+                console.log("startDate = enddate");
                 $scope.dateArray.push(new Date(currentDate));
-                currentDate = $scope.addDays(currentDate, 1)
+            } else{
+                console.log("StartDate: " + currentDate);
+                while (currentDate <= $scope.course.endDate) {
+                    $scope.dateArray.push(new Date(currentDate));
+                    currentDate = $scope.addDays(currentDate, 1)
+                    console.log("New date: " + currentDate + " endDate: " +$scope.course.endDate);
+                }
             }
             regService.setCourse($scope.course, $scope.course.roles, $scope.dateArray);
         })
@@ -305,10 +323,12 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         }
         if (c.startDate != null){
             course.startDate = c.startDate;
+            console.log(course.startDate);
             //new Date((c.startDate).getTime());
         }
         if (c.endDate != null){
             course.endDate = c.endDate;
+            console.log(course.endDate);
             //new Date(c.endDate.getTime());
         }
         if (c.id != null){
@@ -342,7 +362,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     };
 
     self.loadApplication();
-    self.getCourseById(0);
+    self.getCourseById(1);
 
     $scope.whichType = function(type){ // Returnerer true hvis "type" er input, false hvis "checkbox".
         if (type == "Input") {

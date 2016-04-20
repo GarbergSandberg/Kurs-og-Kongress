@@ -18,4 +18,6 @@ public interface CourseService {
     public int getCountRegistrations(int id);
 
     public boolean saveCourse(Course course);
+
+    public boolean saveRegistration(Registration registration);
 }
