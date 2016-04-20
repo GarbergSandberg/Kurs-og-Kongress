@@ -13,7 +13,6 @@ To change this template use File | Settings | File Templates.
 <body>
 
 <div ng-app="RegApp" style="margin-left:3em; margin-right:3em;">
-
     <div ng-controller="AddRegCtrl">
         <!-- Arbeidsinfo -->
         <div class="page-header">
@@ -106,7 +105,7 @@ To change this template use File | Settings | File Templates.
         <br>
         <div ng-show="checkboxAccModel.c1 && checkboxAccModel.rad">
             <label>
-                <label for="place">Del rom med: </label>
+                <label for="shareWith">Del rom med: </label>
                 <input type="form-control" ng-model="registration.accomondation.roommate" id="shareWith"/>
             </label>
         </div>

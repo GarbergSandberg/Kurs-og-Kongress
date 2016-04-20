@@ -26,7 +26,7 @@
     <spring:url value="resources/js/service/attenderInfoService.js" var="attenderService"/>
     <spring:url value="resources/js/service/statisticsService.js" var="statisticsService"/>
     <spring:url value="resources/js/service/sessionRegisterService.js" var="sessionRegisterService"/>
-    <spring:url value="resources/js/service/eventRegisterService.js" var="eventRegisterService"/>
+    <spring:url value="resources/js/service/eventRegisterService.js" var="eventRegisterService"/>p
     <script src="${sessionRegisterApp}"></script>
     <script src="${attenderCtrl}"></script>
     <script src="${attenderService}"></script>
@@ -65,10 +65,10 @@
                 <td>
                     Navn
                 </td>
-                <td ng-hide="change">
+                <td ng-if="!change">
                     {{selectedParticipant.person.firstname}} {{selectedParticipant.person.lastname}}
                 </td>
-                <td ng-show="change">
+                <td ng-if="change">
                     <input type="text" ng-model="selectedParticipant.person.firstname">
                     <input type="text" ng-model="selectedParticipant.person.lastname">
                 </td>
@@ -77,10 +77,10 @@
                 <td>
                     Fødselsår
                 </td>
-                <td ng-hide="change">
+                <td ng-if="!change">
                     {{selectedParticipant.person.birthYear}}
                 </td>
-                <td ng-show="change">
+                <td ng-if="change">
                     <input type="text" ng-model="selectedParticipant.person.birthYear">
                 </td>
             </tr>
@@ -88,10 +88,10 @@
                 <td>
                     Telefon
                 </td>
-                <td ng-hide="change">
+                <td ng-if="!change">
                     {{selectedParticipant.person.phonenumber}}
                 </td>
-                <td ng-show="change">
+                <td ng-if="change">
                     <input type="text" ng-model="selectedParticipant.person.phonenumber">
                 </td>
             </tr>
@@ -99,10 +99,10 @@
                 <td>
                     E-post
                 </td>
-                <td ng-hide="change">
+                <td ng-if="!change">
                     {{selectedParticipant.person.email}}
                 </td>
-                <td ng-show="change">
+                <td ng-if="change">
                     <input type="text" ng-model="selectedParticipant.person.email">
                 </td>
             </tr>
@@ -116,26 +116,26 @@
             </tr>
             <tr ng-repeat="personalia in selectedParticipant.course.form.optionalPersonalia">
                 <td>
-                    {{personalia.parameter}}
+                    {{personalia}}
                 </td>
-                <td>
-                    {{selectedParticipant.optionalPersonalia[$index].parameter}}
+                <td ng-if="!change">
+                    {{selectedParticipant.optionalPersonalia[$index]}}
+                </td>
+                <td ng-if="change">
+                    <input type="text" ng-model="selectedParticipant.optionalPersonalia[$index]">
                 </td>
             </tr>
             <tr style="color: #ff2c27" ng-if="selectedParticipant.alternativeInvoiceAddress">
                 <td>
                     Faktureringsadresse
                 </td>
-                <td ng-hide="change">
+                <td ng-if="!change">
                     {{selectedParticipant.alternativeInvoiceAddress}}
                 </td>
-                <td ng-show="change">
+                <td ng-if="change">
                     <input type="text" ng-model="selectedParticipant.person.alternativeInvoiceAddress">
                 </td>
             </tr>
-
-
-
             <tr>
                 <td>
                     <h4>Arbeidsgiverinfo</h4>
@@ -146,28 +146,28 @@
                 <td>
                     Bedriftsnavn
                 </td>
-                <td ng-hide="change">
+                <td ng-if="!change">
                     {{selectedParticipant.workplace.companyName}}
                 </td>
-                <td ng-show="change">
+                <td ng-if="change">
                     <input type="text" ng-model="selectedParticipant.workplace.companyName">
                 </td>
             </tr>
             <tr>
-                <td ng-hide="change">
+                <td ng-if="!change">
                     Adresse
                 </td>
-                <td ng-hide="change">
+                <td ng-if="!change">
                     {{selectedParticipant.workplace.address}}, {{selectedParticipant.workplace.postalcode}} {{selectedParticipant.workplace.location}}
                 </td>
-                <td ng-show="change">
+                <td ng-if="change">
                     Veiadresse
                 </td>
-                <td ng-show="change">
+                <td ng-if="change">
                     <input type="text" ng-model="selectedParticipant.workplace.address">
                 </td>
             </tr>
-            <tr ng-show="change">
+            <tr ng-if="change">
                 <td>
                     Postnummer
                 </td>
@@ -175,7 +175,7 @@
                     <input type="text" ng-model="selectedParticipant.workplace.postalcode">
                 </td>
             </tr>
-            <tr ng-show="change">
+            <tr ng-if="change">
                 <td>
                     Sted
                 </td>
@@ -197,12 +197,51 @@
                 </td>
                 <td></td>
             </tr>
-            <tr ng-repeat="session in selectedParticipant.attendingSessions">
+            <tr ng-repeat="session in selectedParticipant.attendingSessions" ng-if="!change">
                 <td>
                     {{session.title}}
                 </td>
                 <td>
                     {{session.date | date:'dd/MM/yyyy'}} ({{session.startTime | date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})
+                </td>
+            </tr>
+            <tr ng-repeat="date in dateArray" ng-if="change">
+                <td align="center" class="session">
+                    {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
+                </td>
+                <td ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)">
+                    <button class="btn btn-lg"
+                            ng-class="colorSession(session) ? 'btn-primary' : 'btn-default'"
+                            ng-click="selectSession(session)"> {{session.title}} <h5>({{session.startTime |
+                        date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})</h5>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>Arrangementer deltakeren er påmeldt</h4>
+                </td>
+                <td></td>
+            </tr>
+            <tr ng-repeat="event in selectedParticipant.attendingEvents" ng-if="!change">
+                <td>
+                    {{event.title}}
+                </td>
+                <td>
+                    {{event.date | date:'dd/MM/yyyy'}} ({{event.startTime | date:'HH:mm'}})
+                </td>
+            </tr>
+            <tr ng-if="change" ng-repeat="date in dateArray">
+                <td align="center" class="session">
+                    {{date | date:'EEEE'}} <p>{{date | date:'dd/MM/yyyy'}}<br>
+                </td>
+                <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!-- -->
+                    <button class="btn btn-lg" name="selectedEvents[]" value="{{event}}"
+                            ng-checked="selectedEvent.indexOf(event) > -1"
+                            ng-click="selectEvent(event)"
+                            ng-class="colorEvent(event) ? 'btn-primary' : 'btn-default'">
+                        {{event.title}}
+                    </button>
                 </td>
             </tr>
             <tr>
@@ -211,7 +250,7 @@
                 </td>
                 <td></td>
             </tr>
-            <tr>
+            <tr ng-if="!change">
                 <td>
                     Deltaker skal være med hele kurset
                 </td>
@@ -219,16 +258,37 @@
                     <span ng-show="selectedParticipant.attendingFullCourse">Ja</span> <span ng-hide="selectedParticipant.attendingFullCourse">Nei</span>
                 </td>
             </tr>
-            <tr ng-repeat="date in selectedParticipant.dates">
+            <tr ng-repeat="date in selectedParticipant.dates" ng-if="!change">
                 <td>
                 </td>
                 <td>
                     {{date | date:'dd/MM/yyyy'}}
                 </td>
             </tr>
+            <tr ng-if="change">
+                <td>
+                    <input type="checkbox" name="allDays" ng-model="allDaysCheck" value="allDays" ng-click="wholeCourse()"> Hele
+                    kurset </label> <br>
+                </td>
+                <td ng-repeat="date in dateArray">
+                    <label ng-repeat="date in dateArray">
+                        <input type="checkbox" name="selectedDays[]" value="{{date}}" ng-checked="selectedDays.indexOf(date) > -1"
+                               ng-click="selectDay(date)"> {{date | date:'EEEE'}}
+                    </label>
+                </td>
+            </tr>
+
+
+            <label>
+
+
+
+
+
         </table>
         <button type="button" class="btn btn-default" ng-click="showInvoice()">Fakturering</button>
         <button type="button" class="btn btn-default" ng-click="changeRegistration()">Endre</button>
+        <button type="button" align="right" class="btn btn-primary" ng-click="updatePerson(selectedParticipant)">Lagre endringer</button>
     </div>
 </div>
 </body>
