@@ -2,7 +2,7 @@ loginApp.controller('loginCtrl', function($scope, loginService){
     $scope.user ={};
     $scope.user.username = "";
     $scope.user.password = "";
-    $scope.user.confirmPassword = " ";
+    $scope.user.confirmPassword = "";
     $scope.user.admin = false;
     $scope.alert = {
         title: "Oops!",
@@ -25,14 +25,6 @@ loginApp.controller('loginCtrl', function($scope, loginService){
             return false;
         }
     };
-
-    $scope.showAlert = function (){
-        if ($scope.user.password == $scope.user.confirmPassword){
-            return false;
-        } else{
-            return true;
-        }
-    }
 
     $scope.addNewUser = function(user){
         if ($scope.user.password == $scope.user.confirmPassword){

@@ -52,7 +52,7 @@
             <div class="checkbox">
                 <label><input type="checkbox" ng-model="user.admin">Bruker skal være administrator</label>
             </div>
-            <button ng-disabled="!(user.confirmPassword== user.password)" ng-click="addNewUser(user)" class="btn btn-primary">Opprett ny bruker</button>
+            <button ng-disabled="!(user.confirmPassword == user.password) || !user.confirmPassword || !user.password" ng-click="addNewUser(user)" class="btn btn-primary">Opprett ny bruker</button>
         </form>
     </div>
 </body>
