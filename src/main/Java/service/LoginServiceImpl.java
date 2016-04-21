@@ -14,14 +14,19 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private LoginRepository loginRepository;
 
-    public boolean addUser(String username, String password, boolean isAdmin) {
-        return loginRepository.addUser(username, password, isAdmin);
+    public boolean addUser(User user) {
+        user.setPassword(hash(user.getPassword()));
+        return loginRepository.addUser(user);
     }
 
     public User logIn(String username, String password) {
         User u = loginRepository.logIn(username);
-        if(compare(u.getPassword(), hash(password))){
-            return u;
+        if (u != null){
+            if(compare(u.getPassword(), hash(password))){
+                return u;
+            } else{
+                return null;
+            }
         } else{
             return null;
         }

@@ -1,12 +1,15 @@
+/*
 package repository;
 
 import domain.*;
 
 import java.util.*;
 
+*/
 /**
  * Created by eiriksandberg on 01.04.2016.
- */
+ *//*
+
 public class LoginRepositoryMock implements LoginRepository {
 
     private ArrayList<User> users = makeUserList();
@@ -49,3 +52,4 @@ public class LoginRepositoryMock implements LoginRepository {
         return null;
     }
 }
+*/

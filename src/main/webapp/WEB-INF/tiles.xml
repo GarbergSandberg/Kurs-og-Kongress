@@ -70,4 +70,10 @@
         <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
     </definition>
 
+    <definition name="createUser" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title"  value="Ny bruker"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/createUser.jsp"/>
+        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
+    </definition>
+
 </tiles-definitions>

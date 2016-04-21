@@ -13,6 +13,11 @@
     <link rel="stylesheet" href="resources/css/index.css">
     <link rel="stylesheet" href="resources/css/bootstrap.css">
     <link rel="stylesheet" href="resources/css/landing-page.css">
+    <script>
+        function resetSessionStorage(){
+            sessionStorage.removeItem("cid");
+        };
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
@@ -35,7 +40,10 @@
                     <a href="/kursogkongress/courseOverview">Kursoversikt</a>
                 </li>
                 <li>
-                    <a href="/kursogkongress/registerCourse">Legg til nytt kurs</a>
+                    <a onclick="resetSessionStorage()" href="/kursogkongress/registerCourse">Legg til nytt kurs</a>
+                </li>
+                <li>
+                    <a href="/kursogkongress/createUser">Ny bruker</a>
                 </li>
             </ul>
         </div>
