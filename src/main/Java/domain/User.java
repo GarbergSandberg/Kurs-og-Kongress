@@ -8,12 +8,12 @@ import java.io.*;
 public class User implements Serializable {
     private String username;
     private String password;
-    private boolean isAdmin;
+    private boolean admin;
 
-    public User(String username, String password, boolean isAdmin) {
+    public User(String username, String password, boolean admin) {
         this.username = username;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.admin = admin;
     }
 
     public User() {
@@ -35,14 +35,20 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public boolean isAdmin() { return isAdmin;}
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
 
     @Override
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", isAdmin=" + isAdmin +
+                ", admin=" + admin +
                 '}';
     }
 }

@@ -15,7 +15,7 @@ public class LoginRepositoryDB implements LoginRepository {
     JdbcTemplate jdbcTemplateObject;
 
     private final String checkIfUserExists = "select count(username) from account where username = ?";
-    private final String setUser = "insert into account values (?,?, false)";
+    private final String setUser = "insert into account values (?,?,?)";
     private final String getUser = "select * from account where username = ?";
 
     @Autowired
@@ -34,7 +34,7 @@ public class LoginRepositoryDB implements LoginRepository {
                 return false;
             }
             jdbcTemplateObject.update(setUser, new Object[]{
-                    user.getUsername(), user.getPassword()
+                    user.getUsername(), user.getPassword(), user.isAdmin()
             });
             System.out.println("User " + user.getUsername() + " has been created");
         } catch(Exception e){

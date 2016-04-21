@@ -29,9 +29,10 @@
     <script src="${loginCtrl}"></script>
     <script src="${loginService}"></script>
 </head>
-<body ng-app="loginApp">
+<body ng-app="loginApp" style="margin-left:5em; margin-right:5em;">
     <div ng-controller="loginCtrl">
-        <form data-toggle="validator" role="form">
+        <h2>Legg til ny bruker</h2>
+        <form>
                 <div class="form-group">
                     <label for="inputEmail" class="control-label">Brukernavn</label>
                     <input ng-model="user.username" type="text" class="form-control" id="inputEmail" placeholder="Brukernavn" required>
@@ -45,10 +46,13 @@
                 <div class="form-group">
                     <label for="inputPasswordConfirm" class="control-label">Bekreft Passord</label>
                     <div class="form-group">
-                        <input ng-model="user.confirmPassword" type="password" ng-class="confirmPassword(user.confirmPassword) ? 'form-control form-control-success' : 'form-control form-control-danger'" id="inputPasswordConfirm" placeholder="Bekreft" required>
+                        <input ng-model="user.confirmPassword" type="password" class="form-control" id="inputPasswordConfirm" placeholder="Bekreft" required>
                     </div>
                 </div>
-            <button ng-click="addNewUser(user)" class="btn btn-primary">Opprett ny bruker</button>
+            <div class="checkbox">
+                <label><input type="checkbox" ng-model="user.admin">Bruker skal være administrator</label>
+            </div>
+            <button ng-disabled="!(user.confirmPassword== user.password)" ng-click="addNewUser(user)" class="btn btn-primary">Opprett ny bruker</button>
         </form>
     </div>
 </body>

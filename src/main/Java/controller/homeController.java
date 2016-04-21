@@ -115,6 +115,7 @@ public class homeController {
 
     @RequestMapping(value = "/addNewUser", method = RequestMethod.POST)
     public ResponseEntity<Void> saveInformation_JSON(@RequestBody User user)   {
+        System.out.println(user.isAdmin());
         boolean userAdded = loginService.addUser(user);
         System.out.println(userAdded + " = user added");
         if(userAdded){
