@@ -33,6 +33,12 @@
     <spring:url value="resources/js/service/regService.js" var="regService"/>
     <spring:url value="resources/js/controllers/addRegCtrl.js" var="regCtrl"/>
 
+
+    <spring:url value="resources/js/app/registrationApp.js" var="appJs"/>
+    <spring:url value="resources/js/controllers/addRegCtrl.js" var="regCtrl"/>
+    <script src="${regCtrl}"></script>
+    <script src="${appJs}"></script>
+
     <script src="${appJs}"></script>
     <script src="${myApp}"></script>
     <script src="${appEventService}"></script>

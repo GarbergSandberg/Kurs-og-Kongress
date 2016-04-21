@@ -156,6 +156,13 @@ public class homeController {
         }
     }
 
+    @RequestMapping(value = "/updateRegistration", method = RequestMethod.POST)
+    public ResponseEntity<Void> updateRegistration( @RequestBody Registration registration )   {
+        System.out.println("***************  OPPDATERER REGISTRERING!!! *****************");
+        courseService.updateRegistration(registration);
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
+
     @RequestMapping(value = "/getRegistrations", method = RequestMethod.GET)
     @ResponseBody
     public ArrayList<Registration> getRegistration(@RequestParam(value = "course_id") int id) {

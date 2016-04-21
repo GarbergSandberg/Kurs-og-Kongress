@@ -79,9 +79,9 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
             console.log("Skal sette hoteller.. " + response.hotels);
             if (response.hotels != null){
                 hotelService.sethotels(response.hotels);
-                $scope.hotels = hotelService.get();
-                console.log($scope.hotels);
+                $scope.course.hotels = hotelService.get();
             }
+            console.log($scope.course);
         }, function(errorResponse){
             console.log("Error in getCourse()");
         })
@@ -142,7 +142,6 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
         var id = 1; // id må settes til kurs-id'en som blir valgt av brukeren (brukeren må ha tilgang til det kurset).
         courseService.getCourse(id).then(function(response){
             $scope.course = self.setCourse(response);
-
             console.log($scope.course);
         }, function(errorResponse){
             console.log("Error in loadApplication()");
@@ -159,6 +158,7 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
     self.loadRegistrations = function(id){
         console.log("Her kommer kursID " + id);
         statisticsService.getRegistrations(id).then(function(response){
+            console.log(response);
             self.mapRegistration(response);
         }, function(error){
             console.log("Error in getting registrations...");
@@ -167,9 +167,12 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
 
     self.mapRegistration = function(registrations){
         $scope.countReg = registrations.length;
+        console.log("mapRegistration lengde på registrasjon: " + $scope.countReg);
         for (var i = 0; i < registrations.length; i++){
             var registration = registrations[i];
-            if (registration != null){
+            console.log(registration);
+            if (registration !== null){
+                console.log("Registrasjon pushes. ");
                 $scope.registrations.push(registration);
             }
         }
@@ -182,7 +185,11 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
         $scope.course.id = -1;
     } else{
         console.log("Henter course med id " + cid);
-        self.getCourse(cid);
-        self.loadRegistrations(cid); // Henter påmeldinger for det aktuelle kurset.
+        courseService.getSessionStorageID(cid).then(function(success){
+            self.getCourse(success);
+            self.loadRegistrations(success); // Henter påmeldinger for det aktuelle kurset.
+        }, function(error){
+            console.log("ERROR I GETCOURSE..");
+        });
     }
 }]);

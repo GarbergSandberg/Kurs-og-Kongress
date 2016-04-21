@@ -51,7 +51,7 @@
                 <div class="panel-body">
                     <p>{{ panel.body }}</p><br>
                     <button ng-click="editCourse(panel.courseID)" class="btn btn-primary">Endre</button>
-                    <a href="/kursogkongress/courseStatistics" class="btn btn-primary">Statistikk</a>
+                    <button ng-click="getStatistics(panel.courseID)" class="btn btn-primary">Statistikk</button>
                     <button type="button" class="btn btn-primary">Fakturering</button>
                     <button type="button" class="btn btn-primary">Deltakeroversikt</button>
                 </div>

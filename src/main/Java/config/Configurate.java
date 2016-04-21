@@ -61,11 +61,13 @@ public class Configurate extends WebMvcConfigurationSupport {
     @Bean
     public DataSource dataSource() throws Exception{
         Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
-        String url =  "jdbc:derby://localhost:1527/kursogkongressDB;user=kursogkongress;password=123";
+        String url =  "jdbc:derby://localhost:1527/kursogkongressDB;create=true";
         BasicDataSource bds = new BasicDataSource();
         bds.setUrl(url);
         return bds;
     }
+    // jdbc:derby://localhost:1527/kursogkongressDB;create=true
+    // jdbc:derby://localhost:1527/kursogkongressDB;user=kursogkongress;password=123
 
     // Beans to configure services and repositories. Change these to switch from Mock to DB.
 

@@ -37,9 +37,12 @@
 <body>
 <div ng-app="registerApp" style="margin-left:3em; margin-right:3em;">
     <div ng-controller="attenderInfoCtrl">
-        <button type="button" class="btn btn-default" ng-click="showInvoice()">Fakturering</button>
-        <button type="button" class="btn btn-default" ng-click="changeRegistration()">Endre</button>
-        <table class="table">
+        <table class="table" ng-if="!change">
+            <button ng-if="!change" type="button" class="btn btn-default" ng-click="showInvoice()">Fakturering</button>
+            <button ng-if="!change" type="button" class="btn btn-default" ng-click="changeRegistration()">Endre</button>
+            <button ng-if="change" type="button" class="btn btn-default" ng-click="cancelChange()">Forkast endringer</button>
+            <button ng-if="change" type="button" align="right" class="btn btn-primary" ng-click="updateRegistration(selectedParticipant)">Lagre
+                endringer </button>
             <tr style="color: #ff2c27" ng-if="selectedParticipant.speaker">
                 <td>
                     <h4>Personen er foredragsholder</h4>
@@ -65,45 +68,32 @@
                 <td>
                     Navn
                 </td>
-                <td ng-hide="change">
+                <td>
                     {{selectedParticipant.person.firstname}} {{selectedParticipant.person.lastname}}
-                </td>
-                <td ng-show="change">
-                    <input type="text" ng-model="selectedParticipant.person.firstname">
-                    <input type="text" ng-model="selectedParticipant.person.lastname">
                 </td>
             </tr>
             <tr>
                 <td>
                     Fødselsår
                 </td>
-                <td ng-hide="change">
+                <td>
                     {{selectedParticipant.person.birthYear}}
-                </td>
-                <td ng-show="change">
-                    <input type="text" ng-model="selectedParticipant.person.birthYear">
                 </td>
             </tr>
             <tr>
                 <td>
                     Telefon
                 </td>
-                <td ng-hide="change">
+                <td>
                     {{selectedParticipant.person.phonenumber}}
-                </td>
-                <td ng-show="change">
-                    <input type="text" ng-model="selectedParticipant.person.phonenumber">
                 </td>
             </tr>
             <tr>
                 <td>
                     E-post
                 </td>
-                <td ng-hide="change">
+                <td>
                     {{selectedParticipant.person.email}}
-                </td>
-                <td ng-show="change">
-                    <input type="text" ng-model="selectedParticipant.person.email">
                 </td>
             </tr>
             <tr>
@@ -126,16 +116,12 @@
                 <td>
                     Faktureringsadresse
                 </td>
-                <td ng-hide="change">
+                <td>
                     {{selectedParticipant.alternativeInvoiceAddress}}
                 </td>
-                <td ng-show="change">
-                    <input type="text" ng-model="selectedParticipant.person.alternativeInvoiceAddress">
-                </td>
             </tr>
-
-
-
+            <br ng-if="!change">
+            <br ng-if="!change">
             <tr>
                 <td>
                     <h4>Arbeidsgiverinfo</h4>
@@ -146,41 +132,17 @@
                 <td>
                     Bedriftsnavn
                 </td>
-                <td ng-hide="change">
+                <td>
                     {{selectedParticipant.workplace.companyName}}
-                </td>
-                <td ng-show="change">
-                    <input type="text" ng-model="selectedParticipant.workplace.companyName">
                 </td>
             </tr>
             <tr>
-                <td ng-hide="change">
+                <td>
                     Adresse
                 </td>
-                <td ng-hide="change">
-                    {{selectedParticipant.workplace.address}}, {{selectedParticipant.workplace.postalcode}} {{selectedParticipant.workplace.location}}
-                </td>
-                <td ng-show="change">
-                    Veiadresse
-                </td>
-                <td ng-show="change">
-                    <input type="text" ng-model="selectedParticipant.workplace.address">
-                </td>
-            </tr>
-            <tr ng-show="change">
                 <td>
-                    Postnummer
-                </td>
-                <td>
-                    <input type="text" ng-model="selectedParticipant.workplace.postalcode">
-                </td>
-            </tr>
-            <tr ng-show="change">
-                <td>
-                    Sted
-                </td>
-                <td>
-                    <input type="text" ng-model="selectedParticipant.workplace.location">
+                    {{selectedParticipant.workplace.address}}, {{selectedParticipant.workplace.postalcode}}
+                    {{selectedParticipant.workplace.location}}
                 </td>
             </tr>
             <tr ng-repeat="workplace in selectedParticipant.course.form.optionalWorkplace">
@@ -191,6 +153,8 @@
                     {{selectedParticipant.optionalWorkplace[$index].parameter}}
                 </td>
             </tr>
+            <br ng-if="!change">
+            <br ng-if="!change">
             <tr>
                 <td>
                     <h4>Sesjoner deltakeren er påmeldt</h4>
@@ -202,9 +166,28 @@
                     {{session.title}}
                 </td>
                 <td>
-                    {{session.date | date:'dd/MM/yyyy'}} ({{session.startTime | date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})
+                    {{session.date | date:'dd/MM/yyyy'}} ({{session.startTime | date:'HH:mm'}} - {{session.endTime |
+                    date:'HH:mm'}})
                 </td>
             </tr>
+            <br ng-if="!change">
+            <br ng-if="!change">
+            <tr>
+                <td>
+                    <h4>Arrangementer deltakeren er påmeldt</h4>
+                </td>
+                <td></td>
+            </tr>
+            <tr ng-repeat="event in selectedParticipant.attendingEvents">
+                <td>
+                    {{event.title}}
+                </td>
+                <td>
+                    {{event.date | date:'dd/MM/yyyy'}} ({{event.startTime | date:'HH:mm'}})
+                </td>
+            </tr>
+            <br ng-if="!change">
+            <br ng-if="!change">
             <tr>
                 <td>
                     <h4>Deltakeren er meldt på følgende dager</h4>
@@ -216,7 +199,8 @@
                     Deltaker skal være med hele kurset
                 </td>
                 <td>
-                    <span ng-show="selectedParticipant.attendingFullCourse">Ja</span> <span ng-hide="selectedParticipant.attendingFullCourse">Nei</span>
+                    <span ng-show="selectedParticipant.attendingFullCourse">Ja</span> <span
+                        ng-hide="selectedParticipant.attendingFullCourse">Nei</span>
                 </td>
             </tr>
             <tr ng-repeat="date in selectedParticipant.dates">
@@ -226,10 +210,307 @@
                     {{date | date:'dd/MM/yyyy'}}
                 </td>
             </tr>
+            <tr>
+                <td>
+                    <h4>Overnatting</h4>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Hotell</td>
+                <td>
+                    {{chosenHotel.name}}
+                </td>
+                <td ng-if="selectedParticipant.accomondation == null">
+                    Ingen overnatting
+                </td>
+            </tr>
+            <tr ng-if="selectedParticipant.accomondation !== null">
+                <td>
+                    Ankomst- og avreisedato
+                </td>
+                <td>
+                    {{selectedParticipant.accomondation.fromDate | date:'dd-MM-yyyy'}} - {{selectedParticipant.accomondation.toDate | date:'dd-MM-yyyy'}}
+                </td>
+            </tr>
+            <tr>
+                <td>Romtype</td>
+                <td ng-if="selectedParticipant.accomondation.doubleroom">
+                    Deler dobbeltrom med {{selectedParticipant.accomondation.roommate}}
+                </td>
+                <td ng-if="!selectedParticipant.accomondation.doubleroom">
+                    Enkeltrom.
+                </td>
+            </tr>
         </table>
-        <button type="button" class="btn btn-default" ng-click="showInvoice()">Fakturering</button>
-        <button type="button" class="btn btn-default" ng-click="changeRegistration()">Endre</button>
+        <table class="table" ng-if="change">
+            <tr style="color: #ff2c27">
+                <td>
+                    <h4>Personen er foredragsholder</h4>
+                </td>
+                <td>
+                    <input type="checkbox" name="roomType" ng-model="selectedParticipant.speaker" ng-value="true"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>Kurs</h4>
+                </td>
+                <td>
+                    {{selectedParticipant.course.title}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>Personinfo</h4>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    Navn
+                </td>
+                <td>
+                    <input type="text" ng-model="selectedParticipant.person.firstname">
+                    <input type="text" ng-model="selectedParticipant.person.lastname">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Fødselsår
+                </td>
+                <td>
+                    <input type="text" ng-model="selectedParticipant.person.birthYear">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Telefon
+                </td>
+                <td>
+                    <input type="text" ng-model="selectedParticipant.person.phonenumber">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    E-post
+                </td>
+                <td>
+                    <input type="text" ng-model="selectedParticipant.person.email">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Rolle
+                </td>
+                <td>
+                    {{selectedParticipant.person.role}}
+                </td>
+            </tr>
+            <tr ng-repeat="personalia in selectedParticipant.course.form.optionalPersonalia">
+                <td>
+                    {{personalia.parameter}}
+                </td>
+                <td ng-if="personalia.type == 'Checkbox'">
+                    <input type="checkbox" ng-model="selectedParticipant.optionalPersonalia[$index].parameter">
+                </td>
+                <td ng-if="personalia.type == 'Input'">
+                    <input type="text" ng-model="selectedParticipant.optionalPersonalia[$index].parameter">
+                </td>
+            </tr>
+            <tr style="color: #ff2c27" ng-if="selectedParticipant.alternativeInvoiceAddress">
+                <td>
+                    Faktureringsadresse
+                </td>
+                <td ng-if="change">
+                    <input type="text" ng-model="selectedParticipant.person.alternativeInvoiceAddress">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>Arbeidsgiverinfo</h4>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    Bedriftsnavn
+                </td>
+                <td ng-if="change">
+                    <input type="text" ng-model="selectedParticipant.workplace.companyName">
+                </td>
+            </tr>
+            <tr>
+                <td ng-if="change">
+                    Veiadresse
+                </td>
+                <td ng-if="change">
+                    <input type="text" ng-model="selectedParticipant.workplace.address">
+                </td>
+            </tr>
+            <tr ng-if="change">
+                <td>
+                    Postnummer
+                </td>
+                <td>
+                    <input type="text" ng-model="selectedParticipant.workplace.postalcode">
+                </td>
+            </tr>
+            <tr ng-if="change">
+                <td>
+                    Sted
+                </td>
+                <td>
+                    <input type="text" ng-model="selectedParticipant.workplace.location">
+                </td>
+            </tr>
+            <tr ng-repeat="workplace in selectedParticipant.course.form.optionalWorkplace">
+                <td>
+                    {{workplace.parameter}}
+                </td>
+                <td ng-if="personalia.type == 'Checkbox'">
+                    <input type="checkbox" ng-model="selectedParticipant.optionalWorkplace[$index].parameter">
+                </td>
+                <td ng-if="personalia.type == 'Input'">
+                    <input type="text" ng-model="selectedParticipant.optionalWorkplace[$index].parameter">
+                </td>
+            </tr>
+            <br ng-if="!change">
+            <br ng-if="!change">
+        </table>
+        <table class="table" ng-if="change">
+            <tr>
+                <td>
+                    <h4>Sesjoner deltakeren er påmeldt</h4>
+                </td>
+                <td></td>
+            </tr>
+            <tr ng-repeat="date in dateArray">
+                <td align="center" class="session">
+                    {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}
+                </td>
+                <td ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)">
+                    <button class="btn btn-lg"
+                            ng-class="colorSession(session) ? 'btn-primary' : 'btn-default'"
+                            ng-click="selectSession(session)"> {{session.title}} <h5>({{session.startTime |
+                        date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})</h5>
+                    </button>
+                </td>
+            </tr>
+            <br ng-if="change">
+            <br ng-if="change">
+        </table>
+        <table class="table" ng-if="change">
+            <tr>
+                <td>
+                    <h4>Arrangementer deltakeren er påmeldt</h4>
+                </td>
+                <td></td>
+            </tr>
+            <tr ng-repeat="date in dateArray">
+                <td align="center" class="session">
+                    {{date | date:'EEEE'}} <p>{{date | date:'dd/MM/yyyy'}}
+                </td>
+                <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!-- -->
+                    <button class="btn btn-lg"
+                            name="selectedEvents[]" value="{{event}}"
+                            ng-click="selectEvent(event)"
+                            ng-class="colorEvent(event) ? 'btn-primary' : 'btn-default'">
+                        {{event.title}}
+                    </button>
+                </td>
+            </tr>
+            <br ng-if="change">
+            <br ng-if="change">
+        </table>
+        <table class="table" ng-if="change">
+            <tr>
+                <td>
+                    <h4>Deltakeren er meldt på følgende dager</h4>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" name="selectedParticipant.attendingFullCourse"
+                           ng-model="selectedParticipant.attendingFullCourse"
+                           value="selectedParticipant.attendingFullCourse" ng-click="wholeCourse()"> Hele kurset
+                </td>
+                <td ng-repeat="date in dateArray">
+                    <input type="checkbox" name="selectedParticipant.dates[]" value="{{date}}"
+                           ng-checked="checkDate(date)"
+                           ng-click="selectDay(date)"> {{date | date:'EEEE'}} {{date | date:'dd/MM/yyyy'}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h4>Overnatting</h4>
+                </td>
+                <td></td>
+            </tr>
+            <br ng-if="change">
+            <br ng-if="change">
+        </table>
+        <table class="table" ng-if="change">
+            <tr>
+                <td>Hotell</td>
+                <td ng-repeat="hotel in course.hotels">
+                    <button class="btn btn-md"
+                            ng-class="colorHotel(hotel) ? 'btn-primary' : 'btn-default'"
+                            ng-click="selectHotel(hotel)"> <label>{{hotel.name}}</label>
+                        <h5>Pris dobbeltrom: {{hotel.doubleprice}}</h5><h5>Pris enkeltrom:
+                            {{hotel.singleprice}}</h5>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>Romtype</td>
+                <td>
+                    <input type="radio" name="roomType" ng-model="selectedParticipant.accomondation.doubleroom" ng-value="true"/> Dobbeltrom
+                    <input type="radio" name="roomType" ng-model="selectedParticipant.accomondation.doubleroom" ng-value="false"/> Enkeltrom
+                </td>
+            </tr>
+            <tr ng-if="selectedParticipant.accomondation.doubleroom">
+                <td>
+                    Del rom med:
+                </td>
+                <td>
+                    <input type="form-control" ng-model="selectedParticipant.accomondation.roommate"/>
+                </td>
+            </tr>
+            <tr>
+                <form name="datepickerForm" class="form-inline" role="form">
+                    <!-- http://mgcrea.github.io/angular-strap/#/datepickers -->
+                    <div class="form-group">
+                        <td class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i> <i
+                                class="fa fa-calendar"></i> Ankomst- og avreisedato
+                        </td>
+                        <td>
+                            <span class="form-group col-xs-6">
+                                <input type="text" class="form-control"
+                                       ng-model="selectedParticipant.accomondation.fromDate"
+                                       data-min-date="{{course.startDate}}"
+                                       data-max-date="{{course.endDate}}" placeholder="From" bs-datepicker>
+                            </span>
+                            <span class="form-group col-xs-6">
+                                <input type="text" class="form-control" ng-model="selectedParticipant.accomondation.toDate"
+                                       data-max-date="{{course.endDate}}"
+                                       data-min-date="{{course.startDate}}" placeholder="Until" bs-datepicker>
+                            </span>
+                        </td>
+                    </div>
+                </form>
+            </tr>
+        </table>
+        <span align="right">
+                <button ng-if="!change" type="button" class="btn btn-default" ng-click="showInvoice()">Fakturering</button>
+                <button ng-if="!change" type="button" class="btn btn-default" ng-click="changeRegistration()">Endre</button>
+                <button ng-if="change" type="button" class="btn btn-default" ng-click="cancelChange()">Forkast endringer</button>
+                <button ng-if="change" type="button" align="right" class="btn btn-primary" ng-click="updateRegistration(selectedParticipant)">Lagre
+                    endringer
+                </button>
+            </span>
+        </div>
     </div>
-</div>
 </body>
 </html>

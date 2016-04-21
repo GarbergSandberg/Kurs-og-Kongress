@@ -12,6 +12,10 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
         self.setSessionID(id);
     };
 
+    $scope.getStatistics = function(id){
+        self.setSessionStatistics(id);
+    };
+
     self.setCourse = function(courseRecieved){
         var course = {};
         var c = courseRecieved;
@@ -52,6 +56,14 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
     self.setSessionID = function(id){
         courseService.setSessionStorageID(id).then(function(successCallback){
             $window.location.href = "/kursogkongress/registerCourse";
+        }, function(errorCallback){
+            console.log("error in setSessionID");
+        });
+    };
+
+    self.setSessionStatistics = function(id){
+        courseService.setSessionStorageID(id).then(function(successCallback){
+            $window.location.href = "/kursogkongress/courseStatistics";
         }, function(errorCallback){
             console.log("error in setSessionID");
         });

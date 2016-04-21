@@ -1,8 +1,22 @@
 /**
  * Created by eiriksandberg on 07.04.2016.
  */
-sessionRegisterApp.factory('attenderInfoService', function($http, $rootScope){
+sessionRegisterApp.factory('attenderInfoService', ['$http','$q', '$rootScope', function($http, $q, $rootScope){
     var attenderInfoService = {};
+
+    attenderInfoService.updateRegistration = function(reg){
+        console.log("2");
+        return $http.post('updateRegistration', reg)
+            .then(
+                function (success) {
+                    console.log("UpdateReg gikk bra.");
+                    return success.data;
+                },
+                function (error) {
+                    return $q.reject(error.data);
+                }
+            );
+    };
 
     attenderInfoService.getRegistrations = function(courseID){
         return $http.get('getRegistrations', {params: {course_id: courseID}})
@@ -59,4 +73,4 @@ sessionRegisterApp.factory('attenderInfoService', function($http, $rootScope){
     };
 
     return attenderInfoService;
-});
+}]);
