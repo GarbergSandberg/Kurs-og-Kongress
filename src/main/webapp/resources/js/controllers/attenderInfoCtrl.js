@@ -12,6 +12,7 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
     $scope.dateArray = [];
     $scope.selectedDays = [];
     $scope.course = {};
+    $scope.chosenHotel = {};
 
     $scope.showInfo = function(registration){
         if (registration !== undefined){
@@ -36,13 +37,21 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
                 $scope.selectedParticipant.attendingEvents = self.findEvents($scope.selectedParticipant);
                 $scope.selectedParticipant.attendingFullCourse = self.isAttendingFullCourse($scope.selectedParticipant);
                 $scope.selectedParticipant.totalAmount = self.calculateTotal($scope.selectedParticipant.cost);
+                $scope.selectedParticipant.dates = self.convertDates($scope.selectedParticipant.dates);
                 $scope.course = $scope.selectedParticipant.course;
-                $scope.selectedDays = $scope.selectedParticipant.dates;
-                console.log($scope.selectedParticipant);
+                self.findHotel();
             }, function(error){
                 console.log("Noe gikk galt her");
             });
         }
+    };
+
+    self.convertDates = function(dates){
+        var d = [];
+        for (var i = 0; i<dates.length; i++){
+            d[i] = new Date(dates[i]);
+        }
+        return d;
     };
 
     self.findPerson = function(id){
@@ -165,8 +174,11 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
     self.getReg();
 
     $scope.changeRegistration = function(){
-        console.log("Setter change = true");
         $scope.change = !$scope.change;
+    };
+
+    $scope.cancelChange = function(){
+        $window.location.href = "/kursogkongress/personInfo";
     };
 
     $scope.sameDate = function(d1, n2){
@@ -189,8 +201,10 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
 
     $scope.selectSession = function(session) {
         var idx = $scope.selectedParticipant.attendingSessions.indexOf(session);
+        var idx2 = $scope.selectedParticipant.sessionsToAttend.indexOf(session.id);
         if (idx > -1) { // Blir unchecked.
             $scope.selectedParticipant.attendingSessions.splice(idx, 1);
+            $scope.selectedParticipant.sessionsToAttend.splice(idx2, 1);
         } else {
             var notOverlaps = true;
             for (i = 0; i<$scope.selectedParticipant.attendingSessions; i++){
@@ -199,7 +213,9 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
                     break;
                 }
             } if (notOverlaps){
+                console.log("Legger til session.. ");
                 $scope.selectedParticipant.attendingSessions.push(session);
+                $scope.selectedParticipant.sessionsToAttend.push(session.id);
             }
         }
     };
@@ -222,8 +238,10 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
 
     $scope.selectEvent = function(event) {
         var idx = $scope.selectedParticipant.attendingEvents.indexOf(event);
+        var idx2 = $scope.selectedParticipant.eventsToAttend.indexOf(event.id);
         if (idx > -1) { // Blir unchecked.
             $scope.selectedParticipant.attendingEvents.splice(idx, 1);
+            $scope.selectedParticipant.eventsToAttend.splice(idx2, 1);
         } else {
             var notOverlaps = true;
             for (i = 0; i<$scope.selectedParticipant.attendingEvents; i++){
@@ -232,41 +250,75 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
                     break;
                 }
             } if (notOverlaps){
+                console.log("Legger til event.. ");
                 $scope.selectedParticipant.attendingEvents.push(event);
+                $scope.selectedParticipant.eventsToAttend.push(event.id);
             }
         }
     };
 
-    $scope.wholeCourse = function(checked) {
-        if(checked == true){
-            $scope.selectedDays = [];
+    $scope.wholeCourse = function() {
+        if($scope.selectedParticipant.attendingFullCourse == true){
+            $scope.selectedParticipant.dates = [];
             for (var i = 0; i<$scope.dateArray.length; i++){
-                $scope.selectedDays.push($scope.dateArray[i]);
-                console.log(i + " Er checked: " + $scope.selectedDays[i]);
+                $scope.selectedParticipant.dates.push($scope.dateArray[i]);
             }
         } else{
-            $scope.selectedDays = [];
+            $scope.selectedParticipant.dates = [];
             console.log("Tabellen er tom")
         }
-        $scope.selectedParticipant.dates = $scope.selectedDays;
     };
 
     $scope.selectDay = function(day){
-        $scope.allDaysCheck = false;
-        for(var i = 0; i < $scope.selectedDays.length; i++){
-            if (day == $scope.selectedDays[i]){
-                $scope.selectedDays.splice(i,1);
-                console.log(day + " er fjernet. Lengden på tabell er nå " + $scope.selectedDays.length);
-                $scope.selectedParticipant.dates = $scope.selectedDays;
+        $scope.selectedParticipant.attendingFullCourse = false;
+        for (var i = 0; i<$scope.selectedParticipant.dates.length; i++){
+            if ($scope.selectedParticipant.dates[i].getDate() == day.getDate()){
+                $scope.selectedParticipant.dates.splice(i, 1);
                 return;
             }
         }
-        $scope.selectedDays.push(day);
-        console.log(day + " er pushet. Lengden på tabell er nå " + $scope.selectedDays.length);
-        if ($scope.selectedDays.length == $scope.dateArray.length){
-            $scope.allDaysCheck = true;
+        $scope.selectedParticipant.dates.push(day);
+        if ($scope.selectedParticipant.dates.length == $scope.dateArray.length){
+            $scope.selectedParticipant.attendingFullCourse = true;
         }
-        $scope.selectedParticipant.dates = $scope.selectedDays;
     };
 
+    $scope.checkDate = function(day){
+        for (var i = 0; i<$scope.selectedParticipant.dates.length; i++){
+            var d = new Date($scope.selectedParticipant.dates[i]);
+            if (d.getDate() == day.getDate()){
+                return true;
+            }
+        }
+        return false;
+    };
+
+    self.findHotel = function(){
+        for (var i = 0; i<$scope.course.hotels.length; i++){
+            if ($scope.course.hotels[i].id == $scope.selectedParticipant.accomondation.hotelID){
+                $scope.chosenHotel = $scope.course.hotels[i];
+            }
+        }
+    };
+
+    $scope.colorAccomondation = function (accomondation) { // Skjekk om id finnes i selectedEvents.
+        if (accomondation == $scope.selectedAccomondation) return true;
+        else { return false }
+    };
+
+    $scope.colorHotel = function (hotel) { // Skjekk om id finnes i selectedEvents.
+        if (hotel.id == $scope.selectedParticipant.accomondation.hotelID) return true;
+        else return false;
+    };
+
+    $scope.selectHotel = function(hotel) {
+        $scope.selectedParticipant.accomondation.hotelID = hotel.id;
+        $scope.chosenHotel = hotel;
+    };
+
+    $scope.updateRegistration = function(reg){
+        console.log(reg);
+        attenderInfoService.updateRegistration(reg);
+        $window.location.href = "/kursogkongress/personInfo";
+    };
 }]);

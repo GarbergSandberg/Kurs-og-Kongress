@@ -185,7 +185,11 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
         $scope.course.id = -1;
     } else{
         console.log("Henter course med id " + cid);
-        self.getCourse(cid);
-        self.loadRegistrations(cid); // Henter påmeldinger for det aktuelle kurset.
+        courseService.getSessionStorageID(cid).then(function(success){
+            self.getCourse(success);
+            self.loadRegistrations(success); // Henter påmeldinger for det aktuelle kurset.
+        }, function(error){
+            console.log("ERROR I GETCOURSE..");
+        });
     }
 }]);

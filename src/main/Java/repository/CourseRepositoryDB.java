@@ -5,8 +5,7 @@ import mappers.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.jdbc.core.*;
 
-import javax.persistence.criteria.*;
-import javax.sql.DataSource;
+import javax.sql.*;
 import java.util.*;
 
 /**
@@ -123,7 +122,7 @@ public class CourseRepositoryDB implements CourseRepository{
     // updateRegistration sqls
     private final String deleteOldSessionIDs = "delete from sessionid where registration_idregistration = ?";
     private final String deleteOldEventIDs = "delete from EVENTID where REGISTRATION_IDREGISTRATION = ?";
-    private final String updateAccomondation = "update accomondation set roommate = ?, fromdate = ?, todate = ?, doubleroom = ?, hotel_hotelID = ? where idaccomondation = ?";
+    private final String updateAccomondation = "update accomondation set roommate = ?, fromdate = ?, todate = ?, doubleroom = ?, Hotel_IDHOTEL = ? where idaccomondation = ?";
     private final String updatePerson = "update person set firstname = ?, lastname = ?, birthyear = ?, phonenumber = ?, email = ?, gender = ? where idperson = ?";
     private final String updateWorkplace = "update workplace set companyname = ?, postalcode = ?, location = ?, address = ? where idworkplace = ?";
     private final String deletePayments = "delete from payment where registration_idregistration = ?";
@@ -270,18 +269,23 @@ public class CourseRepositoryDB implements CourseRepository{
     }
 
     public boolean updateRegistration(Registration registration){
+        System.out.println(" ///////////////*************///////////////");
         try{
             if (registration.getRegistrationID() != -1){
-                jdbcTemplateObject.update(setRegistration, new Object[]{
-                        registration.getAlternativeInvoiceAddress(), registration.isSpeaker(), registration.getRole()
+                System.out.println("1");
+                jdbcTemplateObject.update(updateRegistration, new Object[]{
+                        registration.getAlternativeInvoiceAddress(), registration.isSpeaker(), registration.getRole(), registration.getRegistrationID()
                 });
                 if(registration.getSessionsToAttend() != null){
+                    System.out.println(registration.getSessionsToAttend());
                     updateSessionsToAttend(registration.getSessionsToAttend(), registration.getRegistrationID());
                 }
                 if(registration.getEventsToAttend() != null){
+                    System.out.println(registration.getEventsToAttend());
                     updateEventsToAttend(registration.getEventsToAttend(), registration.getRegistrationID());
                 }
                 if(registration.getAccomondation() != null){
+                    System.out.println("4");
                     updateAccomondation(registration.getAccomondation());
                 }
                 if(registration.getPerson() != null){
@@ -294,6 +298,7 @@ public class CourseRepositoryDB implements CourseRepository{
                     updatePayment(registration.getCost(), registration.getRegistrationID());
                 }
                 if(registration.getDates() != null){
+                    System.out.println("5");
                     updateDates(registration.getDates(), registration.getRegistrationID());
                 }
                 if(registration.getOptionalPersonalia() != null){
@@ -303,10 +308,11 @@ public class CourseRepositoryDB implements CourseRepository{
                     updateOptionalWorkplaceAnswers(registration.getOptionalWorkplace(), registration.getRegistrationID());
                 }
                 if(registration.getExtraInfo() != null){
+                    System.out.println("6");
                     updateExtraInfoAnswers(registration.getExtraInfo(), registration.getRegistrationID());
                 }
             } else{
-                System.out.println("Tries to update course with id = -1. Try add it instead");
+                System.out.println("/////////////////////////////////   Tries to update course with id = -1. Try add it instead");
             }
         } catch(Exception e){
             System.out.println("Error in update registration " + e);
@@ -944,10 +950,10 @@ public class CourseRepositoryDB implements CourseRepository{
 
     public boolean setSessionsToAttend(ArrayList<Integer> list, int registrationID){
         try{
-            for (Integer i : list)
-            jdbcTemplateObject.update(setSessionsToAttend, new Object[]{
-                    i, registrationID
-            });
+            for (Integer i : list){
+                System.out.println("Sesjon nr " + i + " skal være lagt til.");
+                jdbcTemplateObject.update(setSessionsToAttend, new Object[]{i, registrationID});
+            }
         }catch (Exception e){
             System.out.println("Error in setSessionsToAttend() " + e);
             return false;
@@ -957,9 +963,7 @@ public class CourseRepositoryDB implements CourseRepository{
 
     public boolean updateSessionsToAttend(ArrayList<Integer> list, int registrationID){
         try{
-            jdbcTemplateObject.update(deleteOldSessionIDs, new Object[]{
-                    registrationID
-            });
+            jdbcTemplateObject.update(deleteOldSessionIDs, new Object[]{registrationID});
             setSessionsToAttend(list, registrationID);
         } catch(Exception e){
             System.out.println("Error in updateSessions() " + e);

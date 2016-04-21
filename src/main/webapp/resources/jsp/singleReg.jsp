@@ -18,6 +18,10 @@ To change this template use File | Settings | File Templates.
         <div class="page-header">
             <h1>Enkeltpåmelding til {{course.title}}</h1><br>
         </div>
+        <button style="margin-left:2em;" type="button" class="btn btn-primary"
+                ng-click="inputParameterResolver(registration)">
+            blerlpe
+        </button>
         <h3>Personalia</h3>
         <form>
             <div>
@@ -109,7 +113,6 @@ To change this template use File | Settings | File Templates.
                 <input type="form-control" ng-model="registration.accomondation.roommate" id="shareWith"/>
             </label>
         </div>
-
         <form name="datepickerForm" class="form-inline" role="form" ng-show="checkboxAccModel.c1">
             <!-- http://mgcrea.github.io/angular-strap/#/datepickers -->
             <div class="form-group">
