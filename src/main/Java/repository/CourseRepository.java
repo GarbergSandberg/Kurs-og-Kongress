@@ -19,5 +19,7 @@ public interface CourseRepository {
 
     public boolean saveRegistration(Registration registration);
 
+    public boolean updateRegistration(Registration registration);
+
     public int getCountRegistrations(int id);
 }

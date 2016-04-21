@@ -50,7 +50,7 @@
             <div class="panel-collapse" role="tabpanel" bs-collapse-target>
                 <div class="panel-body">
                     <p>{{ panel.body }}</p><br>
-                    <a href="/kursogkongress/registerCourse" class="btn btn-primary">Endre</a>
+                    <button ng-click="editCourse(panel.courseID)" class="btn btn-primary">Endre</button>
                     <a href="/kursogkongress/courseStatistics" class="btn btn-primary">Statistikk</a>
                     <button type="button" class="btn btn-primary">Fakturering</button>
                     <button type="button" class="btn btn-primary">Deltakeroversikt</button>

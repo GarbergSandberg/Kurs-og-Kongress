@@ -7,7 +7,4 @@ loginApp.controller('loginCtrl', function($scope, loginService){
            // $scope.msgtxt = error;                                            Og her
         });
     };
-    $scope.resetSessionStorage = function(){
-        sessionStorage.removeItem("cid");
-    }
 });

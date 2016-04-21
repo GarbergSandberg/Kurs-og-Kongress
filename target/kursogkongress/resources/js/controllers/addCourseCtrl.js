@@ -66,7 +66,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
     self.getCourse = function(id){
         courseService.getCourse(id).then(function(response){
             if (response != null){
-                $scope.course = response;// NB! Course contains form. Must be declared undefined before sending back to server.
+                $scope.course = response;
             }
             if (response.startDate != null){
                 console.log("startDate.." + response.startDate);
@@ -154,11 +154,16 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
             default: "";
         }
     };
+
     var cid = sessionStorage.cid;
     console.log("cid " + cid);
     if(cid == null || cid == -1){ // not good enough check. Review this. The dirtiest fix of them all.
         $scope.course.id = -1;
     } else{
-        self.getCourse(cid);
+        courseService.getSessionStorageID(cid).then(function(successCallback){
+            self.getCourse(successCallback);
+        }, function(errorCallback){
+            console.log("Something is wrong");
+        });
     }
 }]);
