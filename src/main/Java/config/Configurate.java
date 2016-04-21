@@ -79,7 +79,7 @@ public class Configurate extends WebMvcConfigurationSupport {
     public LoginService loginService() {return new LoginServiceImpl();}
 
     @Bean
-    public LoginRepository loginRepository() {return new LoginRepositoryMock();}
+    public LoginRepository loginRepository() {return new LoginRepositoryDB();}
 
     @Bean
     public RegistrationService registrationService() {return new RegistrationServiceImpl();}

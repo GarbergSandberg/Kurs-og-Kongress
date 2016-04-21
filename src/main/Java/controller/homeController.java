@@ -39,12 +39,17 @@ public class homeController {
     @RequestMapping("/")
     public ModelAndView home(){
         selectedPerson = "-1";
-        return new ModelAndView("registerCourse");
+        return new ModelAndView("createUser");
     }
 
     @RequestMapping("/reg")
     public ModelAndView reg(){
         return new ModelAndView("reg");
+    }
+
+    @RequestMapping("/createUser")
+    public ModelAndView createUser(){
+        return new ModelAndView("createUser");
     }
 
     @RequestMapping("/registerCourse")
@@ -106,6 +111,17 @@ public class homeController {
     public ResponseEntity<Void> saveInformation_JSON(@RequestBody Course course )   {
         courseService.saveCourse(course);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/addNewUser", method = RequestMethod.POST)
+    public ResponseEntity<Void> saveInformation_JSON(@RequestBody User user)   {
+        boolean userAdded = loginService.addUser(user);
+        System.out.println(userAdded + " = user added");
+        if(userAdded){
+            return new ResponseEntity<Void>(HttpStatus.CREATED);
+        } else{
+            return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
     @RequestMapping(value = "/inputparameter", method = RequestMethod.POST)

@@ -73,9 +73,13 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
         for (var i = 0; i < sessions.length; i++) {
             if (sessions[i].id == newSession.id) {
                 sessions.splice(i, 1);
+                break;
             } else {
                 console.log("Objektet finnes ikke. ");
             }
+        }
+        for (var i = 0; i < sessions.length; i++){
+            checkIfOverlaps(sessions[i]);
         }
     };
 
@@ -158,8 +162,8 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
         }
 
     function overlapsTest(startA, endA, startB, endB) { // Hvis overlapper, return true. else false.
-        if (startA <= startB && startB <= endA) return true; // b starts in a
-        if (startA <= endB   && endB   <= endA) return true; // b ends in a
+        if (startA <= startB && startB < endA) return true; // b starts in a
+        if (startA < endB   && endB   <= endA) return true; // b ends in a
         if (startB <  startA && endA   <  endB) return true; // a in b
         return false;
     };
@@ -171,9 +175,12 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
     function checkIfOverlaps(session){
             for (var u = 0; u < sessions.length; u++){
                 if(session.id != sessions[u].id){
-                    if(overlaps(session, sessions[u])){
-                        session.overlap = true;
-                        return
+                    console.log("Date det jeg legger til: " + session.date.getDate() + " Det jeg sjekker: " + sessions[u].date.getDate());
+                    if(session.date.getDate() == sessions[u].date.getDate()){
+                        if(overlaps(session, sessions[u])){
+                            session.overlap = true;
+                            return
+                        }
                     }
                 }
             }

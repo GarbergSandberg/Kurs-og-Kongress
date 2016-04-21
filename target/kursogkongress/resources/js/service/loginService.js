@@ -13,6 +13,19 @@ loginApp.factory('loginService', function($http, $location, $window){
                         console.error('Error while login');
                     }
                 );
+        },
+
+        addNewUser:function(user){
+            console.log(user);
+            return $http.post('addNewUser', user)
+                .then(
+                    function (success) {
+                        console.log("Success!");
+                    },
+                    function (error) {
+                        console.error('Error while creating user');
+                    }
+                );
         }
     }
 });
