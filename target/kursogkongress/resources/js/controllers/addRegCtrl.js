@@ -70,6 +70,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
 
     $scope.saveSingleRegistration = function(registration){ // Må sende med course.id, course.form, session, workplace, person, pris.
         // courseID, sessions[], events[], person, workplace, price[], datestoAttend[], optPersonalia, optWorkplace, extraInfo, alternativFakturaadresse, form
+        registration.registrationID = -1;
         var optionals = self.inputParameterResolver(registration);
         registration.optionalPersonalia = optionals.optionalPersonalia;
         registration.optionalWorkplace = optionals.optionalWorkplace;
@@ -323,12 +324,10 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         }
         if (c.startDate != null){
             course.startDate = c.startDate;
-            console.log(course.startDate);
             //new Date((c.startDate).getTime());
         }
         if (c.endDate != null){
             course.endDate = c.endDate;
-            console.log(course.endDate);
             //new Date(c.endDate.getTime());
         }
         if (c.id != null){

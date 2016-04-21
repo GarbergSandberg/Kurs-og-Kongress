@@ -20,4 +20,6 @@ public interface CourseService {
     public boolean saveCourse(Course course);
 
     public boolean saveRegistration(Registration registration);
+
+    public boolean updateRegistration(Registration registration);
 }

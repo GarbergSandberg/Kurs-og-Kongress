@@ -184,9 +184,7 @@
             <div class="container">
                 <div class="jumbotron">
                     <table class="table">
-                        <div ng-show="true" data-placement="bottom" data-type="info" data-animation="am-fade-and-scale" bs-tooltip="tooltip">
-                            <h4>Personalia     <span class="label label-primary">Info</span></h4>
-                        </div>
+                            <h4>Personalia</h4>
                         <tr>
                             <td>Fornavn: (Input)</td>
                             <td style="text-align: right">Må være med</td>
@@ -245,7 +243,7 @@
                     </span>
 
                     <table class="table">
-                        <h4>Informasjon om arbeidsgiver <span class="label label-primary">Info</span></h4>
+                        <h4>Informasjon om arbeidsgiver</h4>
                         <tr>
                             <td>Arbeidsplass: (Input)</td>
                             <td style="text-align: right">Må være med</td>
@@ -298,11 +296,11 @@
                             </span>
                         </div>
                     </span>
-                    <h4>Annet <span class="label label-primary">Info</span></h4>
+                    <h4>Annet</h4>
                     <div class="checkbox">
                         <label><input type="checkbox" ng-model="form.airplane">Kurs og Kongress kan ordne bestillingsskjema for fly</label>
                     </div>
-                    <h4>Tilleggsspørsmål     <span class="label label-primary">Info</span></h4>
+                    <h4>Tilleggsspørsmål</h4>
                     <table class="table">
                         <tr ng-repeat="parameter in form.extraInfo">
                             <td>

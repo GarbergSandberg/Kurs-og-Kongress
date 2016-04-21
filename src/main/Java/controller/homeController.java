@@ -39,7 +39,7 @@ public class homeController {
     @RequestMapping("/")
     public ModelAndView home(){
         selectedPerson = "-1";
-        return new ModelAndView("singleRegistration");
+        return new ModelAndView("registerCourse");
     }
 
     @RequestMapping("/reg")
@@ -161,7 +161,7 @@ public class homeController {
         try{
             selectedPerson = encryptor.encrypt(id);
         } catch(Exception e){
-            System.out.println("Error in setSessionStorrageID EXCEPTION");
+            System.out.println("Error in setSessionStorrageID EXCEPTION " + e);
         }
         return selectedPerson;
     }
@@ -175,7 +175,7 @@ public class homeController {
                 System.out.println("ACTUAL ID: " + actualID);
                 return actualID;
         } catch(Exception e){
-            System.out.println("Error in getSessionStorageID");
+            System.out.println("Error in getSessionStorageID " + e);
         }
         return null;
     }

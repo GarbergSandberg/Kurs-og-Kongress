@@ -16,6 +16,18 @@ sessionRegisterApp.factory('attenderInfoService', function($http, $rootScope){
             );
     };
 
+    attenderInfoService.getCourse = function (courseID) {
+        return $http.get('getCourse', {params: {course_id: courseID}})
+            .then(
+                function (response) {
+                    return response.data;
+                },
+                function (errResponse) {
+                    return $q.reject(errResponse.data);
+                }
+            );
+    },
+
     attenderInfoService.setSessionStorageID = function(registration){
         console.log(registration.person.personID + " = personID before encryption");
         return $http.get('setSessionStorageID', {params: {id: registration.person.personID}})

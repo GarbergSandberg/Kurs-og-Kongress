@@ -154,11 +154,16 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
             default: "";
         }
     };
+
     var cid = sessionStorage.cid;
     console.log("cid " + cid);
     if(cid == null || cid == -1){ // not good enough check. Review this. The dirtiest fix of them all.
         $scope.course.id = -1;
     } else{
-        self.getCourse(cid);
+        courseService.getSessionStorageID(cid).then(function(successCallback){
+            self.getCourse(successCallback);
+        }, function(errorCallback){
+            console.log("Something is wrong");
+        });
     }
 }]);
