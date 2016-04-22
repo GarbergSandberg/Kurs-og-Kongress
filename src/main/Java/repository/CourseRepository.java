@@ -22,4 +22,6 @@ public interface CourseRepository {
     public boolean updateRegistration(Registration registration);
 
     public int getCountRegistrations(int id);
+
+    public Registration getRegistration(int registrationID);
 }

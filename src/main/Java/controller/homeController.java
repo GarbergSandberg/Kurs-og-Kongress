@@ -39,7 +39,7 @@ public class homeController {
     @RequestMapping("/")
     public ModelAndView home(){
         selectedPerson = "-1";
-        return new ModelAndView("createUser");
+        return new ModelAndView("groupRegistration");
     }
 
     @RequestMapping("/reg")
@@ -75,6 +75,9 @@ public class homeController {
 
     @RequestMapping("/singleRegistration")
     public ModelAndView singleRegistration(){return new ModelAndView("singleRegistration");}
+
+    @RequestMapping("/groupRegistration")
+    public ModelAndView groupRegistration(){return new ModelAndView("groupRegistration");}
 
     @RequestMapping("/courseStatistics")
     public ModelAndView courseStatistics(){return new ModelAndView("courseStatistics");}
@@ -202,5 +205,11 @@ public class homeController {
             System.out.println("Error in getSessionStorageID " + e);
         }
         return null;
+    }
+
+    @RequestMapping(value = "/getRegistration", method = RequestMethod.GET)
+    @ResponseBody
+    public Registration getSingleRegistration(@RequestParam(value = "registration_id") int id) {
+        return courseService.getRegistration(id);
     }
 }

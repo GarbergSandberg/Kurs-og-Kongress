@@ -239,7 +239,7 @@
                     Deler dobbeltrom med {{selectedParticipant.accomondation.roommate}}
                 </td>
                 <td ng-if="!selectedParticipant.accomondation.doubleroom">
-                    Enkeltrom.
+                    Enkeltrom
                 </td>
             </tr>
         </table>
@@ -318,12 +318,12 @@
                     <input type="text" ng-model="selectedParticipant.optionalPersonalia[$index].parameter">
                 </td>
             </tr>
-            <tr style="color: #ff2c27" ng-if="selectedParticipant.alternativeInvoiceAddress">
+            <tr style="color: #ff2c27">
                 <td>
-                    Faktureringsadresse
+                    Alternativ faktureringsadresse
                 </td>
-                <td ng-if="change">
-                    <input type="text" ng-model="selectedParticipant.person.alternativeInvoiceAddress">
+                <td>
+                    <input type="text" ng-model="selectedParticipant.alternativeInvoiceAddress">
                 </td>
             </tr>
             <tr>

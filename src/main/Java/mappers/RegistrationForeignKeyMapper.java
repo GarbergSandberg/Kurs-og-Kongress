@@ -13,6 +13,7 @@ public class RegistrationForeignKeyMapper implements RowMapper<RegistrationForei
 
     public RegistrationForeignKeys mapRow(ResultSet rs, int i) throws SQLException {
         RegistrationForeignKeys fk = new RegistrationForeignKeys();
+        fk.setCourseID(rs.getInt("course_idcourse"));
         fk.setAccomondationID(rs.getInt("accomondation_idaccomondation"));
         fk.setPersonID(rs.getInt("person_idperson"));
         fk.setWorkplaceID(rs.getInt("workplace_idworkplace"));

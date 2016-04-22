@@ -1,23 +1,18 @@
 sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'statisticsService', 'sessionService', 'eventService', 'hotelService', 'attenderInfoService', '$window',  function ($scope, courseService, statisticsService, sessionService, eventService, hotelService, attenderInfoService, $window) {
-    // JSP-side-stuff
-    $scope.showInfo = function(registration){
-        self.setSessionID(registration);
-
+    $scope.course = {};
+    $scope.countReg = {};
+    $scope.registrations = [];
+    $scope.showInfo = function(id){
+        self.setSessionID(id);
     };
 
-    self.setSessionID = function(registration){
-        attenderInfoService.setSessionStorageID(registration).then(function(successCallback){
+    self.setSessionID = function(id){
+        attenderInfoService.setSessionStorageID(id).then(function(successCallback){
             $window.location.href = "/kursogkongress/personInfo";
         }, function(errorCallback){
             console.log("error in setSessionID");
         });
     };
-
-
-
-    // Kurs-stuff
-    $scope.course = {};
-    $scope.countReg = {};
 
     $scope.getCountRegistrations = function(){ // Brukes ikke? men fungerer..!
         var a = {};
@@ -138,23 +133,6 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
         return course;
     };
 
-    self.loadApplication = function(){
-        var id = 1; // id må settes til kurs-id'en som blir valgt av brukeren (brukeren må ha tilgang til det kurset).
-        courseService.getCourse(id).then(function(response){
-            $scope.course = self.setCourse(response);
-            console.log($scope.course);
-        }, function(errorResponse){
-            console.log("Error in loadApplication()");
-        })};
-
-   // self.loadApplication();
-
-
-
-
-    //      Person/registrerings-stuff
-    $scope.registrations = [];
-
     self.loadRegistrations = function(id){
         console.log("Her kommer kursID " + id);
         statisticsService.getRegistrations(id).then(function(response){
@@ -166,23 +144,17 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
     };
 
     self.mapRegistration = function(registrations){
-        $scope.countReg = registrations.length;
-        console.log("mapRegistration lengde på registrasjon: " + $scope.countReg);
-        for (var i = 0; i < registrations.length; i++){
-            var registration = registrations[i];
-            console.log(registration);
-            if (registration !== null){
-                console.log("Registrasjon pushes. ");
-                $scope.registrations.push(registration);
-            }
+        for(var i = 0; i < registrations.length; i++){
+            $scope.registrations.push(registrations[i]);
         }
+        $scope.countReg = registrations.length;
         console.log($scope.registrations);
     };
 
     var cid = sessionStorage.cid;
     console.log("cid " + cid);
     if(cid == null || cid == -1){ // not good enough check. Review this. The dirtiest fix of them all.
-        $scope.course.id = -1;
+        $scope.course.id = -1; // Should return error page.
     } else{
         console.log("Henter course med id " + cid);
         courseService.getSessionStorageID(cid).then(function(success){

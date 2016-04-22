@@ -22,4 +22,6 @@ public interface CourseService {
     public boolean saveRegistration(Registration registration);
 
     public boolean updateRegistration(Registration registration);
+
+    public Registration getRegistration(int registrationID);
 }

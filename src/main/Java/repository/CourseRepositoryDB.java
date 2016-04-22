@@ -85,12 +85,13 @@ public class CourseRepositoryDB implements CourseRepository{
 
     //Registration sqls
     private final String sqlGetRegistration = "select * from Registration where course_idcourse = ?";
+    private final String sqlGetSingleRegistration = "select * from Registration where idregistration = ?";
     private final String sqlGetSessionsToAttend = "select sessionid from sessionid where registration_idregistration = ?";
     private final String sqlGetEventsToAttend = "select eventid from eventid where registration_idregistration = ?";
     private final String sqlGetAccomondation = "select IDACCOMONDATION, HOTEL_IDHOTEL, ROOMMATE, FROMDATE, TODATE, DOUBLEROOM  from accomondation join REGISTRATION on ACCOMONDATION.IDACCOMONDATION = REGISTRATION.ACCOMONDATION_IDACCOMONDATION where ACCOMONDATION.IDACCOMONDATION = ?";
     private final String sqlGetAccomondationID = "select accomondation_idaccomondation from registration where idregistration = ?";
     private final String sqlGetPerson = "select * from person where idperson = ?";
-    private final String sqlGetForeignKeys = "select accomondation_idaccomondation, person_idperson, workplace_idworkplace, extrainfo_idextrainfo, optionalworkplace_idoptionalworkplace, optionalpersonalia_idoptionalpersonalia from registration where idregistration = ?";
+    private final String sqlGetForeignKeys = "select course_idcourse, accomondation_idaccomondation, person_idperson, workplace_idworkplace, extrainfo_idextrainfo, optionalworkplace_idoptionalworkplace, optionalpersonalia_idoptionalpersonalia from registration where idregistration = ?";
     private final String sqlGetWorkplace = "select * from workplace where idworkplace = ?";
     private final String sqlGetPayments = "select * from payment where registration_idregistration = ?";
     private final String sqlGetDates = "select date from date where registration_idregistration = ?";
@@ -232,6 +233,50 @@ public class CourseRepositoryDB implements CourseRepository{
             registrations = null;
         }
         return registrations;
+    }
+
+    public Registration getRegistration(int registrationID){
+        Registration r = new Registration();
+        try{
+            r = jdbcTemplateObject.queryForObject(sqlGetSingleRegistration, new Object[]{registrationID}, new RegistrationMapper());
+            RegistrationForeignKeys foreignKeys = getForeignKeys(r.getRegistrationID());
+            Course course = getCourse(foreignKeys.getCourseID());
+            r.setCourse(course);
+            System.out.println(r.toString());
+            System.out.println("REGISTRATION " + r.getRegistrationID());
+            ArrayList<Integer> sessionIDs = (ArrayList<Integer>) jdbcTemplateObject.query(sqlGetSessionsToAttend, new Object[]{r.getRegistrationID()}, new SupportMapper());
+            r.setSessionsToAttend(sessionIDs);
+            System.out.println("SessionsToAttend " + sessionIDs.toString());
+            ArrayList<Integer> eventIDs = (ArrayList<Integer>) jdbcTemplateObject.query(sqlGetEventsToAttend, new Object[]{r.getRegistrationID()}, new SupportMapper());
+            r.setEventsToAttend(eventIDs);
+            System.out.println("EventsToAttend " + eventIDs.toString());
+            int accomondationID = foreignKeys.getAccomondationID();
+            if (accomondationID != 0){
+                r.setAccomondation(getAccomondation(foreignKeys.getAccomondationID()));
+            }
+            System.out.println("ACCOMONDATION ID = " + foreignKeys.getAccomondationID());
+            r.setPerson(getPerson(foreignKeys.getPersonID()));
+            System.out.println(r.getPerson().toString());
+            r.setWorkplace(getWorkplace(foreignKeys.getWorkplaceID()));
+            System.out.println(r.getWorkplace().toString());
+            ArrayList<Payment> payments = (ArrayList<Payment>) jdbcTemplateObject.query(sqlGetPayments, new Object[]{r.getRegistrationID()}, new PaymentMapper());
+            r.setCost(payments);
+            System.out.println(r.getCost().toString());
+            ArrayList<Date> dates = (ArrayList<Date>) jdbcTemplateObject.query(sqlGetDates, new Object[]{r.getRegistrationID()}, new DateMapper());
+            r.setDates(dates);
+            System.out.println(dates.toString());
+            r.setOptionalPersonalia(getOptionalPersonaliaAnswers(r.getRegistrationID()));
+            System.out.println(r.getOptionalPersonalia().toString());
+            r.setOptionalWorkplace(getOptionalWorkplaceAnswers(r.getRegistrationID()));
+            System.out.println(r.getOptionalWorkplace().toString());
+            r.setExtraInfo(getExtraInfoAnswers(r.getRegistrationID()));
+            System.out.println(r.getExtraInfo().toString());
+            System.out.println(r);
+        } catch(Exception e){
+            System.out.println("Error in getRegistrations() " + e);
+            r = null;
+        }
+        return r;
     }
 
     public boolean saveRegistration(Registration registration){

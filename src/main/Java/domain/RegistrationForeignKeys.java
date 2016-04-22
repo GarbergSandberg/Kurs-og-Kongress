@@ -4,6 +4,7 @@ package domain;
  * Created by eiriksandberg on 16.04.2016.
  */
 public class RegistrationForeignKeys {
+    private int courseID;
     private int accomondationID;
     private int personID;
     private int workplaceID;
@@ -11,7 +12,8 @@ public class RegistrationForeignKeys {
     private int optionalWorkplaceID;
     private int optionalPersonaliaID;
 
-    public RegistrationForeignKeys(int accomondationID, int personID, int workplaceID, int extrainfoID, int optionalWorkplaceID, int optionalPersonaliaID) {
+    public RegistrationForeignKeys(int courseID, int accomondationID, int personID, int workplaceID, int extrainfoID, int optionalWorkplaceID, int optionalPersonaliaID) {
+        this.courseID = courseID;
         this.accomondationID = accomondationID;
         this.personID = personID;
         this.workplaceID = workplaceID;
@@ -21,6 +23,14 @@ public class RegistrationForeignKeys {
     }
 
     public RegistrationForeignKeys() {
+    }
+
+    public int getCourseID() {
+        return courseID;
+    }
+
+    public void setCourseID(int courseID) {
+        this.courseID = courseID;
     }
 
     public int getAccomondationID() {

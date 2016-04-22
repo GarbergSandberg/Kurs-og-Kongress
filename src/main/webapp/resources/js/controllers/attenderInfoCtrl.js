@@ -2,11 +2,6 @@
  * Created by eiriksandberg on 07.04.2016.
  */
 sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoService', 'statisticsService', '$window', function ($scope, attenderInfoService, statisticsService, $window) {
-    $scope.tabs = [
-        {title:'Oversikt', content:'resources/jsp/participantInfo.jsp'},
-        {title:'Fakturering', content:'resources/jsp/invoice.jsp'}
-    ];
-    $scope.tabs.activeTab = 'Oversikt';
     $scope.registrations = [];
     $scope.selectedParticipant = {};
     $scope.dateArray = [];
@@ -32,16 +27,22 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         var sid = sessionStorage.selectedPerson;
         if(sid !== undefined){
             attenderInfoService.getSessionStorageID(sid).then(function(success){
-                $scope.selectedParticipant = self.findPerson(success);
-                $scope.selectedParticipant.attendingSessions = self.findSessions($scope.selectedParticipant);
-                $scope.selectedParticipant.attendingEvents = self.findEvents($scope.selectedParticipant);
-                $scope.selectedParticipant.attendingFullCourse = self.isAttendingFullCourse($scope.selectedParticipant);
-                $scope.selectedParticipant.totalAmount = self.calculateTotal($scope.selectedParticipant.cost);
-                $scope.selectedParticipant.dates = self.convertDates($scope.selectedParticipant.dates);
-                $scope.course = $scope.selectedParticipant.course;
-                self.findHotel();
+                sid = success;
+                attenderInfoService.getRegistration(sid).then(function(successCallback){
+                    $scope.selectedParticipant = successCallback;
+                    $scope.selectedParticipant.attendingSessions = self.findSessions($scope.selectedParticipant);
+                    $scope.selectedParticipant.attendingEvents = self.findEvents($scope.selectedParticipant);
+                    $scope.selectedParticipant.attendingFullCourse = self.isAttendingFullCourse($scope.selectedParticipant);
+                    $scope.selectedParticipant.totalAmount = self.calculateTotal($scope.selectedParticipant.cost);
+                    $scope.selectedParticipant.dates = self.convertDates($scope.selectedParticipant.dates);
+                    $scope.course = $scope.selectedParticipant.course;
+                    self.findHotel();
+                    console.log($scope.selectedParticipant);
+                }, function(error){
+                    console.log("Error in getRegistration()");
+                });
             }, function(error){
-                console.log("Noe gikk galt her");
+                console.log("Error in getSessionStorageID");
             });
         }
     };
@@ -55,11 +56,12 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
     };
 
     self.findPerson = function(id){
-        for (var i = 0; i < $scope.registrations.length; i++){
+ /*       for (var i = 0; i < $scope.registrations.length; i++){
             if ($scope.registrations[i].person.personID == id){
                 return $scope.registrations[i];
             }
-        }
+        }*/
+
     };
 
     self.findSessions = function (registration) {
@@ -96,19 +98,6 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
 
     self.getSessions = function(cid){
         $scope.course = courseService.getCourse(cid);
-    };
-
-    self.getReg = function(){ //
-        var cid = sessionStorage.selectedCourse;
-        if (cid !== undefined){
-            attenderInfoService.getRegistrations(cid).then(function(success){
-                console.log("Length: " + success.length);
-                self.mapRegistration(success);
-                self.resolveInfo();
-            }, function(error){
-                console.log("Error");
-            });
-        } else console.log("sid = undefined");
     };
 
     self.mapRegistration = function(registrations){
@@ -171,7 +160,6 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
             console.log("error in setSessionIDFromList");
         });
     };
-    self.getReg();
 
     $scope.changeRegistration = function(){
         $scope.change = !$scope.change;
@@ -321,4 +309,6 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         attenderInfoService.updateRegistration(reg);
         $window.location.href = "/kursogkongress/personInfo";
     };
+
+    self.resolveInfo();
 }]);

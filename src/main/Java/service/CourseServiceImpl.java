@@ -28,4 +28,6 @@ public class CourseServiceImpl implements CourseService {
     public boolean saveRegistration(Registration registration){return courseRepository.saveRegistration(registration);}
 
     public boolean updateRegistration(Registration registration){return courseRepository.updateRegistration(registration);}
+
+    public Registration getRegistration(int registrationID){return courseRepository.getRegistration(registrationID);}
 }
