@@ -1,7 +1,5 @@
 app.factory('personService', ['$rootScope', function ($rootScope) {
-    var persons = [{personID: 0, firstname: 'Lars', lastname: 'Gar', birthYear: 1994, phonenumber: 93643247, email: 'la@ga.no', accomondation: null},//, mark: 'Blind', role: 'Hobby', gender: 'male', roommate: null},
-        {personID: 1, firstname: 'Eirik', lastname: 'Sand', birthYear: 1994, phonenumber: 93245342, email: 'ei@sa.no', accomondation: null},// mark: 'Døv', role: 'Hobby', gender: 'male', roommate: null},
-        {personID: 2, firstname: 'Marius', lastname: 'Lauv', birthYear: 1991, phonenumber: 11111111, email: 'ma@la.no', accomondation: null}];//, mark: 'Psyk', role: 'Profesjonell', gender: 'female', roommate: null}];
+    var persons = [];
     var personService = {};
     var hasRoom = [];
 

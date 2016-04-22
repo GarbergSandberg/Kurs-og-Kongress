@@ -37,12 +37,15 @@
 <body>
 <div ng-app="registerApp" style="margin-left:3em; margin-right:3em;">
     <div ng-controller="attenderInfoCtrl">
-        <table class="table" ng-if="!change">
-            <button ng-if="!change" type="button" class="btn btn-default" ng-click="showInvoice()">Fakturering</button>
-            <button ng-if="!change" type="button" class="btn btn-default" ng-click="changeRegistration()">Endre</button>
+        <span ng-if="!change">
+            <button type="button" class="btn btn-default" ng-click="showInvoice()">Fakturering</button>
+            <button type="button" class="btn btn-default" ng-click="changeRegistration()">Endre</button>
+        </span>
+        <span ng-if="change">
             <button ng-if="change" type="button" class="btn btn-default" ng-click="cancelChange()">Forkast endringer</button>
-            <button ng-if="change" type="button" align="right" class="btn btn-primary" ng-click="updateRegistration(selectedParticipant)">Lagre
-                endringer </button>
+            <button ng-if="change" type="button" align="right" class="btn btn-primary" ng-click="updateRegistration(selectedParticipant)">Lagre endringer </button>
+        </span>
+        <table class="table" ng-if="!change">
             <tr style="color: #ff2c27" ng-if="selectedParticipant.speaker">
                 <td>
                     <h4>Personen er foredragsholder</h4>
@@ -120,8 +123,6 @@
                     {{selectedParticipant.alternativeInvoiceAddress}}
                 </td>
             </tr>
-            <br ng-if="!change">
-            <br ng-if="!change">
             <tr>
                 <td>
                     <h4>Arbeidsgiverinfo</h4>
@@ -153,8 +154,6 @@
                     {{selectedParticipant.optionalWorkplace[$index].parameter}}
                 </td>
             </tr>
-            <br ng-if="!change">
-            <br ng-if="!change">
             <tr>
                 <td>
                     <h4>Sesjoner deltakeren er påmeldt</h4>
@@ -170,8 +169,6 @@
                     date:'HH:mm'}})
                 </td>
             </tr>
-            <br ng-if="!change">
-            <br ng-if="!change">
             <tr>
                 <td>
                     <h4>Arrangementer deltakeren er påmeldt</h4>
@@ -186,8 +183,6 @@
                     {{event.date | date:'dd/MM/yyyy'}} ({{event.startTime | date:'HH:mm'}})
                 </td>
             </tr>
-            <br ng-if="!change">
-            <br ng-if="!change">
             <tr>
                 <td>
                     <h4>Deltakeren er meldt på følgende dager</h4>
@@ -375,8 +370,6 @@
                     <input type="text" ng-model="selectedParticipant.optionalWorkplace[$index].parameter">
                 </td>
             </tr>
-            <br ng-if="!change">
-            <br ng-if="!change">
         </table>
         <table class="table" ng-if="change">
             <tr>
@@ -397,8 +390,6 @@
                     </button>
                 </td>
             </tr>
-            <br ng-if="change">
-            <br ng-if="change">
         </table>
         <table class="table" ng-if="change">
             <tr>

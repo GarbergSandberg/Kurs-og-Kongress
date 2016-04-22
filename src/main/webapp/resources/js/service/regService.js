@@ -4,39 +4,8 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
     var roles;
     var course;
     var days;
-    var registrations = [{
-        person: {
-            personID: 0,
-            firstname: 'Lars',
-            lastname: 'Gar',
-            birthYear: 1994,
-            phonenumber: 93643247,
-            email: 'la@ga.no',
-            accomondation: null
-        }
-    },
-        {
-            person: {
-                personID: 1,
-                firstname: 'Eirik',
-                lastname: 'Sand',
-                birthYear: 1994,
-                phonenumber: 93245342,
-                email: 'ei@sa.no',
-                accomondation: null
-            }
-        },
-        {
-            person: {
-                personID: 2,
-                firstname: 'Marius',
-                lastname: 'Lauv',
-                birthYear: 1991,
-                phonenumber: 11111111,
-                email: 'ma@la.no',
-                accomondation: null
-            }
-        }];
+    var registrations = [];
+    var persons = [];
 
     return {
         saveRoom: function (acc, first, second) {
@@ -82,7 +51,7 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
         },
 
         hasRoommate: function (person) {
-            for (i = 0; i < registrations.length; i++) {
+            for (var i = 0; i < registrations.length; i++) {
                 if (registrations[i].person == person) {
                     if (registrations[i].accomondation !== undefined) {
                         return true;
@@ -166,6 +135,20 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
             $rootScope.$broadcast('recievedForm', form);
         },
 
+        saveReg: function (person) { // Gets an Array of persons, checks if they exist already, if so theyre updated. If not, they are added.
+            console.log(person);
+            for (var i = 0; i < person.length; i++) {
+                var old = personExists(person[i]);
+                if (old.exists) {
+                    console.log("Gammel eksisterer.");
+                    personUpdate(person[i], old.index);
+                } else {
+                    console.log("Legger til ny.");
+                    addPerson(person[i]);
+                }
+            }
+        },
+
         sendRegistration: function (registration) {
             console.log(registration);
             return $http.post('saveReg', registration)
@@ -208,19 +191,6 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
                 );
         },
 
-        getMockCourse: function (callback) {
-            return $http.get('getCourseMock')
-                .then(
-                    function (response) {
-                        return response.data;
-                    },
-                    function (errResponse) {
-                        console.error('Error while getMockCourse');
-                        return $q.reject(errResponse.data);
-                    }
-                );
-        },
-
         getCourses: function (callback) {
             return $http.get('getCourses')
                 .then(
@@ -255,8 +225,66 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
                     function (errResponse) {
                         console.error('Error while getting template');
                         return $q.reject(errResponse.data);
+                    });
+        },
+
+        getPersons: function(){
+            return persons;
+        },
+
+        deleteRegistration: function(reg) { // Sletter person.
+            for (var i = 0; i < registrations.length; i++) {
+                console.log(registrations[i]);
+                if (registrations[i].person == reg.person) {
+                    registrations.splice(i, 1);
+                }
+            }
+        }
+    };
+
+    function addPerson(newPerson) { // Legger til person.
+        console.log("Ny person: " + newPerson.firstname);
+        newPerson.personID = generateId();
+        var newReg = {};
+        newReg.person = newPerson;
+        registrations.push(newReg);
+        console.log(registrations);
+        $rootScope.$broadcast('personSet', persons);
+        //$rootScope.$broadcast('regSet', registrations);
+    };
+    
+    function generateId() {
+        var highestId = 0;
+        for (var i = 0; i < registrations.length; i++) {
+            if (registrations[i].person.personID >= highestId) {
+                highestId = registrations[i].person.personID;
+            }
+        }
+        return (highestId + 1);
+    }
+
+    function personExists(newPerson) { // Sjekker om man oppdaterer eller lager nytt objekt.
+        var oldPerson = {};
+        oldPerson.exists = false;
+        if (typeof(newPerson) !== 'undefined') {
+            if (registrations.length > 0) {
+                for (var i = 0; i < registrations.length; i++) {
+                    if (registrations[i].person.personID == newPerson.personID) {
+                        oldPerson.exists = true;
+                        oldPerson.index = i;
                     }
-                );
+                }
+            }
+        }
+        return oldPerson;
+    }
+
+    function personUpdate(person, index) {
+        console.log(person);
+        for (var prop in registrations.person) {
+            if (registrations.person[prop] != undefined) {
+                registrations.person[index][prop] = person[prop];
+            }
         }
     }
 }]);

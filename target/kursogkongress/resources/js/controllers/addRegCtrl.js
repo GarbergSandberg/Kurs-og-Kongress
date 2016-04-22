@@ -6,6 +6,10 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     $scope.tabs.activeTab = 'Gruppepåmelding';
     $scope.registration = {};
     $scope.registrations = regService.get();
+    $scope.$on('regSet', function(event, data){
+        $scope.registrations = data;
+    });
+
     $scope.selectedEvents = [];
     $scope.selectedSessions = [];
     $scope.selectedDays = [];
@@ -20,7 +24,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         console.log($scope.dateArray.length + " = dateArray.length");
         console.log($scope.dateArray);
     });
-    $scope.persons = personService.get();
+    $scope.persons = regService.getPersons();
     $scope.$on('personSet', function(event, data){
         $scope.persons = data;
     });
@@ -129,9 +133,9 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         another: false
     };
 
-    $scope.update = function (registrations) { // Sender med et registrations-objekt som inneholder en person hver.
-        regService.saveReg(registrations);
-        personService.save(registrations);
+    $scope.update = function (persons) { // Sender med et registrations-objekt som inneholder en person hver.
+        regService.saveReg(persons);
+        //personService.save(registrations);
     };
 
     $scope.repeat = function (number) {
@@ -142,10 +146,10 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         return times;
     };
 
-    $scope.removePerson = function(person){
-        for (i = 0; i<$scope.registrations.length; i++) {
-            if ($scope.registrations.persons[i] === person) {
-                personService.delete(person);
+    $scope.removePerson = function(reg){
+        for (var i = 0; i<$scope.registrations.length; i++) {
+            if ($scope.registrations[i].person === reg.person) {
+                regService.deleteRegistration(reg);
             }
         }
     };
@@ -178,8 +182,9 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     };
 
     $scope.checkIfHasRoom = function(obj){
-        for (i = 0; i<$scope.hasRoom.length; i++){
+        for (var i = 0; i<$scope.hasRoom.length; i++){
             if ($scope.hasRoom[i] == obj.person.personID){
+                console.log($scope.hasRoom[i]);
                 return false;
             }
         }
@@ -187,8 +192,12 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     };
 
     $scope.checkIfSelected = function(obj){
-        if ($scope.firstPersonRoom == null || obj.person.personID == $scope.firstPersonRoom.personID) return false;
-        else return true;
+        if ($scope.firstPersonRoom == null || obj.person.personID == $scope.firstPersonRoom.personID){
+            return false;
+        }
+        else {
+            return true;
+        }
     };
 
 

@@ -52,16 +52,17 @@
         </div>
         <!-- Ekstra (utvides om "checked") -->
         <label for="another">
-            Ønsker faktura sendt til annen adresse <input type="checkbox" id="another" ng-model="checkboxAccModel.another"/>
+            <input type="checkbox" id="another" ng-model="checkboxAccModel.another"/><br>
+            Ønsker faktura sendt til annen adresse
         </label>
         <div ng-show="checkboxAccModel.another">
             Alternativ fakturaadresse:
-            <input type="form-control" ng-model="registration.workplace.alternativeInvoiceAddress" id="facturaAdress" size="40"/><br>
+            <input type="form-control" ng-model="registration.workplace.facturaAddress" id="facturaAdress" size="40"/><br>
         </div>
         <div ng-repeat="opt in course.form.optionalWorkplace">
-            <label for="opt">{{opt.parameter}}: </label>
-            <input type="checkbox" ng-hide="!whichType(opt.type)" ng-model="registration.workplace.opt[$index]" ng-init="registration.optionalWorkplace.opt[$index]='false'" value="false" id="opt"/>
-            <input type="text" ng-show="whichType(opt.type)" ng-model="registration.workplace.opt[$index]" ng-init="registration.optionalWorkplace.opt[$index]=''" value="" id="opt"/><br>
+            <label for="workopt">{{opt.parameter}}: </label>
+            <input type="checkbox" ng-hide="whichType(opt.type)" ng-model="registration.workplace.opt[$index]" id="workopt"/>
+            <input type="text" ng-show="whichType(opt.type)" ng-model="registration.workplace.opt[$index]" id="workopt2"/><br>
         </div>
         <hr/>
 
@@ -75,35 +76,35 @@
             <form>
                 <div>
                     <label for="firstname">Fornavn: </label>
-                    <input type="form-control" ng-model="registrations[n].person.firstname" id="firstname"/>
+                    <input type="form-control" ng-model="person[n].firstname" id="firstname"/>
                 </div>
                 <div>
                     <label for="lastname">Etternavn: </label>
-                    <input type="form-control" ng-model="registrations[n].person.lastname" id="lastname"/>
+                    <input type="form-control" ng-model="person[n].lastname" id="lastname"/>
                 </div>
                 <div>
                     <label for="number">Nummer: </label>
-                    <input type="form-control" ng-model="registrations[n].person.number" id="number"/>
+                    <input type="form-control" ng-model="person[n].number" id="number"/>
                 </div>
                 <div>
                     <label for="mail">Mail: </label>
-                    <input type="form-control" ng-model="registrations[n].person.mail" id="mail"/>
+                    <input type="form-control" ng-model="person[n].mail" id="mail"/>
                 </div>
                 <div>
                     <label for="birthyear">Fødselsår: </label>
-                    <input type="form-control" ng-model="registrations[n].person.birthyear" id="birthyear"/>
+                    <input type="form-control" ng-model="person[n].birthyear" id="birthyear"/>
                 </div>
                 <div ng-repeat="opt in course.form.optionalPersonalia">
                     <label for="opt">{{opt.parameter}}: </label>
-                    <input type="checkbox" ng-hide="!whichType(opt.type)" ng-model="registrations[n].person.opt[$index]" ng-init="registrations[n].person.opt[$index]='false'" value="false" id="opt"/><br>
-                    <input type="text" ng-show="whichType(opt.type)" ng-model="registrations[n].person.opt[$index]" ng-init="registrations[n].person.opt[$index]=''" value="" id="opt"/><br><br>
+                    <input type="checkbox" ng-hide="whichType(opt.type)" ng-model="person[n].opt[$index]" id="opt"/><br>
+                    <input type="text" ng-show="whichType(opt.type)" ng-model="person[n].opt[$index]" id="opt2"/><br><br>
                 </div>
                 <label ng-repeat="role in course.roles">
-                    <input type="radio" name="role" ng-model="registrations[n].person.role" ng-value="role"/> {{role}}
+                    <input type="radio" name="role" ng-model="person[n].role" ng-value="role"/> {{role}}
                 </label>
                 <label>
-                    <input type="radio" name="gender" value="Mann" ng-model="registrations[n].person.gender"> Mann
-                    <input type="radio" name="gender" value="Kvinne" ng-model="registrations[n].person.gender"> Kvinne
+                    <input type="radio" name="gender" value="Mann" ng-model="person[n].gender"> Mann
+                    <input type="radio" name="gender" value="Kvinne" ng-model="person[n].gender"> Kvinne
                 </label>
                 <br>
                 <!--Ekstra (utvides om "checked") -->
@@ -111,13 +112,13 @@
                 Bemerkning/spesiell diett/best.nr/kode etc?
                 <div ng-show="checkbox[{{$index}}]">
                     Beskrivelse:
-                    <textarea ng-model="registrations[n].person.mark" class="form-control" id="description"
+                    <textarea ng-model="person[n].mark" class="form-control" id="description"
                               rows="3"></textarea>
                 </div>
             </form>
         </div>
         <hr/>
-        <button style="margin-left:2em;" type="button" class="btn btn-primary" ng-click="update(registrations)"> Lagre</button>
+        <button style="margin-left:2em;" type="button" class="btn btn-primary" ng-click="update(person)"> Lagre</button>
 
         <div class="list-group">
             <a class="list-group-item person" ng-repeat="reg in registrations">
@@ -143,7 +144,7 @@
                     </button>
                 </div>
                 </p>
-                <button type="button" class="btn btn-default btn-sm" ng-click="removePerson(person)">
+                <button type="button" class="btn btn-default btn-sm" ng-click="removePerson(reg)">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Slett person
                 </button>
             </a>
