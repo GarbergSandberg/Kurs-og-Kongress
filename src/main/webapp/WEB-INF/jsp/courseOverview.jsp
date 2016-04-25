@@ -52,8 +52,7 @@
                     <p>{{ panel.body }}</p><br>
                     <button ng-click="editCourse(panel.courseID)" class="btn btn-primary">Endre</button>
                     <button ng-click="getStatistics(panel.courseID)" class="btn btn-primary">Statistikk</button>
-                    <button type="button" class="btn btn-primary">Fakturering</button>
-                    <button type="button" class="btn btn-primary">Deltakeroversikt</button>
+                    <button ng-click="enableRegistration(panel.courseID)" ng-class="changeColor(panel.courseID) ? 'btn btn-success' : 'btn btn-danger'">Offentlig</button>
                 </div>
             </div>
         </div>

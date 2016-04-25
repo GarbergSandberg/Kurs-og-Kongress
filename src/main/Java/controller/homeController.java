@@ -260,4 +260,11 @@ public class homeController {
     public boolean deleteUser(@RequestBody User user){
         return loginService.deleteUser(user);
     }
+
+    @RequestMapping(value = "/enableRegistration", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity enableRegistration(@RequestParam(value = "id") int courseID, @RequestParam(value = "value") boolean value) {
+        courseService.enableRegistration(courseID,value);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

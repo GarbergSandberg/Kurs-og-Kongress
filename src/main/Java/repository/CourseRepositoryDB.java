@@ -82,6 +82,7 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String getOptPersID = "select OPTIONALPERSONALIA_IDOPTIONALPERSONALIA from OPTIONALPERSONALIA_HAS_FORM where FORM_IDFORM = ?";
     private final String getOptWorkID = "select OPTIONALWORKPLACE_IDOPTIONALWORKPLACE From OPTIONALWORKPLACE_HAS_FORM WHERE FORM_IDFORM = ?";
     private final String getExtraID = "SELECT EXTRAINFO_IDEXTRAINFO from EXTRAINFO_HAS_FORM WHERE FORM_IDFORM = ?";
+    private final String enableRegistration = "update course set publiccourse = ? where idcourse = ?";
 
     //Registration sqls
     private final String sqlGetRegistration = "select * from Registration where course_idcourse = ?";
@@ -137,6 +138,18 @@ public class CourseRepositoryDB implements CourseRepository{
         System.out.println("Database.setDataSource " + dataSource);
         this.dataSource = dataSource;
         this.jdbcTemplateObject = new JdbcTemplate(dataSource);
+    }
+
+    public boolean enableRegistration(int courseID, boolean value){
+        try{
+            jdbcTemplateObject.update(enableRegistration, new Object[]{
+                    value, courseID
+            });
+            return true;
+        } catch(Exception e){
+            System.out.println("Error in enableRegistration");
+            return false;
+        }
     }
 
     public ArrayList<Course> getCourses() {
