@@ -31,6 +31,8 @@ public class SupportMapper implements RowMapper<Integer> {
             return rs.getInt("idform");
         } else if (name.equals("courserole")){
             return rs.getInt("idcourserole");
+        }else if (name.equals("account_has_access")){
+            return rs.getInt("course_idcourse");
         } else{
             return null;
         }

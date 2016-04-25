@@ -132,27 +132,11 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
         var dateArray = new Array();
         var currentDate = startDate;
         while (currentDate <= stopDate) {
-            dateArray.push({id: currentDate.toString(),
-                weekday: self.findWeekday(currentDate.getDay()),
-                year: currentDate.getFullYear(),
-                month: currentDate.getMonth() + 1,
-                day: currentDate.getDate()});
+            dateArray.push({date: currentDate, id: currentDate.getDate()});
             currentDate = currentDate.addDays(1);
         }
+        console.log(dateArray);
         return dateArray;
-    };
-
-    self.findWeekday = function(weekday){
-        switch (weekday){
-            case 0: return "Søndag";
-            case 1: return "Mandag";
-            case 2: return "Tirsdag";
-            case 3: return "Onsdag";
-            case 4: return "Torsdag";
-            case 5: return "Fredag";
-            case 6: return "Lørdag";
-            default: "";
-        }
     };
 
     var cid = sessionStorage.cid;

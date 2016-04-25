@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.*;
 import repository.*;
 
 import java.security.*;
+import java.util.*;
 
 /**
  * Created by eiriksandberg on 01.04.2016.
@@ -30,6 +31,28 @@ public class LoginServiceImpl implements LoginService {
         } else{
             return null;
         }
+    }
+
+    public boolean addAccess(User user, Course course){return loginRepository.addAccess(user,course);}
+
+    @Override
+    public ArrayList<User> getUsers() {
+        return loginRepository.getUsers();
+    }
+
+    @Override
+    public ArrayList<Integer> getCourseAccess(String username) {
+        return loginRepository.getCourseAccess(username);
+    }
+
+    @Override
+    public boolean removeCourseAccess(User user, Course course) {
+        return loginRepository.removeCourseAccess(user,course);
+    }
+
+    @Override
+    public boolean deleteUser(User user) {
+        return loginRepository.deleteUser(user);
     }
 
     @Override

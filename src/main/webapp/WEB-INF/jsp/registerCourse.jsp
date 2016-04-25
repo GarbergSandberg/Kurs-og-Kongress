@@ -95,18 +95,17 @@
             <table class="table session">
                 <tr ng-repeat="date in dates">
                     <td align="center" class="session">
-                        {{date.day}}/{{date.month}}-{{date.year}}<br>
-                        {{date.weekday}}<br>
+                        {{date.date | date:'EEEE'}} <p>{{date.date | date:'dd-MM-yyyy'}}
                     </td>
                     <td class="session">
-                        <button type="button" id="{{date.id}}" ng-click="passBtnId(date.id)"
+                        <button type="button" id="{{date}}" ng-click="passBtnId(date)"
                                 class="btn btn-primary btn-block"
                                 data-animation="am-fade-and-scale"
                                 data-template-url=${modalTemplate}
                                         bs-modal="modal">+
                         </button>
                     </td>
-                    <td class="session" ng-repeat="session in sessions | filter:date.id | orderBy:'hourMinuteStart'">
+                    <td class="session" ng-repeat="session in sessions | filter:date | orderBy:'hourMinuteStart'">
                         <button id="sessionButton" data-ng-attr-id="btnId" type="button" ng-click="showDeleteButton()"
                                 ng-class="(session.overlap == true) ? 'btn btn-danger btn-block' : 'btn btn-default btn-block'"
                                 data-animation="am-fade-and-scale"
