@@ -1044,17 +1044,19 @@ public class CourseRepositoryDB implements CourseRepository{
     }
 
     public Integer setAccomondation(Accomondation accomondation){
-        try{
-            int accomondationID = jdbcTemplateObject.queryForObject(getMaxAccomondationID, new Object[]{}, Integer.class);
-            accomondationID++;
-            jdbcTemplateObject.update(setAccomondation, new Object[]{
-                    accomondationID, accomondation.getRoommate(), accomondation.getFromDate(), accomondation.getToDate(), accomondation.isDoubleroom(), accomondation.getHotelID()
-            });
-            return accomondationID;
-        } catch(Exception e){
-            System.out.println("Error in setAccomondation() " + e);
-            return null;
-        }
+        if (accomondation != null){
+            try{
+                int accomondationID = jdbcTemplateObject.queryForObject(getMaxAccomondationID, new Object[]{}, Integer.class);
+                accomondationID++;
+                jdbcTemplateObject.update(setAccomondation, new Object[]{
+                        accomondationID, accomondation.getRoommate(), accomondation.getFromDate(), accomondation.getToDate(), accomondation.isDoubleroom(), accomondation.getHotelID()
+                });
+                return accomondationID;
+            } catch(Exception e){
+                System.out.println("Error in setAccomondation() " + e);
+                return null;
+            }
+        } else return null;
     }
 
     public boolean updateAccomondation(Accomondation accomondation){

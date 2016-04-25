@@ -39,7 +39,7 @@ public class homeController {
     @RequestMapping("/")
     public ModelAndView home(){
         selectedPerson = "-1";
-        return new ModelAndView("reg");
+        return new ModelAndView("groupRegistration");
     }
 
     @RequestMapping("/reg")
@@ -102,6 +102,16 @@ public class homeController {
     @RequestMapping(value = "/saveReg", method = RequestMethod.POST)
     public ResponseEntity<Void> saveRegistration( @RequestBody Registration registration )   {
         courseService.saveRegistration(registration);
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/saveRegistrations", method = RequestMethod.POST)
+    public ResponseEntity<Void> saveRegistrations(@RequestBody ArrayList<Registration> registrations)   {
+        System.out.println("Kommer hit..");
+        for (int i = 0; i<registrations.size(); i++){
+            System.out.println("Sender et og et element inn..");
+            courseService.saveRegistration(registrations.get(i));
+        }
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 

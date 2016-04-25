@@ -84,7 +84,7 @@ To change this template use File | Settings | File Templates.
             <div ng-repeat="opt in course.form.optionalPersonalia">
                 <label for="opt">{{opt.parameter}}: </label>
                 <input type="checkbox" ng-if="!whichType(opt.type)" ng-model="registration.optionalPersonalia[$index]" ng-init="registration.optionalPersonalia[$index]='false'" value="false" id="opt"/>
-                <input type="text" ng-if="whichType(opt.type)" ng-model="registration.optionalPersonalia[$index]" ng-init="registration.optionalPersonalia[$index]=''" value="" id="opt"/><br>
+                <input type="text" ng-if="whichType(opt.type)" ng-model="registration.optionalPersonalia[$index]" ng-init="registration.optionalPersonalia[$index]=''" value="" id="opt2"/><br>
             </div>
             <label ng-repeat="role in course.roles">
                 <input type="radio" name="role" ng-model="registration.role" ng-value="role"/> {{role}}
@@ -127,15 +127,24 @@ To change this template use File | Settings | File Templates.
         </div>
         <div ng-repeat="opt in course.form.optionalWorkplace">
             <label for="opt2">{{opt.parameter}}: </label>
-            <input type="checkbox" ng-if="!whichType(opt.type)" ng-model="registration.optionalWorkplace[$index]" ng-init="registration.optionalWorkplace[$index]='false'" value="false" id="opt2"/>
-            <input type="text" ng-if="whichType(opt.type)" ng-model="registration.optionalWorkplace[$index]" ng-init="registration.optionalWorkplace[$index]=''" value="" id="opt2"/><br>
+            <input type="checkbox" ng-if="!whichType(opt.type)" ng-model="registration.optionalWorkplace[$index]" ng-init="registration.optionalWorkplace[$index]='false'" value="false" id="workopt"/>
+            <input type="text" ng-if="whichType(opt.type)" ng-model="registration.optionalWorkplace[$index]" ng-init="registration.optionalWorkplace[$index]=''" value="" id="workopt2"/><br>
         </div>
         <hr/>
         <hr/>
         <h3>Overnatting</h3>
         <label for="accomodation">
             <input type="checkbox" id="accomodation" ng-model="checkboxAccModel.c1"/>
-            Ønsker overnatting?</label>
+            Ønsker overnatting?</label><br>
+        <label ng-if="checkboxAccModel.c1">Velg hotell: </label><br>
+        <div ng-if="checkboxAccModel.c1" ng-repeat="newacc in course.hotels">
+            <button class="btn btn-md"
+                    ng-class="colorAccomondation(newacc) ? 'btn-primary' : 'btn-default'"
+                    ng-click="selectAccomondation(newacc)"> <label>{{newacc.name}}</label>
+                <h5>Pris dobbeltrom: {{newacc.doubleprice}}</h5><h5>Pris enkeltrom:
+                    {{newacc.singleprice}}</h5>
+            </button>
+        </div>
 
         <div ng-show="checkboxAccModel.c1">
             <label>
@@ -146,7 +155,7 @@ To change this template use File | Settings | File Templates.
         <br>
         <div ng-show="checkboxAccModel.c1 && checkboxAccModel.rad">
             <label>
-                <label for="place">Del rom med: </label>
+                <label for="shareWith">Del rom med: </label>
                 <input type="form-control" ng-model="registration.accomondation.roommate" id="shareWith"/>
             </label>
         </div>
@@ -157,12 +166,12 @@ To change this template use File | Settings | File Templates.
                 <label class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i> <i
                         class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
                 <div class="form-group col-xs-6">
-                    <input type="text" class="form-control" ng-model="registration.accomondation.fromDate"
+                    <input type="text" class="form-control" ng-model="newacc.fromDate"
                            data-min-date="{{course.startDate}}"
                            data-max-date="{{course.endDate}}" placeholder="From" bs-datepicker>
                 </div>
                 <div class="form-group col-xs-6">
-                    <input type="text" class="form-control" ng-model="registration.accomondation.toDate" data-max-date="{{course.endDate}}"
+                    <input type="text" class="form-control" ng-model="newacc.toDate" data-max-date="{{course.endDate}}"
                            data-min-date="{{course.startDate}}" placeholder="Until" bs-datepicker>
                 </div>
             </div>

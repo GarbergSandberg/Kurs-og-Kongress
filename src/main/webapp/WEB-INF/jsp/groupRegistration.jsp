@@ -50,6 +50,10 @@
             <label for="postalcode">Postnr: </label>
             <input type="form-control" ng-model="registration.workplace.postalcode" id="postalcode"/><br>
         </div>
+        <div>
+            <label for="postalcode">Sted: </label>
+            <input type="form-control" ng-model="registration.workplace.location" id="location"/><br>
+        </div>
         <!-- Ekstra (utvides om "checked") -->
         <label for="another">
             <input type="checkbox" id="another" ng-model="checkboxAccModel.another"/><br>
@@ -57,12 +61,12 @@
         </label>
         <div ng-show="checkboxAccModel.another">
             Alternativ fakturaadresse:
-            <input type="form-control" ng-model="registration.workplace.facturaAddress" id="facturaAdress" size="40"/><br>
+            <input type="form-control" ng-model="registration.alternativeInvoiceAddress" id="alternativeInvoiceAddress" value="" size="40"/><br>
         </div>
-        <div ng-repeat="opt in course.form.optionalWorkplace">
-            <label for="workopt">{{opt.parameter}}: </label>
-            <input type="checkbox" ng-hide="whichType(opt.type)" ng-model="registration.workplace.opt[$index]" id="workopt"/>
-            <input type="text" ng-show="whichType(opt.type)" ng-model="registration.workplace.opt[$index]" id="workopt2"/><br>
+        <div ng-repeat="opt in course.form.optionalWorkplace track by opt.id">
+            <label>{{opt.parameter}}: </label>
+            <input type="checkbox" ng-hide="whichType(opt.type)" ng-model="opt.answer"/>
+            <input type="text" ng-show="whichType(opt.type)" ng-model="opt.answer"/><br>
         </div>
         <hr/>
 
@@ -72,7 +76,7 @@
         <hr/>
 
         <div style="display: inline-block; border-style: groove; max-width: 230px;"
-             ng-repeat="n in repeat(numberOfPersons)">
+             ng-repeat="n in repeat(numberOfPersons) track by $index">
             <form>
                 <div>
                     <label for="firstname">Fornavn: </label>
@@ -87,18 +91,22 @@
                     <input type="form-control" ng-model="person[n].number" id="number"/>
                 </div>
                 <div>
-                    <label for="mail">Mail: </label>
-                    <input type="form-control" ng-model="person[n].mail" id="mail"/>
+                    <label for="email">Mail: </label>
+                    <input type="form-control" ng-model="person[n].email" id="email"/>
                 </div>
                 <div>
                     <label for="birthyear">Fødselsår: </label>
                     <input type="form-control" ng-model="person[n].birthyear" id="birthyear"/>
                 </div>
+
                 <div ng-repeat="opt in course.form.optionalPersonalia">
-                    <label for="opt">{{opt.parameter}}: </label>
-                    <input type="checkbox" ng-hide="whichType(opt.type)" ng-model="person[n].opt[$index]" id="opt"/><br>
-                    <input type="text" ng-show="whichType(opt.type)" ng-model="person[n].opt[$index]" id="opt2"/><br><br>
+                    <label>{{opt.parameter}}: </label>
+                    <input type="checkbox" ng-hide="whichType(opt.type)" ng-init="person[n].opt[$index]='false'" ng-model="person[n].opt[$index]"/><br>
+                    <input type="text" ng-show="whichType(opt.type)" ng-model="person[n].opt[$index]"/><br><br>
                 </div>
+
+
+
                 <label ng-repeat="role in course.roles">
                     <input type="radio" name="role" ng-model="person[n].role" ng-value="role"/> {{role}}
                 </label>
@@ -121,14 +129,14 @@
         <button style="margin-left:2em;" type="button" class="btn btn-primary" ng-click="update(person)"> Lagre</button>
 
         <div class="list-group">
-            <a class="list-group-item person" ng-repeat="reg in registrations">
+            <a class="list-group-item person" ng-repeat="reg in registrations track by $index">
                 <h4 class="list-group-item-heading event">{{reg.person.firstname}} {{reg.person.lastname}}</h4>
                 <p class="list-group-item-text">
                     Fødselsår: {{reg.person.birthYear}} <br>
-                    Nummer: {{reg.person.phonenumber}}<br>
+                    Nummer: {{reg.person.number}}<br>
                     E-Mail: {{reg.person.email}}<br>
                     Merk: {{reg.person.mark}}<br>
-                    Rolle: {{reg.person.role}}<br>
+                    Rolle: {{reg.role}}<br>
                     Kjønn: {{reg.person.gender}}<br>
                 <div ng-repeat="n in person.opt track by $index">
                     {{course.form.optionalPersonalia[$index].parameter}}: {{reg.person.opt[$index]}}
@@ -176,8 +184,8 @@
 
             <br>
             <label>
-                <input type="radio" name="roomType" ng-model="checkboxAccModel.rad" ng-value="true"/> Dobbeltrom
-                <input type="radio" name="roomType" ng-model="checkboxAccModel.rad" ng-value="false"/> Enkeltrom
+                <input type="radio" name="roomType" ng-model="registration.accomondation.doubleroom" ng-value="true"/> Dobbeltrom
+                <input type="radio" name="roomType" ng-model="registration.accomondation.doubleroom" ng-value="false"/> Enkeltrom
             </label>
             <br>
             <br>
@@ -194,12 +202,12 @@
                     <label class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i> <i
                             class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
                     <div class="form-group col-xs-6">
-                        <input type="text" class="form-control" ng-model="newacc.startDate"
+                        <input type="text" class="form-control" ng-model="newacc.fromDate"
                                data-min-date="{{course.startDate}}"
                                data-max-date="{{course.endDate}}" placeholder="From" bs-datepicker>
                     </div>
                     <div class="form-group col-xs-6">
-                        <input type="text" class="form-control" ng-model="newacc.endDate"
+                        <input type="text" class="form-control" ng-model="newacc.toDate"
                                data-max-date="{{course.endDate}}"
                                data-min-date="{{course.startDate}}" placeholder="Until" bs-datepicker>
                     </div>
@@ -218,6 +226,9 @@
             </div>
         </div>
         <hr/>
+        <div ng-if="course.extraInfo !== undefined">
+            balbalbla...
+        </div>
 
 
         <h3>Påmelding faglig program</h3>
@@ -263,8 +274,17 @@
                 </td>
             </tr>
         </table>
+        <h3>Ekstrainfo</h3>
+        <div ng-repeat="extra in course.form.extraInfo">
+            <label>{{extra.parameter}}: </label>
+            <input type="checkbox" ng-hide="whichType(extra.type)" value="false" ng-model="extra.answer"/><br>
+            <input type="text" ng-show="whichType(extra.type)" value="" ng-model="extra.answer"/><br><br>
+        </div>
+
+
+
         <button style="margin-left:2em;" type="button" class="btn btn-primary"
-                ng-click="saveGroupRegistration(workplace)"> Send påmelding
+                ng-click="saveGroupRegistration()"> Send påmelding
         </button>
     </div>
 </div>

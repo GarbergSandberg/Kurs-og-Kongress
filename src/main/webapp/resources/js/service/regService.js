@@ -5,34 +5,49 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
     var course;
     var days;
     var registrations = [];
+    //var reg = {role: 'Midtbane', person: {firstname: 'Lars', lastname: 'gar', email: 'la@ga.no', number: '993322', birthYear: '1994'}, gender: 'male'};
+    //registrations.push(reg);
+
     var persons = [];
+    var hasRoom = [];
 
     return {
         saveRoom: function (acc, first, second) {
-            console.log("Her kommer registrasjonsinfo: ");
+            var newAcc = {hotelID: {}, roommate: {}, toDate: {}, fromDate: {}, doubleroom: {}};
             if (second !== undefined) {
                 for (var i = 0; i < registrations.length; i++) {
                     if (registrations[i].person.personID == first.personID) {
-                        registrations[i].accomondation = angular.copy(acc);
+                        registrations[i].accomondation = angular.copy(newAcc);
+                        registrations[i].accomondation.hotelID = acc.selectedAccomondation.id;
+                        registrations[i].accomondation.doubleroom = acc.doubleroom;
+                        registrations[i].accomondation.fromDate = acc.fromDate;
+                        registrations[i].accomondation.toDate = acc.toDate;
                         registrations[i].accomondation.roommateID = second.personID;
-                        console.log(registrations[i]);
+                        hasRoom.push(first.personID);
                     }
                     if (registrations[i].person.personID == second.personID) {
-                        registrations[i].accomondation = angular.copy(acc);
+                        registrations[i].accomondation = angular.copy(newAcc);
+                        registrations[i].accomondation.hotelID = acc.selectedAccomondation.id;
+                        registrations[i].accomondation.doubleroom = acc.doubleroom;
+                        registrations[i].accomondation.fromDate = acc.fromDate;
+                        registrations[i].accomondation.toDate = acc.toDate;
                         registrations[i].accomondation.roommateID = first.personID;
-                        console.log(registrations[i]);
+                        hasRoom.push(second.personID);
                     }
                 }
             } else {
                 for (var i = 0; i < registrations.length; i++) {
                     if (registrations[i].person.personID == first.personID) {
-                        registrations[i].accomondation = angular.copy(acc);
+                        registrations[i].accomondation = angular.copy(newAcc);
+                        registrations[i].accomondation.doubleroom = acc.doubleroom;
                         registrations[i].accomondation.roommateID = first.personID;
-                        console.log(registrations[i]);
+                        registrations[i].accomondation.hotelID = acc.selectedAccomondation.id;
+                        registrations[i].accomondation.fromDate = acc.fromDate;
+                        registrations[i].accomondation.toDate = acc.toDate;
+                        hasRoom.push(first.personID);
                     }
                 }
             }
-
         },
 
         removeRoom: function (person) {
@@ -41,13 +56,18 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
                 if (registrations[i].person.personID == person.personID) {
                     p = registrations[i].accomondation.roommateID;
                     registrations[i].accomondation = undefined;
+                    var idx = hasRoom.indexOf(person.personID);
+                    hasRoom.splice(idx, 1);
                 }
             }
             for (var i = 0; i < registrations.length; i++) {
                 if (registrations[i].person.personID == p) {
+                    var idx = hasRoom.indexOf(p);
+                    hasRoom.splice(idx, 1);
                     registrations[i].accomondation = undefined;
                 }
             }
+
         },
 
         hasRoommate: function (person) {
@@ -59,6 +79,10 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
                 }
             }
             return false;
+        },
+
+        getHasRoom: function () {
+            return hasRoom;
         },
 
         getPersonName: function (id) {
@@ -140,10 +164,8 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
             for (var i = 0; i < person.length; i++) {
                 var old = personExists(person[i]);
                 if (old.exists) {
-                    console.log("Gammel eksisterer.");
                     personUpdate(person[i], old.index);
                 } else {
-                    console.log("Legger til ny.");
                     addPerson(person[i]);
                 }
             }
@@ -152,6 +174,20 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
         sendRegistration: function (registration) {
             console.log(registration);
             return $http.post('saveReg', registration)
+                .then(
+                    function (response) {
+                        console.log("Success!");
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        return $q.reject(errResponse.data);
+                    }
+                );
+        },
+
+        sendRegistrations: function (registrations) {
+            console.log(registrations);
+            return $http.post('saveRegistrations', registrations)
                 .then(
                     function (response) {
                         console.log("Success!");
@@ -236,6 +272,7 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
             for (var i = 0; i < registrations.length; i++) {
                 console.log(registrations[i]);
                 if (registrations[i].person == reg.person) {
+                    removeRoom(reg.person);
                     registrations.splice(i, 1);
                 }
             }
@@ -243,12 +280,18 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
     };
 
     function addPerson(newPerson) { // Legger til person.
-        console.log("Ny person: " + newPerson.firstname);
+        console.log(newPerson);
         newPerson.personID = generateId();
         var newReg = {};
+        newReg.role = newPerson.role;
+        newReg.optionalPersonalia = newPerson.opt;
+        delete newPerson.opt;
+        delete newPerson.role;
         newReg.person = newPerson;
+        //newReg.accomondation = {};
         registrations.push(newReg);
-        console.log(registrations);
+        console.log("Her skal optinalPers vises: ");
+        console.log(newReg);
         $rootScope.$broadcast('personSet', persons);
         //$rootScope.$broadcast('regSet', registrations);
     };
@@ -279,7 +322,43 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
         return oldPerson;
     }
 
+    function getPersonName(id) {
+        for (var i = 0; i < registrations.length; i++) {
+            if (registrations[i].person.personID == id) {
+                if (registrations[i].accomondation != null) {
+                    console.log(registrations[i]);
+                    return registrations[i].person.firstname + " " + registrations[i].person.lastname;
+                }
+
+            }
+        }
+        return null;
+    }
+
+    function removeRoom(person) {
+        var p = {};
+        for (var i = 0; i < registrations.length; i++) {
+            if (registrations[i].person.personID == person.personID) {
+                p = registrations[i].accomondation.roommateID;
+                registrations[i].accomondation = undefined;
+                var idx = hasRoom.indexOf(person.personID);
+                hasRoom.splice(idx, 1);
+            }
+        }
+        for (var i = 0; i < registrations.length; i++) {
+            if (registrations[i].person.personID == p) {
+                var idx = hasRoom.indexOf(p);
+                hasRoom.splice(idx, 1);
+                registrations[i].accomondation = undefined;
+            }
+        }
+        console.log(hasRoom);
+        $rootScope.$broadcast('hasRoomSet', hasRoom);
+    }
+
     function personUpdate(person, index) {
+        delete person.optionalPersonalia;
+        delete person.role;
         console.log(person);
         for (var prop in registrations.person) {
             if (registrations.person[prop] != undefined) {
