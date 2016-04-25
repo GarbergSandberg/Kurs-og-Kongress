@@ -34,7 +34,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="/kursogkongress/reg">Påmeldingskjema</a>
+                    <a href="/kursogkongress/publicRegistrations">Påmeldingskjema</a>
                 </li>
                 <li>
                     <a href="/kursogkongress/courseOverview">Kursoversikt</a>
@@ -43,7 +43,7 @@
                     <a onclick="resetSessionStorage()" href="/kursogkongress/registerCourse">Legg til nytt kurs</a>
                 </li>
                 <li>
-                    <a href="/kursogkongress/createUser">Ny bruker</a>
+                    <a href="/kursogkongress/createUser">Administrer</a>
                 </li>
             </ul>
         </div>

@@ -51,7 +51,6 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
         course.hotels = hotelService.get();
         courseService.prepareForm();
         course.form = courseService.getForm();
-        //course.form = undefined; // This reassures that the sending of course will not fail. Because of the complexity of Form object, this have to be sent separately and handled.
         self.sendCourse(course);
     };
 
@@ -78,6 +77,9 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
             }
             if (response.title != null){
                 $scope.course.title = response.title;
+            }
+            if (response.publicCourse != null){
+                $scope.course.publicCourse = response.publicCourse;
             }
             if (response.description != null){
                 $scope.course.description = response.description;
@@ -132,33 +134,18 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
         var dateArray = new Array();
         var currentDate = startDate;
         while (currentDate <= stopDate) {
-            dateArray.push({id: currentDate.toString(),
-                weekday: self.findWeekday(currentDate.getDay()),
-                year: currentDate.getFullYear(),
-                month: currentDate.getMonth() + 1,
-                day: currentDate.getDate()});
+            dateArray.push({date: currentDate, id: currentDate.getDate()});
             currentDate = currentDate.addDays(1);
         }
+        console.log(dateArray);
         return dateArray;
-    };
-
-    self.findWeekday = function(weekday){
-        switch (weekday){
-            case 0: return "Søndag";
-            case 1: return "Mandag";
-            case 2: return "Tirsdag";
-            case 3: return "Onsdag";
-            case 4: return "Torsdag";
-            case 5: return "Fredag";
-            case 6: return "Lørdag";
-            default: "";
-        }
     };
 
     var cid = sessionStorage.cid;
     console.log("cid " + cid);
     if(cid == null || cid == -1){ // not good enough check. Review this. The dirtiest fix of them all.
         $scope.course.id = -1;
+        $scope.course.publicCourse = false;
     } else{
         courseService.getSessionStorageID(cid).then(function(successCallback){
             self.getCourse(successCallback);

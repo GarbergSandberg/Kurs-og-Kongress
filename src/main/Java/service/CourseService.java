@@ -24,4 +24,6 @@ public interface CourseService {
     public boolean updateRegistration(Registration registration);
 
     public Registration getRegistration(int registrationID);
+
+    public boolean enableRegistration(int courseID, boolean value);
 }

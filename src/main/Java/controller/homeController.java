@@ -39,12 +39,17 @@ public class homeController {
     @RequestMapping("/")
     public ModelAndView home(){
         selectedPerson = "-1";
-        return new ModelAndView("groupRegistration");
+        return new ModelAndView("publicRegistrations");
     }
 
     @RequestMapping("/reg")
     public ModelAndView reg(){
         return new ModelAndView("reg");
+    }
+
+    @RequestMapping("/publicRegistrations")
+    public ModelAndView publicRegistrations(){
+        return new ModelAndView("publicRegistrations");
     }
 
     @RequestMapping("/createUser")
@@ -134,7 +139,7 @@ public class homeController {
         if(userAdded){
             return new ResponseEntity<Void>(HttpStatus.CREATED);
         } else{
-            return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -149,6 +154,19 @@ public class homeController {
     @ResponseBody
     public ArrayList<Course> getCourses() {
         return courseService.getCourses();
+    }
+
+    @RequestMapping(value = "/getPublicCourses", method = RequestMethod.GET)
+    @ResponseBody
+    public ArrayList<Course> getPublicCourses() {
+        ArrayList<Course> courses = courseService.getCourses();
+        ArrayList<Course> coursesToReturn = new ArrayList<Course>();
+        for (Course c : courses){
+            if(c.isPublicCourse()){
+                coursesToReturn.add(c);
+            }
+        }
+        return coursesToReturn;
     }
 
     @RequestMapping(value = "/getCourse", method = RequestMethod.GET)
@@ -221,5 +239,42 @@ public class homeController {
     @ResponseBody
     public Registration getSingleRegistration(@RequestParam(value = "registration_id") int id) {
         return courseService.getRegistration(id);
+    }
+
+    @RequestMapping(value = "/getUsers", method = RequestMethod.GET)
+    @ResponseBody
+    public ArrayList<User> getUsers() {
+        return loginService.getUsers();
+    }
+
+    @RequestMapping(value = "/addAccess", method = RequestMethod.POST)
+    @ResponseBody
+    public boolean addAccess(@RequestBody CourseUserResolver cur){
+        return loginService.addAccess(cur.getUser(), cur.getCourse());
+    }
+
+    @RequestMapping(value = "/removeAccess", method = RequestMethod.POST)
+    @ResponseBody
+    public boolean removeAccess(@RequestBody CourseUserResolver cur){
+        return loginService.removeCourseAccess(cur.getUser(), cur.getCourse());
+    }
+
+    @RequestMapping(value = "/getCourseAccess", method = RequestMethod.GET)
+    @ResponseBody
+    public ArrayList<Integer> getCourseAccess(@RequestParam(value = "username") String username) {
+        return loginService.getCourseAccess(username);
+    }
+
+    @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+    @ResponseBody
+    public boolean deleteUser(@RequestBody User user){
+        return loginService.deleteUser(user);
+    }
+
+    @RequestMapping(value = "/enableRegistration", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity enableRegistration(@RequestParam(value = "id") int courseID, @RequestParam(value = "value") boolean value) {
+        courseService.enableRegistration(courseID,value);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

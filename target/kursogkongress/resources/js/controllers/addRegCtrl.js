@@ -385,7 +385,6 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         }
         if (c.form != null){
             course.form = c.form;
-            $scope.altForm = c.form;
         }
         if (c.courseFee != null){
             course.courseFee = c.courseFee;
@@ -401,9 +400,6 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         }
         return course;
     };
-
-    self.loadApplication();
-    self.getCourseById(1);
 
     $scope.whichType = function(type){ // Returnerer true hvis "type" er input, false hvis "checkbox".
         if (type == "Input") {
@@ -491,4 +487,15 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     $scope.getType = function (key) {
         return Object.prototype.toString.call($scope[key]);
     };
+
+    var cid = sessionStorage.cid;
+    if (cid){
+        regService.getSessionStorageID(cid).then(function(successCallback){
+            self.getCourseById(successCallback);
+        }, function(errorCallback){
+            console.log("Something is wrong");
+        });
+    } else{
+        console.log("Wrong cid");
+    }
 }]);

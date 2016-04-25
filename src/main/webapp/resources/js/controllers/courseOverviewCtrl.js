@@ -19,6 +19,7 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
     self.setCourse = function(courseRecieved){
         var course = {};
         var c = courseRecieved;
+        console.log(c);
         if (c.title != null){
             course.title = c.title;
         }
@@ -33,6 +34,9 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
         }
         if (c.id != null){
             course.id = c.id;
+        }
+        if (c.publicCourse != null){
+            course.publicCourse = c.publicCourse;
         }
         return course;
     };
@@ -67,6 +71,25 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
         }, function(errorCallback){
             console.log("error in setSessionID");
         });
+    };
+
+    $scope.changeColor = function(courseID){
+        for(var i = 0; i < $scope.courses.length; i++){
+            if ($scope.courses[i].id == courseID){
+                return $scope.courses[i].publicCourse;
+            }
+        }
+    };
+
+    $scope.enableRegistration = function(courseID){
+        for(var i = 0; i < $scope.courses.length; i++){
+            if ($scope.courses[i].id == courseID){
+                var newValue = $scope.courses[i].publicCourse;
+                newValue = !newValue;
+                $scope.courses[i].publicCourse = newValue;
+                courseService.enableRegistration(courseID, newValue);
+            }
+        }
     };
 
     self.loadApplication();

@@ -22,8 +22,9 @@ public class Course {
     private double dayPackage;
     private int maxNumber;
     private int id;
+    private boolean publicCourse;
 
-    public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, ArrayList<Hotel> hotels, Form form, String title, String location, String description, Date startDate, Date endDate, double courseFee, double courseSingleDayFee, double dayPackage, int maxNumber, int id) {
+    public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, ArrayList<Hotel> hotels, Form form, String title, String location, String description, Date startDate, Date endDate, double courseFee, double courseSingleDayFee, double dayPackage, int maxNumber, int id, boolean publicCourse) {
         this.sessions = sessions;
         this.events = events;
         this.roles = roles;
@@ -39,6 +40,7 @@ public class Course {
         this.dayPackage = dayPackage;
         this.maxNumber = maxNumber;
         this.id = id;
+        this.publicCourse = publicCourse;
     }
 
     public Course(ArrayList<Session> sessions, ArrayList<Event> events, ArrayList<String> roles, Form form, String title, String location, String description, Date startDate, Date endDate, double courseFee, double courseSingleDayFee, double dayPackage, int maxNumber, int id) {
@@ -74,7 +76,7 @@ public class Course {
         this.id = id;
     }
 
-    public Course(){};
+    public Course(){}
 
     public ArrayList<Session> getSessions() {
         return sessions;
@@ -100,9 +102,13 @@ public class Course {
         this.roles = roles;
     }
 
-    public ArrayList<Hotel> getHotels() {return hotels;}
+    public ArrayList<Hotel> getHotels() {
+        return hotels;
+    }
 
-    public void setHotels(ArrayList<Hotel> hotels) {this.hotels = hotels;}
+    public void setHotels(ArrayList<Hotel> hotels) {
+        this.hotels = hotels;
+    }
 
     public Form getForm() {
         return form;
@@ -152,22 +158,6 @@ public class Course {
         this.endDate = endDate;
     }
 
-    public int getMaxNumber() {
-        return maxNumber;
-    }
-
-    public void setMaxNumber(int maxNumber) {
-        this.maxNumber = maxNumber;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public double getCourseFee() {
         return courseFee;
     }
@@ -192,6 +182,30 @@ public class Course {
         this.dayPackage = dayPackage;
     }
 
+    public int getMaxNumber() {
+        return maxNumber;
+    }
+
+    public void setMaxNumber(int maxNumber) {
+        this.maxNumber = maxNumber;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isPublicCourse() {
+        return publicCourse;
+    }
+
+    public void setPublicCourse(boolean publicCourse) {
+        this.publicCourse = publicCourse;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
@@ -210,6 +224,7 @@ public class Course {
                 ", dayPackage=" + dayPackage +
                 ", maxNumber=" + maxNumber +
                 ", id=" + id +
+                ", publicCourse=" + publicCourse +
                 '}';
     }
 }

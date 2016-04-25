@@ -264,11 +264,11 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
                     });
         },
 
-        getPersons: function(){
+        getPersons: function () {
             return persons;
         },
 
-        deleteRegistration: function(reg) { // Sletter person.
+        deleteRegistration: function (reg) { // Sletter person.
             for (var i = 0; i < registrations.length; i++) {
                 console.log(registrations[i]);
                 if (registrations[i].person == reg.person) {
@@ -276,6 +276,35 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
                     registrations.splice(i, 1);
                 }
             }
+        },
+
+        setSessionStorageID: function (courseID) {
+            console.log(courseID + " = courseID before encryption");
+            return $http.get('setSessionStorageID', {params: {id: courseID}})
+                .then(
+                    function (success) {
+                        console.log(success.data.toString() + " = courseID afterEncryption");
+                        sessionStorage.cid = success.data;
+                    },
+                    function (error) {
+                        console.error('Error setting sessionStorageID');
+                        console.log(error);
+                    }
+                );
+        },
+
+        getSessionStorageID: function (courseID) {
+            console.log(courseID + " = courseID sent from client (encrypted)");
+            return $http.get('getSessionStorageID', {params: {id: courseID}})
+                .then(
+                    function (success) {
+                        console.log(success.data + " = courseID after decryption");
+                        return success.data;
+                    },
+                    function (error) {
+                        console.error('Error getting sessionStorageID');
+                    }
+                );
         }
     };
 
@@ -295,7 +324,7 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
         $rootScope.$broadcast('personSet', persons);
         //$rootScope.$broadcast('regSet', registrations);
     };
-    
+
     function generateId() {
         var highestId = 0;
         for (var i = 0; i < registrations.length; i++) {
@@ -365,5 +394,5 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
                 registrations.person[index][prop] = person[prop];
             }
         }
-    }
+    };
 }]);

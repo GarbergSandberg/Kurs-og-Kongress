@@ -30,4 +30,9 @@ public class CourseServiceImpl implements CourseService {
     public boolean updateRegistration(Registration registration){return courseRepository.updateRegistration(registration);}
 
     public Registration getRegistration(int registrationID){return courseRepository.getRegistration(registrationID);}
+
+    @Override
+    public boolean enableRegistration(int courseID, boolean value) {
+        return courseRepository.enableRegistration(courseID,value);
+    }
 }

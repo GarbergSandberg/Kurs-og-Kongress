@@ -55,7 +55,7 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String setEvent = "INSERT INTO EVENT VALUES (DEFAULT,?,?,?,?,?,?,?)";
     private final String setRoles = "INSERT INTO COURSEROLE VALUES (DEFAULT,?,?)";
     private final String setHotel = "insert into hotel values (DEFAULT,?,?,?,?,?)";
-    private final String setCourse = "INSERT INTO COURSE VALUES (?,?,?,?,?,?,?,?,?,?)";
+    private final String setCourse = "INSERT INTO COURSE VALUES (?,?,?,?,?,?,?,?,?,?,?)";
     private final String setForm = "INSERT INTO FORM VALUES (?,?,?)";
     private final String getMaxIDForm = "SELECT max(idform) FROM form";
     private final String getMaxIDCourse = "select max(idcourse) from course";
@@ -82,6 +82,7 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String getOptPersID = "select OPTIONALPERSONALIA_IDOPTIONALPERSONALIA from OPTIONALPERSONALIA_HAS_FORM where FORM_IDFORM = ?";
     private final String getOptWorkID = "select OPTIONALWORKPLACE_IDOPTIONALWORKPLACE From OPTIONALWORKPLACE_HAS_FORM WHERE FORM_IDFORM = ?";
     private final String getExtraID = "SELECT EXTRAINFO_IDEXTRAINFO from EXTRAINFO_HAS_FORM WHERE FORM_IDFORM = ?";
+    private final String enableRegistration = "update course set publiccourse = ? where idcourse = ?";
 
     //Registration sqls
     private final String sqlGetRegistration = "select * from Registration where course_idcourse = ?";
@@ -137,6 +138,18 @@ public class CourseRepositoryDB implements CourseRepository{
         System.out.println("Database.setDataSource " + dataSource);
         this.dataSource = dataSource;
         this.jdbcTemplateObject = new JdbcTemplate(dataSource);
+    }
+
+    public boolean enableRegistration(int courseID, boolean value){
+        try{
+            jdbcTemplateObject.update(enableRegistration, new Object[]{
+                    value, courseID
+            });
+            return true;
+        } catch(Exception e){
+            System.out.println("Error in enableRegistration");
+            return false;
+        }
     }
 
     public ArrayList<Course> getCourses() {
@@ -377,7 +390,7 @@ public class CourseRepositoryDB implements CourseRepository{
                 System.out.println(courseID);
                 courseID++;
                 jdbcTemplateObject.update(setCourse, new Object[]{
-                        courseID, course.getTitle(), course.getLocation(), course.getDescription(), course.getStartDate(), course.getEndDate(), course.getCourseFee(), course.getCourseSingleDayFee(), course.getDayPackage(), course.getMaxNumber()
+                        courseID, course.getTitle(), course.getLocation(), course.getDescription(), course.getStartDate(), course.getEndDate(), course.getCourseFee(), course.getCourseSingleDayFee(), course.getDayPackage(), course.getMaxNumber(), course.isPublicCourse()
                 });
                 if(course.getSessions() != null){
                     saveSessions(course.getSessions(), courseID);

@@ -24,4 +24,6 @@ public interface CourseRepository {
     public int getCountRegistrations(int id);
 
     public Registration getRegistration(int registrationID);
+
+    public boolean enableRegistration(int courseID, boolean value);
 }

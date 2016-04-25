@@ -90,6 +90,18 @@ sessionRegisterApp.factory('courseService', ['$http', '$q','$rootScope', functio
                     console.error('Error getting sessionStorageID');
                 }
             );
+        },
+
+        enableRegistration: function(courseID, value){
+            return $http.get('enableRegistration', {params: {id: courseID, value: value}})
+                .then(
+                    function (success) {
+                        return true;
+                    },
+                    function (error) {
+                        return false;
+                    }
+                );
         }
     }
 }]);

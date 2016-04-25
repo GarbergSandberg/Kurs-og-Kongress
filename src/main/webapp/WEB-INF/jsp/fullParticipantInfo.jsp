@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/libs.min.css">
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/docs.min.css">
     <link rel="stylesheet" href="resources/css/courseOverview.css">
+    <link rel="stylesheet" href="resources/css/sessionRegister.css">
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular.min.js" data-semver="1.4.5"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-animate.min.js" data-semver="1.4.5"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-sanitize.min.js" data-semver="1.4.5"></script>
@@ -371,7 +372,7 @@
                 </td>
             </tr>
         </table>
-        <table class="table" ng-if="change">
+        <table class="table session" ng-if="change">
             <tr>
                 <td>
                     <h4>Sesjoner deltakeren er påmeldt</h4>
@@ -382,7 +383,7 @@
                 <td align="center" class="session">
                     {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}
                 </td>
-                <td ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)">
+                <td class="session" ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)">
                     <button class="btn btn-lg"
                             ng-class="colorSession(session) ? 'btn-primary' : 'btn-default'"
                             ng-click="selectSession(session)"> {{session.title}} <h5>({{session.startTime |
@@ -391,7 +392,7 @@
                 </td>
             </tr>
         </table>
-        <table class="table" ng-if="change">
+        <table class="table session" ng-if="change">
             <tr>
                 <td>
                     <h4>Arrangementer deltakeren er påmeldt</h4>
@@ -402,7 +403,7 @@
                 <td align="center" class="session">
                     {{date | date:'EEEE'}} <p>{{date | date:'dd/MM/yyyy'}}
                 </td>
-                <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!-- -->
+                <td class="session" ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!-- -->
                     <button class="btn btn-lg"
                             name="selectedEvents[]" value="{{event}}"
                             ng-click="selectEvent(event)"
