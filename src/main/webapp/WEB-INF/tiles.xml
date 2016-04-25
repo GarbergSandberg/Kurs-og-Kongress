@@ -82,4 +82,10 @@
         <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
     </definition>
 
+    <definition name="publicRegistrations" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title"  value="Påmeldinger"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/publicRegistrations.jsp"/>
+        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
+    </definition>
+
 </tiles-definitions>

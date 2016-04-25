@@ -21,6 +21,7 @@ public class CourseMapper implements RowMapper<Course>{
         course.setCourseSingleDayFee(rs.getDouble("courseSingleDayFee"));
         course.setDayPackage(rs.getDouble("dayPackage"));
         course.setMaxNumber(rs.getInt("maxNumber"));
+        course.setPublicCourse(rs.getBoolean("publicCourse"));
         return course;
     }
 }

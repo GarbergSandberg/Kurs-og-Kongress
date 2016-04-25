@@ -51,7 +51,6 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
         course.hotels = hotelService.get();
         courseService.prepareForm();
         course.form = courseService.getForm();
-        //course.form = undefined; // This reassures that the sending of course will not fail. Because of the complexity of Form object, this have to be sent separately and handled.
         self.sendCourse(course);
     };
 
@@ -78,6 +77,9 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
             }
             if (response.title != null){
                 $scope.course.title = response.title;
+            }
+            if (response.publicCourse != null){
+                $scope.course.publicCourse = response.publicCourse;
             }
             if (response.description != null){
                 $scope.course.description = response.description;
@@ -143,6 +145,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
     console.log("cid " + cid);
     if(cid == null || cid == -1){ // not good enough check. Review this. The dirtiest fix of them all.
         $scope.course.id = -1;
+        $scope.course.publicCourse = false;
     } else{
         courseService.getSessionStorageID(cid).then(function(successCallback){
             self.getCourse(successCallback);

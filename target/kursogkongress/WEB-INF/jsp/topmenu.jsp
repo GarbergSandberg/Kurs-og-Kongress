@@ -43,7 +43,7 @@
                     <a onclick="resetSessionStorage()" href="/kursogkongress/registerCourse">Legg til nytt kurs</a>
                 </li>
                 <li>
-                    <a href="/kursogkongress/createUser">Ny bruker</a>
+                    <a href="/kursogkongress/createUser">Administrer</a>
                 </li>
             </ul>
         </div>

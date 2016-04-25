@@ -46,7 +46,6 @@ loginApp.controller('loginCtrl', ['$scope', 'loginService', '$window', function(
     $scope.addNewUser = function(user){
         if ($scope.user.password == $scope.user.confirmPassword){
             loginService.addNewUser(user).then(function(callback){
-                console.log(callback);
                 if(callback){
                     $window.location.reload();
                 } else{

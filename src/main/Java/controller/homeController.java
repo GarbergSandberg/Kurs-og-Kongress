@@ -39,12 +39,17 @@ public class homeController {
     @RequestMapping("/")
     public ModelAndView home(){
         selectedPerson = "-1";
-        return new ModelAndView("reg");
+        return new ModelAndView("publicRegistrations");
     }
 
     @RequestMapping("/reg")
     public ModelAndView reg(){
         return new ModelAndView("reg");
+    }
+
+    @RequestMapping("/publicRegistrations")
+    public ModelAndView publicRegistrations(){
+        return new ModelAndView("publicRegistrations");
     }
 
     @RequestMapping("/createUser")
@@ -139,6 +144,19 @@ public class homeController {
     @ResponseBody
     public ArrayList<Course> getCourses() {
         return courseService.getCourses();
+    }
+
+    @RequestMapping(value = "/getPublicCourses", method = RequestMethod.GET)
+    @ResponseBody
+    public ArrayList<Course> getPublicCourses() {
+        ArrayList<Course> courses = courseService.getCourses();
+        ArrayList<Course> coursesToReturn = new ArrayList<Course>();
+        for (Course c : courses){
+            if(c.isPublicCourse()){
+                coursesToReturn.add(c);
+            }
+        }
+        return coursesToReturn;
     }
 
     @RequestMapping(value = "/getCourse", method = RequestMethod.GET)

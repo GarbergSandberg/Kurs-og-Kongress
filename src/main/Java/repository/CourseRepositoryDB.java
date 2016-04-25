@@ -55,7 +55,7 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String setEvent = "INSERT INTO EVENT VALUES (DEFAULT,?,?,?,?,?,?,?)";
     private final String setRoles = "INSERT INTO COURSEROLE VALUES (DEFAULT,?,?)";
     private final String setHotel = "insert into hotel values (DEFAULT,?,?,?,?,?)";
-    private final String setCourse = "INSERT INTO COURSE VALUES (?,?,?,?,?,?,?,?,?,?)";
+    private final String setCourse = "INSERT INTO COURSE VALUES (?,?,?,?,?,?,?,?,?,?,?)";
     private final String setForm = "INSERT INTO FORM VALUES (?,?,?)";
     private final String getMaxIDForm = "SELECT max(idform) FROM form";
     private final String getMaxIDCourse = "select max(idcourse) from course";
@@ -377,7 +377,7 @@ public class CourseRepositoryDB implements CourseRepository{
                 System.out.println(courseID);
                 courseID++;
                 jdbcTemplateObject.update(setCourse, new Object[]{
-                        courseID, course.getTitle(), course.getLocation(), course.getDescription(), course.getStartDate(), course.getEndDate(), course.getCourseFee(), course.getCourseSingleDayFee(), course.getDayPackage(), course.getMaxNumber()
+                        courseID, course.getTitle(), course.getLocation(), course.getDescription(), course.getStartDate(), course.getEndDate(), course.getCourseFee(), course.getCourseSingleDayFee(), course.getDayPackage(), course.getMaxNumber(), course.isPublicCourse()
                 });
                 if(course.getSessions() != null){
                     saveSessions(course.getSessions(), courseID);

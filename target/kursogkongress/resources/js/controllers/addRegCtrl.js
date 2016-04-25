@@ -271,7 +271,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
                 console.log("StartDate: " + currentDate);
                 while (currentDate <= $scope.course.endDate) {
                     $scope.dateArray.push(new Date(currentDate));
-                    currentDate = $scope.addDays(currentDate, 1)
+                    currentDate = $scope.addDays(currentDate, 1);
                     console.log("New date: " + currentDate + " endDate: " +$scope.course.endDate);
                 }
             }
@@ -369,9 +369,6 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         return course;
     };
 
-    self.loadApplication();
-    self.getCourseById(1);
-
     $scope.whichType = function(type){ // Returnerer true hvis "type" er input, false hvis "checkbox".
         if (type == "Input") {
             return true;
@@ -466,4 +463,15 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     $scope.getType = function (key) {
         return Object.prototype.toString.call($scope[key]);
     };
+
+    var cid = sessionStorage.cid;
+    if (cid){
+        regService.getSessionStorageID(cid).then(function(successCallback){
+            self.getCourseById(successCallback);
+        }, function(errorCallback){
+            console.log("Something is wrong");
+        });
+    } else{
+        console.log("Wrong cid");
+    }
 }]);
