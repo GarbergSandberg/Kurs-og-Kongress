@@ -83,7 +83,11 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
     $scope.changeColor = function(courseID){
         for(var i = 0; i < $scope.courses.length; i++){
             if ($scope.courses[i].id == courseID){
-                return $scope.courses[i].publicCourse;
+                if($scope.courses[i].publicCourse){
+                    return 'btn btn-success btn-lg';
+                } else{
+                    return 'btn btn-warning btn-lg'
+                }
             }
         }
     };

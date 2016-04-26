@@ -92,10 +92,10 @@
             <h4>Parallelle sesjoner</h4>
         </div>
         <div ng-controller="AddSessionCtrl">
-            <table class="table session">
-                <tr ng-repeat="date in dates">
+            <table class="table session" ng-init="dateTable = dates">
+                <tr ng-repeat="date in dates" ng-init="sessionTableRow = $index">
                     <td align="center" class="session">
-                        {{date.date | date:'EEEE'}} <p>{{date.date | date:'dd-MM-yyyy'}}
+                        {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}
                     </td>
                     <td class="session">
                         <button type="button" id="{{date}}" ng-click="passBtnId(date)"
@@ -105,7 +105,7 @@
                                         bs-modal="modal">+
                         </button>
                     </td>
-                    <td class="session" ng-repeat="session in sessions | filter:date | orderBy:'hourMinuteStart'">
+                    <td class="session" ng-repeat="session in sessions | sessionFilter: sessionTableRow: dates | orderBy:'hourMinuteStart'">
                         <button id="sessionButton" data-ng-attr-id="btnId" type="button" ng-click="showDeleteButton()"
                                 ng-class="(session.overlap == true) ? 'btn btn-danger btn-block' : 'btn btn-default btn-block'"
                                 data-animation="am-fade-and-scale"

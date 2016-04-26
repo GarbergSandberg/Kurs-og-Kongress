@@ -134,7 +134,8 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
         var dateArray = new Array();
         var currentDate = startDate;
         while (currentDate <= stopDate) {
-            dateArray.push({date: currentDate, id: currentDate.getDate()});
+            dateArray.push(currentDate);
+            console.log("Current date = " + currentDate);
             currentDate = currentDate.addDays(1);
         }
         console.log(dateArray);

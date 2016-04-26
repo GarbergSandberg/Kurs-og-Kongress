@@ -198,8 +198,7 @@ To change this template use File | Settings | File Templates.
                     {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
                 </td>
                 <td ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)">
-                    <button class="btn btn-lg"
-                            ng-class="colorSession(session) ? 'btn-primary' : 'btn-default'"
+                    <button ng-class="colorSession(session) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'"
                             ng-click="selectSession(session)"> {{session.title}} <h5>({{session.startTime |
                         date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})</h5>
                     </button>
@@ -217,7 +216,7 @@ To change this template use File | Settings | File Templates.
                     <button class="btn btn-lg" name="selectedEvents[]" value="{{event}}"
                             ng-checked="selectedEvent.indexOf(event) > -1"
                             ng-click="selectEvent(event)"
-                            ng-class="colorEvent(event) ? 'btn-primary' : 'btn-default'">
+                            ng-class="colorEvent(event) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'">
                         {{event.title}}
                     </button>
                 </td>
