@@ -104,7 +104,7 @@
             </div>
         </div>
         <table class="table">
-            <tr>
+            <tr style="background-color:gray;color:black;">
                 <td style="text-align: left;">Navn: </td>
                 <td style="text-align: center;">Arbeidsplass: </td>
                 <td style="text-align: right;"> </td>

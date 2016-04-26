@@ -175,7 +175,6 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
     function checkIfOverlaps(session){
             for (var u = 0; u < sessions.length; u++){
                 if(session.id != sessions[u].id){
-                    console.log("Date det jeg legger til: " + session.date.getDate() + " Det jeg sjekker: " + sessions[u].date.getDate());
                     if(session.date.getDate() == sessions[u].date.getDate()){
                         if(overlaps(session, sessions[u])){
                             session.overlap = true;

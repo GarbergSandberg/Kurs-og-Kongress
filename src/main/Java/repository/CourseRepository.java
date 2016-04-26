@@ -28,4 +28,6 @@ public interface CourseRepository {
     public boolean enableRegistration(int courseID, boolean value);
 
     public int getNumberOfPayments(ArrayList<Integer> regID, String description);
+
+    public int getNumberOfEvents(ArrayList<Integer> registration_id, int event_id);
 }

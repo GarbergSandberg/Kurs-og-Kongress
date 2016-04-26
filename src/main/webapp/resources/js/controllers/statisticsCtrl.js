@@ -6,16 +6,9 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
     $scope.numberOfcourseFee = {};
     $scope.numberOfcourseSingleDayFee = {};
     $scope.numberOfDaypackages = {};
+    $scope.numberOfEvents = [];
     $scope.showInfo = function(id){
         self.setSessionID(id);
-    };
-
-    self.setSessionID = function(id){
-        attenderInfoService.setSessionStorageID(id).then(function(successCallback){
-            $window.location.href = "/kursogkongress/personInfo";
-        }, function(errorCallback){
-            console.log("error in setSessionID");
-        });
     };
 
     $scope.getCountRegistrations = function(){ // Brukes ikke? men fungerer..!
@@ -23,6 +16,27 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
         statisticsService.getCountRegistrations($scope.course.id).then(function(result) {
             console.log(result);
             $scope.countReg = result;
+        });
+    };
+
+    $scope.getTotal = function(numb){
+        var a = ($scope.numberOfcourseFee.total + $scope.numberOfcourseSingleDayFee.total + $scope.numberOfDaypackages.total);
+        var b = 0;
+        for (var i = 0; i<$scope.numberOfEvents.length; i++){
+            b += $scope.numberOfEvents[i].total;
+        }
+        if (numb == 0){ // CourseTotal.
+            return a;
+        } else if (numb == 1){ // EventTotal
+            return b;
+        } else return a+b; // Total.
+    };
+
+    self.setSessionID = function(id){
+        attenderInfoService.setSessionStorageID(id).then(function(successCallback){
+            $window.location.href = "/kursogkongress/personInfo";
+        }, function(errorCallback){
+            console.log("error in setSessionID");
         });
     };
 
@@ -74,12 +88,10 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
             if (response.form != null){
                 courseService.setRecievedForm(response.form);
             }
-            console.log("Skal sette hoteller.. " + response.hotels);
             if (response.hotels != null){
                 hotelService.sethotels(response.hotels);
                 $scope.course.hotels = hotelService.get();
             }
-            console.log($scope.course);
         }, function(errorResponse){
             console.log("Error in getCourse()");
         })
@@ -111,6 +123,7 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
         }
         if (c.events!= null){
             course.events = c.events;
+
         }
         if (c.sessions != null){
             course.sessions = c.sessions;
@@ -139,9 +152,9 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
     self.loadRegistrations = function(id){
         console.log("Her kommer kursID " + id);
         statisticsService.getRegistrations(id).then(function(response){
-            console.log(response);
             self.mapRegistration(response);
-            self.getNumberOfDaypackages();
+            self.getNumberOfPayments();
+            self.getNumberOfEvents();
         }, function(error){
             console.log("Error in getting registrations...");
         });
@@ -153,13 +166,13 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
             $scope.registrationsID.push(registrations[i].registrationID);
         }
         $scope.countReg = registrations.length;
-        console.log($scope.registrations);
     };
 
-    var cid = sessionStorage.cid;
+    //var cid = sessionStorage.cid;
+    var cid = 'kmj7cdKWic9Ivr3IBofjNA==';
     console.log("cid " + cid);
     if(cid == null || cid == -1){ // not good enough check. Review this. The dirtiest fix of them all.
-        $scope.course.id = 1; // Should return error page. Skal være -1.
+        $scope.course.id = -1; // Should return error page. Skal være -1.
     } else{
         console.log("Henter course med id " + cid);
         courseService.getSessionStorageID(cid).then(function(success){
@@ -172,22 +185,38 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
 
     ///////////////////////////  Course-"economics" ///////////
 
-    self.getNumberOfDaypackages = function(){ // Finds number of daypackages, sends with ID form course.daypackage
-        console.log("Trykker på knappen");
+    self.getNumberOfPayments = function(){ // Finds number of daypackages, sends with ID form course.daypackage
         statisticsService.getNumberOfPayments($scope.registrationsID, "Dagpakke").then(function(result) { // Arraylist med alle ID til registreringer til kurset + description.
-            console.log(result);
             $scope.numberOfDaypackages.number = result;
             $scope.numberOfDaypackages.total = ($scope.numberOfDaypackages.number * $scope.course.dayPackage);
         });
         statisticsService.getNumberOfPayments($scope.registrationsID, "Kursavgift").then(function(result) {
-            console.log(result);
             $scope.numberOfcourseFee.number = result;
             $scope.numberOfcourseFee.total = ($scope.numberOfcourseFee.number * $scope.course.courseFee);
         });
         statisticsService.getNumberOfPayments($scope.registrationsID, "Kursavgift Dag").then(function(result) {
-            console.log(result);
             $scope.numberOfcourseSingleDayFee.number = result;
             $scope.numberOfcourseSingleDayFee.total = ($scope.numberOfcourseSingleDayFee.number * $scope.course.courseSingleDayFee);
+        });
+    };
+
+    self.getNumberOfEvents = function(){
+        for (var i = 0; i<$scope.course.events.length; i++){
+            self.sendGetNumberOfEvents($scope.registrationsID, $scope.course.events[i]);
+        }
+    };
+
+    self.sendGetNumberOfEvents = function(regID, event){
+        var temp = {};
+        temp.title = event.title;
+        temp.id = event.id;
+        temp.price = event.price;
+        statisticsService.getNumberOfEvents(regID, event.id).then(function(result) {
+            console.log(result);
+            temp.number = result;
+            temp.total = (event.price * temp.number);
+            console.log(temp);
+            $scope.numberOfEvents.push(temp);
         });
     };
 }]);

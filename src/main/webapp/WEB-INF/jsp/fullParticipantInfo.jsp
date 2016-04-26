@@ -47,26 +47,26 @@
             <button ng-if="change" type="button" align="right" class="btn btn-primary" ng-click="updateRegistration(selectedParticipant)">Lagre endringer </button>
         </span>
         <table class="table" ng-if="!change">
-            <tr style="color: #ff2c27" ng-if="selectedParticipant.speaker">
+            <tr style="background-color:gray;color:black;">
                 <td>
-                    <h4>Personen er foredragsholder</h4>
-                </td>
-                <td>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <h4>Kurs</h4>
+                    Kurs
                 </td>
                 <td>
                     {{selectedParticipant.course.title}}
                 </td>
             </tr>
-            <tr>
+            <tr style="background-color:gray; color:black; padding-top: 15px">
                 <td>
-                    <h4>Personinfo</h4>
+                    Personinfo
                 </td>
                 <td></td>
+            </tr>
+            <tr style="color: #ff2c27" ng-if="selectedParticipant.speaker">
+                <td>
+                    Personen er foredragsholder
+                </td>
+                <td>
+                </td>
             </tr>
             <tr>
                 <td>
@@ -124,9 +124,9 @@
                     {{selectedParticipant.alternativeInvoiceAddress}}
                 </td>
             </tr>
-            <tr>
+            <tr style="background-color:gray; color:black;">
                 <td>
-                    <h4>Arbeidsgiverinfo</h4>
+                    Arbeidsgiverinfo
                 </td>
                 <td></td>
             </tr>
@@ -155,9 +155,9 @@
                     {{selectedParticipant.optionalWorkplace[$index].parameter}}
                 </td>
             </tr>
-            <tr>
+            <tr style="background-color:gray; color:black;">
                 <td>
-                    <h4>Sesjoner deltakeren er påmeldt</h4>
+                    Sesjoner deltakeren er påmeldt
                 </td>
                 <td></td>
             </tr>
@@ -170,9 +170,9 @@
                     date:'HH:mm'}})
                 </td>
             </tr>
-            <tr>
+            <tr style="background-color:gray; color:black;">
                 <td>
-                    <h4>Arrangementer deltakeren er påmeldt</h4>
+                    Arrangementer deltakeren er påmeldt
                 </td>
                 <td></td>
             </tr>
@@ -184,9 +184,9 @@
                     {{event.date | date:'dd/MM/yyyy'}} ({{event.startTime | date:'HH:mm'}})
                 </td>
             </tr>
-            <tr>
+            <tr style="background-color:gray; color:black;">
                 <td>
-                    <h4>Deltakeren er meldt på følgende dager</h4>
+                    Deltakeren er meldt på følgende dager
                 </td>
                 <td></td>
             </tr>
@@ -206,19 +206,21 @@
                     {{date | date:'dd/MM/yyyy'}}
                 </td>
             </tr>
-            <tr>
+            <tr  style="background-color:gray; color:black;">
                 <td>
-                    <h4>Overnatting</h4>
+                    Overnatting
                 </td>
                 <td></td>
             </tr>
-            <tr>
+            <tr ng-if="selectedParticipant.accomondation == null">
+                <td>
+                    Ingen overnatting
+                </td>
+            </tr>
+            <tr ng-if="selectedParticipant.accomondation !== null">
                 <td>Hotell</td>
                 <td>
                     {{chosenHotel.name}}
-                </td>
-                <td ng-if="selectedParticipant.accomondation == null">
-                    Ingen overnatting
                 </td>
             </tr>
             <tr ng-if="selectedParticipant.accomondation !== null">
@@ -242,23 +244,23 @@
         <table class="table" ng-if="change">
             <tr style="color: #ff2c27">
                 <td>
-                    <h4>Personen er foredragsholder</h4>
+                    Personen er foredragsholder
                 </td>
                 <td>
                     <input type="checkbox" name="roomType" ng-model="selectedParticipant.speaker" ng-value="true"/>
                 </td>
             </tr>
-            <tr>
+            <tr style="background-color:gray;color:black;">
                 <td>
-                    <h4>Kurs</h4>
+                    Kurs
                 </td>
                 <td>
                     {{selectedParticipant.course.title}}
                 </td>
             </tr>
-            <tr>
+            <tr style="background-color:gray;color:black;">
                 <td>
-                    <h4>Personinfo</h4>
+                    Personinfo
                 </td>
                 <td></td>
             </tr>
@@ -322,9 +324,9 @@
                     <input type="text" ng-model="selectedParticipant.alternativeInvoiceAddress">
                 </td>
             </tr>
-            <tr>
+            <tr style="background-color:gray;color:black;">
                 <td>
-                    <h4>Arbeidsgiverinfo</h4>
+                    Arbeidsgiverinfo
                 </td>
                 <td></td>
             </tr>
@@ -372,10 +374,10 @@
                 </td>
             </tr>
         </table>
-        <table class="table session" ng-if="change">
+        <table class="table session" ng-if="change" style="background-color:gray;color:black;">
             <tr>
                 <td>
-                    <h4>Sesjoner deltakeren er påmeldt</h4>
+                    Sesjoner deltakeren er påmeldt
                 </td>
                 <td></td>
             </tr>
@@ -386,16 +388,16 @@
                 <td class="session" ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)">
                     <button class="btn btn-lg"
                             ng-class="colorSession(session) ? 'btn-primary' : 'btn-default'"
-                            ng-click="selectSession(session)"> {{session.title}} <h5>({{session.startTime |
-                        date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})</h5>
+                            ng-click="selectSession(session)"> {{session.title}} ({{session.startTime |
+                        date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})
                     </button>
                 </td>
             </tr>
         </table>
-        <table class="table session" ng-if="change">
+        <table class="table session" ng-if="change" style="background-color:gray;color:black;">
             <tr>
                 <td>
-                    <h4>Arrangementer deltakeren er påmeldt</h4>
+                    Arrangementer deltakeren er påmeldt
                 </td>
                 <td></td>
             </tr>
@@ -415,10 +417,10 @@
             <br ng-if="change">
             <br ng-if="change">
         </table>
-        <table class="table" ng-if="change">
+        <table class="table" ng-if="change" style="background-color:gray;color:black;">
             <tr>
                 <td>
-                    <h4>Deltakeren er meldt på følgende dager</h4>
+                    Deltakeren er meldt på følgende dager
                 </td>
                 <td></td>
             </tr>
@@ -434,9 +436,9 @@
                            ng-click="selectDay(date)"> {{date | date:'EEEE'}} {{date | date:'dd/MM/yyyy'}}
                 </td>
             </tr>
-            <tr>
+            <tr style="background-color:gray;color:black;">
                 <td>
-                    <h4>Overnatting</h4>
+                    Overnatting
                 </td>
                 <td></td>
             </tr>
@@ -450,8 +452,8 @@
                     <button class="btn btn-md"
                             ng-class="colorHotel(hotel) ? 'btn-primary' : 'btn-default'"
                             ng-click="selectHotel(hotel)"> <label>{{hotel.name}}</label>
-                        <h5>Pris dobbeltrom: {{hotel.doubleprice}}</h5><h5>Pris enkeltrom:
-                            {{hotel.singleprice}}</h5>
+                        <h5>Pris dobbeltrom: {{hotel.doubleprice}}  </h5> <h5>Pris enkeltrom:
+                            {{hotel.singleprice}} </h5>
                     </button>
                 </td>
             </tr>

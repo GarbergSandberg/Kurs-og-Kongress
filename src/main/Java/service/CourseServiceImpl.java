@@ -33,6 +33,8 @@ public class CourseServiceImpl implements CourseService {
 
     public int getNumberOfPayments(ArrayList<Integer> registrationID, String description) {return courseRepository.getNumberOfPayments(registrationID, description);}
 
+    public int getNumberOfEvents(ArrayList<Integer> registrationID, int eventID) {return courseRepository.getNumberOfEvents(registrationID, eventID);}
+
     @Override
     public boolean enableRegistration(int courseID, boolean value) {
         return courseRepository.enableRegistration(courseID,value);
