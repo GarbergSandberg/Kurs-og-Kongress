@@ -2,12 +2,16 @@
  * Created by eiriksandberg on 05.04.2016.
  */
 sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$window', function ($scope, courseService, $window) {
+    $scope.selectedMonth = -1;
+    $scope.selectedYear = "";
     $scope.courses = {};
     $scope.panels = [];
     $scope.panels.activePanel = -1;
     $scope.$watch("panels.activePanel", function(newValue, oldValue) {
     });
-
+    $scope.years = [];
+    $scope.months = ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember', 'Alle'];
+    $scope.dateFilter = {};
     $scope.editCourse = function(id){
         self.setSessionID(id);
     };
@@ -19,7 +23,6 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
     self.setCourse = function(courseRecieved){
         var course = {};
         var c = courseRecieved;
-        console.log(c);
         if (c.title != null){
             course.title = c.title;
         }
@@ -27,10 +30,12 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
             course.description = c.description;
         }
         if (c.startDate != null){
-            course.startDate = c.startDate;
+            course.startDate = new Date(c.startDate);
+            //course.filterDate = $scope.fullDateConverter(course.startDate.getFullYear(), course.startDate.getMonth());
         }
         if (c.endDate != null){
-            course.endDate = c.endDate;
+            course.endDate = new Date(c.endDate);
+            //course.filterDate = $scope.fullDateConverter(course.endDate.getFullYear(), course.endDate.getMonth());
         }
         if (c.id != null){
             course.id = c.id;
@@ -46,13 +51,15 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
             $scope.courses = new Array();
             for (var i = 0; i < response.length; i++){
                 $scope.courses.push(self.setCourse(response[i]));
-                var date = new Date($scope.courses[i].startDate);
                 $scope.panels.push({
                     title: $scope.courses[i].title,
                     body: $scope.courses[i].description,
-                    startDate: date.toDateString(),
+                    startDate: $scope.courses[i].startDate,
+                    endDate: $scope.courses[i].endDate,
                     courseID: $scope.courses[i].id})
             }
+            $scope.years = self.findYears();
+            $scope.years.push("Alle");
         }, function(errorResponse){
             console.log("Error in loadApplication()");
         })};
@@ -90,6 +97,45 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
                 courseService.enableRegistration(courseID, newValue);
             }
         }
+    };
+
+    self.findYears = function(){
+        var array = [];
+        var currentMin = new Date();
+        var currentMax = new Date();
+        for (var i = 0; i < $scope.courses.length; i++){
+            if ($scope.courses[i].startDate < currentMin){
+                currentMin = $scope.courses[i].startDate;
+            }
+            if($scope.courses[i].endDate > currentMax){
+                currentMax = $scope.courses[i].endDate;
+            }
+        }
+        var min = currentMin.getFullYear();
+        var max = currentMax.getFullYear();
+        if (min == max){
+             array.push(min);
+            return array;
+        } else{
+            while(min <= max){
+                array.push(min);
+                min++;
+            }
+            return array;
+        }
+    };
+
+    $scope.selectedMonthFilter = function(element) {
+        if($scope.selectedMonth == 0){
+            return element.startDate.getMonth() == $scope.selectedMonth;
+        }
+        if(!$scope.selectedMonth || $scope.selectedMonth == -1 || $scope.selectedMonth == 12) return true;
+        return element.startDate.getMonth() == $scope.selectedMonth;
+    };
+
+    $scope.selectedYearFilter = function(element) {
+        if(!$scope.selectedYear || $scope.selectedYear == "Alle") return true;
+        return element.startDate.getFullYear() == $scope.selectedYear;
     };
 
     self.loadApplication();
