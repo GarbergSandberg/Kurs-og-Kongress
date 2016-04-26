@@ -2,6 +2,10 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
     $scope.course = {};
     $scope.countReg = {};
     $scope.registrations = [];
+    $scope.registrationsID = [];
+    $scope.numberOfcourseFee = {};
+    $scope.numberOfcourseSingleDayFee = {};
+    $scope.numberOfDaypackages = {};
     $scope.showInfo = function(id){
         self.setSessionID(id);
     };
@@ -15,7 +19,6 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
     };
 
     $scope.getCountRegistrations = function(){ // Brukes ikke? men fungerer..!
-        var a = {};
         console.log("Trykker på knappen");
         statisticsService.getCountRegistrations($scope.course.id).then(function(result) {
             console.log(result);
@@ -138,6 +141,7 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
         statisticsService.getRegistrations(id).then(function(response){
             console.log(response);
             self.mapRegistration(response);
+            self.getNumberOfDaypackages();
         }, function(error){
             console.log("Error in getting registrations...");
         });
@@ -146,6 +150,7 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
     self.mapRegistration = function(registrations){
         for(var i = 0; i < registrations.length; i++){
             $scope.registrations.push(registrations[i]);
+            $scope.registrationsID.push(registrations[i].registrationID);
         }
         $scope.countReg = registrations.length;
         console.log($scope.registrations);
@@ -154,7 +159,7 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
     var cid = sessionStorage.cid;
     console.log("cid " + cid);
     if(cid == null || cid == -1){ // not good enough check. Review this. The dirtiest fix of them all.
-        $scope.course.id = -1; // Should return error page.
+        $scope.course.id = 1; // Should return error page. Skal være -1.
     } else{
         console.log("Henter course med id " + cid);
         courseService.getSessionStorageID(cid).then(function(success){
@@ -164,4 +169,25 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
             console.log("ERROR I GETCOURSE..");
         });
     }
+
+    ///////////////////////////  Course-"economics" ///////////
+
+    self.getNumberOfDaypackages = function(){ // Finds number of daypackages, sends with ID form course.daypackage
+        console.log("Trykker på knappen");
+        statisticsService.getNumberOfPayments($scope.registrationsID, "Dagpakke").then(function(result) { // Arraylist med alle ID til registreringer til kurset + description.
+            console.log(result);
+            $scope.numberOfDaypackages.number = result;
+            $scope.numberOfDaypackages.total = ($scope.numberOfDaypackages.number * $scope.course.dayPackage);
+        });
+        statisticsService.getNumberOfPayments($scope.registrationsID, "Kursavgift").then(function(result) {
+            console.log(result);
+            $scope.numberOfcourseFee.number = result;
+            $scope.numberOfcourseFee.total = ($scope.numberOfcourseFee.number * $scope.course.courseFee);
+        });
+        statisticsService.getNumberOfPayments($scope.registrationsID, "Kursavgift Dag").then(function(result) {
+            console.log(result);
+            $scope.numberOfcourseSingleDayFee.number = result;
+            $scope.numberOfcourseSingleDayFee.total = ($scope.numberOfcourseSingleDayFee.number * $scope.course.courseSingleDayFee);
+        });
+    };
 }]);

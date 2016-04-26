@@ -39,7 +39,7 @@ public class homeController {
     @RequestMapping("/")
     public ModelAndView home(){
         selectedPerson = "-1";
-        return new ModelAndView("publicRegistrations");
+        return new ModelAndView("courseEconomics");
     }
 
     @RequestMapping("/reg")
@@ -74,6 +74,9 @@ public class homeController {
 
     @RequestMapping("/invoice")
     public ModelAndView invoice(){return new ModelAndView("invoice");}
+
+    @RequestMapping("/courseEconomics")
+    public ModelAndView courseEconomics(){return new ModelAndView("courseEconomics");}
 
     @RequestMapping("/attenderInfo")
     public ModelAndView attenderInfo(){return new ModelAndView("attenderInfo");}
@@ -206,6 +209,14 @@ public class homeController {
     @ResponseBody
     public int getCountRegistrations(@RequestParam(value = "course_id") int id) {
         int i = courseService.getCountRegistrations(id);
+        System.out.println("Controller: ************************* " + i);
+        return i;
+    }
+
+    @RequestMapping(value = "/getNumberOfPayments", method = RequestMethod.GET)
+    @ResponseBody
+    public int getNumberOfPayments(@RequestParam(value = "registration_id") ArrayList<Integer> id, @RequestParam(value = "description") String description) {
+        int i = courseService.getNumberOfPayments(id, description);
         System.out.println("Controller: ************************* " + i);
         return i;
     }

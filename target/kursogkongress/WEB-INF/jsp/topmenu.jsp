@@ -34,7 +34,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="/kursogkongress/reg">Påmeldingskjema</a>
+                    <a href="/kursogkongress/publicRegistrations">Påmeldingskjema</a>
                 </li>
                 <li>
                     <a href="/kursogkongress/courseOverview">Kursoversikt</a>

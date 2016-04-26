@@ -74,6 +74,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     $scope.getOptionalPers = function(form, reg){
         var help = [];
         for (var i = 0; i<form.length; i++){
+
             help[i] = angular.copy(form[i]);
             if (reg.optionalPersonalia[i] == undefined && form[i] !== undefined){
                 help[i].parameter = false;
@@ -171,7 +172,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
                 price.push({amount: $scope.course.dayPackage, description: 'Dagpakke'});
             }
         } else {
-            price.push({amount: $scope.course.courseSingleDayFee*ant, description: 'Kursavgift'});
+            price.push({amount: $scope.course.courseSingleDayFee*ant, description: 'Kursavgift Dag'});
             for (var u = 0; u < ant; u++){
                 price.push({amount: ($scope.course.dayPackage), description: "Dagpakke"})
             }

@@ -9,6 +9,7 @@ public class PaymentMapper implements RowMapper<Payment> {
 
     public Payment mapRow(ResultSet rs, int i) throws SQLException{
         Payment payment = new Payment();
+        payment.setId(rs.getInt("idpayment"));
         payment.setAmount(rs.getDouble("amount"));
         payment.setDescription(rs.getString("description"));
         return payment;

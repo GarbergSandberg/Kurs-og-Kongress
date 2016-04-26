@@ -95,6 +95,7 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String sqlGetForeignKeys = "select course_idcourse, accomondation_idaccomondation, person_idperson, workplace_idworkplace, extrainfo_idextrainfo, optionalworkplace_idoptionalworkplace, optionalpersonalia_idoptionalpersonalia from registration where idregistration = ?";
     private final String sqlGetWorkplace = "select * from workplace where idworkplace = ?";
     private final String sqlGetPayments = "select * from payment where registration_idregistration = ?";
+    private final String sqlGetNumberOfPayments = "select count(*) from payment where REGISTRATION_IDREGISTRATION = ? and DESCRIPTION = ?";
     private final String sqlGetDates = "select date from date where registration_idregistration = ?";
     private final String sqlGetCountRegistrations = "select count(*) from REGISTRATION where course_idcourse = ?";
     private final String sqlGetExtraInfoAnswers = "select IDINPUTPARAMETER, parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_EXTRAINFO, REGISTRATION " +
@@ -1310,5 +1311,16 @@ public class CourseRepositoryDB implements CourseRepository{
         return true;
     }
 
-
+    public int getNumberOfPayments(ArrayList<Integer> regID, String description){
+        int a = 0;
+        try{
+            for (int i = 0; i<regID.size(); i++){
+                a += jdbcTemplateObject.queryForObject(sqlGetNumberOfPayments, new Object[]{regID.get(i), description}, Integer.class);
+                System.out.println("a er nå blitt: " + a);
+            }
+        } catch (Exception e) {
+            System.out.println("Error in getNumberOfPayments. " + e);
+        }
+        return a;
+    }
 }

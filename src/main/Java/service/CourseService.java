@@ -26,4 +26,6 @@ public interface CourseService {
     public Registration getRegistration(int registrationID);
 
     public boolean enableRegistration(int courseID, boolean value);
+
+    public int getNumberOfPayments(ArrayList<Integer> registrationID, String description);
 }

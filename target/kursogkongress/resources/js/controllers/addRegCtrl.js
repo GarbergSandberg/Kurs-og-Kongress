@@ -29,6 +29,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         $scope.persons = data;
     });
     $scope.person = [];
+    $scope.attendDate = [];
     $scope.tooltip = {title: 'Fjern romkamerat'};
     $scope.firstPersonRoom = {};
     $scope.secondPersonRoom = {};
@@ -43,6 +44,15 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     $scope.allDaysCheck = {};
     $scope.newacc = {};
 
+    $scope.saveGroupRegistration = function(workplace){ // Må sende med course.id, course.form, session, workplace, person, pris.
+        var registration = {};
+        registration.registrationID = 'Hei';
+        registration.check = 'beeesj';
+        //var form = $scope.course.form;
+        //$scope.course.form = undefined;
+        //$scope.sendAll($scope.course, form);
+        self.sendRegistration(registration);
+        //$scope.sendRegistration(registration);
 
     $scope.getOptional = function(form){
         var help = [];
@@ -64,6 +74,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     $scope.getOptionalPers = function(form, reg){
         var help = [];
         for (var i = 0; i<form.length; i++){
+
             help[i] = angular.copy(form[i]);
             if (reg.optionalPersonalia[i] == undefined && form[i] !== undefined){
                 help[i].parameter = false;
@@ -96,12 +107,15 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
                 $scope.registrations[i].accomondation.roommate = $scope.getPersonName($scope.registrations[i].accomondation.roommateID);
                 delete $scope.registrations[i].accomondation.roommateID;
             }
+        }
+        //var test = {registrationID: 2};
 
             console.log($scope.registrations[i]);
         }
         regService.sendRegistrations($scope.registrations);
         $window.alert('Registrering ok. ');
 
+        //sendAll($scope.course, $scope.course.form, registration);
     };
 
     $scope.saveSingleRegistration = function(registration){ // Må sende med course.id, course.form, session, workplace, person, pris.
@@ -151,13 +165,14 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
 
     self.findPrice = function(ant, allDaysCheck){ // Finn ut hvilke dager han skal delta på, multipliser med course.dagpakke og course.kursavgift.
         var price = [];
+        console.log($scope.dateArray.length + " dateArray.length");
         if (allDaysCheck == true || ant == $scope.dateArray.length){
             price.push({amount: $scope.course.courseFee, description: 'Kursavgift'});
             for (var i = 0; i < $scope.dateArray.length; i++){
                 price.push({amount: $scope.course.dayPackage, description: 'Dagpakke'});
             }
         } else {
-            price.push({amount: $scope.course.courseSingleDayFee*ant, description: 'Kursavgift'});
+            price.push({amount: $scope.course.courseSingleDayFee*ant, description: 'Kursavgift Dag'});
             for (var u = 0; u < ant; u++){
                 price.push({amount: ($scope.course.dayPackage), description: "Dagpakke"})
             }
@@ -188,8 +203,6 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     $scope.removePerson = function(reg){
         for (var i = 0; i<$scope.registrations.length; i++) {
             if ($scope.registrations[i].person === reg.person) {
-                var idx = $scope.hasRoom.indexOf(reg.person.personID);
-                // $scope.hasRoom.splice(idx, 1);
                 regService.deleteRegistration(reg);
             }
         }
