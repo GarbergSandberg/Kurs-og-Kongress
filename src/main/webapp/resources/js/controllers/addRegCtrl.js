@@ -98,12 +98,11 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
                 delete $scope.registrations[i].accomondation.roommateID;
             }
         }
-        //var test = {registrationID: 2};
-
-        console.log($scope.registrations);
         regService.sendRegistrations($scope.registrations);
-        //sendAll($scope.course, $scope.course.form, registration);
     };
+
+
+
 
     $scope.saveSingleRegistration = function(registration){ // Må sende med course.id, course.form, session, workplace, person, pris.
         // courseID, sessions[], events[], person, workplace, price[], datestoAttend[], optPersonalia, optWorkplace, extraInfo, alternativFakturaadresse, form
@@ -117,7 +116,15 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         registration.eventsToAttend = self.getIdOfArray($scope.selectedEvents);
         registration.course = $scope.course;
         registration.dates = $scope.selectedDays;
-        self.sendRegistration(registration);
+        if ($scope.checkboxAccModel.c1 == true){
+            registration.accomondation.hotelID = $scope.selectedAccomondation.id;
+            if (registration.accomondation.doubleroom == false){
+                delete registration.accomondation.roommate;
+            }
+        } else {
+            delete registration.accomondation;
+        }
+        regService.sendRegistration(registration);
     };
 
     $scope.sendAll = function(course, form){ // Funker ikke. Sender person-array, skal ikke gjøre det..
@@ -430,6 +437,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     };
 
     $scope.selectAccomondation = function (accomondation) {
+        console.log(accomondation);
         $scope.selectedAccomondation = accomondation;
     };
 

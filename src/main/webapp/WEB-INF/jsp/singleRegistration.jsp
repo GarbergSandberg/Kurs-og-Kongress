@@ -148,12 +148,12 @@ To change this template use File | Settings | File Templates.
 
         <div ng-show="checkboxAccModel.c1">
             <label>
-                <input type="radio" name="roomType" ng-model="checkboxAccModel.rad" ng-value="true"/> Dobbeltrom
-                <input type="radio" name="roomType" ng-model="checkboxAccModel.rad" ng-value="false"/> Enkeltrom
+                <input type="radio" name="roomType" ng-model="registration.accomondation.doubleroom" ng-value="true"/> Dobbeltrom
+                <input type="radio" name="roomType" ng-model="registration.accomondation.doubleroom" ng-value="false"/> Enkeltrom
             </label>
         </div>
         <br>
-        <div ng-show="checkboxAccModel.c1 && checkboxAccModel.rad">
+        <div ng-show="checkboxAccModel.c1 && registration.accomondation.doubleroom">
             <label>
                 <label for="shareWith">Del rom med: </label>
                 <input type="form-control" ng-model="registration.accomondation.roommate" id="shareWith"/>
@@ -166,12 +166,12 @@ To change this template use File | Settings | File Templates.
                 <label class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i> <i
                         class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
                 <div class="form-group col-xs-6">
-                    <input type="text" class="form-control" ng-model="newacc.fromDate"
+                    <input type="text" class="form-control" ng-model="registration.accomondation.fromDate"
                            data-min-date="{{course.startDate}}"
                            data-max-date="{{course.endDate}}" placeholder="From" bs-datepicker>
                 </div>
                 <div class="form-group col-xs-6">
-                    <input type="text" class="form-control" ng-model="newacc.toDate" data-max-date="{{course.endDate}}"
+                    <input type="text" class="form-control" ng-model="registration.accomondation.toDate" data-max-date="{{course.endDate}}"
                            data-min-date="{{course.startDate}}" placeholder="Until" bs-datepicker>
                 </div>
             </div>

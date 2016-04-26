@@ -107,7 +107,7 @@ public class homeController {
         return "registration";
     }
 
-    @RequestMapping(value = "/saveReg", method = RequestMethod.POST)
+    @RequestMapping(value = "/saveRegistration", method = RequestMethod.POST)
     public ResponseEntity<Void> saveRegistration( @RequestBody Registration registration )   {
         courseService.saveRegistration(registration);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
