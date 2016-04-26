@@ -30,30 +30,46 @@
 <body ng-app="courseOverviewApp">
 <div ng-controller="OverviewCtrl" style="margin-left:3em; margin-right:3em;">
     <div class="container">
-        <div class="jumbotron" id="jumbo" style="margin-bottom: 2em;">
+        <div class="jumbotron clearfix" id="jumbo">
             <h2>Søkefilter</h2>
             <label for="search">Søk etter kurs:</label>
             <input class="form-control" ng-model="search" id="search">
+            <div class="form-group col-xs-6">
+                <label for="sel1">År:</label>
+                <select class="form-control" ng-options="year as year for year in years" ng-model="selectedYear" id="sel1"></select>
+            </div>
+            <div class="form-group col-xs-6">
+                <label for="sel2">Måned:</label>
+                <select class="form-control" ng-disabled="!selectedYear" ng-options="months.indexOf(month) as month for month in months" ng-model="selectedMonth" id="sel2"></select>
+            </div>
         </div>
     </div>
     <div class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true" bs-collapse>
-        <div class="panel panel-default" ng-repeat="panel in panels | filter:search">
+        <div class="panel panel-default" ng-repeat="panel in panels | filter:search | filter:selectedMonthFilter | filter:selectedYearFilter | orderBy:'panel.startDate'">
             <div class="panel-heading" role="tab">
                 <h4 class="panel-title">
                     <a bs-collapse-toggle>
-                        <h4 style="text-align: left;float: left">{{ panel.title }}</h4>
-                        <h4 style="text-align: right;float: right">{{ panel.startDate }}</h4>
-                        <hr style="clear:both;"/>
+                        {{ panel.title }}
                     </a>
                 </h4>
             </div>
             <div class="panel-collapse" role="tabpanel" bs-collapse-target>
                 <div class="panel-body">
-                    <p>{{ panel.body }}</p><br>
-                    <button ng-click="editCourse(panel.courseID)" class="btn btn-primary">Endre</button>
-                    <button ng-click="getStatistics(panel.courseID)" class="btn btn-primary">Statistikk</button>
-                    <button type="button" class="btn btn-primary">Fakturering</button>
-                    <button type="button" class="btn btn-primary">Deltakeroversikt</button>
+                    <ul class ="list-group" id="infolist">
+                        <li class="list-group-item">
+                            <p style="font-weight: bold;">Beskrivelse:</p>
+                            <p>{{ panel.body }}</p>
+                        </li>
+                        <li class="list-group-item">
+                            <p>Kurset starter <span style="font-weight: bold;">{{ panel.startDate | date:'dd-MM-yyyy'}}</span></p>
+                            <p>Kurset slutter <span style="font-weight: bold;">{{ panel.endDate | date:'dd-MM-yyyy'}}</span></p>
+                        </li>
+                        <li class="list-group-item">
+                            <button ng-click="editCourse(panel.courseID)" class="btn btn-primary">Endre</button>
+                            <button ng-click="getStatistics(panel.courseID)" class="btn btn-primary">Statistikk</button>
+                            <button ng-click="enableRegistration(panel.courseID)" ng-class="changeColor(panel.courseID) ? 'btn btn-success' : 'btn btn-danger'">Offentlig</button>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
