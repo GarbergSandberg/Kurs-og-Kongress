@@ -1,8 +1,9 @@
 /**
  * Created by eiriksandberg on 05.04.2016.
  */
-sessionRegisterApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionService', function ($scope, $modal, sessionService) {
+sessionRegisterApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionService', '$filter', function ($scope, $modal, sessionService, $filter) {
     //var myModal = $modal({scope: $scope, templateUrl: '/resources/html/registerSessionModal.html', show: false});
+    $scope.sessionFilter = $filter('sessionFilter');
     $scope.dates = sessionService.getDates();
     $scope.repetitiveSession = {};
     $scope.removeDeleteButton;
@@ -37,8 +38,23 @@ sessionRegisterApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionSer
     $scope.showDeleteButton = function(){
         $scope.removeDeleteButton = true;
         console.log($scope.removeDeleteButton);
-    }
+    };
     $scope.deleteButtonCtrl = function(){
         return $scope.removeDeleteButton;
-    }
+    };
+
 }]);
+
+sessionRegisterApp.filter("sessionFilter", function(){
+    return function(input, outerIndex, dates){
+        var array = [];
+        for(var i = 0; i < input.length; i++){
+            if(input[i].date.getDate() == dates[outerIndex].getDate()){
+                if(input[i].date.getMonth() == dates[outerIndex].getMonth()) {
+                    array.push(input[i]);
+                }
+            }
+        }
+        return array;
+    }
+});
