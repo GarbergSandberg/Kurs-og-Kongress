@@ -81,10 +81,14 @@
         <put-attribute name="body"   value="/WEB-INF/jsp/createUser.jsp"/>
         <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
     </definition>
-
     <definition name="publicRegistrations" template="/WEB-INF/tiles/baseLayout.jsp">
         <put-attribute name="title"  value="Påmeldinger"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/publicRegistrations.jsp"/>
+        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
+    </definition>
+    <definition name="courseEconomics" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title"  value="Påmeldinger"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/courseEconomics.jsp"/>
         <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
     </definition>
 

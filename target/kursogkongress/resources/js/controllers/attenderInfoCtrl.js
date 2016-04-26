@@ -9,26 +9,26 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
     $scope.course = {};
     $scope.chosenHotel = {};
 
-    $scope.showInfo = function(registration){
-        if (registration !== undefined){
+    $scope.showInfo = function (registration) {
+        if (registration !== undefined) {
             self.setSessionID(registration.person.personID);
         } else {
             $window.location.href = "/kursogkongress/personInfo";
         }
     };
-    $scope.showInvoice = function(){
+    $scope.showInvoice = function () {
         $window.location.href = "/kursogkongress/invoice";
     };
-    $scope.showInvoiceFromList = function(registration){
+    $scope.showInvoiceFromList = function (registration) {
         self.setSessionIDFromList(registration.person.personID);
     };
 
-    self.resolveInfo = function() {
+    self.resolveInfo = function () {
         var sid = sessionStorage.selectedPerson;
-        if(sid !== undefined){
-            attenderInfoService.getSessionStorageID(sid).then(function(success){
+        if (sid !== undefined) {
+            attenderInfoService.getSessionStorageID(sid).then(function (success) {
                 sid = success;
-                attenderInfoService.getRegistration(sid).then(function(successCallback){
+                attenderInfoService.getRegistration(sid).then(function (successCallback) {
                     $scope.selectedParticipant = successCallback;
                     $scope.selectedParticipant.attendingSessions = self.findSessions($scope.selectedParticipant);
                     $scope.selectedParticipant.attendingEvents = self.findEvents($scope.selectedParticipant);
@@ -36,41 +36,43 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
                     $scope.selectedParticipant.totalAmount = self.calculateTotal($scope.selectedParticipant.cost);
                     $scope.selectedParticipant.dates = self.convertDates($scope.selectedParticipant.dates);
                     $scope.course = $scope.selectedParticipant.course;
-                    self.findHotel();
+                    if ($scope.selectedParticipant.accomondation !== null){
+                        self.findHotel();
+                    }
                     console.log($scope.selectedParticipant);
-                }, function(error){
+                }, function (error) {
                     console.log("Error in getRegistration()");
                 });
-            }, function(error){
+            }, function (error) {
                 console.log("Error in getSessionStorageID");
             });
         }
     };
 
-    self.convertDates = function(dates){
+    self.convertDates = function (dates) {
         var d = [];
-        for (var i = 0; i<dates.length; i++){
+        for (var i = 0; i < dates.length; i++) {
             d[i] = new Date(dates[i]);
         }
         return d;
     };
 
-    self.findPerson = function(id){
- /*       for (var i = 0; i < $scope.registrations.length; i++){
-            if ($scope.registrations[i].person.personID == id){
-                return $scope.registrations[i];
-            }
-        }*/
+    self.findPerson = function (id) {
+        /*       for (var i = 0; i < $scope.registrations.length; i++){
+         if ($scope.registrations[i].person.personID == id){
+         return $scope.registrations[i];
+         }
+         }*/
 
     };
 
     self.findSessions = function (registration) {
         var sessionArray = [];
-        if (registration.sessionsToAttend !== null){
-            for (var i = 0; i < registration.sessionsToAttend.length; i++){
+        if (registration.sessionsToAttend !== null) {
+            for (var i = 0; i < registration.sessionsToAttend.length; i++) {
                 var u = registration.sessionsToAttend[i];
-                for (var x = 0; x < registration.course.sessions.length; x++){
-                    if (u == registration.course.sessions[x].id){
+                for (var x = 0; x < registration.course.sessions.length; x++) {
+                    if (u == registration.course.sessions[x].id) {
                         sessionArray.push(registration.course.sessions[x]);
                         break;
                     }
@@ -82,11 +84,11 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
 
     self.findEvents = function (registration) {
         var eventArray = [];
-        if (registration.eventsToAttend !== null){
-            for (var i = 0; i < registration.eventsToAttend.length; i++){
+        if (registration.eventsToAttend !== null) {
+            for (var i = 0; i < registration.eventsToAttend.length; i++) {
                 var u = registration.eventsToAttend[i];
-                for (var x = 0; x < registration.course.events.length; x++){
-                    if (u == registration.course.events[x].id){
+                for (var x = 0; x < registration.course.events.length; x++) {
+                    if (u == registration.course.events[x].id) {
                         eventArray.push(registration.course.events[x]);
                         break;
                     }
@@ -96,36 +98,36 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         return eventArray;
     };
 
-    self.getSessions = function(cid){
+    self.getSessions = function (cid) {
         $scope.course = courseService.getCourse(cid);
     };
 
-    self.mapRegistration = function(registrations){
-        for (var i = 0; i < registrations.length; i++){
+    self.mapRegistration = function (registrations) {
+        for (var i = 0; i < registrations.length; i++) {
             var registration = registrations[i];
-            if (registration != null){
+            if (registration != null) {
                 $scope.registrations.push(registration);
             }
         }
     };
 
-    self.isAttendingFullCourse = function(registration){
+    self.isAttendingFullCourse = function (registration) {
         var courseLength = self.getDates(new Date(registration.course.startDate), new Date(registration.course.endDate)).length;
         var daysAttending = registration.dates.length;
-        if(courseLength == daysAttending){
+        if (courseLength == daysAttending) {
             return true;
         } else {
             return false;
         }
     };
 
-    Date.prototype.addDays = function(days) {
+    Date.prototype.addDays = function (days) {
         var dat = new Date(this.valueOf());
         dat.setDate(dat.getDate() + days);
         return dat;
     };
 
-    self.getDates = function(startDate, stopDate) {
+    self.getDates = function (startDate, stopDate) {
         var currentDate = startDate;
         while (currentDate <= stopDate) {
             $scope.dateArray.push(currentDate);
@@ -134,44 +136,44 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         return $scope.dateArray;
     };
 
-    self.calculateTotal = function(registration){
+    self.calculateTotal = function (registration) {
         var total = 0;
-        if(registration !== undefined){
-            for (var i = 0; i < registration.length; i++){
+        if (registration !== undefined) {
+            for (var i = 0; i < registration.length; i++) {
                 total += registration[i].amount;
             }
         }
         return total;
     };
 
-    self.setSessionID = function(id){
-        attenderInfoService.setSessionStorageID(id).then(function(successCallback){
+    self.setSessionID = function (id) {
+        attenderInfoService.setSessionStorageID(id).then(function (successCallback) {
             $window.location.href = "/kursogkongress/personInfo";
             console.log("ok. ");
-        }, function(errorCallback){
+        }, function (errorCallback) {
             console.log("error in setSessionID");
         });
     };
 
-    self.setSessionIDFromList = function(id){
-        attenderInfoService.setSessionStorageID(id).then(function(successCallback){
+    self.setSessionIDFromList = function (id) {
+        attenderInfoService.setSessionStorageID(id).then(function (successCallback) {
             $window.location.href = "/kursogkongress/invoice";
-        }, function(errorCallback){
+        }, function (errorCallback) {
             console.log("error in setSessionIDFromList");
         });
     };
 
-    $scope.changeRegistration = function(){
+    $scope.changeRegistration = function () {
         $scope.change = !$scope.change;
     };
 
-    $scope.cancelChange = function(){
+    $scope.cancelChange = function () {
         $window.location.href = "/kursogkongress/personInfo";
     };
 
-    $scope.sameDate = function(d1, n2){
+    $scope.sameDate = function (d1, n2) {
         var d2 = new Date(n2);
-        if ((d1.getFullYear() == d2.getFullYear()) && d1.getDate() == d2.getDate()){
+        if ((d1.getFullYear() == d2.getFullYear()) && d1.getDate() == d2.getDate()) {
             return true;
         } else {
             false;
@@ -187,7 +189,7 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         return false;
     };
 
-    $scope.selectSession = function(session) {
+    $scope.selectSession = function (session) {
         var idx = $scope.selectedParticipant.attendingSessions.indexOf(session);
         var idx2 = $scope.selectedParticipant.sessionsToAttend.indexOf(session.id);
         if (idx > -1) { // Blir unchecked.
@@ -195,12 +197,13 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
             $scope.selectedParticipant.sessionsToAttend.splice(idx2, 1);
         } else {
             var notOverlaps = true;
-            for (i = 0; i<$scope.selectedParticipant.attendingSessions; i++){
-                if ($scope.overlaps(session.startTime, session.endTime, $scope.selectedParticipant.attendingSessions[i].startTime, $scope.selectedParticipant.attendingSessions[i].endTime)){
+            for (i = 0; i < $scope.selectedParticipant.attendingSessions; i++) {
+                if ($scope.overlaps(session.startTime, session.endTime, $scope.selectedParticipant.attendingSessions[i].startTime, $scope.selectedParticipant.attendingSessions[i].endTime)) {
                     notOverlaps = false;
                     break;
                 }
-            } if (notOverlaps){
+            }
+            if (notOverlaps) {
                 console.log("Legger til session.. ");
                 $scope.selectedParticipant.attendingSessions.push(session);
                 $scope.selectedParticipant.sessionsToAttend.push(session.id);
@@ -208,10 +211,10 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         }
     };
 
-    $scope.overlaps = function(startA, endA, startB, endB) { // Hvis overlapper, return true. else false.
+    $scope.overlaps = function (startA, endA, startB, endB) { // Hvis overlapper, return true. else false.
         if (startA <= startB && startB <= endA) return true; // b starts in a
-        if (startA <= endB   && endB   <= endA) return true; // b ends in a
-        if (startB <  startA && endA   <  endB) return true; // a in b
+        if (startA <= endB && endB <= endA) return true; // b ends in a
+        if (startB < startA && endA < endB) return true; // a in b
         return false;
     };
 
@@ -224,7 +227,7 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         return false;
     };
 
-    $scope.selectEvent = function(event) {
+    $scope.selectEvent = function (event) {
         var idx = $scope.selectedParticipant.attendingEvents.indexOf(event);
         var idx2 = $scope.selectedParticipant.eventsToAttend.indexOf(event.id);
         if (idx > -1) { // Blir unchecked.
@@ -232,12 +235,13 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
             $scope.selectedParticipant.eventsToAttend.splice(idx2, 1);
         } else {
             var notOverlaps = true;
-            for (i = 0; i<$scope.selectedParticipant.attendingEvents; i++){
-                if ($scope.overlaps(session.startTime, session.endTime, $scope.selectedParticipant.attendingEvents[i].startTime, $scope.selectedParticipant.attendingEvents[i].endTime)){
+            for (i = 0; i < $scope.selectedParticipant.attendingEvents; i++) {
+                if ($scope.overlaps(session.startTime, session.endTime, $scope.selectedParticipant.attendingEvents[i].startTime, $scope.selectedParticipant.attendingEvents[i].endTime)) {
                     notOverlaps = false;
                     break;
                 }
-            } if (notOverlaps){
+            }
+            if (notOverlaps) {
                 console.log("Legger til event.. ");
                 $scope.selectedParticipant.attendingEvents.push(event);
                 $scope.selectedParticipant.eventsToAttend.push(event.id);
@@ -245,45 +249,45 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         }
     };
 
-    $scope.wholeCourse = function() {
-        if($scope.selectedParticipant.attendingFullCourse == true){
+    $scope.wholeCourse = function () {
+        if ($scope.selectedParticipant.attendingFullCourse == true) {
             $scope.selectedParticipant.dates = [];
-            for (var i = 0; i<$scope.dateArray.length; i++){
+            for (var i = 0; i < $scope.dateArray.length; i++) {
                 $scope.selectedParticipant.dates.push($scope.dateArray[i]);
             }
-        } else{
+        } else {
             $scope.selectedParticipant.dates = [];
             console.log("Tabellen er tom")
         }
     };
 
-    $scope.selectDay = function(day){
+    $scope.selectDay = function (day) {
         $scope.selectedParticipant.attendingFullCourse = false;
-        for (var i = 0; i<$scope.selectedParticipant.dates.length; i++){
-            if ($scope.selectedParticipant.dates[i].getDate() == day.getDate()){
+        for (var i = 0; i < $scope.selectedParticipant.dates.length; i++) {
+            if ($scope.selectedParticipant.dates[i].getDate() == day.getDate()) {
                 $scope.selectedParticipant.dates.splice(i, 1);
                 return;
             }
         }
         $scope.selectedParticipant.dates.push(day);
-        if ($scope.selectedParticipant.dates.length == $scope.dateArray.length){
+        if ($scope.selectedParticipant.dates.length == $scope.dateArray.length) {
             $scope.selectedParticipant.attendingFullCourse = true;
         }
     };
 
-    $scope.checkDate = function(day){
-        for (var i = 0; i<$scope.selectedParticipant.dates.length; i++){
+    $scope.checkDate = function (day) {
+        for (var i = 0; i < $scope.selectedParticipant.dates.length; i++) {
             var d = new Date($scope.selectedParticipant.dates[i]);
-            if (d.getDate() == day.getDate()){
+            if (d.getDate() == day.getDate()) {
                 return true;
             }
         }
         return false;
     };
 
-    self.findHotel = function(){
-        for (var i = 0; i<$scope.course.hotels.length; i++){
-            if ($scope.course.hotels[i].id == $scope.selectedParticipant.accomondation.hotelID){
+    self.findHotel = function () {
+        for (var i = 0; i < $scope.course.hotels.length; i++) {
+            if ($scope.course.hotels[i].id == $scope.selectedParticipant.accomondation.hotelID) {
                 $scope.chosenHotel = $scope.course.hotels[i];
             }
         }
@@ -291,7 +295,9 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
 
     $scope.colorAccomondation = function (accomondation) { // Skjekk om id finnes i selectedEvents.
         if (accomondation == $scope.selectedAccomondation) return true;
-        else { return false }
+        else {
+            return false
+        }
     };
 
     $scope.colorHotel = function (hotel) { // Skjekk om id finnes i selectedEvents.
@@ -299,16 +305,15 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         else return false;
     };
 
-    $scope.selectHotel = function(hotel) {
+    $scope.selectHotel = function (hotel) {
         $scope.selectedParticipant.accomondation.hotelID = hotel.id;
         $scope.chosenHotel = hotel;
     };
 
-    $scope.updateRegistration = function(reg){
+    $scope.updateRegistration = function (reg) {
         console.log(reg);
         attenderInfoService.updateRegistration(reg);
         $window.location.href = "/kursogkongress/personInfo";
     };
-
     self.resolveInfo();
 }]);
