@@ -96,7 +96,7 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String sqlGetWorkplace = "select * from workplace where idworkplace = ?";
     private final String sqlGetPayments = "select * from payment where registration_idregistration = ?";
     private final String sqlGetNumberOfPayments = "select count(*) from payment where REGISTRATION_IDREGISTRATION = ? and DESCRIPTION = ?";
-    private final String sqlGetNumberOfEvents = "select count(*) from eventid where REGISTRATION_IDREGISTRATION = ? and EVENTID = ?";
+    private final String sqlGetNumberOfEvents = "select count(REGISTRATION_IDREGISTRATION) from eventid where EVENTID = ?";
     private final String sqlGetDates = "select date from date where registration_idregistration = ?";
     private final String sqlGetCountRegistrations = "select count(*) from REGISTRATION where course_idcourse = ?";
     private final String sqlGetExtraInfoAnswers = "select IDINPUTPARAMETER, parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_EXTRAINFO, REGISTRATION " +
@@ -1329,34 +1329,14 @@ public class CourseRepositoryDB implements CourseRepository{
     }
 
 
-    public int getNumberOfEvents(ArrayList<Integer> registration_id, int event_id){
-        System.out.println("KJORER getNumberOfEvents...");
-        System.out.println(registration_id.size());
-        int a = 0;
-        int b = 0;
+    public Integer getNumberOfEvents(int event_id){
         try{
-            System.out.println(registration_id.size());
-            for (int i = 0; i<registration_id.size(); i++){
-                b += jdbcTemplateObject.queryForObject(sqlGetNumberOfEvents, new Object[]{registration_id.get(i), event_id}, Integer.class);
-                if (b > 0){
-                    a += b;
-                    System.out.println("a er herved blitt: " + a);
-                }
-            }
-
-
-            /*for (int i = 0; i<regID.size(); i++){
-                System.out.println("RegID " + regID.get(i) + " , eventID " + eventID);
-                b = jdbcTemplateObject.queryForObject(sqlGetNumberOfEvents, new Object[]{regID.get(i), eventID}, Integer.class);
-                if (b != 0){
-                    a += b;
-                    System.out.println("a er herved blitt: " + a);
-                }
-            }*/
+            Integer numberOfParticipants = jdbcTemplateObject.queryForObject(sqlGetNumberOfEvents, new Object[]{event_id}, Integer.class);
+            return numberOfParticipants;
         } catch (Exception e) {
             System.out.println("Error in getNumberOfPayments. " + e);
+            return null;
         }
-        return a;
     }
 
     public ArrayList<HashMap> getNumberOfParticipants(int courseID){

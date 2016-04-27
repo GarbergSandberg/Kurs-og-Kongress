@@ -29,50 +29,56 @@
 </head>
 <body ng-app="courseOverviewApp">
 <div ng-controller="OverviewCtrl" style="margin-left:3em; margin-right:3em;">
-    <div class="container">
-        <div class="jumbotron clearfix" id="jumbo">
-            <h2>Søkefilter</h2>
-            <label for="search">Søk etter kurs:</label>
-            <input class="form-control" ng-model="search" id="search">
-            <div class="form-group col-xs-6">
-                <label for="sel1">År:</label>
-                <select class="form-control" ng-options="year as year for year in years" ng-model="selectedYear" id="sel1"></select>
-            </div>
-            <div class="form-group col-xs-6">
-                <label for="sel2">Måned:</label>
-                <select class="form-control" ng-disabled="!selectedYear" ng-options="months.indexOf(month) as month for month in months" ng-model="selectedMonth" id="sel2"></select>
-            </div>
-        </div>
-    </div>
-    <div class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true" bs-collapse>
-        <div class="panel panel-default" ng-repeat="panel in panels | filter:search | filter:selectedMonthFilter | filter:selectedYearFilter | orderBy:'panel.startDate'">
-            <div class="panel-heading" role="tab">
-                <h4 class="panel-title">
-                    <a bs-collapse-toggle>
-                        {{ panel.title }}
-                    </a>
-                </h4>
-            </div>
-            <div class="panel-collapse" role="tabpanel" bs-collapse-target>
-                <div class="panel-body">
-                    <ul class ="list-group" id="infolist">
-                        <li class="list-group-item">
-                            <p style="font-weight: bold;">Beskrivelse:</p>
-                            <p>{{ panel.body }}</p>
-                        </li>
-                        <li class="list-group-item">
-                            <p>Kurset starter <span style="font-weight: bold;">{{ panel.startDate | date:'dd-MM-yyyy'}}</span></p>
-                            <p>Kurset slutter <span style="font-weight: bold;">{{ panel.endDate | date:'dd-MM-yyyy'}}</span></p>
-                        </li>
-                        <li class="list-group-item">
-                            <button ng-click="editCourse(panel.courseID)" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
-                            <button ng-click="getStatistics(panel.courseID)" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></button>
-                            <button ng-click="enableRegistration(panel.courseID)" ng-class="changeColor(panel.courseID)"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></button>
-                        </li>
-                    </ul>
+    <div ng-show="!loading">
+        <div class="container">
+            <div class="jumbotron clearfix" id="jumbo">
+                <h2>Søkefilter</h2>
+                <label for="search">Søk etter kurs:</label>
+                <input class="form-control" ng-model="search" id="search">
+                <div class="form-group col-xs-6">
+                    <label for="sel1">År:</label>
+                    <select class="form-control" ng-options="year as year for year in years" ng-model="selectedYear" id="sel1"></select>
+                </div>
+                <div class="form-group col-xs-6">
+                    <label for="sel2">Måned:</label>
+                    <select class="form-control" ng-disabled="!selectedYear" ng-options="months.indexOf(month) as month for month in months" ng-model="selectedMonth" id="sel2"></select>
                 </div>
             </div>
         </div>
+        <div class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true" bs-collapse>
+            <div class="panel panel-default" ng-repeat="panel in panels | filter:search | filter:selectedMonthFilter | filter:selectedYearFilter | orderBy:'panel.startDate'">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        <a bs-collapse-toggle>
+                            <h4>{{ panel.title }}</h4>
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+                    <div class="panel-body">
+                        <ul class ="list-group" id="infolist">
+                            <li class="list-group-item">
+                                <p style="font-weight: bold;">Beskrivelse:</p>
+                                <p>{{ panel.body }}</p>
+                            </li>
+                            <li class="list-group-item">
+                                <p>Kurset starter <span style="font-weight: bold;">{{ panel.startDate | date:'dd-MM-yyyy'}}</span></p>
+                                <p>Kurset slutter <span style="font-weight: bold;">{{ panel.endDate | date:'dd-MM-yyyy'}}</span></p>
+                            </li>
+                            <li class="list-group-item">
+                                <button ng-click="editCourse(panel.courseID)" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
+                                <button ng-click="getStatistics(panel.courseID)" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></button>
+                                <button ng-click="enableRegistration(panel.courseID)" ng-class="changeColor(panel.courseID)"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="loading">
+        <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>
+        <span class="sr-only">Loading...</span>
     </div>
 </div>
 </body>

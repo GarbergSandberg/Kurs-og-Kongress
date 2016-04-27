@@ -42,78 +42,83 @@
 <body>
 <div ng-app="registerApp">
     <div ng-controller="statisticsCtrl" style="margin-left:3em; margin-right:3em;">
-        <h1>Fakturaoversikt for {{course.title}}</h1><br>
-        <h4>Kursutgifter</h4>
-        <table class="table">
-            <tr style="background-color:gray;color:black;">
-                <td style="text-align: left;">Hva </td>
-                <td style="text-align: center;">Pris </td>
-                <td style="text-align: center;">Antall </td>
-                <td style="text-align: right;">Total </td>
-            </tr>
-            <!-- Kursavgifter og dagpakke -->
-            <tr>
-                <td style="text-align: left;">Kursavgift (helt kurs) </td>
-                <td style="text-align: center;">{{course.courseFee}} kr</td>
-                <td style="text-align: center;">{{numberOfcourseFee.number}} </td>
-                <td style="text-align: right;">{{numberOfcourseFee.total}} kr</td>
-            </tr>
-            <tr>
-                <td style="text-align: left;">Kursavgift (dag) </td>
-                <td style="text-align: center;">{{course.courseSingleDayFee}} kr</td>
-                <td style="text-align: center;">{{numberOfcourseSingleDayFee.number}} </td>
-                <td style="text-align: right;">{{numberOfcourseSingleDayFee.total}} kr</td>
-            </tr>
-            <tr>
-                <td style="text-align: left;">Dagpakke </td>
-                <td style="text-align: center;">{{course.dayPackage}}  kr</td>
-                <td style="text-align: center;">{{numberOfDaypackages.number}} </td>
-                <td style="text-align: right;">{{numberOfDaypackages.total}} kr</td>
-            </tr>
-            <tr style="border-top: thick double #000000; color:black; font-weight: bold;">
-                <td style="text-align: left;">Sum </td>
-                <td style="text-align: center;"> </td>
-                <td style="text-align: center;"> </td>
-                <td style="text-align: right;">{{getTotal(0)}} kr</td>
-            </tr>
-        </table>
-        <br>
-        <h4>Arrangementsutgifter</h4>
-        <table class="table">
-            <tr style="background-color:gray;color:black;">
-                <td style="text-align: left;">Hva </td>
-                <td style="text-align: center;">Pris </td>
-                <td style="text-align: center;">Antall </td>
-                <td style="text-align: right;">Total </td>
-            </tr>
-            <!-- Arrangementer -->
-            <tr ng-repeat="event in numberOfEvents">
-                <td style="text-align: left;">{{event.title}} </td>
-                <td style="text-align: center;">{{event.price}} kr</td>
-                <td style="text-align: center;">{{event.number}} </td>
-                <td style="text-align: right;">{{event.total}} kr</td>
-            </tr>
-            <tr style="border-top: thick double #000000; color:black; font-weight: bold;">
-                <td style="text-align: left;">Sum </td>
-                <td style="text-align: center;"> </td>
-                <td style="text-align: center;"> </td>
-                <td style="text-align: right;">{{getTotal(1)}} kr</td>
-            </tr>
-        </table>
-        <br>
-        <h4>Totalt</h4>
-        <table class="table">
-            <tr style="border-bottom: thick double #000000; color:black; font-weight: bold;">
-                <td style="text-align: left;">Total sum </td>
-                <td style="text-align: center;"> </td>
-                <td style="text-align: center;"> </td>
-                <td style="text-align: right;">{{getTotal()}} kr</td>
-            </tr>
-        </table>
-        <br>
-        <br>
+        <div ng-show="!loading">
+            <h1>Økonomisk rapport for {{course.title}}</h1><br>
+            <h4>Kursinntekter</h4>
+            <table class="table">
+                <tr style="background-color:gray;color:black;">
+                    <td style="text-align: left;">Hva </td>
+                    <td style="text-align: center;">Pris </td>
+                    <td style="text-align: center;">Antall </td>
+                    <td style="text-align: right;">Total </td>
+                </tr>
+                <!-- Kursavgifter og dagpakke -->
+                <tr>
+                    <td style="text-align: left;">Kursavgift (helt kurs) </td>
+                    <td style="text-align: center;">{{course.courseFee}} kr</td>
+                    <td style="text-align: center;">{{numberOfcourseFee.number}} </td>
+                    <td style="text-align: right;">{{numberOfcourseFee.total}} kr</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Kursavgift (dag) </td>
+                    <td style="text-align: center;">{{course.courseSingleDayFee}} kr</td>
+                    <td style="text-align: center;">{{numberOfcourseSingleDayFee.number}} </td>
+                    <td style="text-align: right;">{{numberOfcourseSingleDayFee.total}} kr</td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Dagpakke </td>
+                    <td style="text-align: center;">{{course.dayPackage}}  kr</td>
+                    <td style="text-align: center;">{{numberOfDaypackages.number}} </td>
+                    <td style="text-align: right;">{{numberOfDaypackages.total}} kr</td>
+                </tr>
+                <tr style="border-top: thick double #000000; color:black; font-weight: bold;">
+                    <td style="text-align: left;">Sum </td>
+                    <td style="text-align: center;"> </td>
+                    <td style="text-align: center;"> </td>
+                    <td style="text-align: right;">{{getTotal(0)}} kr</td>
+                </tr>
+            </table>
+            <br>
+            <h4>Arrangementsinntekter</h4>
+            <table class="table">
+                <tr style="background-color:gray;color:black;">
+                    <td style="text-align: left;">Hva </td>
+                    <td style="text-align: center;">Pris </td>
+                    <td style="text-align: center;">Antall </td>
+                    <td style="text-align: right;">Total </td>
+                </tr>
+                <!-- Arrangementer -->
+                <tr ng-repeat="event in numberOfEvents">
+                    <td style="text-align: left;">{{event.title}} </td>
+                    <td style="text-align: center;">{{event.price}} kr</td>
+                    <td style="text-align: center;">{{event.number}} </td>
+                    <td style="text-align: right;">{{event.total}} kr</td>
+                </tr>
+                <tr style="border-top: thick double #000000; color:black; font-weight: bold;">
+                    <td style="text-align: left;">Sum </td>
+                    <td style="text-align: center;"> </td>
+                    <td style="text-align: center;"> </td>
+                    <td style="text-align: right;">{{getTotal(1)}} kr</td>
+                </tr>
+            </table>
+            <br>
+            <h4>Totalt</h4>
+            <table class="table">
+                <tr style="border-bottom: thick double #000000; color:black; font-weight: bold;">
+                    <td style="text-align: left;">Total sum </td>
+                    <td style="text-align: center;"> </td>
+                    <td style="text-align: center;"> </td>
+                    <td style="text-align: right;">{{getTotal()}} kr</td>
+                </tr>
+            </table>
+            <br>
+            <br>
+        </div>
+        <div ng-show="loading">
+            <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>
+            <span class="sr-only">Loading...</span>
+        </div>
     </div>
 </div>
-
 </body>
 </html>

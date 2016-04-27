@@ -43,6 +43,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
 
     $scope.allDaysCheck = {};
     $scope.newacc = {};
+    $scope.loading = true;
 
     $scope.getOptional = function(form){
         var help = [];
@@ -98,12 +99,11 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
                 delete $scope.registrations[i].accomondation.roommateID;
             }
         }
-        //var test = {registrationID: 2};
-
-        console.log($scope.registrations);
         regService.sendRegistrations($scope.registrations);
-        //sendAll($scope.course, $scope.course.form, registration);
     };
+
+
+
 
     $scope.saveSingleRegistration = function(registration){ // Må sende med course.id, course.form, session, workplace, person, pris.
         // courseID, sessions[], events[], person, workplace, price[], datestoAttend[], optPersonalia, optWorkplace, extraInfo, alternativFakturaadresse, form
@@ -117,7 +117,15 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         registration.eventsToAttend = self.getIdOfArray($scope.selectedEvents);
         registration.course = $scope.course;
         registration.dates = $scope.selectedDays;
-        self.sendRegistration(registration);
+        if ($scope.checkboxAccModel.c1 == true){
+            registration.accomondation.hotelID = $scope.selectedAccomondation.id;
+            if (registration.accomondation.doubleroom == false){
+                delete registration.accomondation.roommate;
+            }
+        } else {
+            delete registration.accomondation;
+        }
+        regService.sendRegistration(registration);
     };
 
     $scope.sendAll = function(course, form){ // Funker ikke. Sender person-array, skal ikke gjøre det..
@@ -297,9 +305,11 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
 
     self.getCourseById = function(id){
         regService.getCourse(id).then(function(response) {
-            regService.checkParticipantStatusSession(response.id).then(function(map){ //prop = sessionID & map[prop] = numberOfRegsitrations. Javascript doesn't support hashmap
-                var newSessions = self.setSessionStatus(response.sessions, map);
+            regService.checkParticipantStatus(response.id).then(function(maps){ //prop = sessionID & map[prop] = numberOfRegsitrations. Javascript doesn't support hashmap
+                var newSessions = self.setSessionStatus(response.sessions, maps[0]);
+                var newEvents = self.setEventStatus(response.events, maps[1]);
                 response.sessions = newSessions;
+                response.events = newEvents;
                 console.log(response);
                 $scope.course = self.setCourse(response);
                 var currentDate = $scope.course.startDate;
@@ -312,9 +322,9 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
                     }
                 }
                 regService.setCourse($scope.course, $scope.course.roles, $scope.dateArray);
-                console.log($scope.course);
+                $scope.loading = false;
             }, function(error){
-                console.log("Error in checkIfSessionsAreFull");
+                console.log("Error in checkIfParticipantStatusAreFull");
             });
         }, function(error){
             console.log("Error in getCourseById");
@@ -440,6 +450,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     };
 
     $scope.selectAccomondation = function (accomondation) {
+        console.log(accomondation);
         $scope.selectedAccomondation = accomondation;
     };
 
@@ -498,20 +509,11 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         return Object.prototype.toString.call($scope[key]);
     };
 
-    self.checkIfSessionsAreFull = function(course){
-        regService.checkParticipantStatusSession(course.id).then(function(map){ //prop = sessionID & map[prop] = numberOfRegsitrations. Javascript doesn't support hashmap
-            self.setSessionStatus()
-        }, function(error){
-            console.log("Error in checkIfSessionsAreFull");
-        })
-    };
-
     self.setSessionStatus = function(oldSessions, map){
         var sessions = oldSessions;
         for(prop in map){
             for (var i = 0; i < sessions.length; i++){
                 if(prop == sessions[i].id){
-                    map[prop] = 90;
                     if(map[prop] >= sessions[i].maxnumber){
                         sessions[i].isFull = true;
                     } else{
@@ -523,6 +525,22 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         return sessions;
     };
 
+    self.setEventStatus = function(oldEvents, map){
+        var events = oldEvents;
+        for(prop in map){
+            for (var i = 0; i < events.length; i++){
+                if(prop == events[i].id){
+                    if(map[prop] >= events[i].maxNumber){
+                        events[i].isFull = true;
+                    } else{
+                        events[i].isFull = false;
+                    }
+                }
+            }
+        }
+        return events;
+    };
+
     var cid = sessionStorage.cid;
     if (cid){
         regService.getSessionStorageID(cid).then(function(successCallback){
@@ -531,6 +549,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
             console.log("Something is wrong");
         });
     } else{
+        $scope.loading = false;
         console.log("Wrong cid");
     }
 

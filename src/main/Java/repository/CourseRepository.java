@@ -31,5 +31,5 @@ public interface CourseRepository {
 
     public ArrayList<HashMap> getNumberOfParticipants(int courseID);
 
-    public int getNumberOfEvents(ArrayList<Integer> registration_id, int event_id);
+    public Integer getNumberOfEvents(int event_id);
 }

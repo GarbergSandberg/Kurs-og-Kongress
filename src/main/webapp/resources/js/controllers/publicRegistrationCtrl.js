@@ -8,8 +8,8 @@ publicRegistrationApp.controller('PublicRegistrationCtrl', ['$scope', 'publicReg
     $scope.courses = {};
     $scope.panels = [];
     $scope.panels.activePanel = -1;
-    $scope.$watch("panels.activePanel", function(newValue, oldValue) {
-    });
+    $scope.loading = true;
+    $scope.$watch("panels.activePanel", function(newValue, oldValue) {});
 
     $scope.registration = function(id, type){
         self.setSessionID(id, type);
@@ -47,6 +47,7 @@ publicRegistrationApp.controller('PublicRegistrationCtrl', ['$scope', 'publicReg
                     console.log(response[i]);
                     self.getCountRegistrations(response[i], response[i].id);
                 }
+            $scope.loading = false;
             }, function(errorResponse){
             console.log("Error in loadApplication()");
         })};
@@ -56,12 +57,15 @@ publicRegistrationApp.controller('PublicRegistrationCtrl', ['$scope', 'publicReg
             if (success < course.maxNumber) {
                 var courseToBePushed = self.setCourse(course);
                 $scope.courses.push(courseToBePushed);
-                var date = new Date(courseToBePushed.startDate);
+                var date1 = new Date(courseToBePushed.startDate);
+                var date2 = new Date(courseToBePushed.endDate);
                 $scope.panels.push({
                     title: courseToBePushed.title,
                     body: courseToBePushed.description,
-                    startDate: date.toDateString(),
-                    courseID: courseToBePushed.id
+                    startDate: date1,
+                    endDate: date2,
+                    courseID: courseToBePushed.id,
+                    remainingSlots: (course.maxNumber - success)
                 });
             }
     }, function (error) {

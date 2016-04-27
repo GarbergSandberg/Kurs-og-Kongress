@@ -72,8 +72,8 @@ sessionRegisterApp.factory('statisticsService', ['$http', '$q','$rootScope', fun
         )
     };
 
-    statisticsService.getNumberOfEvents = function(regID, eventID){
-        return $http.get('getNumberOfEvents', {params: {registration_id: regID, event_id: eventID}})
+    statisticsService.getNumberOfEvents = function(eventID){
+        return $http.get('getNumberOfEvents', {params: {event_id: eventID}})
             .then(
             function(success){
                 return success.data;

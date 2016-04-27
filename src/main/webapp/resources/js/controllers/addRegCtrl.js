@@ -43,6 +43,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
 
     $scope.allDaysCheck = {};
     $scope.newacc = {};
+    $scope.loading = true;
 
     $scope.getOptional = function(form){
         var help = [];
@@ -321,6 +322,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
                     }
                 }
                 regService.setCourse($scope.course, $scope.course.roles, $scope.dateArray);
+                $scope.loading = false;
             }, function(error){
                 console.log("Error in checkIfParticipantStatusAreFull");
             });
@@ -547,6 +549,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
             console.log("Something is wrong");
         });
     } else{
+        $scope.loading = false;
         console.log("Wrong cid");
     }
 

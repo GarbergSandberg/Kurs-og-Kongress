@@ -20,8 +20,10 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
                         registrations[i].accomondation = angular.copy(newAcc);
                         registrations[i].accomondation.hotelID = acc.selectedAccomondation.id;
                         registrations[i].accomondation.doubleroom = acc.doubleroom;
-                        registrations[i].accomondation.fromDate = acc.fromDate;
-                        registrations[i].accomondation.toDate = acc.toDate;
+                        console.log(acc.fromDate);
+                        console.log(new Date(acc.fromDate));
+                        registrations[i].accomondation.fromDate = new Date(acc.fromDate);
+                        registrations[i].accomondation.toDate = new Date(acc.toDate);
                         registrations[i].accomondation.roommateID = second.personID;
                         hasRoom.push(first.personID);
                     }
@@ -173,7 +175,7 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
 
         sendRegistration: function (registration) {
             console.log(registration);
-            return $http.post('saveReg', registration)
+            return $http.post('saveRegistration', registration)
                 .then(
                     function (response) {
                         console.log("Success!");
@@ -227,14 +229,14 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
                 );
         },
 
-        checkParticipantStatusSession: function (courseID) {
-            return $http.get('checkParticipantStatusSession', {params: {courseID: courseID}})
+        checkParticipantStatus: function (courseID) {
+            return $http.get('checkParticipantStatus', {params: {courseID: courseID}})
                 .then(
                     function (response) {
                         return response.data;
                     },
                     function (errResponse) {
-                        console.error('Error while checkingParticipantStatusSession');
+                        console.error('Error while checkingParticipantStatus');
                     }
                 );
         },

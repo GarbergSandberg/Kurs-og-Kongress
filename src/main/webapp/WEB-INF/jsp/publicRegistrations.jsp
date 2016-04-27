@@ -29,26 +29,46 @@
 </head>
 <body ng-app="publicRegistrationApp">
 <div ng-controller="PublicRegistrationCtrl" style="margin-left:3em; margin-right:3em;">
-    <h1>Velg kurs</h1>
-    <div class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true" bs-collapse>
-        <div class="panel panel-default" ng-repeat="panel in panels">
-            <div class="panel-heading" role="tab">
-                <h4 class="panel-title">
-                    <a bs-collapse-toggle>
-                        <h4 style="text-align: left;float: left">{{ panel.title }}</h4>
-                        <h4 style="text-align: right;float: right">{{ panel.startDate }}</h4>
-                        <hr style="clear:both;"/>
-                    </a>
-                </h4>
-            </div>
-            <div class="panel-collapse" role="tabpanel" bs-collapse-target>
-                <div class="panel-body">
-                    <p>{{ panel.body }}</p><br>
-                    <button ng-click="registration(panel.courseID, 'single')" class="btn btn-primary">Enkeltpåmelding</button>
-                    <button ng-click="registration(panel.courseID, 'group')" class="btn btn-primary">Gruppepåmelding</button>
+    <div ng-show="!loading">
+        <div class="page-header">
+            <h1>Påmelding til kurs</h1>
+        </div>
+        <div class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true" bs-collapse>
+            <div class="panel panel-default" ng-repeat="panel in panels | orderBy:'panel.startDate'">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        <a bs-collapse-toggle>
+                            <h4>{{ panel.title }}</h4>
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+                    <div class="panel-body">
+                        <ul class ="list-group" id="infolist">
+                            <li class="list-group-item">
+                                <p style="font-weight: bold;">Beskrivelse:</p>
+                                <p>{{ panel.body }}</p>
+                            </li>
+                            <li class="list-group-item">
+                                <p>Kurset starter <span style="font-weight: bold;">{{ panel.startDate | date:'dd-MM-yyyy'}}</span></p>
+                                <p>Kurset slutter <span style="font-weight: bold;">{{ panel.endDate | date:'dd-MM-yyyy'}}</span></p>
+                            </li>
+                            <li class="list-group-item">
+                                Det er {{panel.remainingSlots}} ledige plasser igjen på kurset. <br>
+                            </li>
+                            <li class="list-group-item">
+                                <button ng-click="registration(panel.courseID, 'single')" class="btn btn-primary">Enkeltpåmelding</button>
+                                <button ng-click="registration(panel.courseID, 'group')" class="btn btn-primary">Gruppepåmelding</button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div ng-show="loading">
+        <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>
+        <span class="sr-only">Loading...</span>
     </div>
 </div>
 </body>

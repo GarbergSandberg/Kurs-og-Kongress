@@ -63,3 +63,11 @@ a.plusbutton{
 table.modal{
     max-width: 100%;
 }
+
+#spinner{
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -27px;
+    margin-left: -21px;
+}

@@ -222,8 +222,8 @@ public class homeController {
 
     @RequestMapping(value = "/getNumberOfEvents", method = RequestMethod.GET)
     @ResponseBody
-    public int getNumberOfEvents(@RequestParam(value = "registration_id") ArrayList<Integer> registration_id, @RequestParam(value = "event_id") int event_id) {
-        int i = courseService.getNumberOfEvents(registration_id, event_id);
+    public Integer getNumberOfEvents(@RequestParam(value = "event_id") int event_id) {
+        Integer i = courseService.getNumberOfEvents(event_id);
         System.out.println("Controller (getnumberofevents): ************************* " + i);
         return i;
     }

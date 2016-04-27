@@ -10,6 +10,7 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
     $scope.showInfo = function(id){
         self.setSessionID(id);
     };
+    $scope.loading = true;
 
     $scope.getCountRegistrations = function(){ // Brukes ikke? men fungerer..!
         console.log("Trykker på knappen");
@@ -202,21 +203,27 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
 
     self.getNumberOfEvents = function(){
         for (var i = 0; i<$scope.course.events.length; i++){
-            self.sendGetNumberOfEvents($scope.registrationsID, $scope.course.events[i]);
+            self.sendGetNumberOfEvents($scope.course.events[i]);
         }
+        $scope.loading = false;
     };
 
-    self.sendGetNumberOfEvents = function(regID, event){
+    self.sendGetNumberOfEvents = function(event){
         var temp = {};
         temp.title = event.title;
         temp.id = event.id;
         temp.price = event.price;
-        statisticsService.getNumberOfEvents(regID, event.id).then(function(result) {
+        statisticsService.getNumberOfEvents(event.id).then(function(result) {
             console.log(result);
-            temp.number = result;
-            temp.total = (event.price * temp.number);
-            console.log(temp);
-            $scope.numberOfEvents.push(temp);
+            if (result == null){
+                temp.number = "-";
+                temp.total = "-";
+            } else{
+                temp.number = result;
+                temp.total = (event.price * temp.number);
+                console.log(temp);
+                $scope.numberOfEvents.push(temp);
+            }
         });
     };
 }]);
