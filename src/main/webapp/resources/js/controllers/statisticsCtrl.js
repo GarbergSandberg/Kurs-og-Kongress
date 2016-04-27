@@ -156,6 +156,7 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
             self.mapRegistration(response);
             self.getNumberOfPayments();
             self.getNumberOfEvents();
+            $scope.loading = false;
         }, function(error){
             console.log("Error in getting registrations...");
         });
@@ -169,8 +170,7 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
         $scope.countReg = registrations.length;
     };
 
-    //var cid = sessionStorage.cid;
-    var cid = 'kmj7cdKWic9Ivr3IBofjNA==';
+    var cid = sessionStorage.cid;
     console.log("cid " + cid);
     if(cid == null || cid == -1){ // not good enough check. Review this. The dirtiest fix of them all.
         $scope.course.id = -1; // Should return error page. Skal være -1.

@@ -12,6 +12,8 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
     $scope.years = [];
     $scope.months = ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember', 'Alle'];
     $scope.dateFilter = {};
+    $scope.loading = true;
+
     $scope.editCourse = function(id){
         self.setSessionID(id);
     };
@@ -60,6 +62,7 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
             }
             $scope.years = self.findYears();
             $scope.years.push("Alle");
+            $scope.loading = false;
         }, function(errorResponse){
             console.log("Error in loadApplication()");
         })};
