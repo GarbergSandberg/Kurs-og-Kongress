@@ -98,6 +98,10 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
                 $scope.registrations[i].accomondation.roommate = $scope.getPersonName($scope.registrations[i].accomondation.roommateID);
                 delete $scope.registrations[i].accomondation.roommateID;
             }
+            console.log($scope.registrations[i].person);
+            delete $scope.registrations[i].person.role;
+            delete $scope.registrations[i].person.opt;
+            console.log($scope.registrations[i].person);
         }
         regService.sendRegistrations($scope.registrations);
     };

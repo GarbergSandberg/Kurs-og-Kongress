@@ -37,39 +37,40 @@
             <h1>Gruppepåmelding til {{course.title}}</h1><br>
 
 
-            <!-- Arbeidsinfo -->
-            <h3>Arbeidsgiverinfo</h3>
-            <div>
-                <label for="name">Arbeidsplass: </label>
-                <input type="form-control" ng-model="registration.workplace.companyName" id="name"/><br>
-            </div>
-            <div>
-                <label for="adress">Adresse: </label>
-                <input type="form-control" ng-model="registration.workplace.address" id="adress"/><br>
-            </div>
-            <div>
-                <label for="postalcode">Postnr: </label>
-                <input type="form-control" ng-model="registration.workplace.postalcode" id="postalcode"/><br>
-            </div>
-            <div>
-                <label for="postalcode">Sted: </label>
-                <input type="form-control" ng-model="registration.workplace.location" id="location"/><br>
-            </div>
-            <!-- Ekstra (utvides om "checked") -->
-            <label for="another">
-                <input type="checkbox" id="another" ng-model="checkboxAccModel.another"/><br>
-                Ønsker faktura sendt til annen adresse
-            </label>
-            <div ng-show="checkboxAccModel.another">
-                Alternativ fakturaadresse:
-                <input type="form-control" ng-model="registration.alternativeInvoiceAddress" id="alternativeInvoiceAddress" value="" size="40"/><br>
-            </div>
-            <div ng-repeat="opt in course.form.optionalWorkplace track by opt.id">
-                <label>{{opt.parameter}}: </label>
-                <input type="checkbox" ng-hide="whichType(opt.type)" ng-model="opt.answer"/>
-                <input type="text" ng-show="whichType(opt.type)" ng-model="opt.answer"/><br>
-            </div>
-            <hr/>
+        <!-- Arbeidsinfo -->
+        <h3>Arbeidsgiverinfo</h3>
+        <div>
+            <label for="name">Arbeidsplass: </label>
+            <input type="form-control" ng-model="registration.workplace.companyName" id="name"/><br>
+        </div>
+        <div>
+            <label for="adress">Adresse: </label>
+            <input type="form-control" ng-model="registration.workplace.address" id="adress"/><br>
+        </div>
+        <div>
+            <label for="postalcode">Postnr: </label>
+            <input type="form-control" ng-model="registration.workplace.postalcode" id="postalcode"/><br>
+        </div>
+        <div>
+            <label for="postalcode">Sted: </label>
+            <input type="form-control" ng-model="registration.workplace.location" id="location"/><br>
+        </div>
+        <!-- Ekstra (utvides om "checked") -->
+        <label for="another">
+            <input type="checkbox" id="another" ng-model="checkboxAccModel.another"/><br>
+            Ønsker faktura sendt til annen adresse
+        </label>
+        <div ng-show="checkboxAccModel.another">
+            Alternativ fakturaadresse:
+            <input type="form-control" ng-model="registration.alternativeInvoiceAddress" id="alternativeInvoiceAddress"
+                   value="" size="40"/><br>
+        </div>
+        <div ng-repeat="opt in course.form.optionalWorkplace track by opt.id">
+            <label>{{opt.parameter}}: </label>
+            <input type="checkbox" ng-hide="whichType(opt.type)" ng-model="opt.answer"/>
+            <input type="text" ng-show="whichType(opt.type)" ng-model="opt.answer"/><br>
+        </div>
+        <hr/>
 
 
             <h3>Personalia</h3>
@@ -100,26 +101,27 @@
                         <input type="form-control" ng-model="person[n].birthyear" id="birthyear"/>
                     </div>
 
-                    <div ng-repeat="opt in course.form.optionalPersonalia">
-                        <label>{{opt.parameter}}: </label>
-                        <input type="checkbox" ng-hide="whichType(opt.type)" ng-init="person[n].opt[$index]='false'" ng-model="person[n].opt[$index]"/><br>
-                        <input type="text" ng-show="whichType(opt.type)" ng-model="person[n].opt[$index]"/><br><br>
-                    </div>
+                <div ng-repeat="opt in course.form.optionalPersonalia">
+                    <label>{{opt.parameter}}: </label>
+                    <input type="checkbox" ng-hide="whichType(opt.type)" ng-init="person[n].opt[$index]='false'"
+                           ng-model="person[n].opt[$index]"/><br>
+                    <input type="text" ng-show="whichType(opt.type)" ng-model="person[n].opt[$index]"/><br><br>
+                </div>
 
-                    <label ng-repeat="role in course.roles">
-                        <input type="radio" name="role" ng-model="person[n].role" ng-value="role"/> {{role}}
-                    </label>
-                    <label>
-                        <input type="radio" name="gender" value="Mann" ng-model="person[n].gender"> Mann
-                        <input type="radio" name="gender" value="Kvinne" ng-model="person[n].gender"> Kvinne
-                    </label>
-                    <br>
-                    <!--Ekstra (utvides om "checked") -->
-                    <input type="checkbox" ng-model="checkbox[n]" ng-change="alert({{n}})">
-                    Bemerkning/spesiell diett/best.nr/kode etc?
-                    <div ng-show="checkbox[{{$index}}]">
-                        Beskrivelse:
-                    <textarea ng-model="person[n].mark" class="form-control" id="description"
+                <label ng-repeat="role in course.roles">
+                    <input type="radio" name="role" ng-model="person[n].role" ng-value="role"/> {{role}}
+                </label>
+                <label>
+                    <input type="radio" name="gender" value="Mann" ng-model="person[n].gender"> Mann
+                    <input type="radio" name="gender" value="Kvinne" ng-model="person[n].gender"> Kvinne
+                </label>
+                <br>
+                <!--Ekstra (utvides om "checked") -->
+                <input type="checkbox" ng-model="checkbox[n]" ng-change="alert({{n}})">
+                Bemerkning/spesiell diett/best.nr/kode etc?
+                <div ng-show="checkbox[{{$index}}]">
+                    Beskrivelse:
+                    <textarea ng-model="person[n].mark" ng-init="person[n].mark=''" class="form-control" id="description"
                               rows="3"></textarea>
                     </div>
                 </form>
@@ -165,67 +167,67 @@
                 <input type="checkbox" id="accomodation" ng-model="checkboxAccModel.c1"/>
                 Ønsker overnatting?</label>
 
-            <div ng-show="checkboxAccModel.c1">
-                <label> Velg person: </label>
-                <select ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfHasRoom"
-                        ng-model="firstPersonRoom"></select>
+        <div ng-show="checkboxAccModel.c1">
+            <label> Velg person: </label>
+            <select ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfHasRoom"
+                    ng-model="firstPersonRoom"></select>
+            <br>
+            <label>Velg hotell: </label>
+            <div ng-repeat="newacc in course.hotels">
+                <button class="btn btn-md"
+                        ng-class="colorAccomondation(newacc) ? 'btn-primary' : 'btn-default'"
+                        ng-click="selectAccomondation(newacc)"><label>{{newacc.name}}</label>
+                    <h5>Pris dobbeltrom: {{newacc.doubleprice}}</h5><h5>Pris enkeltrom:
+                        {{newacc.singleprice}}</h5>
+                </button>
+            </div>
+            <br>
+            <label>
+                <input type="radio" name="roomType" ng-model="checkboxAccModel.rad" ng-value="true"/>
+                Dobbeltrom
+                <input type="radio" name="roomType" ng-model="checkboxAccModel.rad" ng-value="false"/>
+                Enkeltrom
+            </label>
+            <br>
+            <br>
+            <div ng-show="checkboxAccModel.c1 && checkboxAccModel.rad">
+                <label> Deler rom med: </label>
+                <select ng-model="secondPersonRoom"
+                        ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfHasRoom | filter:checkIfSelected "></select>
                 <br>
-                <label>Velg hotell: </label>
-                <div  ng-repeat="newacc in course.hotels">
-                    <button class="btn btn-md"
-                            ng-class="colorAccomondation(newacc) ? 'btn-primary' : 'btn-default'"
-                            ng-click="selectAccomondation(newacc)"> <label>{{newacc.name}}</label>
-                        <h5>Pris dobbeltrom: {{newacc.doubleprice}}</h5><h5>Pris enkeltrom:
-                            {{newacc.singleprice}}</h5>
-                    </button>
-                </div>
                 <br>
-                <label>
-                    <input type="radio" name="roomType" ng-model="registration.accomondation.doubleroom" ng-value="true"/> Dobbeltrom
-                    <input type="radio" name="roomType" ng-model="registration.accomondation.doubleroom" ng-value="false"/> Enkeltrom
-                </label>
-                <br>
-                <br>
-                <div ng-show="checkboxAccModel.c1 && registration.accomondation.doubleroom">
-                    <label> Deler rom med: </label>
-                    <select ng-model="secondPersonRoom" ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfHasRoom | filter:checkIfSelected "></select>
-                    <br>
-                    <br>
-                </div>
+            </div>
 
-                <form name="datepickerForm" class="form-inline" role="form" ng-show="checkboxAccModel.c1">
-                    <!-- http://mgcrea.github.io/angular-strap/#/datepickers -->
-                    <div class="form-group">
-                        <label class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i> <i
-                                class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
-                        <div class="form-group col-xs-6">
-                            <input type="text" class="form-control" ng-model="newacc.fromDate"
-                                   data-min-date="{{course.startDate}}"
-                                   data-max-date="{{course.endDate}}" placeholder="From" bs-datepicker>
-                        </div>
-                        <div class="form-group col-xs-6">
-                            <input type="text" class="form-control" ng-model="newacc.toDate"
-                                   data-max-date="{{course.endDate}}"
-                                   data-min-date="{{course.startDate}}" placeholder="Until" bs-datepicker>
-                        </div>
+            <form name="datepickerForm" class="form-inline" role="form" ng-show="checkboxAccModel.c1">
+                <!-- http://mgcrea.github.io/angular-strap/#/datepickers -->
+                <div class="form-group">
+                    <label class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i> <i
+                            class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
+                    <div class="form-group col-xs-6">
+                        <input type="text" class="form-control" ng-model="newacc.fromDate"
+                               data-min-date="{{course.startDate}}"
+                               data-max-date="{{course.endDate}}" placeholder="From" bs-datepicker>
                     </div>
-                </form>
-                <br>
-                <div ng-show="checkboxAccModel.rad">
-                    <button style="margin-left:2em;" type="button" class="btn btn-primary"
-                            ng-click="saveRoom(newacc, firstPersonRoom, secondPersonRoom)"> Lagre
-                    </button>
+                    <div class="form-group col-xs-6">
+                        <input type="text" class="form-control" ng-model="newacc.toDate"
+                               data-max-date="{{course.endDate}}"
+                               data-min-date="{{course.startDate}}" placeholder="Until" bs-datepicker>
+                    </div>
                 </div>
-                <div ng-hide="checkboxAccModel.rad">
-                    <button style="margin-left:2em;" type="button" class="btn btn-primary"
-                            ng-click="saveRoom(newacc, firstPersonRoom)"> Lagre
-                    </button>
-                </div>
+            </form>
+            <br>
+            <div ng-show="checkboxAccModel.rad">
+                <button style="margin-left:2em;" type="button" class="btn btn-primary"
+                        ng-click="saveRoom(newacc, firstPersonRoom, secondPersonRoom)"> Lagre
+                </button>
             </div>
-            <hr/>
-            <div ng-if="course.extraInfo !== undefined">
-                balbalbla...
+            <div ng-hide="checkboxAccModel.rad">
+                <button style="margin-left:2em;" type="button" class="btn btn-primary"
+                        ng-click="saveRoom(newacc, firstPersonRoom)"> Lagre
+                </button>
             </div>
+        </div>
+        <hr/>
 
 
             <h3>Påmelding faglig program</h3>
@@ -239,54 +241,61 @@
             </label>
 
 
-            <h3>Påmelding sesjoner</h3>
-            <table class="table session">
-                <tr ng-repeat="date in dateArray">
-                    <td align="center" class="session">
-                        {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
-                    </td>
-                    <td ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)">
-                        <button class="btn btn-lg"
-                                ng-class="colorSession(session) ? 'btn-primary' : 'btn-default'"
-                                ng-click="selectSession(session)"> {{session.title}} <h5>({{session.startTime |
-                            date:'HH:mm'}} -
-                            {{session.endTime | date:'HH:mm'}})</h5>
-                        </button>
-                    </td>
-                </tr>
-            </table>
+        <h3>Påmelding sesjoner</h3>
+        <table class="table session">
+            <tr ng-repeat="date in dateArray">
+                <td align="center" class="session">
+                    {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
+                </td>
+                <td ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)">
+                    <button ng-class="colorSession(session) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'"
+                            ng-click="selectSession(session)"> {{session.title}} <h5>({{session.startTime |
+                        date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})</h5>
+                    </button>
+                </td>
+            </tr>
             <hr/>
-            <h3>Påmelding arrangementer</h3>
-            <table class="table event">
-                <tr ng-repeat="date in dateArray">
-                    <td align="center" class="session">
-                        {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
-                    </td>
-                    <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)">
-                        <button class="btn btn-lg" name="selectedEvents[]" value="{{event}}"
-                                ng-checked="selectedEvent.indexOf(event) > -1"
-                                ng-click="selectEvent(event)" ng-class="colorEvent(event) ? 'btn-primary' : 'btn-default'">
-                            {{event.title}}
-                        </button>
-                    </td>
-                </tr>
-            </table>
-            <h3>Ekstrainfo</h3>
-            <div ng-repeat="extra in course.form.extraInfo">
-                <label>{{extra.parameter}}: </label>
-                <input type="checkbox" ng-hide="whichType(extra.type)" ng-init="extra.answer='false'" ng-model="extra.answer"/><br>
-                <input type="text" ng-show="whichType(extra.type)" value="" ng-model="extra.answer"/><br><br>
-            </div>
+        </table>
+        <h3>Påmelding arrangementer</h3>
+        <table class="table event">
+            <tr ng-repeat="date in dateArray">
+                <td align="center" class="session">
+                    {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
+                </td>
+                <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!--  -->
+                    <button ng-class="colorEvent(event) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'"
+                            ng-click="selectEvent(event)">
+                        {{event.title}} <h5>{{event.price}}</h5>
+                    </button>
+                </td>
 
-            <button style="margin-left:2em;" type="button" class="btn btn-primary"
-                    ng-click="saveGroupRegistration()"> Send påmelding
-            </button>
+                <!-- <button class="btn btn-lg" name="selectedEvents[]" value="{{event}}"
+                            ng-checked="selectedEvent.indexOf(event) > -1"
+                            ng-click="selectEvent(event)"
+                            ng-class="colorEvent(event) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'">
+                        {{event.title}}
+                    </button> -->
+            </tr>
+        </table>
+        <h3>Ekstrainfo</h3>
+        <div ng-if="course.extraInfo !== undefined">
+            balbalbla.
         </div>
+        <div ng-repeat="extra in course.form.extraInfo">
+            <label>{{extra.parameter}}: </label>
+            <input type="checkbox" ng-hide="whichType(extra.type)" ng-init="extra.answer='false'"
+                   ng-model="extra.answer"/><br>
+            <input type="text" ng-show="whichType(extra.type)" value="" ng-model="extra.answer"/><br><br>
+        </div>
+        <br>
+        <button style="margin-left:2em;" type="button" class="btn btn-primary"
+                ng-click="saveGroupRegistration()"> Send påmelding
+        </button>
+    </div>
         <div ng-show="loading">
             <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>
             <span class="sr-only">Loading...</span>
         </div>
-    </div>
 </div>
 </body>
 </html>

@@ -14,6 +14,8 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
     return {
         saveRoom: function (acc, first, second) {
             var newAcc = {hotelID: {}, roommate: {}, toDate: {}, fromDate: {}, doubleroom: {}};
+            console.log("Her kommer acc: sammenlign med hva du gjør i saveRoom. ");
+            console.log(acc);
             if (second !== undefined) {
                 for (var i = 0; i < registrations.length; i++) {
                     if (registrations[i].person.personID == first.personID) {
@@ -329,12 +331,10 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
         var newReg = {};
         newReg.role = newPerson.role;
         newReg.optionalPersonalia = newPerson.opt;
-        delete newPerson.opt;
-        delete newPerson.role;
         newReg.person = newPerson;
         //newReg.accomondation = {};
         registrations.push(newReg);
-        console.log("Her skal optinalPers vises: ");
+        console.log("Her skal mark være med ");
         console.log(newReg);
         $rootScope.$broadcast('personSet', persons);
         //$rootScope.$broadcast('regSet', registrations);

@@ -114,7 +114,7 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String setSessionsToAttend = "insert into sessionid values (default,?,?)";
     private final String setEventsToAttend = "insert into EVENTID values (default,?,?)";
     private final String setAccomondation = "insert into accomondation values(?,?,?,?,?,?)";
-    private final String setPerson = "insert into person values (?,?,?,?,?,?,?)";
+    private final String setPerson = "insert into person values (?,?,?,?,?,?,?,?)";
     private final String setWorkplace = "insert into workplace values(?,?,?,?,?)";
     private final String setPayment = "insert into PAYMENT VALUES (DEFAULT,?,?,?)";
     private final String setDate = "INSERT INTO DATE VALUES (DEFAULT, ?,?)";
@@ -127,12 +127,17 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String deleteOldSessionIDs = "delete from sessionid where registration_idregistration = ?";
     private final String deleteOldEventIDs = "delete from EVENTID where REGISTRATION_IDREGISTRATION = ?";
     private final String updateAccomondation = "update accomondation set roommate = ?, fromdate = ?, todate = ?, doubleroom = ?, Hotel_IDHOTEL = ? where idaccomondation = ?";
-    private final String updatePerson = "update person set firstname = ?, lastname = ?, birthyear = ?, phonenumber = ?, email = ?, gender = ? where idperson = ?";
+    private final String deleteAccomondation = "delete from accomondation where idaccomondation = ?";
+    private final String setAccomondationNullInReg = "update registration set ACCOMONDATION_IDACCOMONDATION = NULL where IDREGISTRATION = ?";
+    private final String updatePerson = "update person set firstname = ?, lastname = ?, birthyear = ?, phonenumber = ?, email = ?, gender = ?, mark = ? where idperson = ?";
     private final String updateWorkplace = "update workplace set companyname = ?, postalcode = ?, location = ?, address = ? where idworkplace = ?";
     private final String deletePayments = "delete from payment where registration_idregistration = ?";
     private final String deleteDates = "delete from date where REGISTRATION_IDREGISTRATION = ?";
     private final String updateInputParameterAnswer = "update INPUTPARAMETER set parameter = ?, TYPE = ? where IDINPUTPARAMETER = ?";
     private final String updateRegistration = "update registration set alternativeinvoiceaddress = ?, speaker = ?, role = ? where idregistration = ?";
+    private final String updateRegNewAccomondation = "update registration set accomondation_idaccomondation = ? where idregistration = ?";
+
+
 
     // Other
     private final String getNumberOfParticipantsSession = "select count(registration_idregistration) from sessionID where sessionid = ?";
@@ -333,10 +338,8 @@ public class CourseRepositoryDB implements CourseRepository{
     }
 
     public boolean updateRegistration(Registration registration){
-        System.out.println(" ///////////////*************///////////////");
         try{
             if (registration.getRegistrationID() != -1){
-                System.out.println("1");
                 jdbcTemplateObject.update(updateRegistration, new Object[]{
                         registration.getAlternativeInvoiceAddress(), registration.isSpeaker(), registration.getRole(), registration.getRegistrationID()
                 });
@@ -348,10 +351,22 @@ public class CourseRepositoryDB implements CourseRepository{
                     System.out.println(registration.getEventsToAttend());
                     updateEventsToAttend(registration.getEventsToAttend(), registration.getRegistrationID());
                 }
-                if(registration.getAccomondation() != null){
-                    System.out.println("4");
-                    updateAccomondation(registration.getAccomondation());
+                System.out.println(registration.getAccomondation());
+                if (registration.getAccomondation().getHotelID() == -1){
+                    System.out.println("//////////// ************* Sletter accomondation.. ");
+                    deleteAccomondation(registration);
                 }
+                else if(registration.getAccomondation() != null){
+                    if (registration.getAccomondation().getId() == 0){ // new Accomondation
+                        System.out.println("Legger til HELT NY accomondation. ");
+                        Integer accomondationID = setAccomondation(registration.getAccomondation());
+                        setRegistrationNewAccomondation(accomondationID, registration.getRegistrationID());
+                    } else { // update old accomondation.
+                        System.out.println("Oppdaterer gammel accomondation..");
+                        updateAccomondation(registration.getAccomondation()
+                        );
+                    }
+                } else
                 if(registration.getPerson() != null){
                     updatePerson(registration.getPerson());
                 }
@@ -362,7 +377,6 @@ public class CourseRepositoryDB implements CourseRepository{
                     updatePayment(registration.getCost(), registration.getRegistrationID());
                 }
                 if(registration.getDates() != null){
-                    System.out.println("5");
                     updateDates(registration.getDates(), registration.getRegistrationID());
                 }
                 if(registration.getOptionalPersonalia() != null){
@@ -372,7 +386,6 @@ public class CourseRepositoryDB implements CourseRepository{
                     updateOptionalWorkplaceAnswers(registration.getOptionalWorkplace(), registration.getRegistrationID());
                 }
                 if(registration.getExtraInfo() != null){
-                    System.out.println("6");
                     updateExtraInfoAnswers(registration.getExtraInfo(), registration.getRegistrationID());
                 }
             } else{
@@ -1078,6 +1091,7 @@ public class CourseRepositoryDB implements CourseRepository{
         } else return null;
     }
 
+
     public boolean updateAccomondation(Accomondation accomondation){
         try{
             jdbcTemplateObject.update(updateAccomondation, new Object[]{
@@ -1090,12 +1104,34 @@ public class CourseRepositoryDB implements CourseRepository{
         }
     }
 
+    public boolean setRegistrationNewAccomondation(int accomondationID, int registrationID){
+        try{
+            jdbcTemplateObject.update(updateRegNewAccomondation, new Object[]{accomondationID, registrationID});
+            return true;
+        } catch (Exception e){
+            System.out.println("Error in setRegistrationNewAccomondation() " + e);
+            return false;
+        }
+    }
+
+    public boolean deleteAccomondation(Registration registration){
+        try{
+            jdbcTemplateObject.update(updateAccomondation, new Object[]{
+                    null, null, null, null, null, registration.getAccomondation().getId()
+            });
+            return true;
+        } catch (Exception e){
+            System.out.println("Error in deleteAccomondation() " + e);
+            return false;
+        }
+    }
+
     public Integer setPerson(Person person){
         try{
             int personID = jdbcTemplateObject.queryForObject(getMaxPersonID, new Object[]{}, Integer.class);
             personID++;
             jdbcTemplateObject.update(setPerson, new Object[]{
-                    personID, person.getFirstname(), person.getLastname(), person.getBirthYear(), person.getPhonenumber(), person.getEmail(), person.getGender()
+                    personID, person.getFirstname(), person.getLastname(), person.getBirthYear(), person.getPhonenumber(), person.getEmail(), person.getGender(), person.getMark()
             });
             return personID;
         } catch (Exception e){
@@ -1107,7 +1143,7 @@ public class CourseRepositoryDB implements CourseRepository{
     public boolean updatePerson(Person person){
         try{
             jdbcTemplateObject.update(updatePerson, new Object[]{
-                    person.getFirstname(), person.getLastname(), person.getBirthYear(), person.getPhonenumber(), person.getEmail(), person.getGender(), person.getPersonID()
+                    person.getFirstname(), person.getLastname(), person.getBirthYear(), person.getPhonenumber(), person.getEmail(), person.getGender(), person.getMark(), person.getPersonID()
             });
         } catch(Exception e){
             System.out.println("Error in updatePerson " + e);

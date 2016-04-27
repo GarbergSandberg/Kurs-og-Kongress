@@ -5,7 +5,6 @@ sessionRegisterApp.factory('attenderInfoService', ['$http','$q', '$rootScope', f
     var attenderInfoService = {};
 
     attenderInfoService.updateRegistration = function(reg){
-        console.log("2");
         return $http.post('updateRegistration', reg)
             .then(
                 function (success) {
