@@ -8,6 +8,9 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
     $scope.selectedDays = [];
     $scope.course = {};
     $scope.chosenHotel = {};
+    $scope.checkboxAccModel = {
+        c1: false
+    };
 
     $scope.showInfo = function (registration) {
         if (registration !== undefined) {
@@ -36,8 +39,12 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
                     $scope.selectedParticipant.totalAmount = self.calculateTotal($scope.selectedParticipant.cost);
                     $scope.selectedParticipant.dates = self.convertDates($scope.selectedParticipant.dates);
                     $scope.course = $scope.selectedParticipant.course;
+                    console.log($scope.selectedParticipant);
                     if ($scope.selectedParticipant.accomondation !== null){
                         self.findHotel();
+                        $scope.checkboxAccModel.c1 = true;
+                    } else {
+                        console.log("Noe er galt.. ")
                     }
                     console.log($scope.selectedParticipant);
                 }, function (error) {
@@ -293,6 +300,12 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         }
     };
 
+    $scope.makeAccomondation = function(){
+        if ($scope.checkboxAccModel.c1 == true){
+            $scope.selectedParticipant.accomondation = {};
+        }
+    };
+
     $scope.colorAccomondation = function (accomondation) { // Skjekk om id finnes i selectedEvents.
         if (accomondation == $scope.selectedAccomondation) return true;
         else {
@@ -301,8 +314,10 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
     };
 
     $scope.colorHotel = function (hotel) { // Skjekk om id finnes i selectedEvents.
-        if (hotel.id == $scope.selectedParticipant.accomondation.hotelID) return true;
-        else return false;
+        if ($scope.selectedParticipant.accomondation !== null){
+            if (hotel.id == $scope.selectedParticipant.accomondation.hotelID) return true;
+        }
+        return false;
     };
 
     $scope.selectHotel = function (hotel) {
@@ -312,8 +327,17 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
 
     $scope.updateRegistration = function (reg) {
         console.log(reg);
+        if ($scope.checkboxAccModel.c1 == false){
+            console.log("Sletter overnatting.");
+            reg.accomondation.hotelID = -1;
+            console.log(reg);
+        }
+        if ($scope.selectedParticipant.accomondation.doubleroom == false){
+            $scope.selectedParticipant.accomondation.roommate = null;
+        }
         attenderInfoService.updateRegistration(reg);
-        $window.location.href = "/kursogkongress/personInfo";
+        //$window.location.href = "/kursogkongress/personInfo";
     };
+
     self.resolveInfo();
 }]);

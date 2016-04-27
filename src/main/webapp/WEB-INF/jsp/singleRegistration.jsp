@@ -224,6 +224,17 @@ To change this template use File | Settings | File Templates.
                 </tr>
             </table>
             <br>
+            <h3>Ekstrainfo</h3>
+            <div ng-repeat="extra in course.form.extraInfo">
+                <label>{{extra.parameter}}: </label>
+                <input type="checkbox" ng-hide="whichType(extra.type)" ng-init="extra.answer='false'"
+                       ng-model="extra.answer"/><br>
+                <input type="text" ng-show="whichType(extra.type)" value="" ng-model="extra.answer"/><br><br>
+            </div>
+            <button style="margin-left:2em;" type="button" class="btn btn-primary"
+                    ng-click="saveSingleRegistration(registration)">
+                Send påmelding
+            </button>
             <button style="margin-left:2em;" type="button" class="btn btn-primary"
                     ng-click="saveSingleRegistration(registration)">
                 Send påmelding

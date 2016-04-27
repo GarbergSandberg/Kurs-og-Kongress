@@ -39,7 +39,7 @@ public class homeController {
     @RequestMapping("/")
     public ModelAndView home(){
         selectedPerson = "-1";
-        return new ModelAndView("courseEconomics");
+        return new ModelAndView("courseStatistics");
     }
 
     @RequestMapping("/reg")

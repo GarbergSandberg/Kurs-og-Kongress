@@ -12,9 +12,9 @@ public class Person {
     private int phonenumber;
     private String email;
     private String gender;
+    private String mark; // Not necessary in constructor.
 
-
-    public Person(int personID, String firstname, String lastname, int birthYear, int phonenumber, String email, String gender) {
+    public Person(int personID, String firstname, String lastname, int birthYear, int phonenumber, String email, String gender, String mark) {
         this.personID = personID;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -22,18 +22,10 @@ public class Person {
         this.phonenumber = phonenumber;
         this.email = email;
         this.gender = gender;
+        this.mark = mark;
     }
 
     public Person() {
-    }
-
-    public Person(String firstname, String lastname, int birthYear, int phonenumber, String email, String gender) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.birthYear = birthYear;
-        this.phonenumber = phonenumber;
-        this.email = email;
-        this.gender = gender;
     }
 
     public int getPersonID() {
@@ -92,6 +84,14 @@ public class Person {
         this.gender = gender;
     }
 
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
@@ -102,6 +102,7 @@ public class Person {
                 ", phonenumber=" + phonenumber +
                 ", email='" + email + '\'' +
                 ", gender='" + gender + '\'' +
+                ", mark='" + mark + '\'' +
                 '}';
     }
 }

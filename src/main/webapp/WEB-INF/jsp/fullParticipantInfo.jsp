@@ -105,7 +105,15 @@
                     Rolle
                 </td>
                 <td>
-                    {{selectedParticipant.person.role}}
+                    {{selectedParticipant.role}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Bemerkning
+                </td>
+                <td>
+                    {{selectedParticipant.person.mark}}
                 </td>
             </tr>
             <tr ng-repeat="personalia in selectedParticipant.course.form.optionalPersonalia">
@@ -231,7 +239,7 @@
                     {{selectedParticipant.accomondation.fromDate | date:'dd-MM-yyyy'}} - {{selectedParticipant.accomondation.toDate | date:'dd-MM-yyyy'}}
                 </td>
             </tr>
-            <tr>
+            <tr ng-if="selectedParticipant.accomondation !== null">
                 <td>Romtype</td>
                 <td ng-if="selectedParticipant.accomondation.doubleroom">
                     Deler dobbeltrom med {{selectedParticipant.accomondation.roommate}}
@@ -374,13 +382,15 @@
                 </td>
             </tr>
         </table>
-        <table class="table session" ng-if="change" style="background-color:gray;color:black;">
-            <tr>
+        <table class="table session" ng-if="change">
+            <tr style="background-color:gray;color:black;">
                 <td>
                     Sesjoner deltakeren er påmeldt
                 </td>
                 <td></td>
             </tr>
+        </table>
+        <table class="table" ng-if="change">
             <tr ng-repeat="date in dateArray">
                 <td align="center" class="session">
                     {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}
@@ -394,13 +404,15 @@
                 </td>
             </tr>
         </table>
-        <table class="table session" ng-if="change" style="background-color:gray;color:black;">
-            <tr>
+        <table class="table session" ng-if="change">
+            <tr style="background-color:gray;color:black;">
                 <td>
                     Arrangementer deltakeren er påmeldt
                 </td>
                 <td></td>
             </tr>
+        </table>
+        <table class="table" ng-if="change">
             <tr ng-repeat="date in dateArray">
                 <td align="center" class="session">
                     {{date | date:'EEEE'}} <p>{{date | date:'dd/MM/yyyy'}}
@@ -410,20 +422,22 @@
                             name="selectedEvents[]" value="{{event}}"
                             ng-click="selectEvent(event)"
                             ng-class="colorEvent(event) ? 'btn-primary' : 'btn-default'">
-                        {{event.title}}
+                        {{event.title}} <h5>Pris: {{event.price}}</h5>
                     </button>
                 </td>
             </tr>
             <br ng-if="change">
             <br ng-if="change">
         </table>
-        <table class="table" ng-if="change" style="background-color:gray;color:black;">
-            <tr>
+        <table class="table" ng-if="change">
+            <tr style="background-color:gray;color:black;">
                 <td>
                     Deltakeren er meldt på følgende dager
                 </td>
                 <td></td>
             </tr>
+        </table>
+        <table class="table" ng-if="change">
             <tr>
                 <td>
                     <input type="checkbox" name="selectedParticipant.attendingFullCourse"
@@ -436,16 +450,28 @@
                            ng-click="selectDay(date)"> {{date | date:'EEEE'}} {{date | date:'dd/MM/yyyy'}}
                 </td>
             </tr>
+            <tr>
+        </table>
+        <table class="table" ng-if="change">
+            </tr>
             <tr style="background-color:gray;color:black;">
                 <td>
                     Overnatting
                 </td>
-                <td></td>
+                <td>
+                    <input type="checkbox" id="accomodation" ng-model="checkboxAccModel.c1" ng-click="makeAccomondation()"/>
+                    Ønsker overnatting?</label>
+                </td>
             </tr>
             <br ng-if="change">
             <br ng-if="change">
         </table>
-        <table class="table" ng-if="change">
+        <table class="table" ng-if="change && checkboxAccModel.c1">
+            <tr>
+                <td>
+
+                </td>
+            </tr>
             <tr>
                 <td>Hotell</td>
                 <td ng-repeat="hotel in course.hotels">
