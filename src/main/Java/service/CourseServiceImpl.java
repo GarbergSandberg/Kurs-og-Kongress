@@ -37,4 +37,9 @@ public class CourseServiceImpl implements CourseService {
     public boolean enableRegistration(int courseID, boolean value) {
         return courseRepository.enableRegistration(courseID,value);
     }
+
+    @Override
+    public HashMap<Integer, Integer> getNumberOfParticipantsSession(int courseID) {
+        return courseRepository.getNumberOfParticipantsSession(courseID);
+    }
 }

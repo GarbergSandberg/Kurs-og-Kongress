@@ -198,7 +198,7 @@ To change this template use File | Settings | File Templates.
                     {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
                 </td>
                 <td ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)">
-                    <button ng-class="colorSession(session) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'"
+                    <button ng-disabled="session.isFull" ng-class="colorSession(session) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'"
                             ng-click="selectSession(session)"> {{session.title}} <h5>({{session.startTime |
                         date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})</h5>
                     </button>
@@ -207,13 +207,13 @@ To change this template use File | Settings | File Templates.
         </table>
         <hr/>
         <h3>Påmelding arrangementer</h3>
-        <table class="table event">
+        <table class="table session">
             <tr ng-repeat="date in dateArray">
                 <td align="center" class="session">
                     {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
                 </td>
                 <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!--  -->
-                    <button class="btn btn-lg" name="selectedEvents[]" value="{{event}}"
+                    <button name="selectedEvents[]" value="{{event}}"
                             ng-checked="selectedEvent.indexOf(event) > -1"
                             ng-click="selectEvent(event)"
                             ng-class="colorEvent(event) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'">

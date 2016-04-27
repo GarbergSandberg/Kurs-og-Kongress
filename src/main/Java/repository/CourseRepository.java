@@ -28,4 +28,6 @@ public interface CourseRepository {
     public boolean enableRegistration(int courseID, boolean value);
 
     public int getNumberOfPayments(ArrayList<Integer> regID, String description);
+
+    public HashMap<Integer, Integer> getNumberOfParticipantsSession(int courseID);
 }

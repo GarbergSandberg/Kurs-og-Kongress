@@ -288,4 +288,11 @@ public class homeController {
         courseService.enableRegistration(courseID,value);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/checkParticipantStatusSession", method = RequestMethod.GET)
+    @ResponseBody
+    public HashMap<Integer, Integer> checkParticipantStatusSession(@RequestParam(value = "courseID") int courseID) {
+        return courseService.getNumberOfParticipantsSession(courseID);
+    }
+
 }

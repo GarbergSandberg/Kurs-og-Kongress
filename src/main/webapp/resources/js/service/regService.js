@@ -227,6 +227,19 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
                 );
         },
 
+        checkParticipantStatusSession: function (courseID) {
+            return $http.get('checkParticipantStatusSession', {params: {courseID: courseID}})
+                .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        console.error('Error while checkingParticipantStatusSession');
+                    }
+                );
+        },
+
+
         getCourses: function (callback) {
             return $http.get('getCourses')
                 .then(

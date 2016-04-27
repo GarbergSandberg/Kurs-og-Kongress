@@ -309,19 +309,29 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         )};
 
     self.getCourseById = function(id){
-        regService.getCourse(id).then(function(response){
-            $scope.course = self.setCourse(response);
-            var currentDate = $scope.course.startDate;
-            if($scope.course.startDate == $scope.course.endDate){
-                $scope.dateArray.push(new Date(currentDate));
-            } else{
-                while (currentDate <= $scope.course.endDate) {
+        regService.getCourse(id).then(function(response) {
+            regService.checkParticipantStatusSession(response.id).then(function(map){ //prop = sessionID & map[prop] = numberOfRegsitrations. Javascript doesn't support hashmap
+                var newSessions = self.setSessionStatus(response.sessions, map);
+                response.sessions = newSessions;
+                console.log(response);
+                $scope.course = self.setCourse(response);
+                var currentDate = $scope.course.startDate;
+                if ($scope.course.startDate == $scope.course.endDate) {
                     $scope.dateArray.push(new Date(currentDate));
-                    currentDate = $scope.addDays(currentDate, 1)
+                } else {
+                    while (currentDate <= $scope.course.endDate) {
+                        $scope.dateArray.push(new Date(currentDate));
+                        currentDate = $scope.addDays(currentDate, 1)
+                    }
                 }
-            }
-            regService.setCourse($scope.course, $scope.course.roles, $scope.dateArray);
-        })
+                regService.setCourse($scope.course, $scope.course.roles, $scope.dateArray);
+                console.log($scope.course);
+            }, function(error){
+                console.log("Error in checkIfSessionsAreFull");
+            });
+        }, function(error){
+            console.log("Error in getCourseById");
+        });
     };
 
     self.inputParameterResolver = function(registration){
@@ -499,6 +509,22 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     $scope.maxDate = Date.UTC(2016, 6, 8);
     $scope.getType = function (key) {
         return Object.prototype.toString.call($scope[key]);
+    };
+
+    self.setSessionStatus = function(oldSessions, map){
+        var sessions = oldSessions;
+        for(prop in map){
+            for (var i = 0; i < sessions.length; i++){
+                if(prop == sessions[i].id){
+                    if(map[prop] >= sessions[i].maxnumber){
+                        sessions[i].isFull = true;
+                    } else{
+                        sessions[i].isFull = false;
+                    }
+                }
+            }
+        }
+        return sessions;
     };
 
     var cid = sessionStorage.cid;

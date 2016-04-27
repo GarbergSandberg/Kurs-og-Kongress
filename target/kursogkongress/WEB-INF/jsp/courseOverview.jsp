@@ -65,9 +65,9 @@
                             <p>Kurset slutter <span style="font-weight: bold;">{{ panel.endDate | date:'dd-MM-yyyy'}}</span></p>
                         </li>
                         <li class="list-group-item">
-                            <button ng-click="editCourse(panel.courseID)" class="btn btn-primary">Endre</button>
-                            <button ng-click="getStatistics(panel.courseID)" class="btn btn-primary">Statistikk</button>
-                            <button ng-click="enableRegistration(panel.courseID)" ng-class="changeColor(panel.courseID) ? 'btn btn-success' : 'btn btn-danger'">Offentlig</button>
+                            <button ng-click="editCourse(panel.courseID)" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
+                            <button ng-click="getStatistics(panel.courseID)" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></button>
+                            <button ng-click="enableRegistration(panel.courseID)" ng-class="changeColor(panel.courseID)"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></button>
                         </li>
                     </ul>
                 </div>

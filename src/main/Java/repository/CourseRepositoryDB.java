@@ -133,6 +133,9 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String updateInputParameterAnswer = "update INPUTPARAMETER set parameter = ?, TYPE = ? where IDINPUTPARAMETER = ?";
     private final String updateRegistration = "update registration set alternativeinvoiceaddress = ?, speaker = ?, role = ? where idregistration = ?";
 
+    // Other
+    private final String getNumberOfParticipantsSession = "select count(registration_idregistration) from sessionID where sessionid = ?";
+
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
@@ -1322,5 +1325,20 @@ public class CourseRepositoryDB implements CourseRepository{
             System.out.println("Error in getNumberOfPayments. " + e);
         }
         return a;
+    }
+
+    public HashMap<Integer, Integer> getNumberOfParticipantsSession(int courseID){
+        try{
+            Course course = getCourse(courseID);
+            HashMap<Integer, Integer> map = new HashMap<Integer, Integer>(); // first element is sessionID, second is number of participants
+            for (Session s : course.getSessions()){
+                Integer numberOfParticipants = jdbcTemplateObject.queryForObject(getNumberOfParticipantsSession, new Object[]{s.getId()}, Integer.class);
+                map.put(s.getId(), numberOfParticipants);
+            }
+            return map;
+        } catch(Exception e){
+            System.out.println("Error in getNumberOfParticipantsSession " + e);
+            return null;
+        }
     }
 }
