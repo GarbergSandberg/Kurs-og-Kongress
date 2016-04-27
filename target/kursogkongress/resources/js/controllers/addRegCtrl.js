@@ -44,16 +44,6 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     $scope.allDaysCheck = {};
     $scope.newacc = {};
 
-    $scope.saveGroupRegistration = function(workplace){ // Må sende med course.id, course.form, session, workplace, person, pris.
-        var registration = {};
-        registration.registrationID = 'Hei';
-        registration.check = 'beeesj';
-        //var form = $scope.course.form;
-        //$scope.course.form = undefined;
-        //$scope.sendAll($scope.course, form);
-        self.sendRegistration(registration);
-        //$scope.sendRegistration(registration);
-
     $scope.getOptional = function(form){
         var help = [];
         for (var u = 0; u<form.length; u++){
@@ -110,11 +100,8 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         }
         //var test = {registrationID: 2};
 
-            console.log($scope.registrations[i]);
-        }
+        console.log($scope.registrations);
         regService.sendRegistrations($scope.registrations);
-        $window.alert('Registrering ok. ');
-
         //sendAll($scope.course, $scope.course.form, registration);
     };
 
@@ -546,4 +533,5 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     } else{
         console.log("Wrong cid");
     }
+
 }]);

@@ -29,5 +29,7 @@ public interface CourseService {
 
     public int getNumberOfPayments(ArrayList<Integer> registrationID, String description);
 
+    public int getNumberOfEvents(ArrayList<Integer> registrationID, int eventID);
+
     public HashMap<Integer, Integer> getNumberOfParticipantsSession(int courseID);
 }

@@ -65,13 +65,23 @@ sessionRegisterApp.factory('statisticsService', ['$http', '$q','$rootScope', fun
         return $http.get('getNumberOfPayments', {params: {registration_id: regID, description: descr}})
             .then(
             function(success){
-                console.log("Success!!" + success.data);
                 return success.data;
             }, function(error){
                 console.log("Error in getNumberOfPayments: " + error);
             }
         )
-    }
+    };
+
+    statisticsService.getNumberOfEvents = function(regID, eventID){
+        return $http.get('getNumberOfEvents', {params: {registration_id: regID, event_id: eventID}})
+            .then(
+            function(success){
+                return success.data;
+            }, function(error){
+                console.log("Error in getNumberOfPayments: " + error);
+            }
+        )
+    };
 
     return statisticsService;
 }]);

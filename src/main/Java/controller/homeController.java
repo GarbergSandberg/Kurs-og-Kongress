@@ -107,7 +107,7 @@ public class homeController {
         return "registration";
     }
 
-    @RequestMapping(value = "/saveReg", method = RequestMethod.POST)
+    @RequestMapping(value = "/saveRegistration", method = RequestMethod.POST)
     public ResponseEntity<Void> saveRegistration( @RequestBody Registration registration )   {
         courseService.saveRegistration(registration);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
@@ -217,7 +217,14 @@ public class homeController {
     @ResponseBody
     public int getNumberOfPayments(@RequestParam(value = "registration_id") ArrayList<Integer> id, @RequestParam(value = "description") String description) {
         int i = courseService.getNumberOfPayments(id, description);
-        System.out.println("Controller: ************************* " + i);
+        return i;
+    }
+
+    @RequestMapping(value = "/getNumberOfEvents", method = RequestMethod.GET)
+    @ResponseBody
+    public int getNumberOfEvents(@RequestParam(value = "registration_id") ArrayList<Integer> registration_id, @RequestParam(value = "event_id") int event_id) {
+        int i = courseService.getNumberOfEvents(registration_id, event_id);
+        System.out.println("Controller (getnumberofevents): ************************* " + i);
         return i;
     }
 

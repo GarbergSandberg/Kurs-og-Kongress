@@ -105,8 +105,6 @@
                     <input type="text" ng-show="whichType(opt.type)" ng-model="person[n].opt[$index]"/><br><br>
                 </div>
 
-
-
                 <label ng-repeat="role in course.roles">
                     <input type="radio" name="role" ng-model="person[n].role" ng-value="role"/> {{role}}
                 </label>
@@ -180,8 +178,6 @@
                         {{newacc.singleprice}}</h5>
                 </button>
             </div>
-
-
             <br>
             <label>
                 <input type="radio" name="roomType" ng-model="registration.accomondation.doubleroom" ng-value="true"/> Dobbeltrom
@@ -189,7 +185,7 @@
             </label>
             <br>
             <br>
-            <div ng-show="checkboxAccModel.c1 && checkboxAccModel.rad">
+            <div ng-show="checkboxAccModel.c1 && registration.accomondation.doubleroom">
                 <label> Deler rom med: </label>
                 <select ng-model="secondPersonRoom" ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfHasRoom | filter:checkIfSelected "></select>
                 <br>
@@ -265,7 +261,7 @@
                 <td align="center" class="session">
                     {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
                 </td>
-                <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!--  -->
+                <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)">
                     <button class="btn btn-lg" name="selectedEvents[]" value="{{event}}"
                             ng-checked="selectedEvent.indexOf(event) > -1"
                             ng-click="selectEvent(event)" ng-class="colorEvent(event) ? 'btn-primary' : 'btn-default'">
@@ -277,11 +273,9 @@
         <h3>Ekstrainfo</h3>
         <div ng-repeat="extra in course.form.extraInfo">
             <label>{{extra.parameter}}: </label>
-            <input type="checkbox" ng-hide="whichType(extra.type)" value="false" ng-model="extra.answer"/><br>
+            <input type="checkbox" ng-hide="whichType(extra.type)" ng-init="extra.answer='false'" ng-model="extra.answer"/><br>
             <input type="text" ng-show="whichType(extra.type)" value="" ng-model="extra.answer"/><br><br>
         </div>
-
-
 
         <button style="margin-left:2em;" type="button" class="btn btn-primary"
                 ng-click="saveGroupRegistration()"> Send påmelding
