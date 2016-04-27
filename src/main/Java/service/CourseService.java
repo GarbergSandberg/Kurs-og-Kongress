@@ -31,5 +31,5 @@ public interface CourseService {
 
     public int getNumberOfEvents(ArrayList<Integer> registrationID, int eventID);
 
-    public HashMap<Integer, Integer> getNumberOfParticipantsSession(int courseID);
+    public ArrayList<HashMap> getNumberOfParticipants(int courseID);
 }

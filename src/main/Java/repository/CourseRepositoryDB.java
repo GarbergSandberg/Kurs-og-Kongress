@@ -136,6 +136,7 @@ public class CourseRepositoryDB implements CourseRepository{
 
     // Other
     private final String getNumberOfParticipantsSession = "select count(registration_idregistration) from sessionID where sessionid = ?";
+    private final String getNumberOfParticipantsEvent = "select count(registration_idregistration) from eventID where eventid = ?";
 
 
     @Autowired
@@ -1001,7 +1002,7 @@ public class CourseRepositoryDB implements CourseRepository{
     }
 
     public int getCountRegistrations(int courseId){
-        int i = -1;
+        int i = 0;
         try {
             i = (int)jdbcTemplateObject.queryForObject(sqlGetCountRegistrations, new Object[]{courseId}, Integer.class);
             System.out.println("******************************************************************" + i);
@@ -1358,15 +1359,23 @@ public class CourseRepositoryDB implements CourseRepository{
         return a;
     }
 
-    public HashMap<Integer, Integer> getNumberOfParticipantsSession(int courseID){
+    public ArrayList<HashMap> getNumberOfParticipants(int courseID){
         try{
             Course course = getCourse(courseID);
-            HashMap<Integer, Integer> map = new HashMap<Integer, Integer>(); // first element is sessionID, second is number of participants
+            HashMap<Integer, Integer> sessionMap = new HashMap<Integer, Integer>();
+            HashMap<Integer, Integer> eventMap = new HashMap<Integer, Integer>();// first element is sessionID/eventID, second is number of participants
             for (Session s : course.getSessions()){
                 Integer numberOfParticipants = jdbcTemplateObject.queryForObject(getNumberOfParticipantsSession, new Object[]{s.getId()}, Integer.class);
-                map.put(s.getId(), numberOfParticipants);
+                sessionMap.put(s.getId(), numberOfParticipants);
             }
-            return map;
+            for (Event e : course.getEvents()){
+                Integer numberOfParticipants = jdbcTemplateObject.queryForObject(getNumberOfParticipantsEvent, new Object[]{e.getId()}, Integer.class);
+                eventMap.put(e.getId(), numberOfParticipants);
+            }
+            ArrayList<HashMap> list = new ArrayList<HashMap>();
+            list.add(sessionMap);
+            list.add(eventMap);
+            return list;
         } catch(Exception e){
             System.out.println("Error in getNumberOfParticipantsSession " + e);
             return null;

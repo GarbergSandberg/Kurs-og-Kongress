@@ -304,9 +304,11 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
 
     self.getCourseById = function(id){
         regService.getCourse(id).then(function(response) {
-            regService.checkParticipantStatusSession(response.id).then(function(map){ //prop = sessionID & map[prop] = numberOfRegsitrations. Javascript doesn't support hashmap
-                var newSessions = self.setSessionStatus(response.sessions, map);
+            regService.checkParticipantStatus(response.id).then(function(maps){ //prop = sessionID & map[prop] = numberOfRegsitrations. Javascript doesn't support hashmap
+                var newSessions = self.setSessionStatus(response.sessions, maps[0]);
+                var newEvents = self.setEventStatus(response.events, maps[1]);
                 response.sessions = newSessions;
+                response.events = newEvents;
                 console.log(response);
                 $scope.course = self.setCourse(response);
                 var currentDate = $scope.course.startDate;
@@ -319,9 +321,8 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
                     }
                 }
                 regService.setCourse($scope.course, $scope.course.roles, $scope.dateArray);
-                console.log($scope.course);
             }, function(error){
-                console.log("Error in checkIfSessionsAreFull");
+                console.log("Error in checkIfParticipantStatusAreFull");
             });
         }, function(error){
             console.log("Error in getCourseById");
@@ -520,6 +521,22 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
             }
         }
         return sessions;
+    };
+
+    self.setEventStatus = function(oldEvents, map){
+        var events = oldEvents;
+        for(prop in map){
+            for (var i = 0; i < events.length; i++){
+                if(prop == events[i].id){
+                    if(map[prop] >= events[i].maxNumber){
+                        events[i].isFull = true;
+                    } else{
+                        events[i].isFull = false;
+                    }
+                }
+            }
+        }
+        return events;
     };
 
     var cid = sessionStorage.cid;

@@ -213,7 +213,7 @@ To change this template use File | Settings | File Templates.
                     {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
                 </td>
                 <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!--  -->
-                    <button name="selectedEvents[]" value="{{event}}"
+                    <button ng-disabled="event.isFull" name="selectedEvents[]" value="{{event}}"
                             ng-checked="selectedEvent.indexOf(event) > -1"
                             ng-click="selectEvent(event)"
                             ng-class="colorEvent(event) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'">

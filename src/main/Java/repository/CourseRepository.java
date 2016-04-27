@@ -29,7 +29,7 @@ public interface CourseRepository {
 
     public int getNumberOfPayments(ArrayList<Integer> regID, String description);
 
-    public HashMap<Integer, Integer> getNumberOfParticipantsSession(int courseID);
+    public ArrayList<HashMap> getNumberOfParticipants(int courseID);
 
     public int getNumberOfEvents(ArrayList<Integer> registration_id, int event_id);
 }

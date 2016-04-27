@@ -41,7 +41,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public HashMap<Integer, Integer> getNumberOfParticipantsSession(int courseID) {
-        return courseRepository.getNumberOfParticipantsSession(courseID);
+    public ArrayList<HashMap> getNumberOfParticipants(int courseID) {
+        return courseRepository.getNumberOfParticipants(courseID);
     }
 }

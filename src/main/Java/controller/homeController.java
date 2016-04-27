@@ -296,10 +296,10 @@ public class homeController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/checkParticipantStatusSession", method = RequestMethod.GET)
+    @RequestMapping(value = "/checkParticipantStatus", method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<Integer, Integer> checkParticipantStatusSession(@RequestParam(value = "courseID") int courseID) {
-        return courseService.getNumberOfParticipantsSession(courseID);
+    public ArrayList<HashMap> checkParticipantStatus(@RequestParam(value = "courseID") int courseID) {
+        return courseService.getNumberOfParticipants(courseID);
     }
 
 }

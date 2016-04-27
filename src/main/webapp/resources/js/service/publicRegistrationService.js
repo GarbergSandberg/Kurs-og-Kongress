@@ -43,6 +43,20 @@ publicRegistrationApp.factory('publicRegistrationService', ['$http', '$q','$root
                         console.error('Error getting sessionStorageID');
                     }
                 );
+        },
+
+        getCountRegistrations: function(courseID){
+        return $http.get('getCountRegistrations', {params: {course_id: courseID}})
+            .then(
+                function(success){
+                    console.log("success.data = " + success.data);
+                    return success.data;
+                },
+                function(error){
+                    console.log("Error in getCountRegistrations " + error);
+                }
+
+            );
         }
     }
 }]);

@@ -229,14 +229,14 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
                 );
         },
 
-        checkParticipantStatusSession: function (courseID) {
-            return $http.get('checkParticipantStatusSession', {params: {courseID: courseID}})
+        checkParticipantStatus: function (courseID) {
+            return $http.get('checkParticipantStatus', {params: {courseID: courseID}})
                 .then(
                     function (response) {
                         return response.data;
                     },
                     function (errResponse) {
-                        console.error('Error while checkingParticipantStatusSession');
+                        console.error('Error while checkingParticipantStatus');
                     }
                 );
         },

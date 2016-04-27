@@ -42,19 +42,32 @@ publicRegistrationApp.controller('PublicRegistrationCtrl', ['$scope', 'publicReg
 
     self.loadApplication = function(){
         publicRegistrationService.getPublicCourses().then(function(response) {
-            $scope.courses = new Array();
-            for (var i = 0; i < response.length; i++){
-                $scope.courses.push(self.setCourse(response[i]));
-                var date = new Date($scope.courses[i].startDate);
-                $scope.panels.push({
-                    title: $scope.courses[i].title,
-                    body: $scope.courses[i].description,
-                    startDate: date.toDateString(),
-                    courseID: $scope.courses[i].id})
-            }
-        }, function(errorResponse){
+                $scope.courses = new Array();
+                for (var i = 0; i < response.length; i++) {
+                    console.log(response[i]);
+                    self.getCountRegistrations(response[i], response[i].id);
+                }
+            }, function(errorResponse){
             console.log("Error in loadApplication()");
         })};
+
+    self.getCountRegistrations = function(course, courseID){
+        publicRegistrationService.getCountRegistrations(courseID).then(function (success) {
+            if (success < course.maxNumber) {
+                var courseToBePushed = self.setCourse(course);
+                $scope.courses.push(courseToBePushed);
+                var date = new Date(courseToBePushed.startDate);
+                $scope.panels.push({
+                    title: courseToBePushed.title,
+                    body: courseToBePushed.description,
+                    startDate: date.toDateString(),
+                    courseID: courseToBePushed.id
+                });
+            }
+    }, function (error) {
+            console.log("Error in getCountRegistrations(Ctrl) " + error);
+        })
+    };
 
     self.setSessionID = function(id, type){
         publicRegistrationService.setSessionStorageID(id).then(function(successCallback){
