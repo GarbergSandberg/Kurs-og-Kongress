@@ -29,26 +29,27 @@
     <script src="${loginCtrl}"></script>
     <script src="${loginService}"></script>
 </head>
-<body ng-app="loginApp">
+<body>
+<div  ng-app="loginApp" style="margin-left:3em; margin-right:3em;">
     <div ng-controller="loginCtrl">
         <h2>Legg til ny bruker</h2>
         <form>
+            <div class="form-group">
+                <label for="inputEmail" class="control-label">Brukernavn</label>
+                <input ng-model="user.username" type="text" class="form-control" id="inputEmail" placeholder="Brukernavn" required>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword" class="control-label">Passord</label>
                 <div class="form-group">
-                    <label for="inputEmail" class="control-label">Brukernavn</label>
-                    <input ng-model="user.username" type="text" class="form-control" id="inputEmail" placeholder="Brukernavn" required>
+                    <input ng-model="user.password" type="password" data-minlength="6" class="form-control" id="inputPassword" placeholder="Passord" required>
                 </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPasswordConfirm" class="control-label">Bekreft Passord</label>
                 <div class="form-group">
-                    <label for="inputPassword" class="control-label">Passord</label>
-                    <div class="form-group">
-                        <input ng-model="user.password" type="password" data-minlength="6" class="form-control" id="inputPassword" placeholder="Passord" required>
-                    </div>
-                    </div>
-                <div class="form-group">
-                    <label for="inputPasswordConfirm" class="control-label">Bekreft Passord</label>
-                    <div class="form-group">
-                        <input ng-model="user.confirmPassword" type="password" data-minlength="6" class="form-control" id="inputPasswordConfirm" placeholder="Bekreft" required>
-                    </div>
+                    <input ng-model="user.confirmPassword" type="password" data-minlength="6" class="form-control" id="inputPasswordConfirm" placeholder="Bekreft" required>
                 </div>
+            </div>
             <div class="checkbox">
                 <label><input type="checkbox" ng-model="user.admin">Bruker skal være administrator</label>
             </div>
@@ -82,5 +83,6 @@
         Velg person <select ng-options="user as user.username for user in users" ng-model="userToBeDeleted"></select>
         <button ng-disabled="!userToBeDeleted" ng-click="deleteUser(userToBeDeleted)" class="btn btn-danger">Slett bruker</button>
     </div>
+</div>
 </body>
 </html>

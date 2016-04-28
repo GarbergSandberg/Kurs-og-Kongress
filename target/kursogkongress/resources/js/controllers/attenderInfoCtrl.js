@@ -339,6 +339,7 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
             $scope.selectedParticipant.accomondation.roommate = null;
         }
         attenderInfoService.updateRegistration(reg);
+        $window.location.href = "/kursogkongress/personInfo";
     };
 
     self.resolveInfo();
