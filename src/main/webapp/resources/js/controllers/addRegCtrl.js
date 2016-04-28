@@ -5,6 +5,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     ];
     $scope.tabs.activeTab = 'Gruppepåmelding';
     $scope.registration = {};
+    $scope.numberOfPersons = 0;
     $scope.registrations = regService.get();
     $scope.$on('regSet', function(event, data){
         $scope.registrations = data;
@@ -65,7 +66,6 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     $scope.getOptionalPers = function(form, reg){
         var help = [];
         for (var i = 0; i<form.length; i++){
-
             help[i] = angular.copy(form[i]);
             if (reg.optionalPersonalia[i] == undefined && form[i] !== undefined){
                 help[i].parameter = false;
@@ -110,7 +110,6 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
 
 
     $scope.saveSingleRegistration = function(registration){ // Må sende med course.id, course.form, session, workplace, person, pris.
-        // courseID, sessions[], events[], person, workplace, price[], datestoAttend[], optPersonalia, optWorkplace, extraInfo, alternativFakturaadresse, form
         registration.registrationID = -1;
         var optionals = self.inputParameterResolver(registration);
         registration.optionalPersonalia = optionals.optionalPersonalia;
@@ -187,8 +186,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     };
 
     $scope.update = function (persons) { // Sender med et registrations-objekt som inneholder en person hver.
-        regService.saveReg(persons);
-        //personService.save(registrations);
+        regService.saveReg(persons, $scope.numberOfPersons);
     };
 
     $scope.repeat = function (number) {
@@ -213,20 +211,13 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
 
     $scope.getPersonName = function(id){
         return regService.getPersonName(id);
-        /*var p = personService.getPerson(id);
-        if (p == undefined) return null;
-        else return  (personService.getPerson(id).firstname + " " + personService.getPerson(id).lastname); */
     };
 
     $scope.removeRoom = function(reg){
-        //var idx = $scope.hasRoom.indexOf(reg.person.personID);
-        //$scope.hasRoom.splice(idx,1);
         if (reg.accomondation.doubleroom){
             var p = regService.getPersonsRegistration(reg.accomondation.roommateID);
             regService.removeRoom(p);
             regService.removeRoom(reg.person);
-            //var idx2 = $scope.hasRoom.indexOf(p.personID);
-           // $scope.hasRoom.splice(idx2, 1);
         } else regService.removeRoom(reg.person);
     };
 
@@ -244,32 +235,23 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     };
 
     $scope.checkIfSelected = function(obj){
-        if ($scope.firstPersonRoom == null || obj.person.personID == $scope.firstPersonRoom.personID){
-            return false;
-        }
-        else {
-            return true;
-        }
+        if ($scope.firstPersonRoom == null || obj.person.personID == $scope.firstPersonRoom.personID) return false;
+        else return true;
     };
 
 
     $scope.saveRoom = function(acc, first, second){ // Her skal date også inn.
-        if ($scope.checkboxAccModel.rad){ // Dobbeltrom. Validering: first.personID !== undefined && second !== undefined (funker ikke når dobbeltrom + secondPerson ikke er valgt).
+        if ($scope.checkboxAccModel.rad){ // doubleroom. Validering: first.personID !== undefined && second !== undefined (funker ikke når dobbeltrom + secondPerson ikke er valgt).
             acc.doubleroom = true;
             acc.selectedAccomondation = $scope.selectedAccomondation;
             regService.saveRoom(acc, first, second);
-            //$scope.hasRoom.push(first.personID);
-           // $scope.hasRoom.push(second.personID);
-        } else { // Enkeltrom.  Validering: if (first.personID !== undefined && !$scope.checkboxAccModel.rad)
+        } else { // single.  Validering: if (first.personID !== undefined && !$scope.checkboxAccModel.rad)
             acc.doubleroom = false;
             acc.selectedAccomondation = $scope.selectedAccomondation;
             regService.saveRoom(acc, first);
-            //$scope.hasRoom.push(first.personID);
-            //personService.addRoommate(accomondation, first);
         }
     };
 
-    // Endre disse til å returnere true/false, likt som colorEvent() ? (Renere og mindre kode). (Legger til checkbox-value i en array, if -> true.
     $scope.wholeCourse = function() {
         if($scope.allDaysCheck == true){
             $scope.selectedDays = [];
@@ -486,14 +468,8 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
 
     $scope.selectEvent = function selectEvent(event) {
         var idx = $scope.selectedEvents.indexOf(event);
-        // Blir unchecked.
-        if (idx > -1) {
-            $scope.selectedEvents.splice(idx, 1);
-        }
-        // Blir checked.
-        else {
-            $scope.selectedEvents.push(event);
-        }
+        if (idx > -1) $scope.selectedEvents.splice(idx, 1); // Gets unchecked
+        else $scope.selectedEvents.push(event); // Gets checked.
     };
 
     // OK Ser etter om to datoer/tidspunk overlapper hverandre. Brukes i sesjons-valget.
@@ -504,6 +480,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         return false;
     };
 
+    //Fjernes.
     $scope.selectedDate = new Date();
     $scope.newacc.fromDate = Date.UTC(2016, 6, 7);  // new Date();
     $scope.newacc.toDate = Date.UTC(2016, 6, 8);
