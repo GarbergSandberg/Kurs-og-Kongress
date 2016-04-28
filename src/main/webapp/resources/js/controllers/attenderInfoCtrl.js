@@ -326,17 +326,20 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
     };
 
     $scope.updateRegistration = function (reg) {
+        var saveAccomondation = 0; // -1 = delete,  0 = nothing.
         console.log(reg);
         if ($scope.checkboxAccModel.c1 == false){
             console.log("Sletter overnatting.");
-            reg.accomondation.hotelID = -1;
+            reg.accomondation.id = 0;
+            reg.accomondation.fromDate = null;
+            reg.accomondation.toDate = null;
             console.log(reg);
         }
         if ($scope.selectedParticipant.accomondation.doubleroom == false){
             $scope.selectedParticipant.accomondation.roommate = null;
         }
         attenderInfoService.updateRegistration(reg);
-        //$window.location.href = "/kursogkongress/personInfo";
+        $window.location.href = "/kursogkongress/personInfo";
     };
 
     self.resolveInfo();

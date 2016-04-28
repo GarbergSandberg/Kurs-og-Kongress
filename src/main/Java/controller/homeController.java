@@ -61,8 +61,10 @@ public class homeController {
     public ModelAndView registerCourse(){return new ModelAndView("registerCourse");}
 
     @RequestMapping("/personInfo")
-    public ModelAndView fullPersonInfo(HttpSession session){
-    User u = (User) session.getAttribute("user");
+    public ModelAndView fullPersonInfo() { // HttpSession session
+        return new ModelAndView("fullPersonInfo");
+    }
+    /*User u = (User) session.getAttribute("user");
         if (u == null){
             return new ModelAndView("index");
         } else if (u.isAdmin()){
@@ -70,7 +72,7 @@ public class homeController {
         } else {
             return new ModelAndView("personInfo");
         }
-    }
+    }*/
 
     @RequestMapping("/invoice")
     public ModelAndView invoice(){return new ModelAndView("invoice");}

@@ -127,8 +127,7 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String deleteOldSessionIDs = "delete from sessionid where registration_idregistration = ?";
     private final String deleteOldEventIDs = "delete from EVENTID where REGISTRATION_IDREGISTRATION = ?";
     private final String updateAccomondation = "update accomondation set roommate = ?, fromdate = ?, todate = ?, doubleroom = ?, Hotel_IDHOTEL = ? where idaccomondation = ?";
-    private final String deleteAccomondation = "delete from accomondation where idaccomondation = ?";
-    private final String setAccomondationNullInReg = "update registration set ACCOMONDATION_IDACCOMONDATION = NULL where IDREGISTRATION = ?";
+    private final String deleteAccomondation = "update registration set ACCOMONDATION_IDACCOMONDATION = null where IDREGISTRATION = ?";
     private final String updatePerson = "update person set firstname = ?, lastname = ?, birthyear = ?, phonenumber = ?, email = ?, gender = ?, mark = ? where idperson = ?";
     private final String updateWorkplace = "update workplace set companyname = ?, postalcode = ?, location = ?, address = ? where idworkplace = ?";
     private final String deletePayments = "delete from payment where registration_idregistration = ?";
@@ -276,9 +275,11 @@ public class CourseRepositoryDB implements CourseRepository{
             System.out.println("EventsToAttend " + eventIDs.toString());
             int accomondationID = foreignKeys.getAccomondationID();
             if (accomondationID != 0){
-                r.setAccomondation(getAccomondation(foreignKeys.getAccomondationID()));
+                if (getAccomondation(foreignKeys.getAccomondationID()).getHotelID() != -2){ // The accomondation is "deleted".
+                    r.setAccomondation(getAccomondation(foreignKeys.getAccomondationID()));
+                    System.out.println("ACCOMONDATION ID = " + foreignKeys.getAccomondationID());
+                } else System.out.println("Accomondation eksisterer egentlig ikke.. ACCOMONDATION ID = " + foreignKeys.getAccomondationID());
             }
-            System.out.println("ACCOMONDATION ID = " + foreignKeys.getAccomondationID());
             r.setPerson(getPerson(foreignKeys.getPersonID()));
             System.out.println(r.getPerson().toString());
             r.setWorkplace(getWorkplace(foreignKeys.getWorkplaceID()));
@@ -351,22 +352,24 @@ public class CourseRepositoryDB implements CourseRepository{
                     System.out.println(registration.getEventsToAttend());
                     updateEventsToAttend(registration.getEventsToAttend(), registration.getRegistrationID());
                 }
+
                 System.out.println(registration.getAccomondation());
-                if (registration.getAccomondation().getHotelID() == -1){
-                    System.out.println("//////////// ************* Sletter accomondation.. ");
-                    deleteAccomondation(registration);
-                }
-                else if(registration.getAccomondation() != null){
-                    if (registration.getAccomondation().getId() == 0){ // new Accomondation
-                        System.out.println("Legger til HELT NY accomondation. ");
-                        Integer accomondationID = setAccomondation(registration.getAccomondation());
-                        setRegistrationNewAccomondation(accomondationID, registration.getRegistrationID());
+                if(registration.getAccomondation() != null){
+                    if (registration.getAccomondation().getId() == 0){ // new or delete Accomondation
+                        if (registration.getAccomondation().getFromDate() == null && registration.getAccomondation().getToDate() == null){
+                            System.out.println("//////////// ************* Sletter accomondation.. ");
+                            deleteAccomondation(registration.getRegistrationID());
+                        } else {
+                            System.out.println("Legger til HELT NY accomondation. ");
+                            Integer accomondationID = setAccomondation(registration.getAccomondation());
+                            setRegistrationNewAccomondation(accomondationID, registration.getRegistrationID());
+                        }
                     } else { // update old accomondation.
                         System.out.println("Oppdaterer gammel accomondation..");
                         updateAccomondation(registration.getAccomondation()
                         );
                     }
-                } else
+                }
                 if(registration.getPerson() != null){
                     updatePerson(registration.getPerson());
                 }
@@ -1114,11 +1117,9 @@ public class CourseRepositoryDB implements CourseRepository{
         }
     }
 
-    public boolean deleteAccomondation(Registration registration){
+    public boolean deleteAccomondation(int regID){
         try{
-            jdbcTemplateObject.update(updateAccomondation, new Object[]{
-                    null, null, null, null, null, registration.getAccomondation().getId()
-            });
+            jdbcTemplateObject.update(deleteAccomondation, new Object[]{regID});
             return true;
         } catch (Exception e){
             System.out.println("Error in deleteAccomondation() " + e);
@@ -1130,6 +1131,7 @@ public class CourseRepositoryDB implements CourseRepository{
         try{
             int personID = jdbcTemplateObject.queryForObject(getMaxPersonID, new Object[]{}, Integer.class);
             personID++;
+            System.out.println();
             jdbcTemplateObject.update(setPerson, new Object[]{
                     personID, person.getFirstname(), person.getLastname(), person.getBirthYear(), person.getPhonenumber(), person.getEmail(), person.getGender(), person.getMark()
             });
