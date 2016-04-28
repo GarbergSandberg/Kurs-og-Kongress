@@ -39,48 +39,20 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         $scope.hasRoom = data;
     });
 
-    $scope.optWo = [];
-    $scope.altForm = [];
-
     $scope.allDaysCheck = {};
     $scope.newacc = {};
     $scope.loading = true;
 
-    $scope.getOptional = function(form){
-        var help = [];
-        for (var u = 0; u<form.length; u++){
-            help[u] = angular.copy(form[u]);
-            console.log(form[u]);
-            if (form[u].answer == undefined){
-                help[u].parameter = false;
-                console.log(help[u]);
-            } else {
-                delete help[u].answer;
-                help[u].parameter = form[u].answer;
-                delete form[u].answer;
-            }
-        }
-        return help;
-    },
-
-    $scope.getOptionalPers = function(form, reg){
-        var help = [];
-        for (var i = 0; i<form.length; i++){
-            help[i] = angular.copy(form[i]);
-            if (reg.optionalPersonalia[i] == undefined && form[i] !== undefined){
-                help[i].parameter = false;
-            } else help[i].parameter = reg.optionalPersonalia[i];
-        }
-        delete reg.optionalPersonalia;
-        return help;
-    },
-
     $scope.saveGroupRegistration = function(){ // Må sende med course.id, course.form, session, workplace, person, pris.
-        var exInfo = $scope.getOptional($scope.course.form.extraInfo);
-        var optWo = $scope.getOptional($scope.course.form.optionalWorkplace);
-
         for (var i = 0; i<$scope.registrations.length; i++){
-            $scope.registrations[i].optionalPersonalia = $scope.getOptionalPers($scope.course.form.optionalPersonalia, $scope.registrations[i]);
+            $scope.registrations[i].optionalWorkplace = $scope.registration.optionalWorkplace;
+            $scope.registrations[i].extraInfo = $scope.registration.extraInfo;
+            console.log($scope.registrations[i]);
+            var optionals = self.inputParameterResolver($scope.registrations[i]);
+            $scope.registrations[i].optionalPersonalia = optionals.optionalPersonalia;
+            $scope.registrations[i].optionalWorkplace = optionals.optionalWorkplace;
+            $scope.registrations[i].extraInfo = optionals.extraInfo;
+            console.log($scope.registrations[i]);
             $scope.registrations[i].registrationID = -1;
             $scope.registrations[i].course = $scope.course;
             $scope.registrations[i].sessionsToAttend = self.getIdOfArray($scope.selectedSessions);
@@ -88,8 +60,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
             $scope.registrations[i].cost = self.findPrice($scope.selectedDays.length, $scope.allDaysCheck);//
             $scope.registrations[i].dates = $scope.selectedDays;
 
-            $scope.registrations[i].optionalWorkplace = optWo;
-            $scope.registrations[i].extraInfo = exInfo;
+
             //$scope.registrations[i].optionalPersonalia = $scope.getOptional($scope.course.form.optionalWorkplace);
 
             $scope.registrations[i].alternativeInvoiceAddress = $scope.registration.alternativeInvoiceAddress;
@@ -105,8 +76,6 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         }
         regService.sendRegistrations($scope.registrations);
     };
-
-
 
 
     $scope.saveSingleRegistration = function(registration){ // Må sende med course.id, course.form, session, workplace, person, pris.

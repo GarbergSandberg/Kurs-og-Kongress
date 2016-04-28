@@ -509,13 +509,11 @@
                             <span class="form-group col-xs-6">
                                 <input type="text" class="form-control"
                                        ng-model="selectedParticipant.accomondation.fromDate"
-                                       data-min-date="{{course.startDate}}"
-                                       data-max-date="{{course.endDate}}" placeholder="From" bs-datepicker>
+                                       placeholder="From" bs-datepicker>
                             </span>
                             <span class="form-group col-xs-6">
                                 <input type="text" class="form-control" ng-model="selectedParticipant.accomondation.toDate"
-                                       data-max-date="{{course.endDate}}"
-                                       data-min-date="{{course.startDate}}" placeholder="Until" bs-datepicker>
+                                       placeholder="Until" bs-datepicker>
                             </span>
                         </td>
                     </div>
@@ -526,9 +524,8 @@
                 <button ng-if="!change" type="button" class="btn btn-default" ng-click="showInvoice()">Fakturering</button>
                 <button ng-if="!change" type="button" class="btn btn-default" ng-click="changeRegistration()">Endre</button>
                 <button ng-if="change" type="button" class="btn btn-default" ng-click="cancelChange()">Forkast endringer</button>
-                <button ng-if="change" type="button" align="right" class="btn btn-primary" ng-click="updateRegistration(selectedParticipant)">Lagre
-                    endringer
-                </button>
+                <button ng-if="change" type="button" align="right" class="btn btn-primary" ng-click="updateRegistration(selectedParticipant)">
+                    Lagre endringer</button>
             </span>
         </div>
     </div>

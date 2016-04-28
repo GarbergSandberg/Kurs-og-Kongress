@@ -289,7 +289,9 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
             for (var i = 0; i < registrations.length; i++) {
                 console.log(registrations[i]);
                 if (registrations[i].person == reg.person) {
-                    removeRoom(reg.person);
+                    if (reg.accomondation !== undefined && reg.accomondation !== undefined){
+                        removeRoom(reg.person);
+                    }
                     registrations.splice(i, 1);
                 }
             }
@@ -332,12 +334,8 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
         newReg.role = newPerson.role;
         newReg.optionalPersonalia = newPerson.opt;
         newReg.person = newPerson;
-        //newReg.accomondation = {};
         registrations.push(newReg);
-        console.log("Her skal mark være med ");
-        console.log(newReg);
         $rootScope.$broadcast('personSet', persons);
-        //$rootScope.$broadcast('regSet', registrations);
     };
 
     function generateId() {
