@@ -133,7 +133,6 @@
         </div>
         <div style="clear: both"></div>
         <button style="margin-left:2em;" type="button" class="btn btn-primary" ng-click="update(person, numberOfPersons)"> Lagre personer </button>
-
         </hr>
 
         <div class="list-group">

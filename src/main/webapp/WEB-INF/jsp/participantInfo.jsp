@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/libs.min.css">
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/docs.min.css">
     <link rel="stylesheet" href="resources/css/courseOverview.css">
+    <link rel="stylesheet" href="resources/css/color.css">
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular.min.js" data-semver="1.4.5"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-animate.min.js" data-semver="1.4.5"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-sanitize.min.js" data-semver="1.4.5"></script>
@@ -42,7 +43,7 @@
 <div ng-app="registerApp" style="margin-left:3em; margin-right:3em;">
     <div ng-controller="attenderInfoCtrl">
         <table class="table">
-            <tr style="background-color:gray;color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     Kurs
                 </td>
@@ -50,7 +51,7 @@
                     {{selectedParticipant.course.title}}
                 </td>
             </tr>
-            <tr style="background-color:gray;color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     <h4>Personinfo</h4>
                 </td>
@@ -95,7 +96,7 @@
                     {{selectedParticipant.alternativeInvoiceAddress}}
                 </td>
             </tr>
-            <tr style="background-color:gray;color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     <h4>Arbeidsgiverinfo</h4>
                 </td>
@@ -125,7 +126,7 @@
                     {{selectedParticipant.optionalWorkplace[$index].parameter}}
                 </td>
             </tr>
-            <tr style="background-color:gray;color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     <h4>Sesjoner deltakeren er påmeldt</h4>
                 </td>
@@ -139,7 +140,7 @@
                     {{session.date | date:'dd/MM/yyyy'}} ({{session.startTime | date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})
                 </td>
             </tr>
-            <tr style="background-color:gray; color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     Arrangementer deltakeren er påmeldt
                 </td>
@@ -153,7 +154,7 @@
                     {{event.date | date:'dd/MM/yyyy'}} ({{event.startTime | date:'HH:mm'}})
                 </td>
             </tr>
-            <tr style="background-color:gray;color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     <h4>Deltakeren er meldt på følgende dager</h4>
                 </td>

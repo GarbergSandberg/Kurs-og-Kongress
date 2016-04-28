@@ -34,7 +34,7 @@
                         <tr>
                             <td ng-repeat="date in dates | filter:filterCopySession" style="max-width: 100%; word-wrap: break-word">
 
-                                <label class="checkbox-inline"><input type="checkbox" ng-model="newSession.repetitiveSession[date.id]">  {{date | date:'dd. MMM'}} </label>
+                                <label class="checkbox-inline"><input type="checkbox" ng-model="newSession.repetitiveSession[date]">  {{date | date:'dd. MMM'}} </label>
                             </td>
                         </tr>
                     </table>

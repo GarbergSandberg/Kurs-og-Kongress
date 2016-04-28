@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/libs.min.css">
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/docs.min.css">
-    <link rel="stylesheet" href="resources/css/sessionRegister.css">
+    <link rel="stylesheet" href="resources/css/color.css">
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular.min.js" data-semver="1.4.5"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-animate.min.js" data-semver="1.4.5"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-sanitize.min.js" data-semver="1.4.5"></script>
@@ -46,7 +46,7 @@
             <h1>Økonomisk rapport for {{course.title}}</h1><br>
             <h4>Kursinntekter</h4>
             <table class="table">
-                <tr style="background-color:gray;color:black;">
+                <tr class="tableRowHighlight">
                     <td style="text-align: left;">Hva </td>
                     <td style="text-align: center;">Pris </td>
                     <td style="text-align: center;">Antall </td>
@@ -71,7 +71,7 @@
                     <td style="text-align: center;">{{numberOfDaypackages.number}} </td>
                     <td style="text-align: right;">{{numberOfDaypackages.total}} kr</td>
                 </tr>
-                <tr style="border-top: thick double #000000; color:black; font-weight: bold;">
+                <tr style="border-top-style: solid; color:black; font-weight: bold">
                     <td style="text-align: left;">Sum </td>
                     <td style="text-align: center;"> </td>
                     <td style="text-align: center;"> </td>
@@ -81,7 +81,7 @@
             <br>
             <h4>Arrangementsinntekter</h4>
             <table class="table">
-                <tr style="background-color:gray;color:black;">
+                <tr class="tableRowHighlight"">
                     <td style="text-align: left;">Hva </td>
                     <td style="text-align: center;">Pris </td>
                     <td style="text-align: center;">Antall </td>
@@ -94,7 +94,7 @@
                     <td style="text-align: center;">{{event.number}} </td>
                     <td style="text-align: right;">{{event.total}} kr</td>
                 </tr>
-                <tr style="border-top: thick double #000000; color:black; font-weight: bold;">
+                <tr style="border-top-style: solid; color:black; font-weight: bold">
                     <td style="text-align: left;">Sum </td>
                     <td style="text-align: center;"> </td>
                     <td style="text-align: center;"> </td>
@@ -104,7 +104,7 @@
             <br>
             <h4>Totalt</h4>
             <table class="table">
-                <tr style="border-bottom: thick double #000000; color:black; font-weight: bold;">
+                <tr style="border-top-style: solid; color:black; font-weight: bold">
                     <td style="text-align: left;">Total sum </td>
                     <td style="text-align: center;"> </td>
                     <td style="text-align: center;"> </td>

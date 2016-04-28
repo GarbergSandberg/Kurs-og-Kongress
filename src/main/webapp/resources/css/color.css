@@ -1,0 +1,11 @@
+tr.tableRowHighlight{
+background-color: #d3d3d3;
+}
+
+#spinner{
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -27px;
+    margin-left: -21px;
+}

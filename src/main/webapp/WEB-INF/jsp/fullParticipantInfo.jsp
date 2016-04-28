@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/docs.min.css">
     <link rel="stylesheet" href="resources/css/courseOverview.css">
     <link rel="stylesheet" href="resources/css/sessionRegister.css">
+    <link rel="stylesheet" href="resources/css/color.css">
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular.min.js" data-semver="1.4.5"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-animate.min.js" data-semver="1.4.5"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-sanitize.min.js" data-semver="1.4.5"></script>
@@ -47,7 +48,7 @@
             <button ng-if="change" type="button" align="right" class="btn btn-primary" ng-click="updateRegistration(selectedParticipant)">Lagre endringer </button>
         </span>
         <table class="table" ng-if="!change">
-            <tr style="background-color:gray;color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     Kurs
                 </td>
@@ -55,7 +56,7 @@
                     {{selectedParticipant.course.title}}
                 </td>
             </tr>
-            <tr style="background-color:gray; color:black; padding-top: 15px">
+            <tr class="tableRowHighlight">
                 <td>
                     Personinfo
                 </td>
@@ -132,7 +133,7 @@
                     {{selectedParticipant.alternativeInvoiceAddress}}
                 </td>
             </tr>
-            <tr style="background-color:gray; color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     Arbeidsgiverinfo
                 </td>
@@ -163,7 +164,7 @@
                     {{selectedParticipant.optionalWorkplace[$index].parameter}}
                 </td>
             </tr>
-            <tr style="background-color:gray; color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     Sesjoner deltakeren er påmeldt
                 </td>
@@ -178,7 +179,7 @@
                     date:'HH:mm'}})
                 </td>
             </tr>
-            <tr style="background-color:gray; color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     Arrangementer deltakeren er påmeldt
                 </td>
@@ -192,7 +193,7 @@
                     {{event.date | date:'dd/MM/yyyy'}} ({{event.startTime | date:'HH:mm'}})
                 </td>
             </tr>
-            <tr style="background-color:gray; color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     Deltakeren er meldt på følgende dager
                 </td>
@@ -214,7 +215,7 @@
                     {{date | date:'dd/MM/yyyy'}}
                 </td>
             </tr>
-            <tr  style="background-color:gray; color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     Overnatting
                 </td>
@@ -258,7 +259,7 @@
                     <input type="checkbox" name="roomType" ng-model="selectedParticipant.speaker" ng-value="true"/>
                 </td>
             </tr>
-            <tr style="background-color:gray;color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     Kurs
                 </td>
@@ -266,7 +267,7 @@
                     {{selectedParticipant.course.title}}
                 </td>
             </tr>
-            <tr style="background-color:gray;color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     Personinfo
                 </td>
@@ -332,7 +333,7 @@
                     <input type="text" ng-model="selectedParticipant.alternativeInvoiceAddress">
                 </td>
             </tr>
-            <tr style="background-color:gray;color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     Arbeidsgiverinfo
                 </td>
@@ -383,7 +384,7 @@
             </tr>
         </table>
         <table class="table session" ng-if="change">
-            <tr style="background-color:gray;color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     Sesjoner deltakeren er påmeldt
                 </td>
@@ -405,7 +406,7 @@
             </tr>
         </table>
         <table class="table session" ng-if="change">
-            <tr style="background-color:gray;color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     Arrangementer deltakeren er påmeldt
                 </td>
@@ -430,7 +431,7 @@
             <br ng-if="change">
         </table>
         <table class="table" ng-if="change">
-            <tr style="background-color:gray;color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     Deltakeren er meldt på følgende dager
                 </td>
@@ -454,7 +455,7 @@
         </table>
         <table class="table" ng-if="change">
             </tr>
-            <tr style="background-color:gray;color:black;">
+            <tr class="tableRowHighlight">
                 <td>
                     Overnatting
                 </td>

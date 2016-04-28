@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/libs.min.css">
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/docs.min.css">
-    <link rel="stylesheet" href="resources/css/courseOverview.css">
+    <link rel="stylesheet" href="resources/css/color.css">
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular.min.js" data-semver="1.4.5"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-animate.min.js" data-semver="1.4.5"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-sanitize.min.js" data-semver="1.4.5"></script>
@@ -49,6 +49,11 @@
                 <td>
                 </td>
             </tr>
+            <tr class="tableRowHighlight">
+                <td>Personinfo</td>
+
+                <td></td>
+            </tr>
             <tr>
                 <td>
                     Navn
@@ -66,8 +71,8 @@
                     <span ng-if="!selectedParticipant.alternativeInvoiceAddress">{{selectedParticipant.workplace.address}}, {{selectedParticipant.workplace.postalcode}} {{selectedParticipant.workplace.location}}</span>
                 </td>
             </tr>
-            <tr>
-                <td style="font-weight: bold">Type utgift</td>
+            <tr class="tableRowHighlight">
+                <td>Type utgift</td>
 
                 <td></td>
             </tr>
@@ -79,7 +84,15 @@
                     {{payment.amount | number : 2}} kr
                 </td>
             </tr>
-            <tr style="font-weight: bold">
+            <tr ng-repeat="event in selectedParticipant.attendingEvents">
+                <td>
+                    {{event.title}}
+                </td>
+                <td style="text-align: right">
+                    {{event.price | number : 2}} kr
+                </td>
+            </tr>
+            <tr style="border-top-style: solid; color:black; font-weight: bold">
                 <td>
                     Totalt
                 </td>
@@ -87,7 +100,7 @@
                     {{selectedParticipant.totalAmount | number : 2}} kr
                 </td>
             </tr>
-            <button type="button" class="btn btn-default" ng-click="showInfo()">Personinfo</button>
+        </table>
         </div>
     </div>
 </body>

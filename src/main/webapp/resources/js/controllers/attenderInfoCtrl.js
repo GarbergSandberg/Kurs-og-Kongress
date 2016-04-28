@@ -36,7 +36,7 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
                     $scope.selectedParticipant.attendingSessions = self.findSessions($scope.selectedParticipant);
                     $scope.selectedParticipant.attendingEvents = self.findEvents($scope.selectedParticipant);
                     $scope.selectedParticipant.attendingFullCourse = self.isAttendingFullCourse($scope.selectedParticipant);
-                    $scope.selectedParticipant.totalAmount = self.calculateTotal($scope.selectedParticipant.cost);
+                    $scope.selectedParticipant.totalAmount = self.calculateTotal($scope.selectedParticipant.cost, $scope.selectedParticipant.attendingEvents);
                     $scope.selectedParticipant.dates = self.convertDates($scope.selectedParticipant.dates);
                     $scope.course = $scope.selectedParticipant.course;
                     console.log($scope.selectedParticipant);
@@ -143,11 +143,16 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         return $scope.dateArray;
     };
 
-    self.calculateTotal = function (registration) {
+    self.calculateTotal = function (payments, events) {
         var total = 0;
-        if (registration !== undefined) {
-            for (var i = 0; i < registration.length; i++) {
-                total += registration[i].amount;
+        if (payments) {
+            for (var i = 0; i < payments.length; i++) {
+                total += payments[i].amount;
+            }
+        }
+        if(events){
+            for (var i = 0; i < events.length; i++){
+                total += events[i].price;
             }
         }
         return total;

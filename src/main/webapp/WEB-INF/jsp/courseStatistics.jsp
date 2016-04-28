@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/libs.min.css">
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/docs.min.css">
     <link rel="stylesheet" href="resources/css/sessionRegister.css">
+    <link rel="stylesheet" href="resources/css/color.css">
+    <link rel="stylesheet" href="resources/css/courseOverview.css">
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular.min.js" data-semver="1.4.5"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-animate.min.js" data-semver="1.4.5"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-sanitize.min.js" data-semver="1.4.5"></script>
@@ -105,7 +107,7 @@
                 </div>
             </div>
             <table class="table">
-                <tr style="background-color:gray;color:black;">
+                <tr class="tableRowHighlight">
                     <td style="text-align: left;">Navn: </td>
                     <td style="text-align: center;">Arbeidsplass: </td>
                     <td style="text-align: right;"> </td>
