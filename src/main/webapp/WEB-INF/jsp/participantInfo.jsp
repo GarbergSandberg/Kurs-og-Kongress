@@ -53,13 +53,13 @@
             </tr>
             <tr class="tableRowHighlight">
                 <td>
-                    <h4>Personinfo</h4>
+                    Personinfo
                 </td>
                 <td></td>
             </tr>
             <tr style="color: #ff2c27" ng-if="selectedParticipant.speaker">
                 <td>
-                    <h4>Personen er foredragsholder</h4>
+                    Personen er foredragsholder
                 </td>
                 <td>
                 </td>
@@ -98,7 +98,7 @@
             </tr>
             <tr class="tableRowHighlight">
                 <td>
-                    <h4>Arbeidsgiverinfo</h4>
+                    Arbeidsgiverinfo
                 </td>
                 <td></td>
             </tr>
@@ -128,7 +128,7 @@
             </tr>
             <tr class="tableRowHighlight">
                 <td>
-                    <h4>Sesjoner deltakeren er påmeldt</h4>
+                    Sesjoner deltakeren er påmeldt
                 </td>
                 <td></td>
             </tr>
@@ -146,7 +146,10 @@
                 </td>
                 <td></td>
             </tr>
-            <tr ng-repeat="event in selectedParticipant.attendingEvents">
+            <tr ng-if="selectedParticipant.attendingEvents == null">
+                Ingen påmeldt på noen arrangementer.
+            </tr>
+            <tr ng-if="selectedParticipant.attendingEvents !== null" ng-repeat="event in selectedParticipant.attendingEvents">
                 <td>
                     {{event.title}}
                 </td>
@@ -156,7 +159,7 @@
             </tr>
             <tr class="tableRowHighlight">
                 <td>
-                    <h4>Deltakeren er meldt på følgende dager</h4>
+                    Deltakeren er meldt på følgende dager
                 </td>
                 <td></td>
             </tr>

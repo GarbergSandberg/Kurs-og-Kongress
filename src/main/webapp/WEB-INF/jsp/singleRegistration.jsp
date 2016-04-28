@@ -184,14 +184,12 @@ To change this template use File | Settings | File Templates.
                     <label class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i> <i
                             class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
                     <div class="form-group col-xs-6">
-                        <input type="text" class="form-control" ng-model="registration.accomondation.fromDate"
-                               data-min-date="{{course.startDate}}"
-                               data-max-date="{{course.endDate}}" placeholder="From" bs-datepicker>
+                        <input type="text" class="form-control" ng-model="registration.accomondation.fromDate" data-time-format="dd/mm/yyy"
+                               ng-init="course.startDate" placeholder="From" bs-datepicker>
                     </div>
                     <div class="form-group col-xs-6">
-                        <input type="text" class="form-control" ng-model="registration.accomondation.toDate"
-                               data-max-date="{{course.endDate}}"
-                               data-min-date="{{course.startDate}}" placeholder="Until" bs-datepicker>
+                        <input type="text" class="form-control" ng-model="registration.accomondation.toDate" data-time-format="dd/mm/yyy"
+                               ng-init="course.endDate" placeholder="Until" bs-datepicker>
                     </div>
                 </div>
             </form>

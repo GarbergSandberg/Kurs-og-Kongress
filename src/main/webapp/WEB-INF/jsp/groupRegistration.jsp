@@ -68,9 +68,14 @@
         </div>
         <div ng-repeat="opt in course.form.optionalWorkplace track by opt.id">
             <label>{{opt.parameter}}: </label>
+            <input type="checkbox" ng-hide="whichType(opt.type)" ng-model="registration.optionalWorkplace[$index]"/>
+            <input type="text" ng-show="whichType(opt.type)" ng-model="registration.optionalWorkplace[$index]"/><br>
+        </div>
+        <!--<div ng-repeat="opt in course.form.optionalWorkplace track by opt.id">
+            <label>{{opt.parameter}}: </label>
             <input type="checkbox" ng-hide="whichType(opt.type)" ng-model="opt.answer"/>
             <input type="text" ng-show="whichType(opt.type)" ng-model="opt.answer"/><br>
-        </div>
+        </div>-->
         <hr/>
 
 
@@ -104,7 +109,8 @@
                     <div ng-repeat="opt in course.form.optionalPersonalia">
                         <br>
                         <label>{{opt.parameter}}: </label>
-                        <input type="checkbox" ng-hide="whichType(opt.type)" ng-init="person[n].opt[$index]='false'" ng-model="person[n].opt[$index]"/>
+                        <input type="checkbox" ng-hide="whichType(opt.type)" ng-init="person[n].opt[$index]='false'"
+                               ng-model="person[n].opt[$index]"/>
                         <input class="text" ng-show="whichType(opt.type)" ng-model="person[n].opt[$index]"/>
                     </div>
                     <div>
@@ -124,7 +130,7 @@
                         <label>Bemerkning/best.nr etc?</label>
                         <div ng-show="checkbox[{{$index}}]">
                         <textarea ng-model="person[n].mark" ng-init="person[n].mark=''" class="form-control"
-                              id="description" rows="2"></textarea>
+                                  id="description" rows="2"></textarea>
                         </div>
                     </div>
                 </form>
@@ -132,7 +138,10 @@
             <div ng-if="!(($index+1) % 3)" style="clear: both"></div> <!-- "Linebreak" every 3trd div. -->
         </div>
         <div style="clear: both"></div>
-        <button style="margin-left:2em;" type="button" class="btn btn-primary" ng-click="update(person, numberOfPersons)"> Lagre personer </button>
+        <button style="margin-left:2em;" type="button" class="btn btn-primary"
+                ng-click="update(person, numberOfPersons)"> Lagre personer
+        </button>
+
         </hr>
 
         <div class="list-group">
@@ -211,13 +220,11 @@
                             class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
                     <div class="form-group col-xs-6">
                         <input type="text" class="form-control" ng-model="newacc.fromDate"
-                               data-min-date="{{course.startDate}}"
-                               data-max-date="{{course.endDate}}" placeholder="From" bs-datepicker>
+                               placeholder="From" bs-datepicker>
                     </div>
                     <div class="form-group col-xs-6">
                         <input type="text" class="form-control" ng-model="newacc.toDate"
-                               data-max-date="{{course.endDate}}"
-                               data-min-date="{{course.startDate}}" placeholder="Until" bs-datepicker>
+                               placeholder="Until" bs-datepicker>
                     </div>
                 </div>
             </form>
@@ -289,11 +296,12 @@
         <div ng-if="course.extraInfo !== undefined">
             balbalbla.
         </div>
-        <div ng-repeat="extra in course.form.extraInfo">
-            <label>{{extra.parameter}}: </label>
-            <input type="checkbox" ng-hide="whichType(extra.type)" ng-init="extra.answer='false'"
-                   ng-model="extra.answer"/><br>
-            <input type="text" ng-show="whichType(extra.type)" value="" ng-model="extra.answer"/><br><br>
+        <div ng-repeat="extraInfo in course.form.extraInfo">
+            <label>{{extraInfo.parameter}}: </label>
+            <input type="checkbox" ng-if="!whichType(extraInfo.type)" ng-model="registration.extraInfo[$index]"
+                   ng-init="registration.extraInfo[$index]='false'" value="false"/>
+            <input type="text" ng-if="whichType(extraInfo.type)" ng-model="registration.extraInfo[$index]"
+                   ng-init="registration.extraInfo[$index]=''" value=""/><br>
         </div>
         <br>
         <button style="margin-left:2em;" type="button" class="btn btn-primary"
