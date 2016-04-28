@@ -33,8 +33,8 @@
 <body>
 <div ng-app="RegApp">
     <div ng-controller="AddRegCtrl" class="page-header" style="margin-left:3em; margin-right:3em;">
-        <div ng-show="!loading">
-            <h1>Gruppepåmelding til {{course.title}}</h1><br>
+        <hr ng-show="!loading">
+        <h1>Gruppepåmelding til {{course.title}}</h1><br>
 
 
         <!-- Arbeidsinfo -->
@@ -62,7 +62,8 @@
         </label>
         <div ng-show="checkboxAccModel.another">
             Alternativ fakturaadresse:
-            <input type="form-control" ng-model="registration.alternativeInvoiceAddress" id="alternativeInvoiceAddress"
+            <input type="form-control" ng-model="registration.alternativeInvoiceAddress"
+                   id="alternativeInvoiceAddress"
                    value="" size="40"/><br>
         </div>
         <div ng-repeat="opt in course.form.optionalWorkplace track by opt.id">
@@ -73,99 +74,101 @@
         <hr/>
 
 
-            <h3>Personalia</h3>
-            Hvor mange skal legges til?<select ng-model="numberOfPersons" ng-options="n for n in [] | range:1:20"></select>
-            <hr/>
-
-            <div style="display: inline-block; border-style: groove; max-width: 230px;"
-                 ng-repeat="n in repeat(numberOfPersons) track by $index">
+        <h3>Personalia</h3>
+        Hvor mange skal legges til?
+        <select ng-model="numberOfPersons" ng-options="n for n in [] | range:1:20"></select>
+        <hr/>
+        <div ng-repeat="n in repeat(numberOfPersons) track by $index">
+            <div class="jumbotron clearfix" id="jumbosomething">
                 <form>
                     <div>
                         <label for="firstname">Fornavn: </label>
-                        <input type="form-control" ng-model="person[n].firstname" id="firstname"/>
+                        <input class="form-control" ng-model="person[n].firstname" id="firstname"/>
                     </div>
                     <div>
                         <label for="lastname">Etternavn: </label>
-                        <input type="form-control" ng-model="person[n].lastname" id="lastname"/>
+                        <input class="form-control" ng-model="person[n].lastname" id="lastname"/>
                     </div>
                     <div>
                         <label for="number">Nummer: </label>
-                        <input type="form-control" ng-model="person[n].number" id="number"/>
+                        <input class="form-control" ng-model="person[n].number" id="number"/>
                     </div>
                     <div>
                         <label for="email">Mail: </label>
-                        <input type="form-control" ng-model="person[n].email" id="email"/>
+                        <input class="form-control" ng-model="person[n].email" id="email"/>
                     </div>
                     <div>
                         <label for="birthyear">Fødselsår: </label>
-                        <input type="form-control" ng-model="person[n].birthyear" id="birthyear"/>
+                        <input class="form-control" ng-model="person[n].birthyear" id="birthyear"/>
                     </div>
-
-                <div ng-repeat="opt in course.form.optionalPersonalia">
-                    <label>{{opt.parameter}}: </label>
-                    <input type="checkbox" ng-hide="whichType(opt.type)" ng-init="person[n].opt[$index]='false'"
-                           ng-model="person[n].opt[$index]"/><br>
-                    <input type="text" ng-show="whichType(opt.type)" ng-model="person[n].opt[$index]"/><br><br>
-                </div>
-
-                <label ng-repeat="role in course.roles">
-                    <input type="radio" name="role" ng-model="person[n].role" ng-value="role"/> {{role}}
-                </label>
-                <label>
-                    <input type="radio" name="gender" value="Mann" ng-model="person[n].gender"> Mann
-                    <input type="radio" name="gender" value="Kvinne" ng-model="person[n].gender"> Kvinne
-                </label>
-                <br>
-                <!--Ekstra (utvides om "checked") -->
-                <input type="checkbox" ng-model="checkbox[n]" ng-change="alert({{n}})">
-                Bemerkning/spesiell diett/best.nr/kode etc?
-                <div ng-show="checkbox[{{$index}}]">
-                    Beskrivelse:
-                    <textarea ng-model="person[n].mark" ng-init="person[n].mark=''" class="form-control" id="description"
-                              rows="3"></textarea>
+                    <div ng-repeat="opt in course.form.optionalPersonalia">
+                        <br>
+                        <label>{{opt.parameter}}: </label>
+                        <input type="checkbox" ng-hide="whichType(opt.type)" ng-init="person[n].opt[$index]='false'"
+                               ng-model="person[n].opt[$index]"/>
+                        <input class="text" ng-show="whichType(opt.type)" ng-model="person[n].opt[$index]"/>
+                    </div>
+                    <label ng-repeat="role in course.roles">
+                        <input type="radio" name="role" ng-model="person[n].role" ng-value="role"/> {{role}}
+                    </label>
+                    <label>
+                        <input type="radio" name="gender" value="Mann" ng-model="person[n].gender"> Mann
+                        <input type="radio" name="gender" value="Kvinne" ng-model="person[n].gender"> Kvinne
+                    </label>
+                    <br>
+                    <!--Ekstra (utvides om "checked") -->
+                    <input type="checkbox" ng-model="checkbox[n]" ng-change="alert({{n}})">
+                    <label>Bemerkning/best.nr etc?</label>
+                    <div ng-show="checkbox[{{$index}}]">
+                    <textarea ng-model="person[n].mark" ng-init="person[n].mark=''" class="form-control"
+                              id="description" rows="2"></textarea>
                     </div>
                 </form>
             </div>
-            <hr/>
-            <button style="margin-left:2em;" type="button" class="btn btn-primary" ng-click="update(person)"> Lagre</button>
+        </div>
 
-            <div class="list-group">
-                <a class="list-group-item person" ng-repeat="reg in registrations track by $index">
-                    <h4 class="list-group-item-heading event">{{reg.person.firstname}} {{reg.person.lastname}}</h4>
-                    <p class="list-group-item-text">
-                        Fødselsår: {{reg.person.birthYear}} <br>
-                        Nummer: {{reg.person.number}}<br>
-                        E-Mail: {{reg.person.email}}<br>
-                        Merk: {{reg.person.mark}}<br>
-                        Rolle: {{reg.role}}<br>
-                        Kjønn: {{reg.person.gender}}<br>
-                    <div ng-repeat="n in person.opt track by $index">
-                        {{course.form.optionalPersonalia[$index].parameter}}: {{reg.person.opt[$index]}}
-                    </div>
+        </hr>
+        <button style="margin-left:2em;" type="button" class="btn btn-primary" ng-click="update(person)"> Lagre personer
+        </button>
+        </hr>
+
+        <div class="list-group">
+            <a class="list-group-item person" ng-repeat="reg in registrations track by $index">
+                <h4 class="list-group-item-heading event">{{reg.person.firstname}} {{reg.person.lastname}}</h4>
+                <p class="list-group-item-text">
+                    Fødselsår: {{reg.person.birthYear}} <br>
+                    Nummer: {{reg.person.number}}<br>
+                    E-Mail: {{reg.person.email}}<br>
+                    Merk: {{reg.person.mark}}<br>
+                    Rolle: {{reg.role}}<br>
+                    Kjønn: {{reg.person.gender}}<br>
+                <div ng-repeat="n in person.opt track by $index">
+                    {{course.form.optionalPersonalia[$index].parameter}}: {{reg.person.opt[$index]}}
+                </div>
 
 
-                    <div ng-show="hasRoommate(reg.person)" data-placement="bottom" data-type="info"
-                         data-animation="am-fade-and-scale" bs-tooltip="tooltip">
-                        Rom: {{getPersonName(reg.accomondation.roommateID)}}
-                        <button type="button" ng-model="tooltip.checked" class="btn btn-default btn-xs"
-                                ng-click="removeRoom(reg)">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </button>
-                    </div>
-                    </p>
-                    <button type="button" class="btn btn-default btn-sm" ng-click="removePerson(reg)">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Slett person
+                <div ng-show="hasRoommate(reg.person)" data-placement="bottom" data-type="info"
+                     data-animation="am-fade-and-scale" bs-tooltip="tooltip">
+                    Rom: {{getPersonName(reg.accomondation.roommateID)}}
+                    <button type="button" ng-model="tooltip.checked" class="btn btn-default btn-xs"
+                            ng-click="removeRoom(reg)">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </button>
-                </a>
-            </div>
+                </div>
+                </p>
+                <button type="button" class="btn btn-default btn-sm" ng-click="removePerson(reg)">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Slett person
+                </button>
+            </a>
+        </div>
 
-            <hr>
+        <hr>
 
 
-            <h3>Overnatting</h3>
-            <label for="accomodation">
-                <input type="checkbox" id="accomodation" ng-model="checkboxAccModel.c1"/>
-                Ønsker overnatting?</label>
+        <h3>Overnatting</h3>
+        <label for="accomodation">
+            <input type="checkbox" id="accomodation" ng-model="checkboxAccModel.c1"/>
+            Ønsker overnatting?</label>
 
         <div ng-show="checkboxAccModel.c1">
             <label> Velg person: </label>
@@ -230,15 +233,17 @@
         <hr/>
 
 
-            <h3>Påmelding faglig program</h3>
-            <label>
-                <input type="checkbox" name="allDays" ng-model="allDaysCheck" value="allDays" ng-click="wholeCourse()"> Hele
-                kurset
-            </label> <br>
-            <label ng-repeat="date in dateArray">
-                <input type="checkbox" name="selectedDays[]" value="{{date}}" ng-checked="selectedDays.indexOf(date) > -1"
-                       ng-click="selectDay(date)"> {{date | date:'EEEE'}}
-            </label>
+        <h3>Påmelding faglig program</h3>
+        <label>
+            <input type="checkbox" name="allDays" ng-model="allDaysCheck" value="allDays" ng-click="wholeCourse()">
+            Hele
+            kurset
+        </label> <br>
+        <label ng-repeat="date in dateArray">
+            <input type="checkbox" name="selectedDays[]" value="{{date}}"
+                   ng-checked="selectedDays.indexOf(date) > -1"
+                   ng-click="selectDay(date)"> {{date | date:'EEEE'}}
+        </label>
 
 
         <h3>Påmelding sesjoner</h3>
@@ -292,10 +297,10 @@
                 ng-click="saveGroupRegistration()"> Send påmelding
         </button>
     </div>
-        <div ng-show="loading">
-            <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>
-            <span class="sr-only">Loading...</span>
-        </div>
+    <div ng-show="loading">
+        <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>
+        <span class="sr-only">Loading...</span>
+    </div>
 </div>
 </body>
 </html>
