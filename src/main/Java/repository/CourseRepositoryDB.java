@@ -70,7 +70,7 @@ public class CourseRepositoryDB implements CourseRepository{
     private final String deleteRole = "delete from courserole where idcourserole = ?";
     private final String getRoleID = "select idcourserole from courserole where course_idcourse = ? order by IDCOURSEROLE";
     private final String deleteHotel = "update hotel set course_idcourse = null where idhotel = ?";
-    private final String updateHotel = "update hotel set name = ?, doubleprice = ?, singleprice = ?, address = ? where course_idcourse = ?";
+    private final String updateHotel = "update hotel set name = ?, doubleprice = ?, singleprice = ?, address = ? where IDHOTEL = ?";
     private final String updateForm = "update form set airplane = ? where course_idcourse = ?";
     private final String deleteInputParameter = "delete from inputparameter where idinputparameter = ?";
     private final String deleteInputParameterHasOptionalPers = "delete from inputparameter_has_optionalpersonalia where inputparameter_idinputparameter = ?";
@@ -698,7 +698,7 @@ public class CourseRepositoryDB implements CourseRepository{
             for (Hotel hotel : hotels){
                 if (hotel.getId() != -1){
                     jdbcTemplateObject.update(updateHotel, new Object[]{
-                            hotel.getName(), hotel.getDoubleprice(), hotel.getSingleprice(), hotel.getAddress(), courseID
+                            hotel.getName(), hotel.getDoubleprice(), hotel.getSingleprice(), hotel.getAddress(), hotel.getId()
                     });
                 } else{
                     System.out.println("New hotel detected! Adding hotel " + hotel.getName());

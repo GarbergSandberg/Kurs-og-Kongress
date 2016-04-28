@@ -44,6 +44,14 @@ sessionRegisterApp.factory('eventService', function() {
         return events;
     };
 
+    eventService.getEvent = function(eventID){
+        for (var i = 0; i < events.length; i++){
+            if(events[i].id == eventID){
+                return events[i];
+            }
+        }
+    };
+
     eventService.setEvents = function(eventsSent){
         for (var i = 0; i < eventsSent.length; i++){
             var newEvent = eventsSent[i];

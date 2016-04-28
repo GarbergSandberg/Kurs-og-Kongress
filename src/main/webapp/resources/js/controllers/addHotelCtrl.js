@@ -1,15 +1,23 @@
 sessionRegisterApp.controller('addHotelCtrl', ['$scope', '$modal', 'hotelService', function ($scope, $modal, hotelService) {
-    /*var myModal = $modal({scope: $scope, templateUrl: '/resources/html/registerAccomondationModal.html', show: false});
-    $scope.showModal = function () {
-        myModal.$promise.then(myModal.show);
-    }; */
+    $scope.removeDeleteButton;
     $scope.hotels = hotelService.get();
     $scope.update = function (newHotel) {
-        console.log("Oppdaterer hotell.");
         hotelService.save(newHotel);
     };
     $scope.delete = function (newHotel) {
-        console.log("Sletter hotell.");
         hotelService.delete(newHotel);
     };
+    $scope.editHotel = function(hotel){
+        $scope.removeDeleteButton = true;
+        $scope.addNewHotel = angular.copy(hotelService.getHotel(hotel.id));
+        console.log($scope.addNewHotel);
+    };
+    $scope.deleteButtonCtrl = function(){
+        return $scope.removeDeleteButton;
+    };
+    $scope.addingNewHotel = function(){
+        $scope.removeDeleteButton = false;
+        $scope.addNewHotel = {};
+        $scope.addNewHotel.id = -1;
+    }
 }]);

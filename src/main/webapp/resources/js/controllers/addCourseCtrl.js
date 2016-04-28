@@ -46,6 +46,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
         course.roles = $scope.roles;
         sessionService.destroyTempIDs();
         eventService.destroyTempIDs();
+        hotelService.destroyTempIDs();
         course.sessions = sessionService.get();
         course.events = eventService.get();
         course.hotels = hotelService.get();

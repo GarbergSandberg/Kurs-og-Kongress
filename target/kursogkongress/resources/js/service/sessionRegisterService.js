@@ -88,6 +88,14 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
         return sessions;
     };
 
+    sessionService.getSession = function(sessionID){
+        for (var i = 0; i < sessions.length; i++){
+            if(sessions[i].id == sessionID){
+                return sessions[i];
+            }
+        }
+    };
+
     function addDuplicatedSessions(session) {
         if(session.repetitiveSession != undefined) {
             for (var item in session.repetitiveSession) {

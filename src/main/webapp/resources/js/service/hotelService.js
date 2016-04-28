@@ -4,6 +4,7 @@
 sessionRegisterApp.factory('hotelService', ['$rootScope', function($rootScope) {
     var hotels = [];
     var hotelService = {};
+    var temporaryIDs = [];
 
     hotelService.save = function(newHotel){
         var old = hotelExists(newHotel);
@@ -31,12 +32,19 @@ sessionRegisterApp.factory('hotelService', ['$rootScope', function($rootScope) {
     hotelService.add = function(newHotel) {
         newHotel.id = generateId();
         hotels.push(newHotel);
-        $rootScope.$broadcast('setHotels', hotels);
         console.log("Nytt objekt er lagt til, idnr = " + newHotel.id);
     };
 
     hotelService.get = function() {
         return hotels;
+    };
+    
+    hotelService.getHotel = function(hotelID){
+        for (var i = 0; i < hotels.length; i++){
+            if(hotels[i].id == hotelID){
+                return hotels[i];
+            }
+        }
     };
 
     hotelService.sethotels = function(hotelsSent){
@@ -54,6 +62,7 @@ sessionRegisterApp.factory('hotelService', ['$rootScope', function($rootScope) {
             }
         }
         var id = highestId + 1;
+        temporaryIDs.push(id);
         return id;
     }
 
@@ -87,6 +96,18 @@ sessionRegisterApp.factory('hotelService', ['$rootScope', function($rootScope) {
             }
         }
     }
-    $rootScope.$broadcast('setHotels', hotels);
+
+    hotelService.destroyTempIDs = function(){
+        if (temporaryIDs.length > 0){
+            for (var i = 0; i < temporaryIDs.length; i++){
+                for (var u = 0; u < hotels.length; u++){
+                    if(temporaryIDs[i] == hotels[u].id){
+                        console.log("Fjerner id på event " + hotels[u].id);
+                        hotels[u].id = -1;
+                    }
+                }
+            }
+        }
+    };
     return hotelService;
 }]);

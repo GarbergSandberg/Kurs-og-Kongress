@@ -6,27 +6,24 @@
                     <button type="button" class="close" ng-click="$hide()">&times;</button>
                     <h4 class="modal-title">Registrer nytt arrangement</h4>
                 </div>
-
-
                 <div class="modal-body">
                     <form novalidate class="simple-form">
-
                         <label for="title">Tittel:</label>
-                        <input ng-model="event.title" type="text" class="form-control" id="title">
+                        <input ng-model="addNewEvent.title" type="text" class="form-control" id="title">
                         <label for="numb">Antall:</label>
-                        <input ng-model="event.maxNumber" type="number" step="1" class="form-control" id="numb">
+                        <input ng-model="addNewEvent.maxNumber" type="number" step="1" class="form-control" id="numb">
                         <label for="price">Pris:</label>
-                        <input ng-model="event.price" type="number" step="0.01" class="form-control" id="price">
+                        <input ng-model="addNewEvent.price" type="number" step="0.01" class="form-control" id="price">
                         <label for="location">Sted:</label>
-                        <input ng-model="event.location" type="text" class="form-control" id="location">
+                        <input ng-model="addNewEvent.location" type="text" class="form-control" id="location">
                         <div class="form-group">
                             <label class="control-label"><i class="fa fa-calendar"></i> Dato og tidspunkt</label><br>
                             <div class="form-group  col-xs-6">
-                                <input type="text" size="10" class="form-control" ng-model="event.date"
+                                <input type="text" size="10" class="form-control" ng-model="addNewEvent.date"
                                        data-autoclose="1" placeholder="Dato" bs-datepicker/>
                             </div>
                             <div class="form-group col-xs-6">
-                                <input type="text" size="8" class="form-control" ng-model="event.time"
+                                <input type="text" size="8" class="form-control" ng-model="addNewEvent.time"
                                        data-time-format="HH:mm" value="06:00 PM" data-autoclose="1"
                                        placeholder="Tidspunkt" bs-timepicker>
                             </div>
@@ -35,8 +32,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" ng-click="delete(event); $hide()">Slett</button>
-                    <button type="button" class="btn btn-primary" ng-click="update(event); $hide()">Lagre</button>
+                    <button type="button" class="btn btn-default" ng-click="delete(addNewEvent); $hide()" ng-show="deleteButtonCtrl()">Slett</button>
+                    <button type="button" class="btn btn-primary" ng-click="update(addNewEvent); $hide()">Lagre</button>
                     <p id="demo"></p>
                 </div>
             </div>

@@ -12,18 +12,18 @@
                     <form novalidate class="simple-form">
 
                         <label for="name">Navn:</label>
-                        <input ng-model="hotel.name" type="text" class="form-control" id="name">
+                        <input ng-model="addNewHotel.name" type="text" class="form-control" id="name">
                         <label for="doubleprice">Pris dobbeltrom:</label>
-                        <input ng-model="hotel.doubleprice" type="number" step="0.1" class="form-control" id="doubleprice">
-                        <label for="singleprice">Pris dobbeltrom:</label>
-                        <input ng-model="hotel.singleprice" type="number" step="0.1" class="form-control" id="singleprice">
+                        <input ng-model="addNewHotel.doubleprice" type="number" step="0.1" class="form-control" id="doubleprice">
+                        <label for="singleprice">Pris enkeltrom:</label>
+                        <input ng-model="addNewHotel.singleprice" type="number" step="0.1" class="form-control" id="singleprice">
                         <label for="address">Adresse:</label>
-                        <input ng-model="hotel.address" type="text" class="form-control" id="address">
+                        <input ng-model="addNewHotel.address" type="text" class="form-control" id="address">
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" ng-click="delete(hotel); $hide()">Slett</button>
-                    <button type="button" class="btn btn-primary" ng-click="update(hotel); $hide()">Lagre</button>
+                    <button type="button" class="btn btn-default" ng-click="delete(addNewHotel); $hide()" ng-show="removeDeleteButton">Slett</button>
+                    <button type="button" class="btn btn-primary" ng-click="update(addNewHotel); $hide()">Lagre</button>
                     <p id="demo"></p>
                 </div>
             </div>

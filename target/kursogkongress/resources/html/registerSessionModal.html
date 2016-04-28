@@ -8,39 +8,40 @@
                 </div>
                 <div class="modal-body">
                     <label for="title">Tittel:</label>
-                    <input ng-model="session.title" type="text" class="form-control" id="title">
+                    <input ng-model="newSession.title" type="text" class="form-control" id="title">
                     <label for="description">Beskrivelse:</label>
-                    <textarea ng-model="session.description" class="form-control" id="description" rows="3"></textarea>
+                    <textarea ng-model="newSession.description" class="form-control" id="description" rows="3"></textarea>
                     <label for="location">Sted:</label>
-                    <input ng-model="session.location" type="text" class="form-control" id="location">
+                    <input ng-model="newSession.location" type="text" class="form-control" id="location">
                     <label for="maxnumber">Maks antall deltakere:</label>
-                    <input ng-model="session.maxnumber" type="number" class="form-control" id="maxnumber">
+                    <input ng-model="newSession.maxnumber" type="number" class="form-control" id="maxnumber">
                     <div class="form-group">
                         <label class="control-label col-xs-6"><i class="fa fa-clock-o"></i> Start tidspunkt</label>
                         <div class="form-group">
-                            <input type="text" class="form-control" size="8" ng-model="session.startTime" bs-timepicker
+                            <input type="text" class="form-control" size="8" ng-model="newSession.startTime" bs-timepicker
                                    data-time-format="HH:mm" data-length="1" data-minute-step="5"
                                    data-arrow-behavior="picker">
                         </div>
                         <label class="control-label col-xs-6"><i class="fa fa-clock-o"></i> Slutt tidspunkt</label>
                         <div class="form-group">
-                            <input type="text" class="form-control" size="8" ng-model="session.endTime" bs-timepicker
+                            <input type="text" class="form-control" size="8" ng-model="newSession.endTime" bs-timepicker
                                    data-time-format="HH:mm" data-length="1" data-minute-step="5"
                                    data-arrow-behavior="picker">
                         </div>
                     </div>
                     <label for="location">Kopier sesjonen til andre dager</label>
-                    <table id="repeatedSessionTable">
+                    <table id="repeatedSessionTable" style="max-width: 100%">
                         <tr>
-                            <td ng-repeat="date in dates | filter:filterCopySession">
-                                <label class="checkbox-inline"><input type="checkbox" ng-model="session.repetitiveSession[date.id]">  {{date | date:'dd-MM'}}   </label>
+                            <td ng-repeat="date in dates | filter:filterCopySession" style="max-width: 100%; word-wrap: break-word">
+
+                                <label class="checkbox-inline"><input type="checkbox" ng-model="newSession.repetitiveSession[date.id]">  {{date | date:'dd. MMM'}} </label>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" ng-click="delete(session); $hide()" ng-show="deleteButtonCtrl()">Slett</button>
-                    <button type="button" class="btn btn-primary" ng-click="update(session); $hide()" ng-disabled="!session.title || !session.maxnumber || !session.startTime || !session.endTime || !session.location">Lagre</button>
+                    <button type="button" class="btn btn-default" ng-click="delete(newSession); $hide()" ng-show="deleteButtonCtrl()">Slett</button>
+                    <button type="button" class="btn btn-primary" ng-click="update(newSession); $hide()" ng-disabled="!newSession.title || !newSession.maxnumber || !newSession.startTime || !newSession.endTime || !newSession.location">Lagre</button>
                 </div>
             </div>
         </div>

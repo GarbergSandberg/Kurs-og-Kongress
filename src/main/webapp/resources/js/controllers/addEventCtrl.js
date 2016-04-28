@@ -6,13 +6,24 @@ sessionRegisterApp.controller('AddEventCtrl', ['$scope', '$modal', 'eventService
     $scope.showModal = function () {
         myModal.$promise.then(myModal.show);
     };*/
+    $scope.removeDeleteButton;
     $scope.events = eventService.get();
     $scope.update = function (newEvent) {
-        console.log("I addEventCtrl, sendes til Service - save() '");
         eventService.save(newEvent);
     };
     $scope.delete = function (newEvent) {
-        console.log("I AddEventCtrl - Skal slette eventet. ");
         eventService.delete(newEvent);
     };
+    $scope.editEvent = function(event){
+        $scope.removeDeleteButton = true;
+        $scope.addNewEvent = angular.copy(eventService.getEvent(event.id));
+        console.log($scope.addNewEvent);
+    };
+    $scope.deleteButtonCtrl = function(){
+        return $scope.removeDeleteButton;
+    };
+    $scope.addingNewEvent = function(){
+        $scope.removeDeleteButton = false;
+        $scope.addNewEvent = {};
+    }
 }]);

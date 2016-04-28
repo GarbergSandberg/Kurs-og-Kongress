@@ -71,3 +71,7 @@ table.modal{
     margin-top: -27px;
     margin-left: -21px;
 }
+
+#dateBreak{
+    max-width: 100%;
+}

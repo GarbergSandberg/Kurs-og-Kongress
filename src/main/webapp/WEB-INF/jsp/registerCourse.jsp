@@ -106,7 +106,7 @@
                         </button>
                     </td>
                     <td class="session" ng-repeat="session in sessions | sessionFilter: sessionTableRow: dates | orderBy:'hourMinuteStart'">
-                        <button id="sessionButton" data-ng-attr-id="btnId" type="button" ng-click="showDeleteButton()"
+                        <button id="sessionButton" data-ng-attr-id="btnId" type="button" ng-click="editSession(session)"
                                 ng-class="(session.overlap == true) ? 'btn btn-danger btn-block' : 'btn btn-default btn-block'"
                                 data-animation="am-fade-and-scale"
                                 data-template-url=${modalTemplate}
@@ -123,14 +123,13 @@
             <div class="list-group">
                 <a class="list-group-item active plusbutton" data-animation="am-fade-and-scale"
                    data-template-url=${eventModal}
-                           bs-modal="modal">
+                           bs-modal="modal" ng-click="addingNewEvent()">
                     <h4 class="list-group-item-heading">+</h4>
                 </a>
             </div>
             <div class="list-group">
                 <a class="list-group-item event" ng-repeat="event in events" data-animation="am-fade-and-scale"
-                   data-template-url=${eventModal}
-                           bs-modal="modal">
+                   data-template-url=${eventModal} bs-modal="modal" ng-click="editEvent(event)">
                     <h4 class="list-group-item-heading event">{{event.title}}</h4>
                     <p class="list-group-item-text">
                         Pris: {{event.price}}<br>
@@ -159,14 +158,13 @@
             <div class="list-group">
                 <a class="list-group-item active plusbutton" data-animation="am-fade-and-scale"
                    data-template-url=${accomondationModal}
-                           bs-modal="modal">
+                           bs-modal="modal" ng-click="addingNewHotel()">
                     <h4 class="list-group-item-heading">+</h4>
                 </a>
             </div>
             <div class="list-group">
-                <a class="list-group-item event" ng-repeat="hotel in course.hotels" data-animation="am-fade-and-scale"
-                   data-template-url=${accomondationModal}
-                           bs-modal="modal">
+                <a class="list-group-item event" ng-repeat="hotel in hotels" data-animation="am-fade-and-scale"
+                   data-template-url=${accomondationModal} bs-modal="modal" ng-click="editHotel(hotel)">
                     <h4 class="list-group-item-heading event">{{hotel.name}}</h4>
                     <p class="list-group-item-text">
                         Pris dobbeltrom: {{hotel.doubleprice}}<br>
