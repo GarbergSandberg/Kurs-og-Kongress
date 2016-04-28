@@ -163,9 +163,9 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
             $rootScope.$broadcast('recievedForm', form);
         },
 
-        saveReg: function (person) { // Gets an Array of persons, checks if they exist already, if so theyre updated. If not, they are added.
-            console.log(person);
-            for (var i = 0; i < person.length; i++) {
+        saveReg: function (person, numberOfPersons) { // Gets an Array of persons, checks if they exist already, if so theyre updated. If not, they are added.
+            console.log("person.length (arrayen sendt inn): " + person.length + ",  numberOfPersons: " + numberOfPersons);
+            for (var i = 0; i < numberOfPersons; i++) { // egentlig person.length  .. byttet til numberOfPersons
                 var old = personExists(person[i]);
                 if (old.exists) {
                     personUpdate(person[i], old.index);

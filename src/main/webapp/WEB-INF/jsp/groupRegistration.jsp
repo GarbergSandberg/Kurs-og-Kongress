@@ -104,32 +104,36 @@
                     <div ng-repeat="opt in course.form.optionalPersonalia">
                         <br>
                         <label>{{opt.parameter}}: </label>
-                        <input type="checkbox" ng-hide="whichType(opt.type)" ng-init="person[n].opt[$index]='false'"
-                               ng-model="person[n].opt[$index]"/>
+                        <input type="checkbox" ng-hide="whichType(opt.type)" ng-init="person[n].opt[$index]='false'" ng-model="person[n].opt[$index]"/>
                         <input class="text" ng-show="whichType(opt.type)" ng-model="person[n].opt[$index]"/>
                     </div>
-                    <label ng-repeat="role in course.roles">
-                        <input type="radio" name="role" ng-model="person[n].role" ng-value="role"/> {{role}}
-                    </label>
-                    <label>
-                        <input type="radio" name="gender" value="Mann" ng-model="person[n].gender"> Mann
-                        <input type="radio" name="gender" value="Kvinne" ng-model="person[n].gender"> Kvinne
-                    </label>
-                    <br>
-                    <!--Ekstra (utvides om "checked") -->
-                    <input type="checkbox" ng-model="checkbox[n]" ng-change="alert({{n}})">
-                    <label>Bemerkning/best.nr etc?</label>
-                    <div ng-show="checkbox[{{$index}}]">
-                    <textarea ng-model="person[n].mark" ng-init="person[n].mark=''" class="form-control"
+                    <div>
+                        <label ng-repeat="role in course.roles">
+                            <input type="radio" name="role" ng-model="person[n].role" ng-value="role"/> {{role}}
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="radio" name="gender" value="Mann" ng-model="person[n].gender"> Mann
+                            <input type="radio" name="gender" value="Kvinne" ng-model="person[n].gender"> Kvinne
+                        </label>
+                    </div>
+                    <div>
+                        <!--Ekstra (utvides om "checked") -->
+                        <input type="checkbox" ng-model="checkbox[n]" ng-change="alert({{n}})">
+                        <label>Bemerkning/best.nr etc?</label>
+                        <div ng-show="checkbox[{{$index}}]">
+                        <textarea ng-model="person[n].mark" ng-init="person[n].mark=''" class="form-control"
                               id="description" rows="2"></textarea>
+                        </div>
                     </div>
                 </form>
             </div>
+            <div ng-if="!(($index+1) % 3)" style="clear: both"></div> <!-- "Linebreak" every 3trd div. -->
         </div>
+        <div style="clear: both"></div>
+        <button style="margin-left:2em;" type="button" class="btn btn-primary" ng-click="update(person, numberOfPersons)"> Lagre personer </button>
 
-        </hr>
-        <button style="margin-left:2em;" type="button" class="btn btn-primary" ng-click="update(person)"> Lagre personer
-        </button>
         </hr>
 
         <div class="list-group">
