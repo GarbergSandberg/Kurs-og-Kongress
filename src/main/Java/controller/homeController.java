@@ -302,4 +302,12 @@ public class homeController {
         return courseService.getNumberOfParticipants(courseID);
     }
 
+    @RequestMapping(value = "/getNotAdminCourses", method = RequestMethod.GET)
+    @ResponseBody
+    public ArrayList<Course> getNotAdminCourses(HttpSession session) {
+        User u = (User) session.getAttribute("user");
+        ArrayList<Integer> courseAccess = getCourseAccess(u.getUsername());
+        return courseService.getNotAdminCourses(courseAccess);
+    }
+
 }

@@ -44,4 +44,9 @@ public class CourseServiceImpl implements CourseService {
     public ArrayList<HashMap> getNumberOfParticipants(int courseID) {
         return courseRepository.getNumberOfParticipants(courseID);
     }
+
+    @Override
+    public ArrayList<Course> getNotAdminCourses(ArrayList<Integer> courses) {
+        return courseRepository.getNotAdminCourses(courses);
+    }
 }

@@ -23,7 +23,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" ng-click="delete(addNewHotel); $hide()" ng-show="removeDeleteButton">Slett</button>
-                    <button type="button" class="btn btn-primary" ng-click="update(addNewHotel); $hide()">Lagre</button>
+                    <button type="button" class="btn btn-primary" ng-click="update(addNewHotel); $hide()" ng-disabled="validation()">Lagre</button>
                     <p id="demo"></p>
                 </div>
             </div>

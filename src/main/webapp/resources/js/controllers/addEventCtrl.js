@@ -25,5 +25,12 @@ sessionRegisterApp.controller('AddEventCtrl', ['$scope', '$modal', 'eventService
     $scope.addingNewEvent = function(){
         $scope.removeDeleteButton = false;
         $scope.addNewEvent = {};
+    };
+    $scope.validation = function(){
+        if(!$scope.addNewEvent.title || !$scope.addNewEvent.maxNumber || !$scope.addNewEvent.price || !$scope.addNewEvent.location || !$scope.addNewEvent.date || !$scope.addNewEvent.time){
+            return true;
+        } else{
+            return false;
+        }
     }
 }]);

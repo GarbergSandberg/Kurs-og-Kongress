@@ -32,4 +32,6 @@ public interface CourseRepository {
     public ArrayList<HashMap> getNumberOfParticipants(int courseID);
 
     public Integer getNumberOfEvents(int event_id);
+
+    public ArrayList<Course> getNotAdminCourses(ArrayList<Integer> courses);
 }

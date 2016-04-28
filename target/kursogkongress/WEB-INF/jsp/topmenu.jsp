@@ -1,3 +1,4 @@
+<%@ page import="domain.*" %>
 <%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
@@ -18,6 +19,9 @@
             sessionStorage.removeItem("cid");
         };
     </script>
+    <%
+    User user = (User)session.getAttribute("user");
+    %>
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
@@ -39,12 +43,18 @@
                 <li>
                     <a href="/kursogkongress/courseOverview">Kursoversikt</a>
                 </li>
+                <%
+                    if(user.isAdmin()){
+                %>
                 <li>
                     <a onclick="resetSessionStorage()" href="/kursogkongress/registerCourse">Legg til nytt kurs</a>
                 </li>
                 <li>
                     <a href="/kursogkongress/createUser">Administrer</a>
                 </li>
+                <%
+                    }
+                %>
             </ul>
         </div>
     </div>

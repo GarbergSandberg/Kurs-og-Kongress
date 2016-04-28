@@ -19,5 +19,12 @@ sessionRegisterApp.controller('addHotelCtrl', ['$scope', '$modal', 'hotelService
         $scope.removeDeleteButton = false;
         $scope.addNewHotel = {};
         $scope.addNewHotel.id = -1;
+    };
+    $scope.validation = function(){
+      if(!$scope.addNewHotel.name || !$scope.addNewHotel.doubleprice || !$scope.addNewHotel.singleprice){
+          return true;
+      } else{
+          return false;
+      }
     }
 }]);

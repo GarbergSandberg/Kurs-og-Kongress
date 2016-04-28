@@ -333,7 +333,7 @@
                 </div>
             </div>
         </div>
-        <button type="button" class="btn btn-primary" ng-click="save(course)">Lagre</button>
+        <button type="button" class="btn btn-primary" ng-click="save(course)" ng-disabled="validator()" style="float: right; margin-bottom: 15px;">Lagre kurs</button>
     </div>
     </div>
 </body>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.jdbc.core.*;
 
 import javax.sql.*;
+import java.lang.reflect.*;
 import java.util.*;
 
 /**
@@ -312,7 +313,11 @@ public class CourseRepositoryDB implements CourseRepository{
             Integer optionalWorkplaceID = saveOptionalWorkplaceAnswers(registration.getOptionalWorkplace());
             Integer extraInfoID = saveExtraInfoAnswers(registration.getExtraInfo());
             Integer registrationID = jdbcTemplateObject.queryForObject(getMaxRegistrationID, new Object[]{}, Integer.class);
-            registrationID++;
+            if(registrationID != null){
+                registrationID++;
+            } else{
+                registrationID = 1;
+            }
             jdbcTemplateObject.update(setRegistration, new Object[]{
                     registrationID,
                     registration.getAlternativeInvoiceAddress(), registration.isSpeaker(),
@@ -406,8 +411,12 @@ public class CourseRepositoryDB implements CourseRepository{
                 updateCourse(course);
             } else{
                 Integer courseID = jdbcTemplateObject.queryForObject(getMaxIDCourse, new Object[]{}, Integer.class);
-                System.out.println(courseID);
-                courseID++;
+                if(courseID != null){
+                    System.out.println(courseID);
+                    courseID++;
+                } else{
+                    courseID = 1;
+                }
                 jdbcTemplateObject.update(setCourse, new Object[]{
                         courseID, course.getTitle(), course.getLocation(), course.getDescription(), course.getStartDate(), course.getEndDate(), course.getCourseFee(), course.getCourseSingleDayFee(), course.getDayPackage(), course.getMaxNumber(), course.isPublicCourse()
                 });
@@ -463,10 +472,12 @@ public class CourseRepositoryDB implements CourseRepository{
 
     public boolean saveForm(Form form, int courseID){
         try{
-            int id = jdbcTemplateObject.queryForObject(getMaxIDForm, new Object[]{}, Integer.class);
-            System.out.println("OLD FORM ID: " + id);
-            id++;
-            System.out.println("NEW FORM ID: " + id);
+            Integer id = jdbcTemplateObject.queryForObject(getMaxIDForm, new Object[]{}, Integer.class);
+            if(id != null){
+                id++;
+            } else{
+                id = 1;
+            }
             jdbcTemplateObject.update(setForm, new Object[]{
                     id, form.isAirplane(), courseID
             });
@@ -718,17 +729,20 @@ public class CourseRepositoryDB implements CourseRepository{
     public boolean saveOptionalPersonalia(ArrayList<InputParameter> list, int formID){
         try{
             Integer id = jdbcTemplateObject.queryForObject(getMaxIDOptionalPersonalia, new Object[]{}, Integer.class);
-            System.out.println("OLD OPTIONALPERSONALIA ID: " + id);
-            id++;
-            System.out.println("NEW OPTIONALPERSONALIA ID: " + id);
+            if(id != null){
+                id++;
+            } else{
+                id = 1;
+            }
             jdbcTemplateObject.update(setOptionalPersonalia, new Object[]{
                     id
             });
-            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            Integer inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            if(inputid == null){
+                inputid = 0;
+            }
             for (InputParameter ip : list){
-                System.out.println("OLD OPTIONALPERSONALIA INPUTPARAMETER ID: " + inputid);
                 inputid++;
-                System.out.println("NEW OPTIONALPERSONALIA INPUTPARAMETER ID: " + inputid);
                 insertInputParameter(ip, inputid, id, "optionalpersonalia");
             }
             jdbcTemplateObject.update(setOptionalPersonaliaHasForm, new Object[]{
@@ -773,11 +787,12 @@ public class CourseRepositoryDB implements CourseRepository{
                     });
                 }
             }
-            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
-            System.out.println("Inputparameters to be added.size() " + inputParametersToBeAdded.size());
+            Integer inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            if(inputid == null){
+                inputid = 0;
+            }
             for (InputParameter ip : inputParametersToBeAdded){
                 inputid++;
-                System.out.println("Adding new inputparameter " + ip.toString());
                 insertInputParameter(ip, inputid, optionalPersonaliaID, "optionalpersonalia");
             }
         } catch (Exception e){
@@ -790,13 +805,18 @@ public class CourseRepositoryDB implements CourseRepository{
     public boolean saveOptionalWorkplace(ArrayList<InputParameter> list, int formID){
         try{
             Integer id = jdbcTemplateObject.queryForObject(getMaxIDOptionalWorkplace, new Object[]{}, Integer.class);
-            System.out.println("OLD OPTIONALWORKPLACE ID: " + id);
-            id++;
-            System.out.println("NEW OPTIONALWORKPLACE ID: " + id);
+            if(id != null){
+                id++;
+            } else{
+                id = 1;
+            }
             jdbcTemplateObject.update(setOptionalWorkplace, new Object[]{
                     id
             });
-            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            Integer inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            if(inputid == null){
+                inputid = 0;
+            }
             for (InputParameter ip : list){
                 System.out.println("OLD OPTIONALWORKPLACE INPUTPARAMETER ID: " + inputid);
                 inputid++;
@@ -845,7 +865,10 @@ public class CourseRepositoryDB implements CourseRepository{
                     });
                 }
             }
-            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            Integer inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            if(inputid == null){
+                inputid = 0;
+            }
             System.out.println("Inputparameters to be added.size() " + inputParametersToBeAdded.size());
             for (InputParameter ip : inputParametersToBeAdded){
                 inputid++;
@@ -862,13 +885,18 @@ public class CourseRepositoryDB implements CourseRepository{
     public boolean saveExtraInfo(ArrayList<InputParameter> list, int formID){
         try{
             Integer id = jdbcTemplateObject.queryForObject(getMaxIDExtraInfo, new Object[]{}, Integer.class);
-            System.out.println("OLD EXTRAINFO ID: " + id);
-            id++;
-            System.out.println("NEW EXTRAINFO ID: " + id);
+            if(id != null){
+                id++;
+            } else{
+                id = 1;
+            }
             jdbcTemplateObject.update(setExtrainfo, new Object[]{
                     id
             });
-            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            Integer inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            if(inputid == null){
+                inputid = 0;
+            }
             for (InputParameter ip : list){
                 System.out.println("OLD EXTRAINFO INPUTPARAMETER ID: " + inputid);
                 inputid++;
@@ -917,7 +945,10 @@ public class CourseRepositoryDB implements CourseRepository{
                     });
                 }
             }
-            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            Integer inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            if(inputid == null){
+                inputid = 0;
+            }
             System.out.println("Inputparameters to be added.size() " + inputParametersToBeAdded.size());
             for (InputParameter ip : inputParametersToBeAdded){
                 inputid++;
@@ -1078,8 +1109,12 @@ public class CourseRepositoryDB implements CourseRepository{
     public Integer setAccomondation(Accomondation accomondation){
         if (accomondation != null){
             try{
-                int accomondationID = jdbcTemplateObject.queryForObject(getMaxAccomondationID, new Object[]{}, Integer.class);
-                accomondationID++;
+                Integer accomondationID = jdbcTemplateObject.queryForObject(getMaxAccomondationID, new Object[]{}, Integer.class);
+                if(accomondationID != null){
+                    accomondationID++;
+                } else{
+                    accomondationID = 1;
+                }
                 jdbcTemplateObject.update(setAccomondation, new Object[]{
                         accomondationID, accomondation.getRoommate(), accomondation.getFromDate(), accomondation.getToDate(), accomondation.isDoubleroom(), accomondation.getHotelID()
                 });
@@ -1128,8 +1163,12 @@ public class CourseRepositoryDB implements CourseRepository{
 
     public Integer setPerson(Person person){
         try{
-            int personID = jdbcTemplateObject.queryForObject(getMaxPersonID, new Object[]{}, Integer.class);
-            personID++;
+            Integer personID = jdbcTemplateObject.queryForObject(getMaxPersonID, new Object[]{}, Integer.class);
+            if(personID != null){
+                personID++;
+            } else{
+                personID = 1;
+            }
             jdbcTemplateObject.update(setPerson, new Object[]{
                     personID, person.getFirstname(), person.getLastname(), person.getBirthYear(), person.getPhonenumber(), person.getEmail(), person.getGender(), person.getMark()
             });
@@ -1154,8 +1193,12 @@ public class CourseRepositoryDB implements CourseRepository{
 
     public Integer setWorkplace(Workplace workplace){
         try{
-            int workplaceID = jdbcTemplateObject.queryForObject(getMaxWorkplaceID, new Object[]{}, Integer.class);
-            workplaceID++;
+            Integer workplaceID = jdbcTemplateObject.queryForObject(getMaxWorkplaceID, new Object[]{}, Integer.class);
+            if(workplaceID != null){
+                workplaceID++;
+            } else{
+                workplaceID = 1;
+            }
             jdbcTemplateObject.update(setWorkplace, new Object[]{
                     workplaceID, workplace.getCompanyName(), workplace.getPostalcode(), workplace.getLocation(), workplace.getAddress()
             });
@@ -1235,12 +1278,19 @@ public class CourseRepositoryDB implements CourseRepository{
     public Integer saveOptionalPersonaliaAnswers(ArrayList<InputParameter> list){
         try{
             Integer id = jdbcTemplateObject.queryForObject(getMaxIDOptionalPersonalia, new Object[]{}, Integer.class);
-            id++;
+            if(id != null){
+                id++;
+            } else{
+                id = 1;
+            }
             jdbcTemplateObject.update(setOptionalPersonalia, new Object[]{
                     id
             });
             System.out.println("OptionalPersonaliaID containing answers = " + id);
-            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            Integer inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            if(inputid == null){
+                inputid = 0;
+            }
             for (InputParameter ip : list){
                 inputid++;
                 insertInputParameter(ip, inputid, id, "optionalpersonalia");
@@ -1275,12 +1325,19 @@ public class CourseRepositoryDB implements CourseRepository{
     public Integer saveOptionalWorkplaceAnswers(ArrayList<InputParameter> list){
         try{
             Integer id = jdbcTemplateObject.queryForObject(getMaxIDOptionalWorkplace, new Object[]{}, Integer.class);
-            id++;
+            if(id != null){
+                id++;
+            } else{
+                id = 1;
+            }
             jdbcTemplateObject.update(setOptionalWorkplace, new Object[]{
                     id
             });
             System.out.println("OptionalWorkplaceID containing answers = " + id);
-            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            Integer inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            if(inputid == null){
+                inputid = 0;
+            }
             for (InputParameter ip : list){
                 inputid++;
                 insertInputParameter(ip, inputid, id, "optionalworkplace");
@@ -1315,12 +1372,19 @@ public class CourseRepositoryDB implements CourseRepository{
     public Integer saveExtraInfoAnswers(ArrayList<InputParameter> list){
         try{
             Integer id = jdbcTemplateObject.queryForObject(getMaxIDExtraInfo, new Object[]{}, Integer.class);
-            id++;
+            if(id != null){
+                id++;
+            } else{
+                id = 1;
+            }
             jdbcTemplateObject.update(setExtrainfo, new Object[]{
                     id
             });
             System.out.println("ExtraInfoID containing answers = " + id);
-            int inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            Integer inputid = jdbcTemplateObject.queryForObject(getMaxIDInputParameter, new Object[]{}, Integer.class);
+            if(inputid == null){
+                inputid = 0;
+            }
             for (InputParameter ip : list){
                 inputid++;
                 insertInputParameter(ip, inputid, id, "extrainfo");
@@ -1394,6 +1458,20 @@ public class CourseRepositoryDB implements CourseRepository{
             return list;
         } catch(Exception e){
             System.out.println("Error in getNumberOfParticipantsSession " + e);
+            return null;
+        }
+    }
+
+    public ArrayList<Course> getNotAdminCourses(ArrayList<Integer> courses){
+        ArrayList<Course> coursesToReturn = new ArrayList<Course>();
+        try{
+            for(Integer i : courses){
+                Course c = getCourse(i);
+                coursesToReturn.add(c);
+            }
+            return coursesToReturn;
+        } catch (Exception e) {
+            System.out.println("Error in getNumberOfPayments. " + e);
             return null;
         }
     }

@@ -46,7 +46,7 @@
                 <div class="form-group">
                     <label for="inputPasswordConfirm" class="control-label">Bekreft Passord</label>
                     <div class="form-group">
-                        <input ng-model="user.confirmPassword" type="password" class="form-control" id="inputPasswordConfirm" placeholder="Bekreft" required>
+                        <input ng-model="user.confirmPassword" type="password" data-minlength="6" class="form-control" id="inputPasswordConfirm" placeholder="Bekreft" required>
                     </div>
                 </div>
             <div class="checkbox">

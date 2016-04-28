@@ -23,14 +23,16 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
     });
 
     $scope.addRole = function (role) {
-        var exists = false;
-        for (var i = 0; i < $scope.roles.length; i++) {
-            if ($scope.roles[i] == role) {
-                exists = true;
+        if(role){
+            var exists = false;
+            for (var i = 0; i < $scope.roles.length; i++) {
+                if ($scope.roles[i] == role) {
+                    exists = true;
+                }
             }
-        }
-        if (!exists) {
-            $scope.roles.push(role);
+            if (!exists) {
+                $scope.roles.push(role);
+            }
         }
     };
 
@@ -46,12 +48,21 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
         course.roles = $scope.roles;
         sessionService.destroyTempIDs();
         eventService.destroyTempIDs();
+        hotelService.destroyTempIDs();
         course.sessions = sessionService.get();
         course.events = eventService.get();
         course.hotels = hotelService.get();
         courseService.prepareForm();
         course.form = courseService.getForm();
         self.sendCourse(course);
+    };
+
+    $scope.validator = function(){
+        if(!$scope.course.title || !$scope.course.startDate || !$scope.course.endDate || !$scope.course.maxNumber || !$scope.course.location || !$scope.course.courseFee || !$scope.course.courseSingleDayFee || !$scope.course.dayPackage){
+            return true;
+        } else{
+            return false;
+        }
     };
 
     self.sendCourse = function (course) {

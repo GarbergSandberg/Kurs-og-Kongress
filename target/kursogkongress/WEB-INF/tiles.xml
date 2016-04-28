@@ -30,10 +30,9 @@
         <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
     </definition>
 
-    <definition name="index" template="/WEB-INF/tiles/baseLayout.jsp">
-        <put-attribute name="title"  value="Index"/>
+    <definition name="index" template="/WEB-INF/tiles/loginPage.jsp">
+        <put-attribute name="title"  value="Innlogging"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/index.jsp"/>
-        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
     </definition>
 
     <definition name="attenderInfo" template="/WEB-INF/tiles/baseLayout.jsp">

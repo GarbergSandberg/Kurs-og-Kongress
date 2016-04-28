@@ -1,4 +1,6 @@
+<%@ page import="domain.*" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: eiriksandberg
@@ -22,12 +24,18 @@
     <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
     <spring:url value="resources/js/app/courseOverviewApp.js" var="app"/>
     <spring:url value="resources/js/controllers/courseOverviewCtrl.js" var="ctrl"/>
+    <spring:url value="resources/js/controllers/courseOverviewNotAdminCtrl.js" var="ctrl2"/>
     <spring:url value="resources/js/service/courseService.js" var="jsonService"/>
     <script src="${app}"></script>
     <script src="${ctrl}"></script>
     <script src="${jsonService}"></script>
+    <script src="${ctrl2}"></script>
+    <%
+        User user = (User)session.getAttribute("user");
+    %>
 </head>
 <body ng-app="courseOverviewApp">
+<% if(user.isAdmin()){%>
 <div ng-controller="OverviewCtrl" style="margin-left:3em; margin-right:3em;">
     <div ng-show="!loading">
         <div class="container">
@@ -46,7 +54,7 @@
             </div>
         </div>
         <div class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true" bs-collapse>
-            <div class="panel panel-default" ng-repeat="panel in panels | filter:search | filter:selectedMonthFilter | filter:selectedYearFilter | orderBy:'panel.startDate'">
+            <div class="panel panel-default" ng-repeat="panel in panels | filter:search | filter:selectedMonthFilter | filter:selectedYearFilter | orderBy: 'panel.startDate'">
                 <div class="panel-heading" role="tab">
                     <h4 class="panel-title">
                         <a bs-collapse-toggle>
@@ -81,5 +89,50 @@
         <span class="sr-only">Loading...</span>
     </div>
 </div>
+    <%
+        } else{
+    %>
+<div ng-controller="OverviewCtrlLite" style="margin-left:3em; margin-right:3em;">
+    <div ng-show="!loading">
+        <div class="page-header">
+            <h1>Kursoversikt</h1>
+        </div>
+        <div class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true" bs-collapse>
+            <div class="panel panel-default" ng-repeat="panel in panels | orderBy: 'panel.startDate'">
+                <div class="panel-heading" role="tab">
+                    <h4 class="panel-title">
+                        <a bs-collapse-toggle>
+                            <h4>{{ panel.title }}</h4>
+                        </a>
+                    </h4>
+                </div>
+                <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+                    <div class="panel-body">
+                        <ul class ="list-group" id="infolist">
+                            <li class="list-group-item">
+                                <p style="font-weight: bold;">Beskrivelse:</p>
+                                <p>{{ panel.body }}</p>
+                            </li>
+                            <li class="list-group-item">
+                                <p>Kurset starter <span style="font-weight: bold;">{{ panel.startDate | date:'dd-MM-yyyy'}}</span></p>
+                                <p>Kurset slutter <span style="font-weight: bold;">{{ panel.endDate | date:'dd-MM-yyyy'}}</span></p>
+                            </li>
+                            <li class="list-group-item">
+                                <button ng-click="getStatistics(panel.courseID)" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-show="loading">
+        <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+    <%
+        }
+    %>
 </body>
 </html>

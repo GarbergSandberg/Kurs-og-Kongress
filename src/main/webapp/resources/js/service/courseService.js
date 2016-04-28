@@ -102,7 +102,34 @@ sessionRegisterApp.factory('courseService', ['$http', '$q','$rootScope', functio
                         return false;
                     }
                 );
-        }
+        },
+
+        enableRegistration: function(courseID, value){
+            return $http.get('enableRegistration', {params: {id: courseID, value: value}})
+                .then(
+                    function (success) {
+                        return true;
+                    },
+                    function (error) {
+                        return false;
+                    }
+                );
+        },
+
+        getNotAdminCourses: function(){
+            return $http.get('getNotAdminCourses')
+                .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        console.error('Error while getCourses');
+                        return $q.reject(errResponse.data);
+                    }
+                );
+        },
+
+
     }
 }]);
 
