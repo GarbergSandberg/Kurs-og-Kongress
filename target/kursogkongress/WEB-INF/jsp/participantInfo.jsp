@@ -42,26 +42,26 @@
 <div ng-app="registerApp" style="margin-left:3em; margin-right:3em;">
     <div ng-controller="attenderInfoCtrl">
         <table class="table">
+            <tr style="background-color:gray;color:black;">
+                <td>
+                    Kurs
+                </td>
+                <td>
+                    {{selectedParticipant.course.title}}
+                </td>
+            </tr>
+            <tr style="background-color:gray;color:black;">
+                <td>
+                    <h4>Personinfo</h4>
+                </td>
+                <td></td>
+            </tr>
             <tr style="color: #ff2c27" ng-if="selectedParticipant.speaker">
                 <td>
                     <h4>Personen er foredragsholder</h4>
                 </td>
                 <td>
                 </td>
-            </tr>
-            <tr>
-                <td>
-                    <h4>Kurs</h4>
-                </td>
-                <td>
-                    {{selectedParticipant.course.title}}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <h4>Personinfo</h4>
-                </td>
-                <td></td>
             </tr>
             <tr>
                 <td>
@@ -95,7 +95,7 @@
                     {{selectedParticipant.alternativeInvoiceAddress}}
                 </td>
             </tr>
-            <tr>
+            <tr style="background-color:gray;color:black;">
                 <td>
                     <h4>Arbeidsgiverinfo</h4>
                 </td>
@@ -125,7 +125,7 @@
                     {{selectedParticipant.optionalWorkplace[$index].parameter}}
                 </td>
             </tr>
-            <tr>
+            <tr style="background-color:gray;color:black;">
                 <td>
                     <h4>Sesjoner deltakeren er påmeldt</h4>
                 </td>
@@ -139,7 +139,21 @@
                     {{session.date | date:'dd/MM/yyyy'}} ({{session.startTime | date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})
                 </td>
             </tr>
-            <tr>
+            <tr style="background-color:gray; color:black;">
+                <td>
+                    Arrangementer deltakeren er påmeldt
+                </td>
+                <td></td>
+            </tr>
+            <tr ng-repeat="event in selectedParticipant.attendingEvents">
+                <td>
+                    {{event.title}}
+                </td>
+                <td>
+                    {{event.date | date:'dd/MM/yyyy'}} ({{event.startTime | date:'HH:mm'}})
+                </td>
+            </tr>
+            <tr style="background-color:gray;color:black;">
                 <td>
                     <h4>Deltakeren er meldt på følgende dager</h4>
                 </td>
