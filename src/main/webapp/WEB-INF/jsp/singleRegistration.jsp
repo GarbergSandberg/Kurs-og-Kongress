@@ -135,7 +135,7 @@ To change this template use File | Settings | File Templates.
                 Ønsker faktura sendt til annen adresse <br>
             </label>
             <div ng-show="checkboxAccModel.another">
-                Alternativ fakturaadresse:
+                veiadresse, postnr, sted:
                 <input type="form-control" ng-model="registration.alternativeInvoiceAddress" id="facturaAdress"
                        size="40"/><br>
             </div>
