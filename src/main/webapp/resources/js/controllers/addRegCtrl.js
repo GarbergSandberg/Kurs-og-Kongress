@@ -100,6 +100,8 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         regService.sendRegistration(registration);
     };
 
+    /*      BRUKES NOEN AV DISSE FUNKSJONENE?? ISÅFALL, VARSLE LARS. OM IKKE SLETTES DE TIL SLUTT.
+
     $scope.sendAll = function(course, form){ // Funker ikke. Sender person-array, skal ikke gjøre det..
         regService.sendForm(form).then(function (successCallback) {
             console.log("form sent" + successCallback);
@@ -113,21 +115,24 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         });
     };
 
+     self.sendRegistration = function(registration){
+     console.log(registration);
+     regService.sendRegistration(registration).then(function (successCallback){
+     console.log("Registration sent " + successCallback);
+     }, function (errorCallback){
+     console.log("Error in sendRegistration" + errorCallback);
+     });
+     };
+
+
+    */
+
     self.getIdOfArray = function(array){
         var arr = [];
         for (var i = 0; i<array.length; i++){
             arr[i] = array[i].id;
         }
         return arr;
-    };
-
-    self.sendRegistration = function(registration){
-        console.log(registration);
-        regService.sendRegistration(registration).then(function (successCallback){
-            console.log("Registration sent " + successCallback);
-        }, function (errorCallback){
-            console.log("Error in sendRegistration" + errorCallback);
-        });
     };
 
     self.findPrice = function(ant, allDaysCheck){ // Finn ut hvilke dager han skal delta på, multipliser med course.dagpakke og course.kursavgift.
@@ -376,8 +381,8 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         return course;
     };
 
-    $scope.whichType = function(type){ // Returnerer true hvis "type" er input, false hvis "checkbox".
-        if (type == "Input") {
+    $scope.whichType = function(type){ // KAN DENNE ERSTATTES I JSP-FILEN MED ng-if="opt.type == "Input" ????
+        if (type == "Input") { // Returnerer true hvis "type" er input, false hvis "checkbox".
             return true;
         } else return false;
     };

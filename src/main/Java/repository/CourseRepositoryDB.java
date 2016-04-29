@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.jdbc.core.*;
 
 import javax.sql.*;
-import java.lang.reflect.*;
 import java.util.*;
 
 /**
@@ -1227,6 +1226,7 @@ public class CourseRepositoryDB implements CourseRepository{
             jdbcTemplateObject.update(setPayment, new Object[]{
                     payment.getAmount(), payment.getDescription(), registrationID
             });
+            System.out.println("nytt payment satt.: " + payment.getDescription());
         } catch (Exception e){
             System.out.println("Error in setPayment " + e);
             return false;
@@ -1239,6 +1239,7 @@ public class CourseRepositoryDB implements CourseRepository{
             jdbcTemplateObject.update(deletePayments, new Object[]{
                     registrationID
             });
+            System.out.println("Gamle payments sletta. ");
             for(Payment p : payments){
                 setPayment(p, registrationID);
             }
