@@ -9,6 +9,7 @@ loginApp.controller('loginCtrl', ['$scope', 'loginService', '$window', function(
     $scope.coursesUserHasAccessTo = [];
     $scope.readyToShow = false;
     $scope.errormessage = "";
+    $scope.error = false;
 
     $scope.courseFilter = function(course){
         for (var i = 0; i < $scope.coursesUserHasAccessTo.length; i++){
@@ -21,7 +22,10 @@ loginApp.controller('loginCtrl', ['$scope', 'loginService', '$window', function(
 
     $scope.login = function(user){
         loginService.login(user).then(function(success){
-            //$scope.msgtxt = success.username + " " + success.password;        Må gjøre noe her!
+            console.log(success);
+            if(success == null){
+                $scope.error = true;
+            }
         }, function(error){
            // $scope.msgtxt = error;                                            Og her
         });

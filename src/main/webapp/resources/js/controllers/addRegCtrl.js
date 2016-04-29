@@ -114,7 +114,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
                 $scope.showSuccessAlert();
                 setTimeout(function(){
                     $window.location.href = "/kursogkongress/publicRegistrations";
-                }, 2400);
+                }, 2000);
             } else{
                 $scope.showErrorAlert(response.response);
             }
@@ -147,7 +147,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
                 $scope.showSuccessAlert();
                 setTimeout(function(){
                     $window.location.href = "/kursogkongress/publicRegistrations";
-                }, 2400);
+                }, 2000);
             } else{
                 $scope.showErrorSingle(response.response);
             }

@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/libs.min.css">
     <link rel="stylesheet" href="//mgcrea.github.io/angular-strap/styles/docs.min.css">
-    <link rel="stylesheet" href="resources/css/sessionRegister.css">
+    <link rel="stylesheet" href="resources/css/loginPage.css">
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular.min.js" data-semver="1.4.5"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-animate.min.js" data-semver="1.4.5"></script>
     <script src="//cdn.jsdelivr.net/angularjs/1.4.5/angular-sanitize.min.js" data-semver="1.4.5"></script>
@@ -28,23 +28,24 @@
     <script src="${courseOverviewApp}"></script>
 </head>
 <body>
-<div ng-app="loginApp">
-    <div ng-controller="loginCtrl">
-        <form role="form" name="form1">
-            Welcome {{user.email}}
-            <div class="form-group">
-                <ul>
-                    <li><label for="usermail">Email</label>
-                        <input type="text" name="username" placeholder="yourname@email.com" required ng-model="user.username" id="usermail"></li>
-                    <li><label for="password">Password</label>
-                        <input type="password" name="password" placeholder="password" required ng-model="user.password" id="password"></li>
-                    <li>
-                        <input class="btn btn-default" type="submit" ng-click="login(user)" value="Login"></li>
-                </ul>
+    <div ng-app="loginApp">
+        <div ng-controller="loginCtrl">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-md-4 col-md-offset-4">
+                        <div class="account-wall">
+                            <h2 class="text-center"><small>Kurs & kongresservice</small></h2>
+                            <form class="form-signin">
+                                <input type="text" class="form-control" placeholder="Brukernavn" required autofocus ng-model="user.username">
+                                <input type="password" class="form-control" placeholder="Passord" required ng-model="user.password">
+                                <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="login(user)">Logg inn</button>
+                                <h4 ng-show="error"><small>Feil brukernavn eller passord</small></h4>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            {{msgtxt}}
-        </form>
+        </div>
     </div>
-</div>
 </body>
 </html>

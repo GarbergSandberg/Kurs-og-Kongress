@@ -1,3 +1,10 @@
+body{
+    background: url("oppdal-2.png");
+    background-size: cover;
+    opacity: 0.4;
+    filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+
 #jumbo {
     padding-top: 2%;
     padding-bottom: 2%;
