@@ -40,7 +40,8 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
                     $scope.selectedParticipant.dates = self.convertDates($scope.selectedParticipant.dates);
                     $scope.course = $scope.selectedParticipant.course;
                     console.log($scope.selectedParticipant);
-                    if ($scope.selectedParticipant.accomondation !== null){
+                    self.setForm();
+                    if ($scope.selectedParticipant.accomondation !== null) {
                         self.findHotel();
                         $scope.checkboxAccModel.c1 = true;
                     } else {
@@ -56,6 +57,41 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         }
     };
 
+    self.setForm = function () {
+        for (var i = 0; i<$scope.selectedParticipant.optionalPersonalia.length; i++) {
+            if ($scope.selectedParticipant.optionalPersonalia[i] != undefined) {
+                if ($scope.selectedParticipant.optionalPersonalia[i].parameter == "true") {
+                    $scope.selectedParticipant.optionalPersonalia[i].parameter = true;
+                    console.log("endret.. ");
+                } else if ($scope.selectedParticipant.optionalPersonalia[i].parameter == "false") {
+                    $scope.selectedParticipant.optionalPersonalia[i].parameter = false;
+                    console.log("endret.. ");
+                }
+            }
+        }
+        for (var i = 0; i<$scope.selectedParticipant.optionalWorkplace.length; i++) {
+            if ($scope.selectedParticipant.optionalWorkplace[i] != undefined) {
+                if ($scope.selectedParticipant.optionalWorkplace[i].parameter == "true") {
+                    $scope.selectedParticipant.optionalWorkplace[i].parameter = true;
+                } else if ($scope.selectedParticipant.optionalWorkplace[i].parameter == "false") {
+                    $scope.selectedParticipant.optionalWorkplace[i].parameter = false;
+                }
+            }
+        }
+        for (var i = 0; i<$scope.selectedParticipant.extraInfo.length; i++) {
+            if ($scope.selectedParticipant.extraInfo[i] != undefined) {
+                if ($scope.selectedParticipant.extraInfo[i].parameter == "true") {
+                    $scope.selectedParticipant.extraInfo[i].parameter = true;
+                    console.log("endret.. ");
+                } else if ($scope.selectedParticipant.extraInfo[i].parameter == "false") {
+                    $scope.selectedParticipant.extraInfo[i].parameter = false;
+                    console.log("endret.. ");
+                }
+            }
+        }
+    };
+
+
     self.convertDates = function (dates) {
         var d = [];
         for (var i = 0; i < dates.length; i++) {
@@ -64,14 +100,16 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         return d;
     };
 
-    self.findPerson = function (id) {
-        /*       for (var i = 0; i < $scope.registrations.length; i++){
-         if ($scope.registrations[i].person.personID == id){
-         return $scope.registrations[i];
-         }
-         }*/
+    /* SAVNES DENNE? OM IKKE, SLETT.
 
-    };
+     self.findPerson = function (id) {
+     for (var i = 0; i < $scope.registrations.length; i++){
+     if ($scope.registrations[i].person.personID == id){
+     return $scope.registrations[i];
+     }
+     }
+     };
+     */
 
     self.findSessions = function (registration) {
         var sessionArray = [];
@@ -150,8 +188,8 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
                 total += payments[i].amount;
             }
         }
-        if(events){
-            for (var i = 0; i < events.length; i++){
+        if (events) {
+            for (var i = 0; i < events.length; i++) {
                 total += events[i].price;
             }
         }
@@ -173,6 +211,13 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         }, function (errorCallback) {
             console.log("error in setSessionIDFromList");
         });
+    };
+
+    $scope.getParameter = function(parameter){
+        if (parameter == true){
+            return "Ja"
+        } else if (parameter == false) return "Nei"
+        else return parameter;
     };
 
     $scope.changeRegistration = function () {
@@ -305,8 +350,8 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         }
     };
 
-    $scope.makeAccomondation = function(){
-        if ($scope.checkboxAccModel.c1 == true){
+    $scope.makeAccomondation = function () {
+        if ($scope.checkboxAccModel.c1 == true) {
             $scope.selectedParticipant.accomondation = {};
         }
     };
@@ -319,7 +364,7 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
     };
 
     $scope.colorHotel = function (hotel) { // Skjekk om id finnes i selectedEvents.
-        if ($scope.selectedParticipant.accomondation !== null){
+        if ($scope.selectedParticipant.accomondation !== null) {
             if (hotel.id == $scope.selectedParticipant.accomondation.hotelID) return true;
         }
         return false;
@@ -331,21 +376,82 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
     };
 
     $scope.updateRegistration = function (reg) {
-        var saveAccomondation = 0; // -1 = delete,  0 = nothing.
         console.log(reg);
-        if ($scope.checkboxAccModel.c1 == false){
-            console.log("Sletter overnatting.");
+        if ($scope.checkboxAccModel.c1 == false) {
             reg.accomondation.id = 0;
             reg.accomondation.fromDate = null;
             reg.accomondation.toDate = null;
             console.log(reg);
         }
-        if ($scope.selectedParticipant.accomondation.doubleroom == false){
+        if ($scope.selectedParticipant.accomondation.doubleroom == false) {
             $scope.selectedParticipant.accomondation.roommate = null;
         }
+        reg.cost = findPrice($scope.selectedParticipant.dates.length, $scope.selectedParticipant.attendingFullCourse);
+        var opt = self.inputParameterResolver($scope.selectedParticipant);
+        reg.optionalPersonalia = opt.optionalPersonalia;
+        reg.optionalWorkplace = opt.optionalWorkplace;
+        reg.extraInfo = opt.extraInfo;
         attenderInfoService.updateRegistration(reg);
-        $window.location.href = "/kursogkongress/personInfo";
+        //$window.location.href = "/kursogkongress/personInfo";
     };
 
     self.resolveInfo();
-}]);
+
+    self.inputParameterResolver = function (registration) {
+        var optionalPersonalia = [];
+        var optionalWorkplace = [];
+        var extraInfo = [];
+        for (var prop in registration.optionalPersonalia) { // Prop is indexnumber for the question in course.form.optionalPersonalia
+            if (registration.optionalPersonalia[prop] != undefined) {
+                var i = parseInt(prop);
+                var inputParameter = {
+                    parameter: registration.optionalPersonalia[prop].parameter,
+                    type: $scope.course.form.optionalPersonalia[i].type
+                };
+                optionalPersonalia.push(inputParameter);
+            }
+        }
+        for (var prop in registration.optionalWorkplace) { // Prop is indexnumber for the question in course.form.optionalWorkplace
+            if (registration.optionalWorkplace[prop] != undefined) {
+                var i = parseInt(prop);
+                var inputParameter = {
+                    parameter: registration.optionalWorkplace[prop].parameter,
+                    type: $scope.course.form.optionalWorkplace[i].type
+                };
+                optionalWorkplace.push(inputParameter);
+            }
+        }
+        for (var prop in registration.extraInfo) { // Prop is indexnumber for the question in course.form.extraInfo
+            if (registration.extraInfo[prop] != undefined) {
+                var i = parseInt(prop);
+                var inputParameter = {
+                    parameter: registration.extraInfo[prop].parameter,
+                    type: $scope.course.form.extraInfo[i].type
+                };
+                extraInfo.push(inputParameter);
+            }
+        }
+        console.log(optionalPersonalia);
+        console.log(optionalWorkplace);
+        console.log(extraInfo);
+        return {optionalPersonalia: optionalPersonalia, optionalWorkplace: optionalWorkplace, extraInfo: extraInfo};
+    };
+
+    self.findPrice = function (ant, allDaysCheck) { // Finn ut hvilke dager han skal delta på, multipliser med course.dagpakke og course.kursavgift.
+        var price = [];
+        console.log($scope.dateArray.length + " dateArray.length");
+        if (allDaysCheck == true || ant == $scope.dateArray.length) {
+            price.push({amount: $scope.course.courseFee, description: 'Kursavgift'});
+            for (var i = 0; i < $scope.dateArray.length; i++) {
+                price.push({amount: $scope.course.dayPackage, description: 'Dagpakke'});
+            }
+        } else {
+            price.push({amount: $scope.course.courseSingleDayFee * ant, description: 'Kursavgift Dag'});
+            for (var u = 0; u < ant; u++) {
+                price.push({amount: ($scope.course.dayPackage), description: "Dagpakke"})
+            }
+        }
+        return price;
+    };
+}])
+;

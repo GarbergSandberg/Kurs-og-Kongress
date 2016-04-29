@@ -122,7 +122,7 @@
                     {{personalia.parameter}}
                 </td>
                 <td>
-                    {{selectedParticipant.optionalPersonalia[$index].parameter}}
+                    {{getParameter(selectedParticipant.optionalPersonalia[$index].parameter)}}
                 </td>
             </tr>
             <tr style="color: #ff2c27" ng-if="selectedParticipant.alternativeInvoiceAddress">
@@ -161,7 +161,20 @@
                     {{workplace.parameter}}
                 </td>
                 <td>
-                    {{selectedParticipant.optionalWorkplace[$index].parameter}}
+                    {{getParameter(selectedParticipant.optionalWorkplace[$index].parameter)}}
+                </td>
+            </tr>
+            <tr class="tableRowHighlight">
+                <td>
+
+                    Extrainfo
+                </td>
+                <td></td>
+            </tr>
+            <tr ng-repeat="extraInfo in selectedParticipant.course.form.extraInfo">
+                <td>{{extraInfo.parameter}}</td>
+                <td>
+                    {{getParameter(selectedParticipant.extraInfo[$index].parameter)}}
                 </td>
             </tr>
             <tr class="tableRowHighlight">
@@ -170,22 +183,30 @@
                 </td>
                 <td></td>
             </tr>
+            <tr ng-if="selectedParticipant.attendingSessions.length == 0">
+                <td></td>
+                <td>Ikke påmeldt på noen sesjoner.</td>
+            </tr>
             <tr ng-repeat="session in selectedParticipant.attendingSessions">
                 <td>
                     {{session.title}}
                 </td>
                 <td>
-                    {{session.date | date:'dd/MM/yyyy'}} ({{session.startTime | date:'HH:mm'}} - {{session.endTime |
-                    date:'HH:mm'}})
+                    {{session.date | date:'dd/MM/yyyy'}} ({{session.startTime | date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})
                 </td>
             </tr>
+
             <tr class="tableRowHighlight">
                 <td>
                     Arrangementer deltakeren er påmeldt
                 </td>
                 <td></td>
             </tr>
-            <tr ng-repeat="event in selectedParticipant.attendingEvents">
+            <tr ng-if="selectedParticipant.attendingEvents.length == 0">
+                <td></td>
+                <td>Ikke påmeldt på noen arrangementer.</td>
+            </tr>
+            <tr ng-if="selectedParticipant.attendingEvents.length > null" ng-repeat="event in selectedParticipant.attendingEvents">
                 <td>
                     {{event.title}}
                 </td>
@@ -311,7 +332,9 @@
                     Rolle
                 </td>
                 <td>
-                    {{selectedParticipant.person.role}}
+                    <div ng-repeat="role in course.roles">
+                        <input type="radio" name="role" ng-model="selectedParticipant.role" ng-value="role"/> {{role}}
+                    </div>
                 </td>
             </tr>
             <tr ng-repeat="personalia in selectedParticipant.course.form.optionalPersonalia">
@@ -375,11 +398,26 @@
                 <td>
                     {{workplace.parameter}}
                 </td>
-                <td ng-if="personalia.type == 'Checkbox'">
+                <td ng-if="workplace.type == 'Checkbox'">
                     <input type="checkbox" ng-model="selectedParticipant.optionalWorkplace[$index].parameter">
                 </td>
-                <td ng-if="personalia.type == 'Input'">
+                <td ng-if="workplace.type == 'Input'">
                     <input type="text" ng-model="selectedParticipant.optionalWorkplace[$index].parameter">
+                </td>
+            </tr>
+            <tr class="tableRowHighlight" ng-if="selectedParticipant.course.form.extraInfo.length > 0">
+                <td>
+                    Extrainfo
+                </td>
+                <td></td>
+            </tr>
+            <tr ng-if="selectedParticipant.course.form.extraInfo.length > 0" ng-repeat="extraInfo in selectedParticipant.course.form.extraInfo">
+                <td>{{extraInfo.parameter}}</td>
+                <td ng-if="extraInfo.type == 'Checkbox'">
+                    <input type="checkbox" ng-model="selectedParticipant.extraInfo[$index].parameter">
+                </td>
+                <td ng-if="extraInfo.type == 'Input'">
+                    <input type="text" ng-model="selectedParticipant.extraInfo[$index].parameter">
                 </td>
             </tr>
         </table>

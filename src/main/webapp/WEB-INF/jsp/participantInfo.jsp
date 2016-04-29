@@ -85,7 +85,15 @@
                     Rolle
                 </td>
                 <td>
-                    {{selectedParticipant.person.role}}
+                    {{selectedParticipant.role}}
+                </td>
+            </tr>
+            <tr ng-repeat="personalia in selectedParticipant.course.form.optionalPersonalia">
+                <td>
+                    {{personalia.parameter}}
+                </td>
+                <td>
+                    {{getParameter(selectedParticipant.optionalPersonalia[$index].parameter)}}
                 </td>
             </tr>
             <tr style="color: #ff2c27" ng-if="selectedParticipant.alternativeInvoiceAddress">
@@ -123,7 +131,20 @@
                     {{workplace.parameter}}
                 </td>
                 <td>
-                    {{selectedParticipant.optionalWorkplace[$index].parameter}}
+                    {{getParameter(selectedParticipant.optionalWorkplace[$index].parameter)}}
+                </td>
+            </tr>
+            <tr class="tableRowHighlight">
+                <td>
+
+                    Extrainfo
+                </td>
+                <td></td>
+            </tr>
+            <tr ng-repeat="extraInfo in selectedParticipant.course.form.extraInfo">
+                <td>{{extraInfo.parameter}}</td>
+                <td>
+                    {{getParameter(selectedParticipant.extraInfo[$index].parameter)}}
                 </td>
             </tr>
             <tr class="tableRowHighlight">
@@ -131,6 +152,10 @@
                     Sesjoner deltakeren er påmeldt
                 </td>
                 <td></td>
+            </tr>
+            <tr ng-if="selectedParticipant.attendingSessions.length == 0">
+                <td></td>
+                <td>Ikke påmeldt på noen sesjoner.</td>
             </tr>
             <tr ng-repeat="session in selectedParticipant.attendingSessions">
                 <td>
@@ -146,8 +171,9 @@
                 </td>
                 <td></td>
             </tr>
-            <tr ng-if="selectedParticipant.attendingEvents == null">
-                Ingen påmeldt på noen arrangementer.
+            <tr ng-if="selectedParticipant.attendingEvents.length == 0">
+                <td></td>
+                <td>Ikke påmeldt på noen arrangementer.</td>
             </tr>
             <tr ng-if="selectedParticipant.attendingEvents !== null" ng-repeat="event in selectedParticipant.attendingEvents">
                 <td>
