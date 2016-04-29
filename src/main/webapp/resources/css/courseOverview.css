@@ -1,8 +1,5 @@
 body{
-    background: url("oppdal-2.png");
-    background-size: cover;
-    opacity: 0.4;
-    filter: alpha(opacity=40); /* For IE8 and earlier */
+    background-color: #F5F8FA;
 }
 
 #jumbo {
@@ -12,6 +9,7 @@ body{
     padding-left: 5%;
     max-width: 100%;
     min-width: 100%;
+    font-weight: 300;
 }
 
 #infolist {

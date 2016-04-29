@@ -39,7 +39,7 @@
                                 <input type="text" class="form-control" placeholder="Brukernavn" required autofocus ng-model="user.username">
                                 <input type="password" class="form-control" placeholder="Passord" required ng-model="user.password">
                                 <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="login(user)">Logg inn</button>
-                                <h4 ng-show="error"><small>Feil brukernavn eller passord</small></h4>
+                                <h4 class="text-center" ng-show="error"><small>Feil brukernavn eller passord</small></h4>
                             </form>
                         </div>
                     </div>

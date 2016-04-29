@@ -104,29 +104,34 @@
                     <h2>Søkefilter</h2>
                     <label for="search">Søk etter deltaker:</label>
                     <input class="form-control" ng-model="search" id="search">
+                    <br>
+                    <table class="table">
+                        <tr ng-if="!(filtered == 0)" class="tableRowHighlight">
+                            <td style="text-align: left;">Navn: </td>
+                            <td style="text-align: center;">Arbeidsplass: </td>
+                            <td style="text-align: right;"> </td>
+                        </tr>
+                        <tr ng-if="filtered == 0">
+                            <td></td>
+                            <td>
+                                <h5 style="text-align: center;">Ingen deltakere</h5>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr ng-repeat="registration in filtered = (registrations | filter:search)">
+                            <td style="text-align: left">
+                                {{registration.person.firstname}} {{registration.person.lastname}}
+                            </td>
+                            <td style="text-align: center">
+                                {{registration.workplace.companyName}}
+                            </td>
+                            <td style="text-align: right">
+                                <button type="button" class="btn btn-default" ng-click="showInfo(registration)">Oversikt</button>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
-            <table class="table">
-                <tr class="tableRowHighlight">
-                    <td style="text-align: left;">Navn: </td>
-                    <td style="text-align: center;">Arbeidsplass: </td>
-                    <td style="text-align: right;"> </td>
-                </tr>
-                <tr ng-repeat="registration in filtered = (registrations | filter:search)">
-                    <h5 ng-if="filtered == 0" style="text-align: center;">Ingen deltakere</h5>
-                    <td style="text-align: left">
-                        {{registration.person.firstname}} {{registration.person.lastname}}
-                    </td>
-                    <td style="text-align: center">
-                        {{registration.workplace.companyName}}
-                    </td>
-                    <td style="text-align: right">
-                        <button type="button" class="btn btn-default" ng-click="showInfo(registration)">Oversikt</button>
-                    </td>
-                </tr>
-            </table>
-            <br>
-            <br>
         </div>
         <div ng-show="loading">
             <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>

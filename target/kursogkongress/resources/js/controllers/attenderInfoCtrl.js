@@ -391,7 +391,9 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         reg.optionalPersonalia = opt.optionalPersonalia;
         reg.optionalWorkplace = opt.optionalWorkplace;
         reg.extraInfo = opt.extraInfo;
-        attenderInfoService.updateRegistration(reg);
+        attenderInfoService.updateRegistration(reg).then(function(success){
+            $window.location.href = "/kursogkongress/personInfo";
+        });
         //$window.location.href = "/kursogkongress/personInfo";
     };
 
