@@ -34,4 +34,8 @@ public interface CourseService {
     public ArrayList<HashMap> getNumberOfParticipants(int courseID);
 
     public ArrayList<Course> getNotAdminCourses(ArrayList<Integer> courses);
+
+    public ArrayList<Boolean> getStatus(int courseID, ArrayList<Integer> sessionsToAttend, ArrayList<Integer> eventsToAttend, int numberOfRegistrations);
+
+    public Boolean checkIfCourseGetsFull(int courseID, int numberOfRegistrations);
 }

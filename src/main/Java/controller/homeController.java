@@ -118,13 +118,48 @@ public class homeController {
 
     @RequestMapping(value = "/saveRegistration", method = RequestMethod.POST)
     public ResponseEntity<Void> saveRegistration( @RequestBody Registration registration )   {
+        int courseID = registration.getCourse().getId();
+        Boolean isFull = courseService.checkIfCourseGetsFull(courseID, 1);
+        System.out.println("isFull: " + isFull);
+        if(isFull == null){
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
+        if(isFull){
+            return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE); // 406
+        }
+        ArrayList<Boolean> check = courseService.getStatus(courseID, registration.getSessionsToAttend(), registration.getEventsToAttend(), 1);
+        if(check != null){
+            if(check.get(0).equals(true)){
+                return new ResponseEntity<Void>(HttpStatus.CONFLICT); // 409
+            }
+            if(check.get(1).equals(true)){
+                return new ResponseEntity<Void>(HttpStatus.FORBIDDEN); // 403
+            }
+        }
         courseService.saveRegistration(registration);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/saveRegistrations", method = RequestMethod.POST)
     public ResponseEntity<Void> saveRegistrations(@RequestBody ArrayList<Registration> registrations)   {
-        System.out.println("Kommer hit..");
+        int courseID = registrations.get(0).getCourse().getId();
+        Boolean isFull = courseService.checkIfCourseGetsFull(courseID, registrations.size());
+        System.out.println("isFull: " + isFull);
+        if(isFull == null){
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
+        if(isFull){
+            return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE); // 406
+        }
+        ArrayList<Boolean> check = courseService.getStatus(courseID, registrations.get(0).getSessionsToAttend(), registrations.get(0).getEventsToAttend(), registrations.size());
+        if(check != null){
+            if(check.get(0).equals(true)){
+                return new ResponseEntity<Void>(HttpStatus.CONFLICT); // 409
+            }
+            if(check.get(1).equals(true)){
+                return new ResponseEntity<Void>(HttpStatus.FORBIDDEN); // 403
+            }
+        }
         for (int i = 0; i<registrations.size(); i++){
             System.out.println("Sender et og et element inn..");
             courseService.saveRegistration(registrations.get(i));
@@ -317,6 +352,18 @@ public class homeController {
         User u = (User) session.getAttribute("user");
         ArrayList<Integer> courseAccess = getCourseAccess(u.getUsername());
         return courseService.getNotAdminCourses(courseAccess);
+    }
+
+    @RequestMapping(value = "/checkIfCourseIsFull", method = RequestMethod.GET)
+    @ResponseBody
+    public boolean checkIfCourseIsFull(@RequestParam(value = "courseID") int courseID, @RequestParam(value = "numberOfRegistrations") int numberOfRegistrations) {
+        return courseService.checkIfCourseGetsFull(courseID,numberOfRegistrations);
+    }
+
+    @RequestMapping(value = "/getStatus", method = RequestMethod.GET)
+    @ResponseBody
+    public ArrayList<Boolean> getStatus(@RequestParam(value = "courseID") int courseID, @RequestParam(value = "sessionsToAttend") ArrayList<Integer> sessionsToAttend,@RequestParam(value = "eventsToAttend") ArrayList<Integer> eventsToAttend, @RequestParam(value = "numberOfRegistrations") int numberOfRegistrations) {
+        return courseService.getStatus(courseID, sessionsToAttend, eventsToAttend, numberOfRegistrations);
     }
 
 }

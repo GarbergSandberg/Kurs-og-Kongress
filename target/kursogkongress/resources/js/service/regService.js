@@ -180,11 +180,10 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
             return $http.post('saveRegistration', registration)
                 .then(
                     function (response) {
-                        console.log("Success!");
-                        return response.data;
+                        return {isOk: true, response: response.data};
                     },
                     function (errResponse) {
-                        return $q.reject(errResponse.data);
+                        return {isOk: false, response: errResponse.status};
                     }
                 );
         },
@@ -194,11 +193,10 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
             return $http.post('saveRegistrations', registrations)
                 .then(
                     function (response) {
-                        console.log("Success!");
-                        return response.data;
+                        return {isOk: true, response: response.data};
                     },
                     function (errResponse) {
-                        return $q.reject(errResponse.data);
+                        return {isOk: false, response: errResponse.status};
                     }
                 );
         },
@@ -242,7 +240,6 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
                     }
                 );
         },
-
 
         getCourses: function (callback) {
             return $http.get('getCourses')
@@ -289,7 +286,9 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
             for (var i = 0; i < registrations.length; i++) {
                 console.log(registrations[i]);
                 if (registrations[i].person == reg.person) {
-                    removeRoom(reg.person);
+                    if (reg.accomondation !== undefined && reg.accomondation !== undefined){
+                        removeRoom(reg.person);
+                    }
                     registrations.splice(i, 1);
                 }
             }
@@ -332,12 +331,8 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
         newReg.role = newPerson.role;
         newReg.optionalPersonalia = newPerson.opt;
         newReg.person = newPerson;
-        //newReg.accomondation = {};
         registrations.push(newReg);
-        console.log("Her skal mark være med ");
-        console.log(newReg);
         $rootScope.$broadcast('personSet', persons);
-        //$rootScope.$broadcast('regSet', registrations);
     };
 
     function generateId() {

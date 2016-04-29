@@ -34,4 +34,8 @@ public interface CourseRepository {
     public Integer getNumberOfEvents(int event_id);
 
     public ArrayList<Course> getNotAdminCourses(ArrayList<Integer> courses);
+
+    public ArrayList<Boolean> getStatus(int courseID, ArrayList<Integer> sessionsToAttend, ArrayList<Integer> eventsToAttend, int numberOfRegistrations);
+
+    public Boolean checkIfCourseGetsFull(int courseID, int numberOfRegistrations);
 }

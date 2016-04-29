@@ -49,4 +49,14 @@ public class CourseServiceImpl implements CourseService {
     public ArrayList<Course> getNotAdminCourses(ArrayList<Integer> courses) {
         return courseRepository.getNotAdminCourses(courses);
     }
+
+    @Override
+    public ArrayList<Boolean> getStatus(int courseID, ArrayList<Integer> sessionsToAttend, ArrayList<Integer> eventsToAttend, int numberOfRegistrations) {
+        return courseRepository.getStatus(courseID, sessionsToAttend, eventsToAttend, numberOfRegistrations);
+    }
+
+    @Override
+    public Boolean checkIfCourseGetsFull(int courseID, int numberOfRegistrations) {
+        return courseRepository.checkIfCourseGetsFull(courseID, numberOfRegistrations);
+    }
 }

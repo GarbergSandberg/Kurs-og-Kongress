@@ -180,11 +180,10 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
             return $http.post('saveRegistration', registration)
                 .then(
                     function (response) {
-                        console.log("Success!");
-                        return response.data;
+                        return {isOk: true, response: response.data};
                     },
                     function (errResponse) {
-                        return $q.reject(errResponse.data);
+                        return {isOk: false, response: errResponse.status};
                     }
                 );
         },
@@ -194,11 +193,10 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
             return $http.post('saveRegistrations', registrations)
                 .then(
                     function (response) {
-                        console.log("Success!");
-                        return response.data;
+                        return {isOk: true, response: response.data};
                     },
                     function (errResponse) {
-                        return $q.reject(errResponse.data);
+                        return {isOk: false, response: errResponse.status};
                     }
                 );
         },
@@ -242,7 +240,6 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
                     }
                 );
         },
-
 
         getCourses: function (callback) {
             return $http.get('getCourses')

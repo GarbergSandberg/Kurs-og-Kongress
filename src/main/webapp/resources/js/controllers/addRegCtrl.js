@@ -1,16 +1,10 @@
-app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function ($scope, personService, regService) {
-    $scope.tabs = [
-        { id: '1', title:'Enkeltpåmelding', content:'resources/jsp/singleReg.jsp' },
-        { id: '2', title:'Gruppepåmelding', content:'resources/jsp/groupReg.jsp'}
-    ];
-    $scope.tabs.activeTab = 'Gruppepåmelding';
+app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', '$window', function ($scope, personService, regService, $alert, $window) {
     $scope.registration = {};
     $scope.numberOfPersons = 0;
     $scope.registrations = regService.get();
     $scope.$on('regSet', function(event, data){
         $scope.registrations = data;
     });
-
     $scope.selectedEvents = [];
     $scope.selectedSessions = [];
     $scope.selectedDays = [];
@@ -38,10 +32,51 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
     $scope.$on('hasRoomSet', function(event, data){
         $scope.hasRoom = data;
     });
-
     $scope.allDaysCheck = {};
     $scope.newacc = {};
     $scope.loading = true;
+    $scope.errormessages = {
+        fullCourse: 'Ikke nok tilgjengelige plasser på kurset. Prøv igjen med færre personer.',
+        fullSessions: 'Ikke nok tilgjengelige plasser på sesjoner. Prøv igjen med færre personer eller velg andre sesjoner.',
+        fullEvents: 'Ikke nok tilgjengelige plasser på arrangementer. Prøv igjen med færre personer eller velg andre arrangementer.'
+    };
+    $scope.errormessagesSingle = {
+        fullCourse: 'Kurset er fullt',
+        fullSessions: 'Ikke nok tilgjengelige plasser på sesjoner. Vennligst velg andre sesjoner.',
+        fullEvents: 'Ikke nok tilgjengelige plasser på arrangementer. Vennligst velg andre arrangementer.'
+    };
+
+    $scope.showErrorAlert = function(content) {
+        if(content == 406){
+            var myAlert = $alert({title: 'Feil!', content: $scope.errormessages.fullCourse, placement: 'top-right', type: 'danger', keyboard: true, show: false});
+        }
+        if(content == 409){
+            var myAlert = $alert({title: 'Feil!', content: $scope.errormessages.fullSessions, placement: 'top-right', type: 'danger', keyboard: true, show: false});
+        }
+        if(content == 403){
+            var myAlert = $alert({title: 'Feil!', content: $scope.errormessages.fullEvents, placement: 'top-right', type: 'danger', keyboard: true, show: false});
+        }
+        myAlert.$promise.then(function() {myAlert.show();});
+    };
+
+    $scope.showErrorSingle = function(content) {
+        if(content == 406){
+            var myAlert = $alert({title: 'Feil!', content: $scope.errormessagesSingle.fullCourse, placement: 'top-right', type: 'danger', keyboard: true, show: false});
+        }
+        if(content == 409){
+            var myAlert = $alert({title: 'Feil!', content: $scope.errormessagesSingle.fullSessions, placement: 'top-right', type: 'danger', keyboard: true, show: false});
+        }
+        if(content == 403){
+            var myAlert = $alert({title: 'Feil!', content: $scope.errormessagesSingle.fullEvents, placement: 'top-right', type: 'danger', keyboard: true, show: false});
+        }
+        myAlert.$promise.then(function() {myAlert.show();});
+    };
+
+    $scope.showSuccessAlert = function(content) {
+        var myAlert = $alert({title: 'Påmeldingen gikk bra!', placement: 'top', type: 'success', keyboard: true, show: false});
+        myAlert.$promise.then(function() {myAlert.show();});
+    };
+
 
     $scope.saveGroupRegistration = function(){ // Må sende med course.id, course.form, session, workplace, person, pris.
         for (var i = 0; i<$scope.registrations.length; i++){
@@ -74,7 +109,17 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
             delete $scope.registrations[i].person.opt;
             console.log($scope.registrations[i].person);
         }
-        regService.sendRegistrations($scope.registrations);
+        regService.sendRegistrations($scope.registrations).then(function (response) {
+            if(response.isOk){
+                $scope.showSuccessAlert();
+                setTimeout(function(){
+                    $window.location.href = "/kursogkongress/publicRegistrations";
+                }, 2400);
+            } else{
+                $scope.showErrorAlert(response.response);
+            }
+
+        });
     };
 
 
@@ -97,7 +142,16 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService',  function
         } else {
             delete registration.accomondation;
         }
-        regService.sendRegistration(registration);
+        regService.sendRegistration(registration).then(function (response) {
+            if(response.isOk){
+                $scope.showSuccessAlert();
+                setTimeout(function(){
+                    $window.location.href = "/kursogkongress/publicRegistrations";
+                }, 2400);
+            } else{
+                $scope.showErrorSingle(response.response);
+            }
+        });
     };
 
     $scope.sendAll = function(course, form){ // Funker ikke. Sender person-array, skal ikke gjøre det..

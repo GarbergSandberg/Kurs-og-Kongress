@@ -280,7 +280,7 @@
                 <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!--  -->
                     <button ng-class="colorEvent(event) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'"
                             ng-click="selectEvent(event)">
-                        {{event.title}} <h5>{{event.price}}</h5>
+                        {{event.title}} <h5>{{event.price | number: 2}} kr</h5>
                     </button>
                 </td>
 
