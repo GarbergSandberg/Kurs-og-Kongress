@@ -1,0 +1,9 @@
+.btn-primary.test {
+    float: left;
+    min-width: 30%;
+}
+
+.btn-default.test {
+    float: left;
+    min-width: 30%;
+}
