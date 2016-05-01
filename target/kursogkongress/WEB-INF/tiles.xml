@@ -85,6 +85,11 @@
         <put-attribute name="body"   value="/WEB-INF/jsp/publicRegistrations.jsp"/>
         <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
     </definition>
+    <definition name="groupInvoice" template="/WEB-INF/tiles/baseLayout.jsp">
+        <put-attribute name="title"  value="Påmeldinger"/>
+        <put-attribute name="body"   value="/WEB-INF/jsp/groupInvoice.jsp"/>
+        <put-attribute name="topmenu"   value="/WEB-INF/jsp/topmenu.jsp"/>
+    </definition>
     <definition name="courseEconomics" template="/WEB-INF/tiles/baseLayout.jsp">
         <put-attribute name="title"  value="Påmeldinger"/>
         <put-attribute name="body"   value="/WEB-INF/jsp/courseEconomics.jsp"/>
