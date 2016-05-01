@@ -98,7 +98,7 @@ public class CourseRepositoryDB implements CourseRepository {
     private final String sqlGetNumberOfPayments = "select count(*) from payment where REGISTRATION_IDREGISTRATION = ? and DESCRIPTION = ?";
     private final String sqlGetGroupNumberOfPayments = "select count(REGISTRATION_IDREGISTRATION) from registration, payment where registration.IDGROUPREGISTRATION = ? and registration.IDREGISTRATION = payment.REGISTRATION_IDREGISTRATION and payment.DESCRIPTION = ?";
     private final String sqlGetNumberOfEvents = "select count(REGISTRATION_IDREGISTRATION) from eventid where EVENTID = ?";
-    private final String sqlGetGroupNumberOfEvents = "select count(*) from registration, event where IDGROUPREGISTRATION = ? and idevent = ?";
+    private final String sqlGetGroupNumberOfEvents = "select count(*) from registration, eventid where registration.IDGROUPREGISTRATION = ? and registration.IDREGISTRATION = eventid.REGISTRATION_IDREGISTRATION and eventid.EVENTID = ?";
     private final String sqlGetDates = "select date from date where registration_idregistration = ?";
     private final String sqlGetCountRegistrations = "select count(*) from REGISTRATION where course_idcourse = ?";
     private final String sqlGetMaxIdGroupRegistration = "select max(idGroupregistration) FROM registration";
