@@ -1,3 +1,4 @@
+<%@ page import="domain.*" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
@@ -40,6 +41,9 @@
     <script src="${eventRegisterService}"></script>
     <script src="${hotelService}"></script>
     <script src="${attenderInfoService}"></script>
+    <%
+        User user = (User)session.getAttribute("user");
+    %>
 </head>
 <body>
 <div ng-app="registerApp">
@@ -48,6 +52,14 @@
             <!-- INFORMASJON OM KURSET -->
             <div class="container">
                 <div class="jumbotron clearfix">
+                    <%
+                      if(user.isAdmin()){
+                    %>
+                    <button type="button" ng-click="courseEconomics()" class="btn btn-default"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> | Økonomisk rapport</button>
+                    <hr>
+                    <%
+                        }
+                    %>
                     <div class="col-sm-6 col-md-6 col-lg-6">
                         <label> <span style="float: left;">Kurs: </span> </label><span style="float: right;">{{course.title}} </span>
                         <br>

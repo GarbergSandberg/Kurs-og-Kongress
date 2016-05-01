@@ -33,7 +33,7 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
                 $window.location.href = "/kursogkongress/personInfo";
             } else{
                 alert("Det skjedde noe galt. Prøv igjen.");
-                $window.location.href = "/kursogkongress/personInfo";
+                $window.location.href = "/kursogkongress/courseStatistics";
             }
         });
     }

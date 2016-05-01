@@ -41,6 +41,10 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
         });
     };
 
+    $scope.courseEconomics = function(){
+        $window.location.href = "/kursogkongress/courseEconomics";
+    };
+
     self.getCourse = function(id){
         courseService.getCourse(id).then(function(response){
             if (response != null){

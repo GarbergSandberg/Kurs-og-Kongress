@@ -17,6 +17,19 @@ sessionRegisterApp.factory('attenderInfoService', ['$http','$q', '$rootScope', f
             );
     };
 
+    attenderInfoService.deleteRegistration = function(reg){
+        return $http.post('deleteRegistration', reg)
+            .then(
+                function (success) {
+                    console.log("Sletting gikk bra");
+                    return true;
+                },
+                function (error) {
+                    return false;
+                }
+            );
+    };
+
     attenderInfoService.getRegistrations = function(courseID){
         return $http.get('getRegistrations', {params: {course_id: courseID}})
             .then(
