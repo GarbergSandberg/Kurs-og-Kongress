@@ -39,8 +39,8 @@
     <script src="${attenderInfoService}"></script>
 </head>
 <body>
-<div ng-app="registerApp" style="margin-left:7em; margin-right:7em;">
-    <div ng-controller="attenderInfoCtrl">
+<div ng-app="registerApp">
+    <div ng-controller="attenderInfoCtrl" style="margin-left:7em; margin-right:7em;">
         <table class="table">
             <tr>
                 <td>

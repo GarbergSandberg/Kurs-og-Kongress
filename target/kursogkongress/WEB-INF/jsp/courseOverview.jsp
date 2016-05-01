@@ -31,31 +31,37 @@
     <script src="${jsonService}"></script>
     <script src="${ctrl2}"></script>
     <%
-        User user = (User)session.getAttribute("user");
+        User user = (User) session.getAttribute("user");
     %>
 </head>
 <body>
 <div ng-app="courseOverviewApp">
-    <% if(user.isAdmin()){%>
-    <div ng-controller="OverviewCtrl" style="margin-left:3em; margin-right:3em;">
+    <% if (user.isAdmin()) {%>
+    <div ng-controller="OverviewCtrl">
         <div ng-show="!loading">
-            <div class="container">
                 <div class="jumbotron clearfix" id="jumbo">
                     <h2>Søkefilter</h2>
                     <label for="search">Søk etter kurs:</label>
                     <input class="form-control" ng-model="search" id="search">
                     <div class="form-group col-xs-6">
                         <label for="sel1">År:</label>
-                        <select class="form-control" ng-options="year as year for year in years" ng-model="selectedYear" id="sel1"></select>
+                        <select class="form-control" ng-options="year as year for year in years" ng-model="selectedYear"
+                                id="sel1"></select>
                     </div>
                     <div class="form-group col-xs-6">
                         <label for="sel2">Måned:</label>
-                        <select class="form-control" ng-disabled="!selectedYear" ng-options="months.indexOf(month) as month for month in months" ng-model="selectedMonth" id="sel2"></select>
+                        <select class="form-control" ng-disabled="!selectedYear"
+                                ng-options="months.indexOf(month) as month for month in months" ng-model="selectedMonth"
+                                id="sel2"></select>
                     </div>
                 </div>
-            </div>
-            <div class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true" bs-collapse>
-                <div class="panel panel-default" ng-repeat="panel in panels | filter:search | filter:selectedMonthFilter | filter:selectedYearFilter | orderBy: 'panel.startDate'">
+            <div class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true"
+                 bs-collapse style="margin-left:3em; margin-right:3em;">
+                <div class="page-header">
+                    <h2>Kurs</h2>
+                </div>
+                <div class="panel panel-default"
+                     ng-repeat="panel in panels | filter:search | filter:selectedMonthFilter | filter:selectedYearFilter | orderBy: 'panel.startDate'">
                     <div class="panel-heading" role="tab">
                         <h4 class="panel-title">
                             <a bs-collapse-toggle>
@@ -65,19 +71,29 @@
                     </div>
                     <div class="panel-collapse" role="tabpanel" bs-collapse-target>
                         <div class="panel-body">
-                            <ul class ="list-group" id="infolist">
+                            <ul class="list-group" id="infolist">
                                 <li class="list-group-item">
                                     <p style="font-weight: bold;">Beskrivelse:</p>
                                     <p>{{ panel.body }}</p>
                                 </li>
                                 <li class="list-group-item">
-                                    <p>Kurset starter <span style="font-weight: bold;">{{ panel.startDate | date:'dd-MM-yyyy'}}</span></p>
-                                    <p>Kurset slutter <span style="font-weight: bold;">{{ panel.endDate | date:'dd-MM-yyyy'}}</span></p>
+                                    <p>Kurset starter <span style="font-weight: bold;">{{ panel.startDate | date:'dd-MM-yyyy'}}</span>
+                                    </p>
+                                    <p>Kurset slutter <span style="font-weight: bold;">{{ panel.endDate | date:'dd-MM-yyyy'}}</span>
+                                    </p>
                                 </li>
                                 <li class="list-group-item">
-                                    <button ng-click="editCourse(panel.courseID)" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
-                                    <button ng-click="getStatistics(panel.courseID)" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></button>
-                                    <button ng-click="enableRegistration(panel.courseID)" ng-class="changeColor(panel.courseID)"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></button>
+                                    <button ng-click="editCourse(panel.courseID)"
+                                            class="btn btn-default btn-lg"><span
+                                            class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
+                                    <button ng-click="getStatistics(panel.courseID)"
+                                            class="btn btn-default btn-lg"><span
+                                            class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+                                    </button>
+                                    <button ng-click="enableRegistration(panel.courseID)"
+                                            ng-class="changeColor(panel.courseID)"><span
+                                            class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+                                    </button>
                                 </li>
                             </ul>
                         </div>
@@ -91,14 +107,15 @@
         </div>
     </div>
     <%
-    } else{
+    } else {
     %>
     <div ng-controller="OverviewCtrlLite" style="margin-left:3em; margin-right:3em;">
         <div ng-show="!loading">
             <div class="page-header">
                 <h1>Kursoversikt</h1>
             </div>
-            <div class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true" bs-collapse>
+            <div class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true"
+                 bs-collapse>
                 <div class="panel panel-default" ng-repeat="panel in panels | orderBy: 'panel.startDate'">
                     <div class="panel-heading" role="tab">
                         <h4 class="panel-title">
@@ -109,17 +126,20 @@
                     </div>
                     <div class="panel-collapse" role="tabpanel" bs-collapse-target>
                         <div class="panel-body">
-                            <ul class ="list-group" id="infolist">
+                            <ul class="list-group" id="infolist">
                                 <li class="list-group-item">
                                     <p style="font-weight: bold;">Beskrivelse:</p>
                                     <p>{{ panel.body }}</p>
                                 </li>
                                 <li class="list-group-item">
-                                    <p>Kurset starter <span style="font-weight: bold;">{{ panel.startDate | date:'dd-MM-yyyy'}}</span></p>
-                                    <p>Kurset slutter <span style="font-weight: bold;">{{ panel.endDate | date:'dd-MM-yyyy'}}</span></p>
+                                    <p>Kurset starter <span style="font-weight: bold;">{{ panel.startDate | date:'dd-MM-yyyy'}}</span>
+                                    </p>
+                                    <p>Kurset slutter <span style="font-weight: bold;">{{ panel.endDate | date:'dd-MM-yyyy'}}</span>
+                                    </p>
                                 </li>
                                 <li class="list-group-item">
-                                    <button ng-click="getStatistics(panel.courseID)" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></button>
+                                    <button ng-click="getStatistics(panel.courseID)" class="btn btn-default btn-lg">
+                                        <span class="glyphicon glyphicon-stats" aria-hidden="true"></span></button>
                                 </li>
                             </ul>
                         </div>

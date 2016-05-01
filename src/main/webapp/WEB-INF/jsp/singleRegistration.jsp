@@ -51,9 +51,7 @@ To change this template use File | Settings | File Templates.
     <script src="${regCtrl}"></script>
 </head>
 <body>
-
 <div ng-app="RegApp" style="margin-left:3em; margin-right:3em;">
-
     <div ng-controller="AddRegCtrl">
         <div ng-show="!loading">
             <!-- Arbeidsinfo -->
@@ -254,7 +252,7 @@ To change this template use File | Settings | File Templates.
                                 ng-checked="selectedEvent.indexOf(event) > -1"
                                 ng-click="selectEvent(event)"
                                 ng-class="colorEvent(event) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'">
-                            {{event.title}}
+                            {{event.title}} <h5>{{event.price | number: 2}} kr</h5>
                         </button>
                     </td>
                 </tr>
