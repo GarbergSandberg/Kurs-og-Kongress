@@ -241,6 +241,16 @@ public class homeController {
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
+    @RequestMapping(value = "/deleteRegistration", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Void> deleteRegistration(@RequestBody Registration registration){
+        if(courseService.deleteRegistration(registration)){
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } else{
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @RequestMapping(value = "/getRegistrations", method = RequestMethod.GET)
     @ResponseBody
     public ArrayList<Registration> getRegistration(@RequestParam(value = "course_id") int id) {

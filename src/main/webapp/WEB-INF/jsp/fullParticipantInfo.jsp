@@ -554,6 +554,7 @@
         <span align="right">
                 <button ng-if="!change" type="button" class="btn btn-default" ng-click="showInvoice()">Faktura</button>
                 <button ng-if="!change" type="button" class="btn btn-default" ng-click="changeRegistration()">Endre</button>
+                <button confirmed-click="deleteRegistration(selectedParticipant)" ng-confirm-click="Er du sikker?" ng-if="!change" type="button" class="btn btn-danger" style="float: right">Slett påmelding</button>
                 <button ng-if="change" type="button" class="btn btn-default" ng-click="cancelChange()">Forkast endringer</button>
                 <button ng-if="change" type="button" align="right" class="btn btn-primary" ng-click="updateRegistration(selectedParticipant)">
                     Lagre endringer</button>

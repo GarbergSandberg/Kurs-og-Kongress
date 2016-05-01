@@ -1561,19 +1561,19 @@ public class CourseRepositoryDB implements CourseRepository {
             int id = registration.getRegistrationID();
             jdbcTemplateObject.update(deleteOldEventIDs, new Object[]{
                     id
-            };
+            });
             jdbcTemplateObject.update(deleteOldSessionIDs, new Object[]{
                     id
-            };
+            });
             jdbcTemplateObject.update(deletePayments, new Object[]{
                     id
-            };
+            });
             jdbcTemplateObject.update(deleteDates, new Object[]{
                     id
-            };
+            });
             jdbcTemplateObject.update(deleteRegistration, new Object[]{
                     id
-            };
+            });
             return true;
         } catch(Exception e){
             System.out.println("Error while deleting registration " + e);

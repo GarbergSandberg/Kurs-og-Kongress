@@ -59,4 +59,9 @@ public class CourseServiceImpl implements CourseService {
     public Boolean checkIfCourseGetsFull(int courseID, int numberOfRegistrations) {
         return courseRepository.checkIfCourseGetsFull(courseID, numberOfRegistrations);
     }
+
+    @Override
+    public boolean deleteRegistration(Registration registration) {
+        return courseRepository.deleteRegistration(registration);
+    }
 }

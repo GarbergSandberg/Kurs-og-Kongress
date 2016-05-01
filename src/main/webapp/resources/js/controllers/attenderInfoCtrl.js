@@ -26,6 +26,18 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         self.setSessionIDFromList(registration.person.personID);
     };
 
+    $scope.deleteRegistration = function(registration){
+        attenderInfoService.deleteRegistration(registration).then(function (response) {
+            if(response == true){
+                alert("Påmelding er slettet");
+                $window.location.href = "/kursogkongress/personInfo";
+            } else{
+                alert("Det skjedde noe galt. Prøv igjen.");
+                $window.location.href = "/kursogkongress/courseStatistics";
+            }
+        });
+    }
+
     self.resolveInfo = function () {
         var sid = sessionStorage.selectedPerson;
         if (sid !== undefined) {
@@ -444,5 +456,19 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         }
         return price;
     };
-}])
-;
+}]);
+
+sessionRegisterApp.directive('ngConfirmClick', [
+    function(){
+        return {
+            link: function (scope, element, attr) {
+                var msg = attr.ngConfirmClick || "Er du sikker?";
+                var clickAction = attr.confirmedClick;
+                element.bind('click',function (event) {
+                    if ( window.confirm(msg) ) {
+                        scope.$eval(clickAction)
+                    }
+                });
+            }
+        };
+    }]);
