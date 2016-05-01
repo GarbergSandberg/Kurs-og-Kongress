@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.jdbc.core.*;
 
 import javax.sql.*;
-import java.lang.reflect.*;
 import java.util.*;
 
 /**
@@ -97,7 +96,7 @@ public class CourseRepositoryDB implements CourseRepository {
     private final String sqlGetWorkplace = "select * from workplace where idworkplace = ?";
     private final String sqlGetPayments = "select * from payment where registration_idregistration = ?";
     private final String sqlGetNumberOfPayments = "select count(*) from payment where REGISTRATION_IDREGISTRATION = ? and DESCRIPTION = ?";
-    private final String sqlGetGroupNumberOfPayments = "select count(*) from registration, payment where IDGROUPREGISTRATION = ? and DESCRIPTION = ?";
+    private final String sqlGetGroupNumberOfPayments = "select count(REGISTRATION_IDREGISTRATION) from registration, payment where registration.IDGROUPREGISTRATION = ? and registration.IDREGISTRATION = payment.REGISTRATION_IDREGISTRATION and payment.DESCRIPTION = ?";
     private final String sqlGetNumberOfEvents = "select count(REGISTRATION_IDREGISTRATION) from eventid where EVENTID = ?";
     private final String sqlGetGroupNumberOfEvents = "select count(*) from registration, event where IDGROUPREGISTRATION = ? and idevent = ?";
     private final String sqlGetDates = "select date from date where registration_idregistration = ?";

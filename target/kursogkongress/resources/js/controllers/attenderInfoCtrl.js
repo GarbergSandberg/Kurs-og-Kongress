@@ -1,6 +1,22 @@
 /**
  * Created by eiriksandberg on 07.04.2016.
  */
+sessionRegisterApp.directive('ngConfirmClick', [
+    function () {
+        return {
+            link: function (scope, element, attr) {
+                var msg = attr.ngConfirmClick || "Er du sikker?";
+                var clickAction = attr.confirmedClick;
+                element.bind('click', function (event) {
+                    if (window.confirm(msg)) {
+                        scope.$eval(clickAction)
+                    }
+                });
+            }
+        };
+    }
+]);
+
 sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoService', 'statisticsService', '$window', function ($scope, attenderInfoService, statisticsService, $window) {
     $scope.registrations = [];
     $scope.groupRegCourseSingleDayFee = {};
@@ -27,23 +43,11 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         $window.location.href = "/kursogkongress/invoice";
     };
     $scope.showGroupInvoice = function () {
-       $window.location.href = "/kursogkongress/groupInvoice";
+        $window.location.href = "/kursogkongress/groupInvoice";
     };
     $scope.showInvoiceFromList = function (registration) {
         self.setSessionIDFromList(registration.person.personID);
     };
-
-    $scope.deleteRegistration = function(registration){
-        attenderInfoService.deleteRegistration(registration).then(function (response) {
-            if(response == true){
-                alert("Påmelding er slettet");
-                $window.location.href = "/kursogkongress/personInfo";
-            } else{
-                alert("Det skjedde noe galt. Prøv igjen.");
-                $window.location.href = "/kursogkongress/courseStatistics";
-            }
-        });
-    }
 
     self.getGroupRegistration = function () {
         attenderInfoService.getGroupNumberOfPayments($scope.selectedParticipant.idGroupregistration, "Dagpakke").then(function (result) { // Arraylist med alle ID til registreringer til kurset + description.
@@ -61,26 +65,26 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
             $scope.groupRegCourseSingleDayFee.number = result;
             $scope.groupRegCourseSingleDayFee.total = ($scope.groupRegCourseSingleDayFee.number * $scope.course.courseSingleDayFee);
         });
-        for (var i = 0; i<$scope.course.events.length; i++){
+        for (var i = 0; i < $scope.course.events.length; i++) {
             self.getGroupNumberOfEvents($scope.selectedParticipant.idGroupregistration, $scope.course.events[i].id, i);
             console.log($scope.groupRegEvents[i]);
             //$scope.groupRegEvents[i].total = $scope.groupRegEvents[i].number*$scope.course.events[i];
         }
     };
 
-    self.getGroupNumberOfEvents = function(idGroup, idEvent, i){
+    self.getGroupNumberOfEvents = function (idGroup, idEvent, i) {
         var numbEvents = {};
-        attenderInfoService.getGroupNumberOfEvents(idGroup, idEvent).then(function (result){
+        attenderInfoService.getGroupNumberOfEvents(idGroup, idEvent).then(function (result) {
             numbEvents.number = result;
-            numbEvents.total = (numbEvents.number*$scope.course.events[i].price);
+            numbEvents.total = (numbEvents.number * $scope.course.events[i].price);
             $scope.groupRegEvents[i] = numbEvents;
             console.log(numbEvents);
         });
     };
 
-    $scope.getTotal = function(){
+    $scope.getTotal = function () {
         var a = 0;
-        for (var i = 0; i<$scope.groupRegEvents.length; i++){
+        for (var i = 0; i < $scope.groupRegEvents.length; i++) {
             a += $scope.groupRegEvents[i].total;
         }
         a += ($scope.groupRegCourseSingleDayFee.total + $scope.groupRegCourseFee.total + $scope.groupRegDaypackage.total);
@@ -114,6 +118,18 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
      };
      }; */
 
+    $scope.deleteRegistration = function (registration) {
+        attenderInfoService.deleteRegistration(registration).then(function (response) {
+            if (response == true) {
+                alert("Påmelding er slettet");
+                $window.location.href = "/kursogkongress/personInfo";
+            } else {
+                alert("Det skjedde noe galt. Prøv igjen.");
+                $window.location.href = "/kursogkongress/courseStatistics";
+            }
+        });
+    }
+
     self.resolveInfo = function () {
         var sid = sessionStorage.selectedPerson;
         if (sid !== undefined) {
@@ -133,7 +149,7 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
                         self.findHotel();
                         $scope.checkboxAccModel.c1 = true;
                     }
-                    if ($scope.selectedParticipant.idGroupregistration !== 0){
+                    if ($scope.selectedParticipant.idGroupregistration !== 0) {
                         self.getGroupRegistration();
                     }
                 }, function (error) {
@@ -531,18 +547,3 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
     };
 }]);
 
-sessionRegisterApp.directive('ngConfirmClick', [
-    function(){
-        return {
-            link: function (scope, element, attr) {
-                var msg = attr.ngConfirmClick || "Er du sikker?";
-                var clickAction = attr.confirmedClick;
-                element.bind('click',function (event) {
-                    if ( window.confirm(msg) ) {
-                        scope.$eval(clickAction)
-                    }
-                });
-            }
-        };
-    }]);
-}]);
