@@ -100,17 +100,6 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         return d;
     };
 
-    /* SAVNES DENNE? OM IKKE, SLETT.
-
-     self.findPerson = function (id) {
-     for (var i = 0; i < $scope.registrations.length; i++){
-     if ($scope.registrations[i].person.personID == id){
-     return $scope.registrations[i];
-     }
-     }
-     };
-     */
-
     self.findSessions = function (registration) {
         var sessionArray = [];
         if (registration.sessionsToAttend !== null) {
@@ -448,8 +437,8 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
                 price.push({amount: $scope.course.dayPackage, description: 'Dagpakke'});
             }
         } else {
-            price.push({amount: $scope.course.courseSingleDayFee * ant, description: 'Kursavgift Dag'});
             for (var u = 0; u < ant; u++) {
+                price.push({amount: $scope.course.courseSingleDayFee, description: 'Kursavgift Dag'});
                 price.push({amount: ($scope.course.dayPackage), description: "Dagpakke"})
             }
         }

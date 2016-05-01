@@ -136,7 +136,7 @@ public class CourseRepositoryDB implements CourseRepository {
     private final String updateInputParameterAnswer = "update INPUTPARAMETER set parameter = ?, TYPE = ? where IDINPUTPARAMETER = ?";
     private final String updateRegistration = "update registration set alternativeinvoiceaddress = ?, speaker = ?, role = ? where idregistration = ?";
     private final String updateRegNewAccomondation = "update registration set accomondation_idaccomondation = ? where idregistration = ?";
-
+    private final String deleteRegistration = "delete from registration where idregistration = ?";
 
     // Other
     private final String getNumberOfParticipantsSession = "select count(registration_idregistration) from sessionID where sessionid = ?";
@@ -383,6 +383,8 @@ public class CourseRepositoryDB implements CourseRepository {
                 }
                 if (registration.getCost() != null) {
                     updatePayment(registration.getCost(), registration.getRegistrationID());
+                } else{
+                    updatePayment(null, registration.getRegistrationID());
                 }
                 if (registration.getDates() != null) {
                     updateDates(registration.getDates(), registration.getRegistrationID());
@@ -1236,11 +1238,21 @@ public class CourseRepositoryDB implements CourseRepository {
 
     public boolean updatePayment(ArrayList<Payment> payments, int registrationID) {
         try {
-            jdbcTemplateObject.update(deletePayments, new Object[]{
-                    registrationID
-            });
-            for (Payment p : payments) {
-                setPayment(p, registrationID);
+            System.out.println("Dette er payments!!!! = " + payments);
+            if(payments == null){
+                System.out.println("Payments = null!!!!");
+                jdbcTemplateObject.update(deletePayments, new Object[]{
+                        registrationID
+                });
+                return true;
+            }  else{
+                System.out.println("Payments er ikke = null!!!!");
+                jdbcTemplateObject.update(deletePayments, new Object[]{
+                        registrationID
+                });
+                for (Payment p : payments) {
+                    setPayment(p, registrationID);
+                }
             }
         } catch (Exception e) {
             System.out.println("Error in updatePayment " + e);
@@ -1541,6 +1553,31 @@ public class CourseRepositoryDB implements CourseRepository {
         } catch (Exception e) {
             System.out.println("Error in get status " + e);
             return null;
+        }
+    }
+
+    public boolean deleteRegistration(Registration registration){
+        try{
+            int id = registration.getRegistrationID();
+            jdbcTemplateObject.update(deleteOldEventIDs, new Object[]{
+                    id
+            };
+            jdbcTemplateObject.update(deleteOldSessionIDs, new Object[]{
+                    id
+            };
+            jdbcTemplateObject.update(deletePayments, new Object[]{
+                    id
+            };
+            jdbcTemplateObject.update(deleteDates, new Object[]{
+                    id
+            };
+            jdbcTemplateObject.update(deleteRegistration, new Object[]{
+                    id
+            };
+            return true;
+        } catch(Exception e){
+            System.out.println("Error while deleting registration " + e);
+            return false;
         }
     }
 }
