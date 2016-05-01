@@ -157,8 +157,8 @@ To change this template use File | Settings | File Templates.
                 <button class="btn btn-md"
                         ng-class="colorAccomondation(newacc) ? 'btn-primary' : 'btn-default'"
                         ng-click="selectAccomondation(newacc)"><label>{{newacc.name}}</label>
-                    <h5>Pris dobbeltrom: {{newacc.doubleprice}}</h5><h5>Pris enkeltrom:
-                        {{newacc.singleprice}}</h5>
+                    <h5>Pris dobbeltrom: {{newacc.doubleprice | number: 2}} kr</h5><h5>Pris enkeltrom:
+                        {{newacc.singleprice | number: 2}} kr</h5>
                 </button>
             </div>
 
@@ -199,6 +199,23 @@ To change this template use File | Settings | File Templates.
             <hr/>
 
             <h3>Påmelding faglig program</h3>
+            <h3><small>Priser for kurs</small></h3>
+            <table class="table">
+                    <tr>
+                        <td><h6>Kursavgift hvis deltaker skal være med hele kurset</h6></td>
+                        <td><h6>{{course.courseFee}} kr</h6></td>
+                    </tr>
+                <tr>
+                    <td><h6>Kursavgift per dag hvis deltaker skal være med på deler av kurset</h6></td>
+                    <td><h6>{{course.courseSingleDayFee}} kr</h6></td>
+                </tr>
+                <tr>
+                    <td><h6>Pris for dagpakke</h6></td>
+                    <td><h6>{{course.dayPackage}} kr</h6></td>
+                </tr>
+            </table>
+            <h3><small>Velg dager</small></h3>
+            <hr>
             <label>
                 <input type="checkbox" name="allDays" ng-model="allDaysCheck" value="false"
                        ng-click="wholeCourse(allDaysCheck)" ng-checked="allDaysCheck"> Hele

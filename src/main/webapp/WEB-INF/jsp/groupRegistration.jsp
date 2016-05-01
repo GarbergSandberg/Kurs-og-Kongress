@@ -284,6 +284,23 @@
 
 
         <h3>Påmelding faglig program</h3>
+        <h3 style="text-align: center"><small>Priser for kurs</small></h3>
+        <table class="table">
+            <tr>
+                <td><h6>Kursavgift hvis deltaker skal være med hele kurset</h6></td>
+                <td><h6>{{course.courseFee}} kr</h6></td>
+            </tr>
+            <tr>
+                <td><h6>Kursavgift per dag hvis deltaker skal være med på deler av kurset</h6></td>
+                <td><h6>{{course.courseSingleDayFee}} kr</h6></td>
+            </tr>
+            <tr>
+                <td><h6>Pris for dagpakke</h6></td>
+                <td><h6>{{course.dayPackage}} kr</h6></td>
+            </tr>
+        </table>
+        <h3 style="text-align: center"><small>Velg dager</small></h3>
+        <hr>
         <div align="center" class="form-group">
             <label>
                 <input type="checkbox" name="allDays" ng-model="allDaysCheck" value="allDays"
