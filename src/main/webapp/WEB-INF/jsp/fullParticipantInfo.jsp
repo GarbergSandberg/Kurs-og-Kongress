@@ -552,7 +552,8 @@
             </tr>
         </table>
         <span align="right">
-                <button ng-if="!change" type="button" class="btn btn-default" ng-click="showInvoice()">Faktura</button>
+                <button ng-if="!change" type="button" class="btn btn-default" ng-click="showInvoice()">Personfaktura</button>
+                <button ng-if="!change && selectedParticipant.idGroupregistration !== 0" type="button" class="btn btn-default" ng-click="showGroupInvoice()">Gruppefaktura</button>
                 <button ng-if="!change" type="button" class="btn btn-default" ng-click="changeRegistration()">Endre</button>
                 <button confirmed-click="deleteRegistration(selectedParticipant)" ng-confirm-click="Er du sikker?" ng-if="!change" type="button" class="btn btn-danger" style="float: right">Slett påmelding</button>
                 <button ng-if="change" type="button" class="btn btn-default" ng-click="cancelChange()">Forkast endringer</button>

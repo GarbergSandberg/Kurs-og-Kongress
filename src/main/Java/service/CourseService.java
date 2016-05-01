@@ -29,7 +29,11 @@ public interface CourseService {
 
     public int getNumberOfPayments(ArrayList<Integer> registrationID, String description);
 
+    public int getGroupNumberOfPayments(int idGroupregistration, String description);
+
     public Integer getNumberOfEvents(int eventID);
+
+    public Integer getGroupNumberOfEvents(int idGroupregistration, int eventID);
 
     public ArrayList<HashMap> getNumberOfParticipants(int courseID);
 
@@ -40,4 +44,6 @@ public interface CourseService {
     public Boolean checkIfCourseGetsFull(int courseID, int numberOfRegistrations);
 
     public boolean deleteRegistration(Registration registration);
+
+    public int getMaxIdGroupRegistration();
 }

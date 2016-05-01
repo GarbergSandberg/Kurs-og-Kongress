@@ -84,6 +84,18 @@ public class homeController {
         }
     }
 
+    @RequestMapping("/groupInvoice")
+    public ModelAndView groupInvoice(HttpSession session){
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            return new ModelAndView("index");
+        } else if (u.isAdmin()){
+            return new ModelAndView("groupInvoice");
+        } else {
+            return new ModelAndView("personInfo");
+        }
+    }
+
     @RequestMapping("/courseEconomics")
     public ModelAndView courseEconomics(){return new ModelAndView("courseEconomics");}
 
@@ -160,7 +172,11 @@ public class homeController {
                 return new ResponseEntity<Void>(HttpStatus.FORBIDDEN); // 403
             }
         }
+        int a = courseService.getMaxIdGroupRegistration();
         for (int i = 0; i<registrations.size(); i++){
+            if (a != -1){
+                registrations.get(i).setIdGroupregistration(a);
+            }
             System.out.println("Sender et og et element inn..");
             courseService.saveRegistration(registrations.get(i));
         }
@@ -274,11 +290,25 @@ public class homeController {
         return i;
     }
 
+    @RequestMapping(value = "/getGroupNumberOfPayments", method = RequestMethod.GET)
+    @ResponseBody
+    public int getGroupNumberOfPayments(@RequestParam(value = "idGroupregistration") Integer id, @RequestParam(value = "description") String description) {
+        System.out.println("Kommer hit... getGroupNumberOfPayments.. ");
+        return courseService.getGroupNumberOfPayments(id, description);
+    }
+
     @RequestMapping(value = "/getNumberOfEvents", method = RequestMethod.GET)
     @ResponseBody
     public Integer getNumberOfEvents(@RequestParam(value = "event_id") int event_id) {
         Integer i = courseService.getNumberOfEvents(event_id);
         System.out.println("Controller (getnumberofevents): ************************* " + i);
+        return i;
+    }
+
+    @RequestMapping(value = "/getGroupNumberOfEvents", method = RequestMethod.GET)
+    @ResponseBody
+    public Integer getGroupNumberOfEvents(@RequestParam(value = "idGroupregistration") int idGroupregistration, @RequestParam(value = "event_id") int event_id) {
+        Integer i = courseService.getGroupNumberOfEvents(idGroupregistration, event_id);
         return i;
     }
 

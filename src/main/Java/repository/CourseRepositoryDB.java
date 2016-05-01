@@ -97,9 +97,12 @@ public class CourseRepositoryDB implements CourseRepository {
     private final String sqlGetWorkplace = "select * from workplace where idworkplace = ?";
     private final String sqlGetPayments = "select * from payment where registration_idregistration = ?";
     private final String sqlGetNumberOfPayments = "select count(*) from payment where REGISTRATION_IDREGISTRATION = ? and DESCRIPTION = ?";
+    private final String sqlGetGroupNumberOfPayments = "select count(*) from registration, payment where IDGROUPREGISTRATION = ? and DESCRIPTION = ?";
     private final String sqlGetNumberOfEvents = "select count(REGISTRATION_IDREGISTRATION) from eventid where EVENTID = ?";
+    private final String sqlGetGroupNumberOfEvents = "select count(*) from registration, event where IDGROUPREGISTRATION = ? and idevent = ?";
     private final String sqlGetDates = "select date from date where registration_idregistration = ?";
     private final String sqlGetCountRegistrations = "select count(*) from REGISTRATION where course_idcourse = ?";
+    private final String sqlGetMaxIdGroupRegistration = "select max(idGroupregistration) FROM registration";
     private final String sqlGetExtraInfoAnswers = "select IDINPUTPARAMETER, parameter, type from INPUTPARAMETER, INPUTPARAMETER_HAS_EXTRAINFO, REGISTRATION " +
             "where REGISTRATION.EXTRAINFO_IDEXTRAINFO =INPUTPARAMETER_HAS_EXTRAINFO.EXTRAINFO_IDEXTRAINFO and " +
             "INPUTPARAMETER_HAS_EXTRAINFO.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and REGISTRATION.IDREGISTRATION = ?";
@@ -111,7 +114,7 @@ public class CourseRepositoryDB implements CourseRepository {
             "INPUTPARAMETER_HAS_OPTIONALWORKPLACE.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and REGISTRATION.IDREGISTRATION = ?";
 
     // saveRegistration sqls
-    private final String setRegistration = "insert into registration values (?,?,?,?,?,?,?,?,?,?,?)";
+    private final String setRegistration = "insert into registration values (?,?,?,?,?,?,?,?,?,?,?,?)";
     private final String setSessionsToAttend = "insert into sessionid values (default,?,?)";
     private final String setEventsToAttend = "insert into EVENTID values (default,?,?)";
     private final String setAccomondation = "insert into accomondation values(?,?,?,?,?,?)";
@@ -134,7 +137,7 @@ public class CourseRepositoryDB implements CourseRepository {
     private final String deletePayments = "delete from payment where registration_idregistration = ?";
     private final String deleteDates = "delete from date where REGISTRATION_IDREGISTRATION = ?";
     private final String updateInputParameterAnswer = "update INPUTPARAMETER set parameter = ?, TYPE = ? where IDINPUTPARAMETER = ?";
-    private final String updateRegistration = "update registration set alternativeinvoiceaddress = ?, speaker = ?, role = ? where idregistration = ?";
+    private final String updateRegistration = "update registration set alternativeinvoiceaddress = ?, speaker = ?, role = ?, IDGROUPREGISTRATION = ? where idregistration = ?";
     private final String updateRegNewAccomondation = "update registration set accomondation_idaccomondation = ? where idregistration = ?";
     private final String deleteRegistration = "delete from registration where idregistration = ?";
 
@@ -328,7 +331,8 @@ public class CourseRepositoryDB implements CourseRepository {
                     workplaceID,
                     extraInfoID,
                     optionalWorkplaceID,
-                    optionalPersonaliaID
+                    optionalPersonaliaID,
+                    registration.getIdGroupregistration()
             });
             setSessionsToAttend(registration.getSessionsToAttend(), registrationID);
             setEventsToAttend(registration.getEventsToAttend(), registrationID);
@@ -347,7 +351,7 @@ public class CourseRepositoryDB implements CourseRepository {
         try {
             if (registration.getRegistrationID() != -1) {
                 jdbcTemplateObject.update(updateRegistration, new Object[]{
-                        registration.getAlternativeInvoiceAddress(), registration.isSpeaker(), registration.getRole(), registration.getRegistrationID()
+                        registration.getAlternativeInvoiceAddress(), registration.isSpeaker(), registration.getRole(), registration.getRegistrationID(), registration.getIdGroupregistration()
                 });
                 if (registration.getSessionsToAttend() != null) {
                     System.out.println(registration.getSessionsToAttend());
@@ -383,8 +387,6 @@ public class CourseRepositoryDB implements CourseRepository {
                 }
                 if (registration.getCost() != null) {
                     updatePayment(registration.getCost(), registration.getRegistrationID());
-                } else{
-                    updatePayment(null, registration.getRegistrationID());
                 }
                 if (registration.getDates() != null) {
                     updateDates(registration.getDates(), registration.getRegistrationID());
@@ -1238,21 +1240,11 @@ public class CourseRepositoryDB implements CourseRepository {
 
     public boolean updatePayment(ArrayList<Payment> payments, int registrationID) {
         try {
-            System.out.println("Dette er payments!!!! = " + payments);
-            if(payments == null){
-                System.out.println("Payments = null!!!!");
-                jdbcTemplateObject.update(deletePayments, new Object[]{
-                        registrationID
-                });
-                return true;
-            }  else{
-                System.out.println("Payments er ikke = null!!!!");
-                jdbcTemplateObject.update(deletePayments, new Object[]{
-                        registrationID
-                });
-                for (Payment p : payments) {
-                    setPayment(p, registrationID);
-                }
+            jdbcTemplateObject.update(deletePayments, new Object[]{
+                    registrationID
+            });
+            for (Payment p : payments) {
+                setPayment(p, registrationID);
             }
         } catch (Exception e) {
             System.out.println("Error in updatePayment " + e);
@@ -1441,10 +1433,32 @@ public class CourseRepositoryDB implements CourseRepository {
         return a;
     }
 
+    public int getGroupNumberOfPayments(int id, String description) {
+        try {
+            System.out.println("I getGroupNumberOfPayments DB ... ///////////////");
+            int a = jdbcTemplateObject.queryForObject(sqlGetGroupNumberOfPayments, new Object[]{id, description}, Integer.class);
+            System.out.println("a = " + a);
+            return a;
+        } catch (Exception e) {
+            System.out.println("Error in getGroupNumberOfPayments. " + e);
+        }
+        return -1;
+    }
+
 
     public Integer getNumberOfEvents(int event_id) {
         try {
             Integer numberOfParticipants = jdbcTemplateObject.queryForObject(sqlGetNumberOfEvents, new Object[]{event_id}, Integer.class);
+            return numberOfParticipants;
+        } catch (Exception e) {
+            System.out.println("Error in getNumberOfPayments. " + e);
+            return null;
+        }
+    }
+
+    public Integer getGroupNumberOfEvents(int idGroupregistration, int event_id) {
+        try {
+            Integer numberOfParticipants = jdbcTemplateObject.queryForObject(sqlGetGroupNumberOfEvents, new Object[]{idGroupregistration, event_id}, Integer.class);
             return numberOfParticipants;
         } catch (Exception e) {
             System.out.println("Error in getNumberOfPayments. " + e);
@@ -1553,6 +1567,22 @@ public class CourseRepositoryDB implements CourseRepository {
         } catch (Exception e) {
             System.out.println("Error in get status " + e);
             return null;
+        }
+    }
+
+    public int getMaxIdGroupRegistration(){
+        try{
+            int max = jdbcTemplateObject.queryForObject(sqlGetMaxIdGroupRegistration, new Object[]{}, Integer.class);
+            if (max == 0){
+                max = 1;
+            } else {
+                max++;
+            }
+            System.out.println("////////////***********/////// max = " + max);
+            return max;
+        } catch (Exception e) {
+            System.out.println("Feil i getMaxIdGroupRegistration(): " + e);
+            return -1;
         }
     }
 

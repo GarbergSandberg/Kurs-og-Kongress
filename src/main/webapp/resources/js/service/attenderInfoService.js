@@ -95,5 +95,27 @@ sessionRegisterApp.factory('attenderInfoService', ['$http','$q', '$rootScope', f
                 }
             );
     };
+
+    attenderInfoService.getGroupNumberOfPayments = function(idGroup, descr){
+        return $http.get('getGroupNumberOfPayments', {params: {idGroupregistration: idGroup, description: descr}})
+            .then(
+                function(success){
+                    return success.data;
+                }, function(error){
+                    console.log("Error in getGroupNumberOfPayments: " + error);
+                }
+            )
+    };
+
+    attenderInfoService.getGroupNumberOfEvents = function(idGroupregistration, eventID){
+        return $http.get('getGroupNumberOfEvents', {params: {idGroupregistration: idGroupregistration, event_id: eventID}})
+            .then(
+                function(success){
+                    return success.data;
+                }, function(error){
+                    console.log("Error in getNumberOfPayments: " + error);
+                }
+            )
+    };
     return attenderInfoService;
 }]);

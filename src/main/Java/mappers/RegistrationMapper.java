@@ -2,9 +2,7 @@ package mappers;
 
 import domain.*;
 import org.springframework.jdbc.core.*;
-import org.springframework.jdbc.core.RowMapper;
 
-import javax.swing.tree.*;
 import java.sql.*;
 
 /**
@@ -18,6 +16,7 @@ public class RegistrationMapper implements RowMapper<Registration> {
         registration.setAlternativeInvoiceAddress(rs.getString("alternativeinvoiceaddress"));
         registration.setSpeaker(rs.getBoolean("speaker"));
         registration.setRole(rs.getString("role"));
+        registration.setIdGroupregistration(rs.getInt("idGroupregistration"));
         return registration;
     }
 }

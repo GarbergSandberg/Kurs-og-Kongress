@@ -29,15 +29,21 @@ public interface CourseRepository {
 
     public int getNumberOfPayments(ArrayList<Integer> regID, String description);
 
+    public int getGroupNumberOfPayments(int idGroupregistration, String description);
+
     public ArrayList<HashMap> getNumberOfParticipants(int courseID);
 
     public Integer getNumberOfEvents(int event_id);
+
+    public Integer getGroupNumberOfEvents(int idGroupregistration, int event_id);
 
     public ArrayList<Course> getNotAdminCourses(ArrayList<Integer> courses);
 
     public ArrayList<Boolean> getStatus(int courseID, ArrayList<Integer> sessionsToAttend, ArrayList<Integer> eventsToAttend, int numberOfRegistrations);
 
     public Boolean checkIfCourseGetsFull(int courseID, int numberOfRegistrations);
+
+    public int getMaxIdGroupRegistration();
 
     public boolean deleteRegistration(Registration registration);
 }

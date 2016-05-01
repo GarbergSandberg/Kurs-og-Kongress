@@ -18,6 +18,7 @@ public class Registration {
     private ArrayList<InputParameter> extraInfo;
     private String alternativeInvoiceAddress;
     private boolean speaker; // no constructor. Needs to be set via method.
+    private int idGroupregistration; // no constructor.
     private String role;
 
     public Registration(int registrationID, Course course, ArrayList<Integer> sessionsToAttend, ArrayList<Integer> eventsToAttend, Accomondation accomondation, Person person, Workplace workplace, ArrayList<Payment> cost, ArrayList<Date> dates, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, String alternativeInvoiceAddress, String role) {
@@ -157,6 +158,14 @@ public class Registration {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public int getIdGroupregistration() {
+        return idGroupregistration;
+    }
+
+    public void setIdGroupregistration(int idGroupregistration) {
+        this.idGroupregistration = idGroupregistration;
     }
 
     @Override
