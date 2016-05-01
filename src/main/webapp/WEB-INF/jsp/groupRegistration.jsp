@@ -34,7 +34,7 @@
 <body>
 <div ng-app="RegApp">
     <div ng-controller="AddRegCtrl" class="page-header" style="margin-left:3em; margin-right:3em; margin-bottom: 3em;">
-        <hr ng-show="!loading">
+        <div ng-show="!loading">
         <h1>Gruppepåmelding til {{course.title}}</h1><br>
 
         <hr/>
@@ -72,7 +72,7 @@
             </div>
             <div class="form-group">
                 <div ng-show="checkboxAccModel.another">
-                    <label class="col-sm-4 control-label">veiadresse, postnr og sted</label>
+                    <label class="col-sm-4 control-label">Adresse, postnr og sted</label>
                     <div class="col-sm-6">
                         <input class="form-control" ng-model="registration.alternativeInvoiceAddress"
                                id="alternativeInvoiceAddress" value="" size="40"/>

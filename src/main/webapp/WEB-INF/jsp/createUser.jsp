@@ -32,56 +32,61 @@
 <body>
 <div  ng-app="loginApp" style="margin-left:3em; margin-right:3em;">
     <div ng-controller="loginCtrl">
-        <h2>Legg til ny bruker</h2>
-        <form>
-            <div class="form-group">
-                <label for="inputEmail" class="control-label">Brukernavn</label>
-                <input ng-model="user.username" type="text" class="form-control" id="inputEmail" placeholder="Brukernavn" required>
+        <div class="container">
+            <div class="jumbotron clearfix" id="jumbo">
+                <h2>Legg til ny bruker</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="inputEmail" class="control-label">Brukernavn</label>
+                        <input ng-model="user.username" type="text" class="form-control" id="inputEmail" placeholder="Brukernavn" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="control-label">Passord</label>
+                        <div class="form-group">
+                            <input ng-model="user.password" type="password" data-minlength="6" class="form-control" id="inputPassword" placeholder="Passord" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPasswordConfirm" class="control-label">Bekreft Passord</label>
+                        <div class="form-group">
+                            <input ng-model="user.confirmPassword" type="password" data-minlength="6" class="form-control" id="inputPasswordConfirm" placeholder="Bekreft" required>
+                        </div>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" ng-model="user.admin">Bruker skal være administrator</label>
+                    </div>
+                    <h5 ng-show="errormessage">{{errormessage}}</h5>
+                    <button ng-disabled="!(user.confirmPassword == user.password) || !user.confirmPassword || !user.password" ng-click="addNewUser(user)" class="btn btn-primary">Opprett ny bruker</button>
+                </form>
+                <hr>
+                <h2>Kurstilgang</h2>
+                Velg bruker <select ng-options="user as user.username for user in users" ng-model="selectedUser" ng-change="getCourseAccess(selectedUser)"></select>
+                Velg kurs <select ng-options="course as course.title for course in courses | filter:courseFilter" ng-model="selectedCourse"></select>
+                <button ng-disabled="!selectedUser || !selectedCourse" ng-click="addAccess(selectedUser, selectedCourse)" class="btn btn-default">Gi tilgang</button>
+                <h5>Kurs som personen har tilgang til</h5>
+                <table class="table">
+                    <tr ng-show="coursesUserHasAccessTo == 0 && selectedUser && readyToShow">
+                        <td>
+                            <h5 style="text-align: center;">Bruker har ikke tilgang til noen kurs</h5>
+                        </td><td></td>
+                    </tr>
+                    <tr ng-repeat="course in coursesUserHasAccessTo">
+                        <td>
+                            {{course.title}}
+                        </td>
+                        <td style="">
+                            <button type="button" id="{{item}}" ng-click="removeAccess(selectedUser, course)"
+                                    class="close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>
+                        </td>
+                    </tr>
+                </table>
+                <hr>
+                <h2>Slett bruker</h2>
+                Velg person <select ng-options="user as user.username for user in users" ng-model="userToBeDeleted"></select>
+                <button ng-disabled="!userToBeDeleted" ng-click="deleteUser(userToBeDeleted)" class="btn btn-danger">Slett bruker</button>
             </div>
-            <div class="form-group">
-                <label for="inputPassword" class="control-label">Passord</label>
-                <div class="form-group">
-                    <input ng-model="user.password" type="password" data-minlength="6" class="form-control" id="inputPassword" placeholder="Passord" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputPasswordConfirm" class="control-label">Bekreft Passord</label>
-                <div class="form-group">
-                    <input ng-model="user.confirmPassword" type="password" data-minlength="6" class="form-control" id="inputPasswordConfirm" placeholder="Bekreft" required>
-                </div>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" ng-model="user.admin">Bruker skal være administrator</label>
-            </div>
-            <h5 ng-show="errormessage">{{errormessage}}</h5>
-            <button ng-disabled="!(user.confirmPassword == user.password) || !user.confirmPassword || !user.password" ng-click="addNewUser(user)" class="btn btn-primary">Opprett ny bruker</button>
-        </form>
-        <h2>Kurstilgang</h2>
-        Velg bruker <select ng-options="user as user.username for user in users" ng-model="selectedUser" ng-change="getCourseAccess(selectedUser)"></select>
-        Velg kurs <select ng-options="course as course.title for course in courses | filter:courseFilter" ng-model="selectedCourse"></select>
-        <button ng-disabled="!selectedUser || !selectedCourse" ng-click="addAccess(selectedUser, selectedCourse)" class="btn btn-default">Gi tilgang</button>
-        <h5>Kurs som personen har tilgang til</h5>
-        <table class="table">
-            <tr ng-show="coursesUserHasAccessTo == 0 && selectedUser && readyToShow">
-                <td>
-                    <h5 style="text-align: center;">Bruker har ikke tilgang til noen kurs</h5>
-                </td><td></td>
-            </tr>
-            <tr ng-repeat="course in coursesUserHasAccessTo">
-                <td>
-                    {{course.title}}
-                </td>
-                <td style="">
-                    <button type="button" id="{{item}}" ng-click="removeAccess(selectedUser, course)"
-                            class="close" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                </td>
-            </tr>
-        </table>
-
-        <h2>Slett bruker</h2>
-        Velg person <select ng-options="user as user.username for user in users" ng-model="userToBeDeleted"></select>
-        <button ng-disabled="!userToBeDeleted" ng-click="deleteUser(userToBeDeleted)" class="btn btn-danger">Slett bruker</button>
+        </div>
     </div>
 </div>
 </body>
