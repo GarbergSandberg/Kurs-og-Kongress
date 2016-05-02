@@ -91,33 +91,6 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         return a;
     };
 
-    /*self.getNumberOfEvents = function () {
-     for (var i = 0; i < $scope.course.events.length; i++) {
-     self.sendGetNumberOfEvents($scope.course.events[i]);
-     }
-     $scope.loading = false;
-     };
-
-     self.sendGetNumberOfEvents = function (event) {
-     var temp = {};
-     temp.title = event.title;
-     temp.id = event.id;
-     temp.price = event.price;
-     statisticsService.getNumberOfEvents(event.id).then(function (result) {
-     console.log(result);
-     if (result == null) {
-     temp.number = "-";
-     temp.total = "-";
-     } else {
-     temp.number = result;
-     temp.total = (event.price * temp.number);
-     console.log(temp);
-     $scope.numberOfEvents.push(temp);
-     }
-     });
-     };
-     }; */
-
     $scope.deleteRegistration = function (registration) {
         attenderInfoService.deleteRegistration(registration).then(function (response) {
             if (response == true) {
