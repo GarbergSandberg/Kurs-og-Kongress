@@ -155,7 +155,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
 
     var cid = sessionStorage.cid;
     console.log("cid " + cid);
-    if(cid == null || cid == -1){ // not good enough check. Review this. The dirtiest fix of them all.
+    if(cid == null || cid == -1){
         $scope.course.id = -1;
         $scope.course.publicCourse = false;
     } else{

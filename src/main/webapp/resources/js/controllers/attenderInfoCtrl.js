@@ -101,7 +101,7 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
                 $window.location.href = "/kursogkongress/courseStatistics";
             }
         });
-    }
+    };
 
     self.resolveInfo = function () {
         var sid = sessionStorage.selectedPerson;
@@ -463,8 +463,6 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         //$window.location.href = "/kursogkongress/personInfo";
     };
 
-    self.resolveInfo();
-
     self.inputParameterResolver = function (registration) {
         var optionalPersonalia = [];
         var optionalWorkplace = [];
@@ -518,5 +516,7 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         }
         return price;
     };
+
+    self.resolveInfo();
 }]);
 

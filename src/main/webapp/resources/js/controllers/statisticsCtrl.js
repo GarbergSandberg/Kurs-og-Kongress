@@ -176,7 +176,7 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
 
     var cid = sessionStorage.cid;
     console.log("cid " + cid);
-    if(cid == null || cid == -1){ // not good enough check. Review this. The dirtiest fix of them all.
+    if(cid == null || cid == -1){
         $scope.course.id = -1; // Should return error page. Skal være -1.
     } else{
         console.log("Henter course med id " + cid);

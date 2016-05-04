@@ -1,5 +1,3 @@
-
-
 loginApp.factory('loginService', function($http, $location, $window){
     return{
         login:function(user){

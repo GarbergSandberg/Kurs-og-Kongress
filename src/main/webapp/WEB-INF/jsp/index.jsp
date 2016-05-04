@@ -18,7 +18,6 @@
     <spring:url value="resources/js/app/loginApp.js" var="appJs"/>
     <spring:url value="resources/js/courseOverviewApp.js" var="courseOverviewApp"/>
     <spring:url value="resources/js/controllers/loginCtrl.js" var="loginCtrl"/>
-    <spring:url value="resources/js/controllers/homeCtrl.js" var="homeCtrl"/>
     <spring:url value="resources/js/service/loginService.js" var="loginService"/>
     <spring:url value="resources/js/service/sessionService.js" var="sessionService"/>
     <script src="${appJs}"></script>
