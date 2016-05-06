@@ -10,7 +10,8 @@
                     <label for="title">Tittel:</label>
                     <input ng-model="newSession.title" type="text" class="form-control" id="title">
                     <label for="description">Beskrivelse:</label>
-                    <textarea ng-model="newSession.description" class="form-control" id="description" rows="3"></textarea>
+                    <textarea ng-model="newSession.description" class="form-control" id="description"
+                              rows="3"></textarea>
                     <label for="location">Sted:</label>
                     <input ng-model="newSession.location" type="text" class="form-control" id="location">
                     <label for="maxnumber">Maks antall deltakere:</label>
@@ -18,7 +19,8 @@
                     <div class="form-group">
                         <label class="control-label col-xs-6"><i class="fa fa-clock-o"></i> Start tidspunkt</label>
                         <div class="form-group">
-                            <input type="text" class="form-control" size="8" ng-model="newSession.startTime" bs-timepicker
+                            <input type="text" class="form-control" size="8" ng-model="newSession.startTime"
+                                   bs-timepicker
                                    data-time-format="HH:mm" data-length="1" data-minute-step="5"
                                    data-arrow-behavior="picker">
                         </div>
@@ -32,16 +34,21 @@
                     <label for="location">Kopier sesjonen til andre dager</label>
                     <table id="repeatedSessionTable" style="max-width: 100%">
                         <tr>
-                            <td ng-repeat="date in dates | filter:filterCopySession" style="max-width: 100%; word-wrap: break-word">
-
-                                <label class="checkbox-inline"><input type="checkbox" ng-model="newSession.repetitiveSession[date]">  {{date | date:'dd. MMM'}} </label>
+                            <td style="max-width: 100%; word-wrap: break-word">
+                                <div ng-repeat="date in dates | filter:filterCopySession" style="float: left;">
+                                    <input type="checkbox" ng-model="newSession.repetitiveSession[date]"> {{date |date:'dd. MMM'}} &nbsp &nbsp
+                                </div>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" ng-click="delete(newSession); $hide()" ng-show="deleteButtonCtrl()">Slett</button>
-                    <button type="button" class="btn btn-primary" ng-click="update(newSession); $hide()" ng-disabled="!newSession.title || !newSession.maxnumber || !newSession.startTime || !newSession.endTime || !newSession.location">Lagre</button>
+                    <button type="button" class="btn btn-default" ng-click="delete(newSession); $hide()"
+                            ng-show="deleteButtonCtrl()">Slett
+                    </button>
+                    <button type="button" class="btn btn-primary" ng-click="update(newSession); $hide()"
+                            ng-disabled="!newSession.title || !newSession.maxnumber || !newSession.startTime || !newSession.endTime || !newSession.location">Lagre
+                    </button>
                 </div>
             </div>
         </div>
