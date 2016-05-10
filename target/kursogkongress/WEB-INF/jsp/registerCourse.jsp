@@ -94,6 +94,9 @@
             <div class="page-header">
                 <h4>Parallelle sesjoner</h4>
             </div>
+            <div ng-if="course.startDate == undefined || course.endDate == undefined">
+                Vennligst angi start og sluttdato for kurset.
+            </div>
             <div ng-controller="AddSessionCtrl">
                 <table class="table session" ng-init="dateTable = dates">
                     <tr ng-repeat="date in dates" ng-init="sessionTableRow = $index">
