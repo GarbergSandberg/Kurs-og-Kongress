@@ -93,19 +93,36 @@
                     <hr>
                     &nbsp
                     <hr>
-                    <div class="col-sm-6 col-md-6 col-lg-6">
-                        <label> Sesjoner: </label>
-                        <span ng-repeat="session in course.sessions" style="float: right;">
-                            {{session.title}}, &nbsp; {{session.startTime | date: 'dd.MM.yyyy'}}, &nbsp {{session.startTime | date: 'HH:mm'}} - {{session.endTime | date:'HH:mm'}}<br> </span> <br>
-                        </span>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="col-md-3" style="float: left;">
+                                <label> Sesjoner: </label>
+                            </div>
+                            <div class="col-md-9" ng-repeat="session in course.sessions" style="text-align: right; float: right; align: right;">
+                                {{session.title}}, &nbsp {{session.startTime | date: 'dd.MM.yyyy'}}, &nbsp {{session.startTime | date: 'HH:mm'}} - {{session.endTime | date:'HH:mm'}} <br><br>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-3" style="float: left;">
+                                <label> Events: </label>
+                            </div>
+                            <div class="col-md-9" ng-repeat="event in course.events" style="text-align: right; float: right; align: right;">
+                                {{event.title}}, &nbsp {{event.date | date: 'dd.MM.yyyy'}}, &nbsp {{event.time | date: 'HH:mm'}} <br><br>
+                            </div>
+                            <br>
+                        </div>
+
+
+                       <!-- <div class="col-md-6">
+                            <label> Events: </label>
+                            <div ng-repeat="event in course.events" style="clear: both; float: right;">
+                                {{event.title}}, &nbsp {{event.date | date: 'dd.MM.yyyy'}}, &nbsp {{event.time | date: 'HH:mm'}}
+                            </div>
+                        </div> -->
                     </div>
-                    <!--<hr width="1" size="200" /> -->
-                    <div class="col-sm-6 col-md-6 col-lg-6">
-                        <label> Events: </label>
-                        <span ng-repeat="event in course.events" style="float: right;">
-                            {{event.title}}, &nbsp; {{event.date | date: 'dd.MM.yyyy'}}, &nbsp {{event.time | date: 'HH:mm'}}<br> </span> <br>
-                        </span>
-                    </div>
+
                 </div>
             </div>
 
