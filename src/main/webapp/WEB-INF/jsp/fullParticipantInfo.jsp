@@ -329,6 +329,15 @@
                     </div>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    Bemerkning
+                </td>
+                <td>
+                    <textarea ng-model="selectedParticipant.person.mark" class="form-control"
+                              id="description" rows="2"></textarea>
+                </td>
+            </tr>
             <tr ng-repeat="personalia in selectedParticipant.course.form.optionalPersonalia">
                 <td>
                     {{personalia.parameter}}
