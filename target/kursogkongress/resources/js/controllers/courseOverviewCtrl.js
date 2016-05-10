@@ -13,6 +13,9 @@ sessionRegisterApp.controller('OverviewCtrl', ['$scope', 'courseService', '$wind
     $scope.months = ['Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Desember', 'Alle'];
     $scope.dateFilter = {};
     $scope.loading = true;
+    $scope.change = {title: 'Endre kurs'};
+    $scope.statistics = {title: 'Se statistikk'};
+    $scope.public = {title: 'Endre kursets tilgjengelighet'};
 
     $scope.editCourse = function(id){
         self.setSessionID(id);

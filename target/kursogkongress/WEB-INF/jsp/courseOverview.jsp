@@ -39,22 +39,22 @@
     <% if (user.isAdmin()) {%>
     <div ng-controller="OverviewCtrl">
         <div ng-show="!loading">
-                <div class="jumbotron clearfix" id="jumbo">
-                    <h2>Søkefilter</h2>
-                    <label for="search">Søk etter kurs:</label>
-                    <input class="form-control" ng-model="search" id="search">
-                    <div class="form-group col-xs-6">
-                        <label for="sel1">År:</label>
-                        <select class="form-control" ng-options="year as year for year in years" ng-model="selectedYear"
-                                id="sel1"></select>
-                    </div>
-                    <div class="form-group col-xs-6">
-                        <label for="sel2">Måned:</label>
-                        <select class="form-control" ng-disabled="!selectedYear"
-                                ng-options="months.indexOf(month) as month for month in months" ng-model="selectedMonth"
-                                id="sel2"></select>
-                    </div>
+            <div class="jumbotron clearfix" id="jumbo">
+                <h2>Søkefilter</h2>
+                <label for="search">Søk etter kurs:</label>
+                <input class="form-control" ng-model="search" id="search">
+                <div class="form-group col-xs-6">
+                    <label for="sel1">År:</label>
+                    <select class="form-control" ng-options="year as year for year in years" ng-model="selectedYear"
+                            id="sel1"></select>
                 </div>
+                <div class="form-group col-xs-6">
+                    <label for="sel2">Måned:</label>
+                    <select class="form-control" ng-disabled="!selectedYear"
+                            ng-options="months.indexOf(month) as month for month in months" ng-model="selectedMonth"
+                            id="sel2"></select>
+                </div>
+            </div>
             <div class="panel-group" ng-model="panels.activePanel" role="tablist" aria-multiselectable="true"
                  bs-collapse style="margin-left:3em; margin-right:3em;">
                 <div class="page-header">
@@ -83,17 +83,27 @@
                                     </p>
                                 </li>
                                 <li class="list-group-item">
-                                    <button ng-click="editCourse(panel.courseID)"
-                                            class="btn btn-default btn-lg"><span
-                                            class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>
-                                    <button ng-click="getStatistics(panel.courseID)"
-                                            class="btn btn-default btn-lg"><span
-                                            class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-                                    </button>
-                                    <button ng-click="enableRegistration(panel.courseID)"
-                                            ng-class="changeColor(panel.courseID)"><span
-                                            class="glyphicon glyphicon-globe" aria-hidden="true"></span>
-                                    </button>
+                                    <span data-placement="top" data-type="info"
+                                          data-animation="am-fade-and-scale" bs-tooltip="change">
+                                        <button ng-click="editCourse(panel.courseID)" ng-model="change.checked"
+                                                class="btn btn-default btn-lg">
+                                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                        </button>
+                                    </span>
+                                    <span data-placement="top" data-type="info"
+                                          data-animation="am-fade-and-scale" bs-tooltip="statistics">
+                                        <button ng-click="getStatistics(panel.courseID)" ng-model="statistics.checked"
+                                                class="btn btn-default btn-lg"><span
+                                                class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+                                        </button>
+                                    </span>
+                                    <span data-placement="top" data-type="info"
+                                          data-animation="am-fade-and-scale" bs-tooltip="public">
+                                        <button ng-click="enableRegistration(panel.courseID)" ng-model="public.checked"
+                                              ng-class="changeColor(panel.courseID)"><span
+                                               class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+                                         </button>
+                                    </span>
                                 </li>
                             </ul>
                         </div>
