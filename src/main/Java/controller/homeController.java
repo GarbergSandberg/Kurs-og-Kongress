@@ -42,23 +42,30 @@ public class homeController {
         return new ModelAndView("index");
     }
 
-    @RequestMapping("/reg")
-    public ModelAndView reg(){
-        return new ModelAndView("reg");
-    }
-
     @RequestMapping("/publicRegistrations")
     public ModelAndView publicRegistrations(){
         return new ModelAndView("publicRegistrations");
     }
 
     @RequestMapping("/createUser")
-    public ModelAndView createUser(){
-        return new ModelAndView("createUser");
+    public ModelAndView createUser(HttpSession session){
+        User u = (User) session.getAttribute("user");
+        if(u == null) {
+            return new ModelAndView("index");
+        } else{
+            return new ModelAndView("createUser");
+        }
     }
 
     @RequestMapping("/registerCourse")
-    public ModelAndView registerCourse(){return new ModelAndView("registerCourse");}
+    public ModelAndView registerCourse(HttpSession session){
+        User u = (User) session.getAttribute("user");
+        if(u == null) {
+            return new ModelAndView("index");
+        } else{
+            return new ModelAndView("registerCourse");
+        }
+    }
 
     @RequestMapping("/personInfo")
     public ModelAndView fullPersonInfo(HttpSession session) { //
@@ -97,10 +104,25 @@ public class homeController {
     }
 
     @RequestMapping("/courseEconomics")
-    public ModelAndView courseEconomics(){return new ModelAndView("courseEconomics");}
+    public ModelAndView courseEconomics(HttpSession session){
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            return new ModelAndView("index");
+        } else{
+            return new ModelAndView("courseEconomics");
+        }
+
+    }
 
     @RequestMapping("/attenderInfo")
-    public ModelAndView attenderInfo(){return new ModelAndView("attenderInfo");}
+    public ModelAndView attenderInfo(HttpSession session){
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            return new ModelAndView("index");
+        } else{
+            return new ModelAndView("attenderInfo");
+        }
+    }
 
     @RequestMapping("/singleRegistration")
     public ModelAndView singleRegistration(){return new ModelAndView("singleRegistration");}
@@ -109,24 +131,26 @@ public class homeController {
     public ModelAndView groupRegistration(){return new ModelAndView("groupRegistration");}
 
     @RequestMapping("/courseStatistics")
-    public ModelAndView courseStatistics(){return new ModelAndView("courseStatistics");}
+    public ModelAndView courseStatistics(HttpSession session){
+        User u = (User) session.getAttribute("user");
+        if (u == null){
+            return new ModelAndView("index");
+        } else{
+            return new ModelAndView("courseStatistics");
+        }
+    }
 
     @RequestMapping("/courseOverview")
     public ModelAndView courseOverview(HttpSession session){
         User u = (User) session.getAttribute("user");
             if(u == null){
-                System.out.println("Kommer ikke inn gitt");
                 return new ModelAndView("index");
             } else{
-                System.out.println("Logget inn");
                 return new ModelAndView("courseOverview");
             }
     }
 
-    @RequestMapping("/registration")
-    public String registration(){
-        return "registration";
-    }
+    // HTTP-request handling
 
     @RequestMapping(value = "/saveRegistration", method = RequestMethod.POST)
     public ResponseEntity<Void> saveRegistration( @RequestBody Registration registration )   {

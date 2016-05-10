@@ -30,9 +30,9 @@
     <script src="${loginService}"></script>
 </head>
 <body>
-<div  ng-app="loginApp" style="margin-left:3em; margin-right:3em;">
+<div  ng-app="loginApp">
     <div ng-controller="loginCtrl">
-        <div class="container">
+        <div class="container" style="margin-left:3em; margin-right:3em;">
             <div class="jumbotron clearfix" id="jumbo">
                 <h2>Legg til ny bruker</h2>
                 <form>

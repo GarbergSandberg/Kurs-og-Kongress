@@ -267,7 +267,6 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
         else return true;
     };
 
-
     $scope.saveRoom = function(acc, first, second){ // Her skal date også inn.
         if ($scope.checkboxAccModel.rad){ // doubleroom. Validering: first.personID !== undefined && second !== undefined (funker ikke når dobbeltrom + secondPerson ikke er valgt).
             acc.doubleroom = true;

@@ -33,7 +33,7 @@
                 <div class="row">
                     <div class="col-sm-6 col-md-4 col-md-offset-4">
                         <div class="account-wall">
-                            <h2 class="text-center"><small>Kurs & kongresservice</small></h2>
+                            <h2 class="text-center"><small>Kurs- og Kongresservice</small></h2>
                             <form class="form-signin">
                                 <input type="text" class="form-control" placeholder="Brukernavn" required autofocus ng-model="user.username">
                                 <input type="password" class="form-control" placeholder="Passord" required ng-model="user.password">
