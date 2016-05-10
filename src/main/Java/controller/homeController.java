@@ -201,7 +201,6 @@ public class homeController {
             if (a != -1){
                 registrations.get(i).setIdGroupregistration(a);
             }
-            System.out.println("Sender et og et element inn..");
             courseService.saveRegistration(registrations.get(i));
         }
         return new ResponseEntity<Void>(HttpStatus.CREATED);
@@ -220,9 +219,7 @@ public class homeController {
 
     @RequestMapping(value = "/addNewUser", method = RequestMethod.POST)
     public ResponseEntity<Void> saveInformation_JSON(@RequestBody User user)   {
-        System.out.println(user.isAdmin());
         boolean userAdded = loginService.addUser(user);
-        System.out.println(userAdded + " = user added");
         if(userAdded){
             return new ResponseEntity<Void>(HttpStatus.CREATED);
         } else{
@@ -230,10 +227,8 @@ public class homeController {
         }
     }
 
-    @RequestMapping(value = "/inputparameter", method = RequestMethod.POST)
+    @RequestMapping(value = "/inputparameter", method = RequestMethod.POST) // Hva brukes denne til?
     public ResponseEntity<Void> saveInputParameter( @RequestBody InputParameter inputParameter )   {
-        System.out.println("DETTE FUNKET!" + inputParameter.getParameter());
-        System.out.println(inputParameter.getType());
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
 
@@ -294,8 +289,6 @@ public class homeController {
     @RequestMapping(value = "/getRegistrations", method = RequestMethod.GET)
     @ResponseBody
     public ArrayList<Registration> getRegistration(@RequestParam(value = "course_id") int id) {
-        System.out.println("PÅMELDING HER: *****************");
-        System.out.println(courseService.getRegistrations(id).toString());
         return courseService.getRegistrations(id);
     }
 
@@ -303,7 +296,6 @@ public class homeController {
     @ResponseBody
     public int getCountRegistrations(@RequestParam(value = "course_id") int id) {
         int i = courseService.getCountRegistrations(id);
-        System.out.println("Controller: ************************* " + i);
         return i;
     }
 
@@ -317,16 +309,13 @@ public class homeController {
     @RequestMapping(value = "/getGroupNumberOfPayments", method = RequestMethod.GET)
     @ResponseBody
     public int getGroupNumberOfPayments(@RequestParam(value = "idGroupregistration") Integer id, @RequestParam(value = "description") String description) {
-        System.out.println("Kommer hit... getGroupNumberOfPayments.. ");
         return courseService.getGroupNumberOfPayments(id, description);
     }
 
     @RequestMapping(value = "/getNumberOfEvents", method = RequestMethod.GET)
     @ResponseBody
     public Integer getNumberOfEvents(@RequestParam(value = "event_id") int event_id) {
-        Integer i = courseService.getNumberOfEvents(event_id);
-        System.out.println("Controller (getnumberofevents): ************************* " + i);
-        return i;
+        return courseService.getNumberOfEvents(event_id);
     }
 
     @RequestMapping(value = "/getGroupNumberOfEvents", method = RequestMethod.GET)
@@ -351,9 +340,7 @@ public class homeController {
     @ResponseBody
     public String getSessionStorageID(@RequestParam(value = "id", required = false) String id) {
         try{
-            System.out.println("SELECTED PERSON: " + selectedPerson);
                 String actualID  = encryptor.decrypt(id);
-                System.out.println("ACTUAL ID: " + actualID);
                 return actualID;
         } catch(Exception e){
             System.out.println("Error in getSessionStorageID " + e);

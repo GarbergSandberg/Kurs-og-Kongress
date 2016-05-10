@@ -442,16 +442,16 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
     };
 
     $scope.updateRegistration = function (reg) {
-        console.log(reg);
-        if ($scope.checkboxAccModel.c1 == false) {
-            reg.accomondation.id = 0;
-            reg.accomondation.fromDate = null;
-            reg.accomondation.toDate = null;
-            console.log(reg);
+        if ($scope.checkboxAccModel.c1 == false) { // If no accomondation.
+            if (reg.accomondation !== null){
+                reg.accomondation.id = 0;
+                reg.accomondation.fromDate = null;
+                reg.accomondation.toDate = null;
+            }
+        } else if (reg.accomondation.doubleroom == false) { // If accomondation, but no doubleroom.
+            reg.accomondation.roommate = null;
         }
-        if ($scope.selectedParticipant.accomondation.doubleroom == false) {
-            $scope.selectedParticipant.accomondation.roommate = null;
-        }
+        if (reg.alternativeInvoiceAddress == '') reg.alternativeInvoiceAddress = null;
         reg.cost = findPrice($scope.selectedParticipant.dates.length, $scope.selectedParticipant.attendingFullCourse);
         var opt = self.inputParameterResolver($scope.selectedParticipant);
         reg.optionalPersonalia = opt.optionalPersonalia;
