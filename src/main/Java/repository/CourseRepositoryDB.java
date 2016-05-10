@@ -143,7 +143,7 @@ public class CourseRepositoryDB implements CourseRepository {
     // Other
     private final String getNumberOfParticipantsSession = "select count(registration_idregistration) from sessionID where sessionid = ?";
     private final String getNumberOfParticipantsEvent = "select count(registration_idregistration) from eventID where eventid = ?";
-
+    private final String getEmails = "SELECT EMAIL FROM PERSON, REGISTRATION WHERE PERSON_IDPERSON = IDPERSON AND COURSE_IDCOURSE = ?";
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
@@ -1609,4 +1609,14 @@ public class CourseRepositoryDB implements CourseRepository {
             return false;
         }
     }
+
+        public ArrayList<String> getEmails(int courseID){
+            try{
+                ArrayList<String> emails = (ArrayList<String>) jdbcTemplateObject.query(getEmails, new Object[]{courseID}, new EmailMapper());
+                return emails;
+            } catch(Exception e){
+                System.out.println("Error in get emails " + e);
+                return null;
+            }
+        }
 }

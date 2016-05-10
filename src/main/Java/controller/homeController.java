@@ -430,4 +430,10 @@ public class homeController {
         return courseService.getStatus(courseID, sessionsToAttend, eventsToAttend, numberOfRegistrations);
     }
 
+    @RequestMapping(value = "/getEmails", method = RequestMethod.GET)
+    @ResponseBody
+    public ArrayList<String> getEmails(@RequestParam(value = "course_id") int courseID) {
+        return courseService.getEmails(courseID);
+    }
+
 }

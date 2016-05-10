@@ -45,103 +45,104 @@
     <script src="${addHotelCtrl}"></script>
 </head>
 <body>
-<div ng-app="registerApp" id="sessionRegisterClass" style="margin-left:3em; margin-right:3em;">
+<div ng-app="registerApp" id="sessionRegisterClass">
     <div ng-controller="AddCourseCtrl">
-        <div class="page-header">
-            <h1>Legg til kurs</h1><br>
-            <h4>Generell informasjon om kurset</h4>
-        </div>
-        <label for="title">Tittel:</label>
-        <input class="form-control" ng-model="course.title" id="title">
-        <label for="description">Beskrivelse:</label>
-        <textarea ng-model="course.description" class="form-control" id="description" rows="3"></textarea>
-        <div class="form-group">
-            <label class="control-label"><i class="fa fa-calendar"></i><b> Start og sluttdato</b></label><br>
-            <div class="form-group col-md-6" ng-class="{'has-error': datepickerForm.date.$invalid}">
-                <input type="text" class="form-control" ng-model="course.startDate" placeholder="Start" name="date"
-                       bs-datepicker>
+        <div style="margin-left:3em; margin-right:3em;">
+            <div class="page-header">
+                <h1>Legg til kurs</h1><br>
+                <h4>Generell informasjon om kurset</h4>
             </div>
-            <div class="form-group col-md-6" ng-class="{'has-error': datepickerForm.date.$invalid}">
-                <input type="text" class="form-control" ng-model="course.endDate" placeholder="Slutt" name="date"
-                       bs-datepicker>
+            <label for="title">Tittel:</label>
+            <input class="form-control" ng-model="course.title" id="title">
+            <label for="description">Beskrivelse:</label>
+            <textarea ng-model="course.description" class="form-control" id="description" rows="3"></textarea>
+            <div class="form-group">
+                <label class="control-label"><i class="fa fa-calendar"></i><b> Start og sluttdato</b></label><br>
+                <div class="form-group col-md-6" ng-class="{'has-error': datepickerForm.date.$invalid}">
+                    <input type="text" class="form-control" ng-model="course.startDate" placeholder="Start" name="date"
+                           bs-datepicker>
+                </div>
+                <div class="form-group col-md-6" ng-class="{'has-error': datepickerForm.date.$invalid}">
+                    <input type="text" class="form-control" ng-model="course.endDate" placeholder="Slutt" name="date"
+                           bs-datepicker>
+                </div>
             </div>
-        </div>
-        <label for="maxnumber">Maks antall deltakere:</label>
-        <input class="form-control" ng-model="course.maxNumber" id="maxnumber" type="number">
-        <label for="location">Kurssted:</label>
-        <input class="form-control" ng-model="course.location" id="location">
-        <label for="role">Legg til en rolle:</label>
-        <div class="input-group">
-            <input class="form-control" ng-model="role" id="role">
+            <label for="maxnumber">Maks antall deltakere:</label>
+            <input class="form-control" ng-model="course.maxNumber" id="maxnumber" type="number">
+            <label for="location">Kurssted:</label>
+            <input class="form-control" ng-model="course.location" id="location">
+            <label for="role">Legg til en rolle:</label>
+            <div class="input-group">
+                <input class="form-control" ng-model="role" id="role">
                 <span class="input-group-btn">
                     <button class="btn btn-primary" type="button" ng-click="addRole(role); role = '';">Legg til</button>
                 </span>
-        </div>
-        <table class="table">
-            <tr ng-repeat="role in roles">
-                <td>
-                    {{role}}
-                </td>
-                <td style="">
-                    <button type="button" id="{{role}}" ng-click="removeRole(role)" class="close" aria-label="Close">
-                        <span aria-hidden="true">&times;</span></button>
-                </td>
-            </tr>
-        </table>
-        <div class="page-header">
-            <h4>Parallelle sesjoner</h4>
-        </div>
-        <div ng-controller="AddSessionCtrl">
-            <table class="table session" ng-init="dateTable = dates">
-                <tr ng-repeat="date in dates" ng-init="sessionTableRow = $index">
-                    <td align="center" class="session">
-                        {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}
+            </div>
+            <table class="table">
+                <tr ng-repeat="role in roles">
+                    <td>
+                        {{role}}
                     </td>
-                    <td class="session">
-                        <button type="button" id="{{date}}" ng-click="passBtnId(date)"
-                                class="btn btn-primary btn-block"
-                                data-animation="am-fade-and-scale"
-                                data-template-url=${modalTemplate}
-                                        bs-modal="modal">+
-                        </button>
-                    </td>
-                    <td class="session" ng-repeat="session in sessions | sessionFilter: sessionTableRow: dates | orderBy:'hourMinuteStart'">
-                        <button id="sessionButton" data-ng-attr-id="btnId" type="button" ng-click="editSession(session)"
-                                ng-class="(session.overlap == true) ? 'btn btn-danger btn-block' : 'btn btn-default btn-block'"
-                                data-animation="am-fade-and-scale"
-                                data-template-url=${modalTemplate}
-                                        bs-modal="modal">{{session.title}}<h5>({{session.startTime | date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})</h5>
-                        </button>
+                    <td style="">
+                        <button type="button" id="{{role}}" ng-click="removeRole(role)" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
                     </td>
                 </tr>
             </table>
-        </div>
-        <div class="page-header">
-            <h4>Arrangementer</h4>
-        </div>
-        <div ng-controller="AddEventCtrl">
-            <div class="list-group">
-                <a class="list-group-item active plusbutton" data-animation="am-fade-and-scale"
-                   data-template-url=${eventModal}
-                           bs-modal="modal" ng-click="addingNewEvent()">
-                    <h4 class="list-group-item-heading">+</h4>
-                </a>
+            <div class="page-header">
+                <h4>Parallelle sesjoner</h4>
             </div>
-            <div class="list-group">
-                <a class="list-group-item event" ng-repeat="event in events" data-animation="am-fade-and-scale"
-                   data-template-url=${eventModal} bs-modal="modal" ng-click="editEvent(event)">
-                    <h4 class="list-group-item-heading event">{{event.title}}</h4>
-                    <p class="list-group-item-text">
-                        Pris: {{event.price}}<br>
-                        Maks antall deltakere: {{event.maxNumber}} <br>
-                        Sted: {{event.location}}
-                    </p>
-                </a>
+            <div ng-controller="AddSessionCtrl">
+                <table class="table session" ng-init="dateTable = dates">
+                    <tr ng-repeat="date in dates" ng-init="sessionTableRow = $index">
+                        <td align="center" class="session">
+                            {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}
+                        </td>
+                        <td class="session">
+                            <button type="button" id="{{date}}" ng-click="passBtnId(date)"
+                                    class="btn btn-primary btn-block"
+                                    data-animation="am-fade-and-scale"
+                                    data-template-url=${modalTemplate}
+                                            bs-modal="modal">+
+                            </button>
+                        </td>
+                        <td class="session" ng-repeat="session in sessions | sessionFilter: sessionTableRow: dates | orderBy:'hourMinuteStart'">
+                            <button id="sessionButton" data-ng-attr-id="btnId" type="button" ng-click="editSession(session)"
+                                    ng-class="(session.overlap == true) ? 'btn btn-danger btn-block' : 'btn btn-default btn-block'"
+                                    data-animation="am-fade-and-scale"
+                                    data-template-url=${modalTemplate}
+                                            bs-modal="modal">{{session.title}}<h5>({{session.startTime | date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})</h5>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
             </div>
-        </div>
-        <div class="page-header">
-            <h4>Priser</h4>
-        </div>
+            <div class="page-header">
+                <h4>Arrangementer</h4>
+            </div>
+            <div ng-controller="AddEventCtrl">
+                <div class="list-group">
+                    <a class="list-group-item active plusbutton" data-animation="am-fade-and-scale"
+                       data-template-url=${eventModal}
+                               bs-modal="modal" ng-click="addingNewEvent()">
+                        <h4 class="list-group-item-heading">+</h4>
+                    </a>
+                </div>
+                <div class="list-group">
+                    <a class="list-group-item event" ng-repeat="event in events" data-animation="am-fade-and-scale"
+                       data-template-url=${eventModal} bs-modal="modal" ng-click="editEvent(event)">
+                        <h4 class="list-group-item-heading event">{{event.title}}</h4>
+                        <p class="list-group-item-text">
+                            Pris: {{event.price}}<br>
+                            Maks antall deltakere: {{event.maxNumber}} <br>
+                            Sted: {{event.location}}
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="page-header">
+                <h4>Priser</h4>
+            </div>
             <label for="courseFee">Kursavgift:</label>
             <input class="form-control" ng-model="course.courseFee" id="courseFee" type="number">
             <label for="courseSingleDayFee">Kursavgift per dag:</label>
@@ -151,75 +152,75 @@
 
 
 
-        <div class="page-header">
-            <h4>Overnatting</h4>
-        </div>
-        <div ng-controller="addHotelCtrl">
-            <div class="list-group">
-                <a class="list-group-item active plusbutton" data-animation="am-fade-and-scale"
-                   data-template-url=${accomondationModal}
-                           bs-modal="modal" ng-click="addingNewHotel()">
-                    <h4 class="list-group-item-heading">+</h4>
-                </a>
+            <div class="page-header">
+                <h4>Overnatting</h4>
             </div>
-            <div class="list-group">
-                <a class="list-group-item event" ng-repeat="hotel in hotels" data-animation="am-fade-and-scale"
-                   data-template-url=${accomondationModal} bs-modal="modal" ng-click="editHotel(hotel)">
-                    <h4 class="list-group-item-heading event">{{hotel.name}}</h4>
-                    <p class="list-group-item-text">
-                        Pris dobbeltrom: {{hotel.doubleprice}}<br>
-                        Pris enkeltrom: {{hotel.singleprice}}<br>
-                        Adresse: {{hotel.address}}
-                    </p>
-                </a>
+            <div ng-controller="addHotelCtrl">
+                <div class="list-group">
+                    <a class="list-group-item active plusbutton" data-animation="am-fade-and-scale"
+                       data-template-url=${accomondationModal}
+                               bs-modal="modal" ng-click="addingNewHotel()">
+                        <h4 class="list-group-item-heading">+</h4>
+                    </a>
+                </div>
+                <div class="list-group">
+                    <a class="list-group-item event" ng-repeat="hotel in hotels" data-animation="am-fade-and-scale"
+                       data-template-url=${accomondationModal} bs-modal="modal" ng-click="editHotel(hotel)">
+                        <h4 class="list-group-item-heading event">{{hotel.name}}</h4>
+                        <p class="list-group-item-text">
+                            Pris dobbeltrom: {{hotel.doubleprice}}<br>
+                            Pris enkeltrom: {{hotel.singleprice}}<br>
+                            Adresse: {{hotel.address}}
+                        </p>
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="page-header">
-            <h4>Informasjon til påmeldingsskjema</h4>
-        </div>
-        <div ng-controller="RegistrationCtrl">
-            <div class="container">
-                <div class="jumbotron">
-                    <table class="table">
+            <div class="page-header">
+                <h4>Informasjon til påmeldingsskjema</h4>
+            </div>
+            <div ng-controller="RegistrationCtrl">
+                <div class="container">
+                    <div class="jumbotron">
+                        <table class="table">
                             <h4>Personalia</h4>
-                        <tr>
-                            <td>Fornavn: (Input)</td>
-                            <td style="text-align: right">Må være med</td>
-                        </tr>
-                        <tr>
-                            <td>Etternavn: (Input)</td>
-                            <td style="text-align: right">Må være med</td>
-                        </tr>
-                        <tr>
-                            <td>Telefonnummer: (Input)</td>
-                            <td style="text-align: right">Må være med</td>
-                        </tr>
-                        <tr>
-                            <td>E-postadresse: (Input)</td>
-                            <td style="text-align: right">Må være med</td>
-                        </tr>
-                        <tr>
-                            <td>Fødselsår: (Input)</td>
-                            <td style="text-align: right">Må være med</td>
-                        </tr>
-                        <tr>
-                            <td>Bemerkning: (Checkbox)</td>
-                            <td style="text-align: right">Må være med</td>
-                        </tr>
-                        <tr ng-repeat="opt in form.optionalPersonalia">
-                            <td>
-                                {{opt.parameter}} ({{opt.type}})
-                            </td>
-                            <td style="">
-                                <button type="button" id="{{item}}" ng-click="removeInput(opt.parameter, 'personalia')"
-                                        class="close" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                            </td>
-                        </tr>
-                    </table>
-                    <h6>Legg til flere felter i personalia</h6>
-                    <button id="inputPersonalia" ng-click="buttonResolver('inputPersonalia')" class="{{classPersonalia[0]}}">Input</button>
-                    <button id="checkboxPersonalia" ng-click="buttonResolver('checkboxPersonalia')" class="{{classPersonalia[1]}}">Checkbox</button><br>
+                            <tr>
+                                <td>Fornavn: (Input)</td>
+                                <td style="text-align: right">Må være med</td>
+                            </tr>
+                            <tr>
+                                <td>Etternavn: (Input)</td>
+                                <td style="text-align: right">Må være med</td>
+                            </tr>
+                            <tr>
+                                <td>Telefonnummer: (Input)</td>
+                                <td style="text-align: right">Må være med</td>
+                            </tr>
+                            <tr>
+                                <td>E-postadresse: (Input)</td>
+                                <td style="text-align: right">Må være med</td>
+                            </tr>
+                            <tr>
+                                <td>Fødselsår: (Input)</td>
+                                <td style="text-align: right">Må være med</td>
+                            </tr>
+                            <tr>
+                                <td>Bemerkning: (Checkbox)</td>
+                                <td style="text-align: right">Må være med</td>
+                            </tr>
+                            <tr ng-repeat="opt in form.optionalPersonalia">
+                                <td>
+                                    {{opt.parameter}} ({{opt.type}})
+                                </td>
+                                <td style="">
+                                    <button type="button" id="{{item}}" ng-click="removeInput(opt.parameter, 'personalia')"
+                                            class="close" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span></button>
+                                </td>
+                            </tr>
+                        </table>
+                        <h6>Legg til flere felter i personalia</h6>
+                        <button id="inputPersonalia" ng-click="buttonResolver('inputPersonalia')" class="{{classPersonalia[0]}}">Input</button>
+                        <button id="checkboxPersonalia" ng-click="buttonResolver('checkboxPersonalia')" class="{{classPersonalia[1]}}">Checkbox</button><br>
                     <span class="{{hiddenPersonalia[0]}}">
                         <div class="input-group">
                             <input class="form-control" ng-model="inputPersonalia" placeholder="Skriv inn tekst som skal stå foran input">
@@ -239,42 +240,42 @@
                         </div>
                     </span>
 
-                    <table class="table">
-                        <h4>Informasjon om arbeidsgiver</h4>
-                        <tr>
-                            <td>Arbeidsplass: (Input)</td>
-                            <td style="text-align: right">Må være med</td>
-                        </tr>
-                        <tr>
-                            <td>Adresse: (Input)</td>
-                            <td style="text-align: right">Må være med</td>
-                        </tr>
-                        <tr>
-                            <td>Postnummer: (Input)</td>
-                            <td style="text-align: right">Må være med</td>
-                        </tr>
-                        <tr>
-                            <td>Sted: (Input)</td>
-                            <td style="text-align: right">Må være med</td>
-                        </tr>
-                        <tr>
-                            <td>Ønsker faktura sendt til annen adresse: (Checkbox)</td>
-                            <td style="text-align: right">Må være med</td>
-                        </tr>
-                        <tr ng-repeat="opt in form.optionalWorkplace">
-                            <td>
-                                {{opt.parameter}} ({{opt.type}})
-                            </td>
-                            <td style="">
-                                <button type="button" ng-click="removeInput(opt.parameter, 'workplace')"
-                                        class="close" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                            </td>
-                        </tr>
-                    </table>
-                    <h6>Legg til flere felter i arbeidssted</h6>
-                    <button id="inputWorkplace" ng-click="buttonResolver('inputWorkplace')" class="{{classWorkplace[0]}}">Input</button>
-                    <button id="checkboxWorkplace" ng-click="buttonResolver('checkboxWorkplace')" class="{{classWorkplace[1]}}">Checkbox</button><br>
+                        <table class="table">
+                            <h4>Informasjon om arbeidsgiver</h4>
+                            <tr>
+                                <td>Arbeidsplass: (Input)</td>
+                                <td style="text-align: right">Må være med</td>
+                            </tr>
+                            <tr>
+                                <td>Adresse: (Input)</td>
+                                <td style="text-align: right">Må være med</td>
+                            </tr>
+                            <tr>
+                                <td>Postnummer: (Input)</td>
+                                <td style="text-align: right">Må være med</td>
+                            </tr>
+                            <tr>
+                                <td>Sted: (Input)</td>
+                                <td style="text-align: right">Må være med</td>
+                            </tr>
+                            <tr>
+                                <td>Ønsker faktura sendt til annen adresse: (Checkbox)</td>
+                                <td style="text-align: right">Må være med</td>
+                            </tr>
+                            <tr ng-repeat="opt in form.optionalWorkplace">
+                                <td>
+                                    {{opt.parameter}} ({{opt.type}})
+                                </td>
+                                <td style="">
+                                    <button type="button" ng-click="removeInput(opt.parameter, 'workplace')"
+                                            class="close" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span></button>
+                                </td>
+                            </tr>
+                        </table>
+                        <h6>Legg til flere felter i arbeidssted</h6>
+                        <button id="inputWorkplace" ng-click="buttonResolver('inputWorkplace')" class="{{classWorkplace[0]}}">Input</button>
+                        <button id="checkboxWorkplace" ng-click="buttonResolver('checkboxWorkplace')" class="{{classWorkplace[1]}}">Checkbox</button><br>
                     <span class="{{hiddenWorkplace[0]}}">
                         <div class="input-group">
                             <input class="form-control" ng-model="inputWorkplace" placeholder="Skriv inn tekst som skal stå foran input">
@@ -293,31 +294,31 @@
                             </span>
                         </div>
                     </span>
-                    <h4>Annet</h4>
-                    <div class="checkbox">
-                        <label><input type="checkbox" ng-model="form.airplane">Kurs og Kongress kan ordne bestillingsskjema for fly</label>
-                    </div>
-                    <h4>Tilleggsspørsmål</h4>
-                    <table class="table">
-                        <tr ng-repeat="parameter in form.extraInfo">
-                            <td>
-                                {{parameter.parameter}} ({{parameter.type}})
-                            </td>
-                            <td style="">
-                                <button type="button" id="{{parameter.parameter}}" ng-click="removeInput(parameter.parameter, 'extraInfo')"
-                                        class="close" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                            </td>
-                        </tr>
-                    </table>
-                    <button id="inputExtra" ng-click="buttonResolver('inputExtra')" class="{{class[0]}}">Input</button>
-                    <button id="checkboxExtra" ng-click="buttonResolver('checkboxExtra')" class="{{class[1]}}">Checkbox</button><br>
+                        <h4>Annet</h4>
+                        <div class="checkbox">
+                            <label><input type="checkbox" ng-model="form.airplane">Kurs og Kongress kan ordne bestillingsskjema for fly</label>
+                        </div>
+                        <h4>Tilleggsspørsmål</h4>
+                        <table class="table">
+                            <tr ng-repeat="parameter in form.extraInfo">
+                                <td>
+                                    {{parameter.parameter}} ({{parameter.type}})
+                                </td>
+                                <td style="">
+                                    <button type="button" id="{{parameter.parameter}}" ng-click="removeInput(parameter.parameter, 'extraInfo')"
+                                            class="close" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span></button>
+                                </td>
+                            </tr>
+                        </table>
+                        <button id="inputExtra" ng-click="buttonResolver('inputExtra')" class="{{class[0]}}">Input</button>
+                        <button id="checkboxExtra" ng-click="buttonResolver('checkboxExtra')" class="{{class[1]}}">Checkbox</button><br>
                     <span class="{{hidden[0]}}">
                         <div class="input-group">
                             <input class="form-control" ng-model="inputQuestion" placeholder="Skriv inn tekst som skal stå foran input">
                             <span class="input-group-btn">
                                 <button class="btn btn-primary" type="button"
-                            ng-click="addInput(inputQuestion, 'Input', 'extraInfo'); inputQuestion = '';">Legg til</button>
+                                        ng-click="addInput(inputQuestion, 'Input', 'extraInfo'); inputQuestion = '';">Legg til</button>
                             </span>
                         </div>
                     </span>
@@ -330,10 +331,11 @@
                             </span>
                         </div>
                     </span>
+                    </div>
                 </div>
             </div>
+            <button type="button" class="btn btn-primary" ng-click="save(course)" ng-disabled="validator()" style="float: right; margin-bottom: 15px;">Lagre kurs</button>
         </div>
-        <button type="button" class="btn btn-primary" ng-click="save(course)" ng-disabled="validator()" style="float: right; margin-bottom: 15px;">Lagre kurs</button>
     </div>
     </div>
 </body>

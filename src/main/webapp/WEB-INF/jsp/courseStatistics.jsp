@@ -56,6 +56,7 @@
                       if(user.isAdmin()){
                     %>
                     <button type="button" ng-click="courseEconomics()" class="btn btn-default"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> | Økonomisk rapport</button>
+                    <button type="button" ng-click="sendEmail()" class="btn btn-default"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> | Kontakt deltakere</button>
                     <hr>
                     <%
                         }

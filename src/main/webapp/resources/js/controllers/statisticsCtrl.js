@@ -20,6 +20,12 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
         });
     };
 
+    $scope.sendEmail = function(){
+        statisticsService.getEmails($scope.course.id).then(function (emails) {
+            window.location.href = self.generateEmailString(emails);
+        })
+    };
+
     $scope.getTotal = function(numb){
         var a = ($scope.numberOfcourseFee.total + $scope.numberOfcourseSingleDayFee.total + $scope.numberOfDaypackages.total);
         var b = 0;
@@ -230,4 +236,16 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
             }
         });
     };
+
+    self.generateEmailString = function(emails){
+        var string = "mailto:";
+        for (var i = 0; i < emails.length; i++){
+            if (i == (emails.length - 1)){
+                string += emails[i];
+            } else{
+                string += emails[i] + ",";
+            }
+        }
+        return string;
+    }
 }]);

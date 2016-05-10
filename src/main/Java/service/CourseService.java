@@ -46,4 +46,6 @@ public interface CourseService {
     public boolean deleteRegistration(Registration registration);
 
     public int getMaxIdGroupRegistration();
+
+    public ArrayList<String> getEmails(int courseID);
 }

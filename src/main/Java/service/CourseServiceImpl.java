@@ -70,4 +70,9 @@ public class CourseServiceImpl implements CourseService {
     public boolean deleteRegistration(Registration registration) {
         return courseRepository.deleteRegistration(registration);
     }
+
+    @Override
+    public ArrayList<String> getEmails(int courseID) {
+        return courseRepository.getEmails(courseID);
+    }
 }

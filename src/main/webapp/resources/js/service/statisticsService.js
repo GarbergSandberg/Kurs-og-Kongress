@@ -32,6 +32,18 @@ sessionRegisterApp.factory('statisticsService', ['$http', '$q','$rootScope', fun
             );
     };
 
+    statisticsService.getEmails = function(courseID){
+        return $http.get('getEmails', {params: {course_id: courseID}})
+            .then(
+                function (success) {
+                    return success.data;
+                },
+                function (error) {
+                    console.error('Error while retrieving emails');
+                }
+            );
+    };
+
     statisticsService.setSessionStorageID = function(sessionID){
         console.log(sessionID + " = personID before encryption");
         return $http.get('setSessionStorageID', {params: {id: sessionID}})
