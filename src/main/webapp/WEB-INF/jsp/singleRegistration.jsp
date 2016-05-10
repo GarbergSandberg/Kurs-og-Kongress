@@ -34,15 +34,15 @@ To change this template use File | Settings | File Templates.
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.tpl.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+    <spring:url value="resources/js/locale.js" var="locale"/>
     <spring:url value="resources/js/app/registrationApp.js" var="appJs"/>
     <spring:url value="resources/js/app/courseOverviewApp.js" var="myApp"/>
     <spring:url value="resources/js/service/eventRegisterService.js" var="appEventService"/>
     <spring:url value="resources/js/service/personService.js" var="personService"/>
     <spring:url value="resources/js/service/regService.js" var="regService"/>
     <spring:url value="resources/js/controllers/addRegCtrl.js" var="regCtrl"/>
-
+    <script src="${locale}"></script>
     <script src="${appJs}"></script>
     <script src="${myApp}"></script>
     <script src="${appEventService}"></script>
@@ -61,7 +61,6 @@ To change this template use File | Settings | File Templates.
 
 
             <div class="form-horizontal" align="center" style="text-align: left; max-width: 90%; min-width: 60%;">
-                <h3>Arbeidsgiverinfo</h3>
                 <h3>Personalia</h3>
                 <div class="form-group">
                     <label for="firstname" class="col-sm-4 control-label">Fornavn: </label>
@@ -85,7 +84,7 @@ To change this template use File | Settings | File Templates.
                 <div class="form-group">
                     <label for="mail" class="col-sm-4 control-label">Mail: </label>
                     <div class="col-sm-6">
-                        <input class="form-control" ng-model="registration.person.email" id="mail"/>
+                        <input type="email" class="form-control" ng-model="registration.person.email" id="mail"/>
                     </div>
                 </div> <!-- Ekstra (utvides om "checked") -->
                 <div class="form-group">
@@ -333,7 +332,7 @@ To change this template use File | Settings | File Templates.
         </div>
         <hr/>
         <div align="right">
-            <button class="btn btn-primary" ng-click="saveSingleRegistration()">Send påmelding</button>
+            <button class="btn btn-primary" ng-click="saveSingleRegistration(registration)">Send påmelding</button>
         </div>
     </div>
     <div ng-show="loading">

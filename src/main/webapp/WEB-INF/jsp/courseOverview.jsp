@@ -83,21 +83,21 @@
                                     </p>
                                 </li>
                                 <li class="list-group-item">
-                                    <span data-placement="top" data-type="info"
+                                    <span data-placement="top" data-type="default"
                                           data-animation="am-fade-and-scale" bs-tooltip="change">
                                         <button ng-click="editCourse(panel.courseID)" ng-model="change.checked"
                                                 class="btn btn-default btn-lg">
                                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                         </button>
                                     </span>
-                                    <span data-placement="top" data-type="info"
+                                    <span data-placement="top" data-type="default"
                                           data-animation="am-fade-and-scale" bs-tooltip="statistics">
                                         <button ng-click="getStatistics(panel.courseID)" ng-model="statistics.checked"
                                                 class="btn btn-default btn-lg"><span
                                                 class="glyphicon glyphicon-stats" aria-hidden="true"></span>
                                         </button>
                                     </span>
-                                    <span data-placement="top" data-type="info"
+                                    <span data-placement="top" data-type="default"
                                           data-animation="am-fade-and-scale" bs-tooltip="public">
                                         <button ng-click="enableRegistration(panel.courseID)" ng-model="public.checked"
                                               ng-class="changeColor(panel.courseID)"><span

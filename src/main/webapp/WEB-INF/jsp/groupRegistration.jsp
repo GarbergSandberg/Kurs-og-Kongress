@@ -15,15 +15,15 @@
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.tpl.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+    <spring:url value="resources/js/locale.js" var="locale"/>
     <spring:url value="resources/js/app/registrationApp.js" var="appJs"/>
     <spring:url value="resources/js/app/courseOverviewApp.js" var="myApp"/>
     <spring:url value="resources/js/service/eventRegisterService.js" var="appEventService"/>
     <spring:url value="resources/js/service/personService.js" var="personService"/>
     <spring:url value="resources/js/service/regService.js" var="regService"/>
     <spring:url value="resources/js/controllers/addRegCtrl.js" var="regCtrl"/>
-
+    <script src="${locale}"></script>
     <script src="${appJs}"></script>
     <script src="${myApp}"></script>
     <script src="${appEventService}"></script>

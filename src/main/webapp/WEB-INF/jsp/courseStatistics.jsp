@@ -23,7 +23,6 @@
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.tpl.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
     <spring:url value="resources/js/app/sessionRegisterApp.js" var="session"/>
     <spring:url value="resources/js/controllers/statisticsCtrl.js" var="statisticsCtrl"/>
@@ -101,7 +100,7 @@
                     </div>
                     <!--<hr width="1" size="200" /> -->
                     <div class="col-sm-6 col-md-6 col-lg-6">
-                        <label> Events: </label>
+                        <label> Arrangementer: </label>
                         <span ng-repeat="event in course.events" style="float: right;">
                             {{event.title}}, &nbsp; {{event.date | date: 'dd.MM.yyyy'}}, &nbsp {{event.time | date: 'HH:mm'}}<br> </span> <br>
                         </span>

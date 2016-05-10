@@ -95,7 +95,7 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
         attenderInfoService.deleteRegistration(registration).then(function (response) {
             if (response == true) {
                 alert("Påmelding er slettet");
-                $window.location.href = "/kursogkongress/personInfo";
+                $window.location.href = "/kursogkongress/courseStatistics";
             } else {
                 alert("Det skjedde noe galt. Prøv igjen.");
                 $window.location.href = "/kursogkongress/courseStatistics";

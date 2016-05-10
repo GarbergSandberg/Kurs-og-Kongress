@@ -17,6 +17,7 @@
     <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
     <!--This is important-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+    <spring:url value="resources/js/locale.js" var="locale"/>
     <spring:url value="resources/js/app/sessionRegisterApp.js" var="appJs"/>
     <spring:url value="resources/js/service/sessionRegisterService.js" var="appService"/>
     <spring:url value="resources/html/registerSessionModal.html" var="modalTemplate"/>
@@ -30,6 +31,7 @@
     <spring:url value="resources/js/controllers/addSessionCtrl.js" var="addSessionCtrl"/>
     <spring:url value="resources/js/controllers/makeFormCtrl.js" var="makeFormCtrl"/>
     <spring:url value="resources/js/controllers/addHotelCtrl.js" var="addHotelCtrl"/>
+    <script src="${locale}"></script>
     <script src="${appJs}"></script>
     <script src="${appService}"></script>
     <script src="${jsonService}"></script>

@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand topnav" href="/kursogkongress/courseOverview">Kurs- og Kongresservice</a>
+            <a class="navbar-brand topnav" href="/kursogkongress/courseOverview" style="display: inline-block"><img src="resources/css/kurs-og-kongress-logo-simpel.png" style="max-height: 100%; top: 100%; bottom: 100%; display: inline-block"> Kurs- og Kongresservice</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
