@@ -39,6 +39,20 @@
     float: left;
 }
 
+.list-group-item.person {
+    min-width: 20%;
+    border-radius: 20px;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    padding-left: 1%;
+    padding-right: 1%;
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    float: none;
+}
+
 #form-style{
     max-width: 60%;
     min-width: 40%;
