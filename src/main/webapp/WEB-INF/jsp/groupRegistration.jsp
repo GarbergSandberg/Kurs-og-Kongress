@@ -121,7 +121,7 @@
                             </div>
                             <div>
                                 <label for="birthyear">Fødselsår: </label>
-                                <input class="form-control" ng-model="person[n].birthyear" id="birthyear"/>
+                                <input class="form-control" ng-model="person[n].birthYear" id="birthYear"/>
                             </div>
                             <div ng-repeat="opt in course.form.optionalPersonalia">
                                 <br>
@@ -149,7 +149,7 @@
                                 <label>Bemerkning/best.nr etc?</label>
                                 <div ng-show="checkbox[{{$index}}]">
                                     <textarea ng-model="person[n].mark" ng-init="person[n].mark=''" class="form-control"
-                                  id="description" rows="2"></textarea>
+                                              id="description" rows="2"></textarea>
                                 </div>
                             </div>
                         </form>
@@ -165,26 +165,38 @@
 
             <div class="list-group" align="center">
                 <a class="list-group-item person" ng-repeat="reg in registrations track by $index">
-                    <h4 class="list-group-item-heading event">{{reg.person.firstname}} {{reg.person.lastname}}</h4>
-                    <p class="list-group-item-text">
-                        Fødselsår: {{reg.person.birthYear}} <br>
-                        Nummer: {{reg.person.number}}<br>
-                        E-Mail: {{reg.person.email}}<br>
-                        Merk: {{reg.person.mark}}<br>
-                        Rolle: {{reg.role}}<br>
-                        Kjønn: {{reg.person.gender}}<br>
+                    <label>{{reg.person.firstname}} {{reg.person.lastname}}</label>
+                    <h5> Fødselsår: {{reg.person.birthYear}} </h5>
+                    <h5> Nummer: {{reg.person.number}}</h5>
+                    <h5>E-Mail: {{reg.person.email}}</h5>
+                    <h5>Merk: {{reg.person.mark}}</h5>
+                    <h5>Rolle: {{reg.role}}</h5>
+                    <h5> Kjønn: {{reg.person.gender}}</h5>
                     <div ng-repeat="n in person.opt track by $index">
-                        {{course.form.optionalPersonalia[$index].parameter}}: {{reg.person.opt[$index]}}
+                        <h5>{{course.form.optionalPersonalia[$index].parameter}}: {{reg.person.opt[$index]}} </h5>
                     </div>
+
+
+                    <!-- <h4 class="list-group-item-heading event">{{reg.person.firstname}} {{reg.person.lastname}}</h4>
+                     <p class="list-group-item-text">
+                         Fødselsår: {{reg.person.birthYear}} <br>
+                         Nummer: {{reg.person.number}}<br>
+                         E-Mail: {{reg.person.email}}<br>
+                         Merk: {{reg.person.mark}}<br>
+                         Rolle: {{reg.role}}<br>
+                         Kjønn: {{reg.person.gender}}<br>
+                     <div ng-repeat="n in person.opt track by $index">
+                         {{course.form.optionalPersonalia[$index].parameter}}: {{reg.person.opt[$index]}}
+                     </div> -->
 
 
                     <div ng-show="hasRoommate(reg.person)" data-placement="bottom" data-type="info"
                          data-animation="am-fade-and-scale" bs-tooltip="tooltip">
-                        Rom: {{getPersonName(reg.accomondation.roommateID)}}
-                        <button type="button" ng-model="tooltip.checked" class="btn btn-default btn-xs"
-                                ng-click="removeRoom(reg)">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </button>
+                        <h5> Rom: {{getPersonName(reg.accomondation.roommateID)}} </h5>
+                            <button type="button" ng-model="tooltip.checked" class="btn btn-default btn-xs"
+                                    ng-click="removeRoom(reg)">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </button>
                     </div>
                     </p>
                     <button type="button" class="btn btn-default btn-sm" ng-click="removePerson(reg)">
@@ -192,6 +204,7 @@
                     </button>
                 </a>
             </div>
+            <div style="clear: both"></div>
 
             <hr>
 
@@ -207,7 +220,8 @@
                 <div ng-if="course.hotels.length > 0" ng-show="checkboxAccModel.c1">
                     <div class="form-group">
                         <label> Velg person: </label>
-                        <select ng-model="firstPersonRoom" ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfHasRoom"></select>
+                        <select ng-model="firstPersonRoom"
+                                ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfHasRoom"></select>
                     </div>
                     <div class="form-group">
                         <label>Velg hotell: </label>
