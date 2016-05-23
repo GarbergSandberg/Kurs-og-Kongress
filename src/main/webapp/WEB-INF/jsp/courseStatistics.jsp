@@ -99,7 +99,7 @@
                                 <label> Sesjoner: </label>
                             </div>
                             <div class="col-md-9" ng-repeat="session in course.sessions" style="text-align: right; float: right; align: right;">
-                                {{session.title}}, &nbsp {{session.startTime | date: 'dd.MM.yyyy'}}, &nbsp {{session.startTime | date: 'HH:mm'}} - {{session.endTime | date:'HH:mm'}} <br><br>
+                                {{session.title}}, &nbsp {{session.date | date: 'dd.MM.yyyy'}}, &nbsp {{session.startTime | date: 'HH:mm'}} - {{session.endTime | date:'HH:mm'}} <br><br>
                             </div>
                             <br>
                         </div>

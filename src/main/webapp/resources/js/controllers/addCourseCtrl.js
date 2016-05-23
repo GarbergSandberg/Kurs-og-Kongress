@@ -1,7 +1,7 @@
 /**
  * Created by eiriksandberg on 05.04.2016.
  */
-sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'courseService', 'hotelService', 'eventService', function ($scope, $modal, sessionService, courseService, hotelService, eventService) {
+sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionService', 'courseService', 'hotelService', 'eventService', '$window', function ($scope, $modal, sessionService, courseService, hotelService, eventService, $window) {
     $scope.course = {};
     $scope.roles = [];
     $scope.$watch("course.startDate", function(newValue, oldValue) {
@@ -68,6 +68,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
     self.sendCourse = function (course) {
             courseService.sendInfo(course).then(function (successCallback) {
                 console.log("Course sent" + successCallback);
+                $window.location.href = "/kursogkongress/courseOverview";
             }, function (errorCallback) {
                 console.log("Error in courseService.sendInfo() " + errorCallback);
             });

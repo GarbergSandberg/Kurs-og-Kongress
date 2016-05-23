@@ -190,7 +190,6 @@ To change this template use File | Settings | File Templates.
 
         <div align="left" ng-if="course.hotels.length > 0">
             <h3>Overnatting</h3>
-        </div>
         <div align="center">
             <div class="form-group">
                 <label class="control-label" for="postalcode">Ønsker overnatting </label>
@@ -242,10 +241,8 @@ To change this template use File | Settings | File Templates.
             </form>
             <br>
         </div>
-
-
         <hr/>
-
+        </div>
         <h3>Påmelding faglig program</h3>
         <h3>
             <small>Priser for kurs</small>
@@ -286,11 +283,12 @@ To change this template use File | Settings | File Templates.
         <!-- Sesjoner  http://plnkr.co/edit/jKmxJwDnkuxpgy7zYyx6?p=preview [08.02.2016] -->
         <h3>Påmelding sesjoner</h3>
         <table class="table session">
-            <tr ng-repeat="date in dateArray">
+            <tr ng-repeat="date in dateArray"  ng-init="sessionTableRow = $index">
                 <td align="center" class="session">
                     {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
                 </td>
-                <td ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)">
+              <!--  <td ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)"> -->
+                <td ng-repeat="session in course.sessions | sessionFilter: sessionTableRow: dateArray | orderBy:'hourMinuteStart'">
                     <button ng-disabled="session.isFull"
                             ng-class="colorSession(session) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'"
                             ng-click="selectSession(session)"> {{session.title}} <h5>({{session.startTime |

@@ -164,7 +164,9 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
         console.log("Her kommer kursID " + id);
         statisticsService.getRegistrations(id).then(function(response){
             self.mapRegistration(response);
-            self.getNumberOfPayments();
+            if($scope.countReg !== 0){
+                self.getNumberOfPayments();
+            }
             self.getNumberOfEvents();
             $scope.loading = false;
         }, function(error){
