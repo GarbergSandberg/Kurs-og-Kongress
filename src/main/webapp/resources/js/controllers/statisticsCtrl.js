@@ -240,7 +240,7 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
     };
 
     self.generateEmailString = function(emails){
-        var string = "mailto:";
+        var string = "mailto:?bcc=";
         for (var i = 0; i < emails.length; i++){
             if (i == (emails.length - 1)){
                 string += emails[i];

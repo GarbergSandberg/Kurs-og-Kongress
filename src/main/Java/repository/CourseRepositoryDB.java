@@ -199,6 +199,7 @@ public class CourseRepositoryDB implements CourseRepository {
             form.setOptionalPersonalia(getOptionalPersonalia(form.getId()));
             form.setOptionalWorkplace(getOptionalWorkplace(form.getId()));
             form.setExtraInfo(getExtraInfo(form.getId()));
+            System.out.println(" EXTRAINFO FRA FORM HER: = " + form.getExtraInfo());
         } catch (Exception e) {
             System.out.println("Error in getForm! " + e);
             form = null;
@@ -815,6 +816,7 @@ public class CourseRepositoryDB implements CourseRepository {
 
     public boolean saveExtraInfo(ArrayList<InputParameter> list, int formID) {
         try {
+            System.out.println("LIST = " + list.get(0));
             Integer id = jdbcTemplateObject.queryForObject(getMaxIDExtraInfo, new Object[]{}, Integer.class);
             if (id != null) {
                 id++;
@@ -843,7 +845,7 @@ public class CourseRepositoryDB implements CourseRepository {
         return true;
     }
 
-    public boolean updateExtraInfo(ArrayList<InputParameter> newParameters, int formID, int ExtraInfoID) {
+    public boolean updateExtraInfo(ArrayList<InputParameter> newParameters, int formID, int extraInfoID) {
         try {
             ArrayList<InputParameter> inputParametersToBeDeleted = getExtraInfo(formID);
             ArrayList<InputParameter> inputParametersToBeAdded = new ArrayList<InputParameter>();
@@ -875,7 +877,7 @@ public class CourseRepositoryDB implements CourseRepository {
             }
             for (InputParameter ip : inputParametersToBeAdded) {
                 inputid++;
-                insertInputParameter(ip, inputid, ExtraInfoID, "extrainfo");
+                insertInputParameter(ip, inputid, extraInfoID, "extrainfo");
             }
         } catch (Exception e) {
             System.out.println("Error in updateExtraInfo");

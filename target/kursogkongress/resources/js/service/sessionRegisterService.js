@@ -99,6 +99,7 @@ sessionRegisterApp.factory('sessionService',['$rootScope', function ($rootScope)
     function addDuplicatedSessions(session) {
         if(session.repetitiveSession != undefined) {
             for (var item in session.repetitiveSession) {
+                console.log(item);
                 var duplicatedSession = angular.copy(session);
                 currentDate = new Date(item);
                 duplicatedSession.repetitiveSession = {};

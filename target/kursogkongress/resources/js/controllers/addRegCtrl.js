@@ -483,9 +483,12 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
         } else {
             var notOverlaps = true;
             for (i = 0; i<$scope.selectedSessions.length; i++){
-                if ($scope.overlaps(session.startTime, session.endTime, $scope.selectedSessions[i].startTime, $scope.selectedSessions[i].endTime)){
-                    notOverlaps = false;
-                    break;
+                session.date = new Date(session.date);
+                if(session.date.getDate() == $scope.selectedSessions[i].date.getDate()){
+                    if ($scope.overlaps(session.startTime, session.endTime, $scope.selectedSessions[i].startTime, $scope.selectedSessions[i].endTime)){
+                        notOverlaps = false;
+                        break;
+                    }
                 }
             } if (notOverlaps){
                 $scope.selectedSessions.push(session);
@@ -562,3 +565,18 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
     }
 
 }]);
+
+app.filter("sessionFilter", function(){
+    return function(input, outerIndex, dates){
+        var array = [];
+        for(var i = 0; i < input.length; i++){
+            input[i].date = new Date(input[i].date);
+            if(input[i].date.getDate() == dates[outerIndex].getDate()){
+                if(input[i].date.getMonth() == dates[outerIndex].getMonth()) {
+                    array.push(input[i]);
+                }
+            }
+        }
+        return array;
+    }
+});

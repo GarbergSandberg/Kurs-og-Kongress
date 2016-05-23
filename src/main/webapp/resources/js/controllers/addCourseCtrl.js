@@ -54,6 +54,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
         course.hotels = hotelService.get();
         courseService.prepareForm();
         course.form = courseService.getForm();
+        console.log(course);
         self.sendCourse(course);
     };
 

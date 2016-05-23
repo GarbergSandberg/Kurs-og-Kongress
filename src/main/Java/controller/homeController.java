@@ -213,6 +213,7 @@ public class homeController {
 
     @RequestMapping(value = "/saveinformation_json", method = RequestMethod.POST)
     public ResponseEntity<Void> saveInformation_JSON(@RequestBody Course course )   {
+        System.out.println("EXTRAINFO ER MED = " + course.getForm().getExtraInfo().get(0));
         courseService.saveCourse(course);
         return new ResponseEntity<Void>(HttpStatus.CREATED);
     }
