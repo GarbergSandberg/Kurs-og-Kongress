@@ -433,7 +433,9 @@
             <br> <br>
             <hr>
             <h3>Påmelding sesjoner</h3>
-            <h3><small> Velg hvilke sesjoner gruppen skal delta på ved å trykke på den enkelte sesjonen</small></h3>
+            <h3>
+                <small> Velg hvilke sesjoner gruppen skal delta på ved å trykke på den enkelte sesjonen</small>
+            </h3>
             <table class="table session">
                 <tr ng-repeat="date in dateArray" ng-init="sessionTableRow = $index">
                     <td align="center" class="session">
@@ -451,7 +453,10 @@
             <br> <br>
             <hr>
             <h3>Påmelding arrangementer</h3>
-            <h3><small> Velg hvilke arrangementer gruppen skal delta på ved å trykke på det enkelte arrangementet</small></h3>
+            <h3>
+                <small> Velg hvilke arrangementer gruppen skal delta på ved å trykke på det enkelte arrangementet
+                </small>
+            </h3>
             <table class="table session">
                 <tr ng-repeat="date in dateArray">
                     <td align="center" class="session">
@@ -509,5 +514,6 @@
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>
