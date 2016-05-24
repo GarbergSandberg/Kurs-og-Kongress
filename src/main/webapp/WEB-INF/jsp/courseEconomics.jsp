@@ -20,7 +20,6 @@
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.tpl.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
     <spring:url value="resources/js/app/sessionRegisterApp.js" var="session"/>
     <spring:url value="resources/js/controllers/statisticsCtrl.js" var="statisticsCtrl"/>
