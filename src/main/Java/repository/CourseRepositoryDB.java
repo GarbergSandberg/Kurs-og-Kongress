@@ -1131,7 +1131,7 @@ public class CourseRepositoryDB implements CourseRepository {
         }
     }
 
-    public boolean updateWorkplace(Workplace workplace) {
+    public boolean updateWorkplace(Workplace workplace) {//
         try {
             jdbcTemplateObject.update(updateWorkplace, new Object[]{
                     workplace.getCompanyName(), workplace.getPostalcode(), workplace.getLocation(), workplace.getAddress(), workplace.getWorkplaceID()
