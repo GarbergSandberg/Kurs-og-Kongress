@@ -35,6 +35,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
     $scope.allDaysCheck = {};
     $scope.newacc = {};
     $scope.loading = true;
+    $scope.validPersons = false;
     $scope.errormessages = {
         fullCourse: 'Ikke nok tilgjengelige plasser på kurset. Prøv igjen med færre personer.',
         fullSessions: 'Ikke nok tilgjengelige plasser på sesjoner. Prøv igjen med færre personer eller velg andre sesjoner.',
@@ -363,7 +364,6 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
             }
         }
         for (var prop in registration.extraInfo){ // Prop is indexnumber for the question in course.form.extraInfo
-            console.log(registration.extraInfo);
             if (registration.extraInfo[prop] != undefined) {
                 var i = parseInt(prop);
                 var inputParameter = {parameter: registration.extraInfo[prop], type: $scope.course.form.extraInfo[i].type};
@@ -509,6 +509,11 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
         if (startA <= endB   && endB   <= endA) return true; // b ends in a
         if (startB <  startA && endA   <  endB) return true; // a in b
         return false;
+    };
+
+    $scope.validatePersons = function(value){
+        console.log("Er her... " + value);
+        $scope.validPersons = value;
     };
 
     //Fjernes.
