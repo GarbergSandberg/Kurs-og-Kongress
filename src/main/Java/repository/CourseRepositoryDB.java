@@ -1084,6 +1084,7 @@ public class CourseRepositoryDB implements CourseRepository {
 
     public Integer setPerson(Person person) {
         try {
+            System.out.println("PERSON HAR TELEFONNUMMER: " + person.getPhonenumber());
             Integer personID = jdbcTemplateObject.queryForObject(getMaxPersonID, new Object[]{}, Integer.class);
             if (personID != null) {
                 personID++;
@@ -1225,15 +1226,11 @@ public class CourseRepositoryDB implements CourseRepository {
     public boolean updateOptionalPersonaliaAnswers(ArrayList<InputParameter> list, int registrationID) {
         try {
             ArrayList<InputParameter> oldAnswers = getOptionalPersonaliaAnswers(registrationID);
-            if (list.size() == oldAnswers.size()) {
                 for (int i = 0; i < list.size(); i++) {
                     jdbcTemplateObject.update(updateInputParameterAnswer, new Object[]{
                             list.get(i).getParameter(), list.get(i).getType(), oldAnswers.get(i).getId()
                     });
                 }
-            } else {
-                System.out.println("Error!!! Number of old input parameters and new doesn't add up! ");
-            }
         } catch (Exception e) {
             System.out.println("Error in updateOptionalPersonaliaAnswers " + e);
             return false;
@@ -1270,14 +1267,10 @@ public class CourseRepositoryDB implements CourseRepository {
     public boolean updateOptionalWorkplaceAnswers(ArrayList<InputParameter> list, int registrationID) {
         try {
             ArrayList<InputParameter> oldAnswers = getOptionalWorkplaceAnswers(registrationID);
-            if (list.size() == oldAnswers.size()) {
                 for (int i = 0; i < list.size(); i++) {
                     jdbcTemplateObject.update(updateInputParameterAnswer, new Object[]{
                             list.get(i).getParameter(), list.get(i).getType(), oldAnswers.get(i).getId()
                     });
-                }
-            } else {
-                System.out.println("Error!!! Number of old input parameters and new doesn't add up! ");
             }
         } catch (Exception e) {
             System.out.println("Error in updateOptionalWorkplaceAnswers " + e);
@@ -1317,15 +1310,11 @@ public class CourseRepositoryDB implements CourseRepository {
     public boolean updateExtraInfoAnswers(ArrayList<InputParameter> list, int registrationID) {
         try {
             ArrayList<InputParameter> oldAnswers = getExtraInfoAnswers(registrationID);
-            if (list.size() == oldAnswers.size()) {
                 for (int i = 0; i < list.size(); i++) {
                     jdbcTemplateObject.update(updateInputParameterAnswer, new Object[]{
                             list.get(i).getParameter(), list.get(i).getType(), oldAnswers.get(i).getId()
                     });
                 }
-            } else {
-                System.out.println("Error!!! Number of old input parameters and new doesn't add up! ");
-            }
         } catch (Exception e) {
             System.out.println("Error in updateExtraInfoAnswers " + e);
             return false;

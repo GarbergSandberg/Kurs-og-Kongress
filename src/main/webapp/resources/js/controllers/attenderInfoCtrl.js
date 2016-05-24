@@ -520,3 +520,17 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
     self.resolveInfo();
 }]);
 
+sessionRegisterApp.filter("sessionFilter", function(){
+    return function(input, outerIndex, dates){
+        var array = [];
+        for(var i = 0; i < input.length; i++){
+            input[i].date = new Date(input[i].date);
+            if(input[i].date.getDate() == dates[outerIndex].getDate()){
+                if(input[i].date.getMonth() == dates[outerIndex].getMonth()) {
+                    array.push(input[i]);
+                }
+            }
+        }
+        return array;
+    }
+});

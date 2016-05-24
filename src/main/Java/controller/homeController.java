@@ -178,6 +178,7 @@ public class homeController {
 
     @RequestMapping(value = "/saveRegistrations", method = RequestMethod.POST)
     public ResponseEntity<Void> saveRegistrations(@RequestBody ArrayList<Registration> registrations)   {
+        System.out.println(registrations.get(0).getPerson().getPhonenumber() + " DETTE ER TELEFONNUMMER!");
         int courseID = registrations.get(0).getCourse().getId();
         Boolean isFull = courseService.checkIfCourseGetsFull(courseID, registrations.size());
         System.out.println("isFull: " + isFull);

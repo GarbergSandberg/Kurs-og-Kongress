@@ -112,8 +112,8 @@
                                 <input class="form-control" ng-model="person[n].lastname" id="lastname"/>
                             </div>
                             <div>
-                                <label for="number">Nummer: </label>
-                                <input class="form-control" ng-model="person[n].number" id="number"/>
+                                <label for="number">Telefon: </label>
+                                <input class="form-control" ng-model="person[n].phonenumber" id="number"/>
                             </div>
                             <div>
                                 <label for="email">Mail: </label>
@@ -168,7 +168,7 @@
                 <a class="list-group-item person" ng-repeat="reg in registrations track by $index">
                     <label>{{reg.person.firstname}} {{reg.person.lastname}}</label>
                     <h5> Fødselsår: {{reg.person.birthYear}} </h5>
-                    <h5> Nummer: {{reg.person.number}}</h5>
+                    <h5> Telefon: {{reg.person.phonenumber}}</h5>
                     <h5>E-Mail: {{reg.person.email}}</h5>
                     <h5>Merk: {{reg.person.mark}}</h5>
                     <h5>Rolle: {{reg.role}}</h5>
