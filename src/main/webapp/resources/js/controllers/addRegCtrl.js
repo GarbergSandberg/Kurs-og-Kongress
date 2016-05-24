@@ -36,48 +36,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
     $scope.newacc = {};
     $scope.loading = true;
     $scope.validPersons = false;
-    $scope.errormessages = {
-        fullCourse: 'Ikke nok tilgjengelige plasser på kurset. Prøv igjen med færre personer.',
-        fullSessions: 'Ikke nok tilgjengelige plasser på sesjoner. Prøv igjen med færre personer eller velg andre sesjoner.',
-        fullEvents: 'Ikke nok tilgjengelige plasser på arrangementer. Prøv igjen med færre personer eller velg andre arrangementer.'
-    };
-    $scope.errormessagesSingle = {
-        fullCourse: 'Kurset er fullt',
-        fullSessions: 'Ikke nok tilgjengelige plasser på sesjoner. Vennligst velg andre sesjoner.',
-        fullEvents: 'Ikke nok tilgjengelige plasser på arrangementer. Vennligst velg andre arrangementer.'
-    };
-
-    $scope.showErrorAlert = function(content) {
-        if(content == 406){
-            var myAlert = $alert({title: 'Feil!', content: $scope.errormessages.fullCourse, placement: 'top-right', type: 'danger', keyboard: true, show: false});
-        }
-        if(content == 409){
-            var myAlert = $alert({title: 'Feil!', content: $scope.errormessages.fullSessions, placement: 'top-right', type: 'danger', keyboard: true, show: false});
-        }
-        if(content == 403){
-            var myAlert = $alert({title: 'Feil!', content: $scope.errormessages.fullEvents, placement: 'top-right', type: 'danger', keyboard: true, show: false});
-        }
-        myAlert.$promise.then(function() {myAlert.show();});
-    };
-
-    $scope.showErrorSingle = function(content) {
-        if(content == 406){
-            var myAlert = $alert({title: 'Feil!', content: $scope.errormessagesSingle.fullCourse, placement: 'top-right', type: 'danger', keyboard: true, show: false});
-        }
-        if(content == 409){
-            var myAlert = $alert({title: 'Feil!', content: $scope.errormessagesSingle.fullSessions, placement: 'top-right', type: 'danger', keyboard: true, show: false});
-        }
-        if(content == 403){
-            var myAlert = $alert({title: 'Feil!', content: $scope.errormessagesSingle.fullEvents, placement: 'top-right', type: 'danger', keyboard: true, show: false});
-        }
-        myAlert.$promise.then(function() {myAlert.show();});
-    };
-
-    $scope.showSuccessAlert = function(content) {
-        var myAlert = $alert({title: 'Påmeldingen gikk bra!', placement: 'top', type: 'success', keyboard: true, show: false});
-        myAlert.$promise.then(function() {myAlert.show();});
-    };
-
+    $scope.messages = {success: "Påmeldingen var vellykket!", error: "Obs! Noe gikk galt. Vennligst prøv igjen"};
 
     $scope.saveGroupRegistration = function(){ // Må sende med course.id, course.form, session, workplace, person, pris.
         for (var i = 0; i<$scope.registrations.length; i++){
@@ -112,12 +71,10 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
         }
         regService.sendRegistrations($scope.registrations).then(function (response) {
             if(response.isOk){
-                $scope.showSuccessAlert();
-                setTimeout(function(){
-                    //$window.location.href = "/kursogkongress/publicRegistrations";
-                }, 2000);
+                $window.alert($scope.messages.success);
+                $window.location.href = "/kursogkongress/publicRegistrations";
             } else{
-                $scope.showErrorAlert(response.response);
+                $window.alert($scope.messages.error);
             }
 
         });
@@ -145,12 +102,10 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
         }
         regService.sendRegistration(registration).then(function (response) {
             if(response.isOk){
-                $scope.showSuccessAlert();
-                setTimeout(function(){
-                    $window.location.href = "/kursogkongress/publicRegistrations";
-                }, 2000);
+                $window.alert($scope.messages.success);
+                $window.location.href = "/kursogkongress/publicRegistrations";
             } else{
-                $scope.showErrorSingle(response.response);
+                $window.alert($scope.messages.error);
             }
         });
     };
@@ -264,8 +219,12 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
     };
 
     $scope.checkIfSelected = function(obj){
-        if ($scope.firstPersonRoom == null || obj.person.personID == $scope.firstPersonRoom.personID) return false;
-        else return true;
+        if (obj.person.personID == $scope.firstPersonRoom.personID) {
+            return false;
+        } else {
+            return true;
+        }
+        return true;
     };
 
     $scope.saveRoom = function(acc, first, second){ // Her skal date også inn.

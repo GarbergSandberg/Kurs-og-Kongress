@@ -440,10 +440,12 @@
                 </div>
             </form>
         </div>
-        <div style="float:right; margin-bottom: 15px;" ng-if="!courseForm.$valid">Påkrevd felt er ikke utfylt. &nbsp</div>
-        <button type="button" class="btn btn-primary" ng-click="save(course)" ng-disabled="!courseForm.$valid"
-                style="float: right; margin-bottom: 15px;">Lagre kurs
-        </button>
+        <div style="float: right; margin-bottom: 15px;">
+            <span ng-if="!courseForm.$valid">Påkrevd felt er ikke utfylt. &nbsp</span>
+            <button type="button" class="btn btn-primary" ng-click="save(course)" ng-disabled="!courseForm.$valid">Lagre
+                kurs
+            </button>
+        </div>
     </div>
 </div>
 </body>

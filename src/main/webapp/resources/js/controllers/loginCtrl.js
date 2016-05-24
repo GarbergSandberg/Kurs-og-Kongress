@@ -65,7 +65,7 @@ loginApp.controller('loginCtrl', ['$scope', 'loginService', '$window', function(
     $scope.changePassword = function(oldPassword, newPassword){
         console.log(oldPassword, newPassword, sessionStorage.username);
         loginService.changePassword(sessionStorage.username, oldPassword, newPassword).then(function(response){
-            console.log("Passord er endret = " + response);
+            $window.location.reload();
         }, function(error){
             console.log("ERROR changing password");
         });
