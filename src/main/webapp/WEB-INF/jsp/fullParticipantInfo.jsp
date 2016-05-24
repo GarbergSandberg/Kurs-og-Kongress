@@ -161,7 +161,7 @@
             <tr class="tableRowHighlight">
                 <td>
 
-                    Extrainfo
+                    Ekstrainfo
                 </td>
                 <td></td>
             </tr>
@@ -410,7 +410,7 @@
             </tr>
             <tr class="tableRowHighlight" ng-if="selectedParticipant.course.form.extraInfo.length > 0">
                 <td>
-                    Extrainfo
+                    Ekstrainfo
                 </td>
                 <td></td>
             </tr>
@@ -432,14 +432,13 @@
                 <td></td>
             </tr>
         </table>
-        <table class="table" ng-if="change">
-            <tr ng-repeat="date in dateArray">
+        <table class="table session" ng-if="change">
+            <tr ng-repeat="date in dateArray" ng-init="sessionTableRow = $index">
                 <td align="center" class="session">
                     {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}
                 </td>
-                <td class="session" ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)">
-                    <button class="btn btn-lg"
-                            ng-class="colorSession(session) ? 'btn-primary' : 'btn-default'"
+                <td class="session" ng-repeat="session in course.sessions | sessionFilter: sessionTableRow: dateArray | orderBy:'hourMinuteStart'">
+                    <button ng-class="colorSession(session) ? 'btn btn-primary btn-block' : 'btn btn-default btn-block'"
                             ng-click="selectSession(session)"> {{session.title}} ({{session.startTime |
                         date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})
                     </button>
@@ -460,10 +459,9 @@
                     {{date | date:'EEEE'}} <p>{{date | date:'dd/MM/yyyy'}}
                 </td>
                 <td class="session" ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!-- -->
-                    <button class="btn btn-lg"
-                            name="selectedEvents[]" value="{{event}}"
+                    <button name="selectedEvents[]" value="{{event}}"
                             ng-click="selectEvent(event)"
-                            ng-class="colorEvent(event) ? 'btn-primary' : 'btn-default'">
+                            ng-class="colorEvent(event) ? 'btn btn-primary btn-block' : 'btn btn-default btn-block'">
                         {{event.title}} <h5>Pris: {{event.price}}</h5>
                     </button>
                 </td>

@@ -74,6 +74,18 @@ loginApp.factory('loginService', function($http, $location, $window){
                 );
         },
 
+        changePassword: function(username, oldPassword, newPassword){
+            return $http.get('changePassword', {params: {username: username, oldPassword: oldPassword, newPassword: newPassword}})
+                .then(
+                    function (response) {
+                        return response.data;
+                    },
+                    function (errResponse) {
+                        console.error('Error while changing password');
+                    }
+                );
+        },
+
         removeAccess: function(user, course){
             var courseUserResolver = {user: user, course: course};
             return $http.post('removeAccess', courseUserResolver)
