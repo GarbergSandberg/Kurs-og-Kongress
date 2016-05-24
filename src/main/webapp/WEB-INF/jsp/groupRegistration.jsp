@@ -16,6 +16,7 @@
     <script src="//mgcrea.github.io/angular-strap/dist/angular-strap.tpl.js" data-semver="v2.3.7"></script>
     <script src="//mgcrea.github.io/angular-strap/docs/angular-strap.docs.tpl.js" data-semver="v2.3.7"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-messages.min.js"></script>
     <spring:url value="resources/js/locale.js" var="locale"/>
     <spring:url value="resources/js/app/registrationApp.js" var="appJs"/>
     <spring:url value="resources/js/app/courseOverviewApp.js" var="myApp"/>
@@ -39,109 +40,187 @@
 
             <hr/>
             <div class="form-horizontal" align="center" style="text-align: left; max-width: 90%; min-width: 60%;">
-                <h3>Arbeidsgiverinfo</h3>
                 <div class="form-group">
-                    <label for="name" class="col-sm-4 control-label">Arbeidsplass </label>
-                    <div class="col-sm-6">
-                        <input class="form-control" ng-model="registration.workplace.companyName" id="name"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="address">Adresse </label>
-                    <div class="col-sm-6">
-                        <input class="form-control" ng-model="registration.workplace.address" id="address"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="postalcode">Postnr </label>
-                    <div class="col-sm-6">
-                        <input class="form-control" ng-model="registration.workplace.postalcode" id="postalcode"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label" for="postalcode">Sted </label>
-                    <div class="col-sm-6">
-                        <input class="form-control" ng-model="registration.workplace.location" id="location"/>
-                    </div>
-                </div> <!-- Ekstra (utvides om "checked") -->
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">Ønsker annen fakturaadresse</label>
-                    <div class="col-sm-6">
-                        <input type="checkbox" id="another" ng-model="checkboxAccModel.another"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div ng-show="checkboxAccModel.another">
-                        <label class="col-sm-4 control-label">Adresse, postnr og sted</label>
-                        <div class="col-sm-6">
-                            <input class="form-control" ng-model="registration.alternativeInvoiceAddress"
-                                   id="alternativeInvoiceAddress" value="" size="40"/>
+                    <form name="workForm">
+                        <h3>Arbeidsgiverinfo</h3>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Arbeidsplass </label>
+                            <div class="col-sm-6">
+                                <input autocomplete="off" class="form-control"
+                                       ng-model="registration.workplace.companyName" name="name" required/>
+                                <div ng-messages="workForm.name.$error" ng-show="workForm.name.$touched">
+                                    <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="form-group" ng-repeat="opt in course.form.optionalWorkplace track by opt.id">
-                    <label class="col-sm-4 control-label">{{opt.parameter}} </label>
-                    <div class="col-sm-6">
-                        <input class="form-control" ng-model="registration.optionalWorkplace[$index]" type="checkbox" ng-if="!whichType(opt.type)" ng-init="registration.extraInfo[$index]='false'"/>
-                    </div>
-                    <div class="col-sm-6" ng-if="whichType(opt.type)">
-                        <input class="form-control" ng-model="registration.optionalWorkplace[$index]" ng-init="registration.extraInfo[$index]=' '"/>
-                    </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Adresse </label>
+                            <div class="col-sm-6">
+                                <input autocomplete="off" class="form-control" ng-model="registration.workplace.address"
+                                       name="address" required/>
+                                <div ng-messages="workForm.address.$error" ng-show="workForm.address.$touched">
+                                    <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Postnr </label>
+                            <div class="col-sm-6">
+                                <input autocomplete="off" class="form-control"
+                                       ng-model="registration.workplace.postalcode"
+                                       ng-minlength="4" ng-maxlength="4" type="number" name="postalcode" required/>
+                                <div ng-messages="workForm.postalcode.$error" ng-show="workForm.postalcode.$touched">
+                                    <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
+                                    <div ng-message="minlength" style="color:red;">Postnummeret må være 4 siffer.</div>
+                                    <div ng-message="maxlength" style="color:red;">Postnummeret må være 4 siffer.</div>
+                                    <div ng-message="number" style="color:red;">Postnummeret må bestå av tall.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Sted </label>
+                            <div class="col-sm-6">
+                                <input autocomplete="off" class="form-control"
+                                       ng-model="registration.workplace.location" name="location" required/>
+                                <div ng-messages="workForm.location.$error" ng-show="workForm.location.$touched">
+                                    <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
+                                </div>
+                            </div>
+                        </div> <!-- Ekstra (utvides om "checked") -->
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">Ønsker annen fakturaadresse</label>
+                            <div class="col-sm-6">
+                                <input type="checkbox" id="another" ng-model="checkboxAccModel.another"/>
+                                <div ng-messages="workForm.another.$error" ng-show="workForm.another.$touched">
+                                    <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div ng-show="checkboxAccModel.another">
+                                <label class="col-sm-4 control-label">Adresse, postnr og sted</label>
+                                <div class="col-sm-6">
+                                    <input autocomplete="off" class="form-control"
+                                           ng-model="registration.alternativeInvoiceAddress"
+                                           id="alternativeInvoiceAddress" value="" size="40"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-repeat="opt in course.form.optionalWorkplace track by opt.id">
+                            <label class="col-sm-4 control-label">{{opt.parameter}} </label>
+                            <div class="col-sm-6" ng-hide="whichType(opt.type)">
+                                <input class="checkbox" ng-model="registration.optionalWorkplace[$index]"/>
+                            </div>
+                            <div class="col-sm-6" ng-show="whichType(opt.type)">
+                                <input autocomplete="off" class="form-control" type="text"
+                                       ng-model="registration.optionalWorkplace[$index]"/>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-
             <hr/>
 
             <h3>Personalia</h3>
-
             <div align="center">
                 <div>
-                    <label>Hvor mange skal legges til?</label>
+                    <br> <br>
+                    <label>Velg hvor mange personer som skal legges til</label>
                     <select ng-model="numberOfPersons" ng-options="n for n in [] | range:1:20"></select>
                 </div>
-                <hr/>
+                <br>
                 <div ng-repeat="n in repeat(numberOfPersons) track by $index">
-                    <div class="jumbotron clearfix" id="jumbosomething" align="center">
-                        <form>
+                    <form name="personForm">
+                        <div class="jumbotron clearfix" id="jumbosomething" align="center">
                             <div>
-                                <label for="firstname">Fornavn: </label>
-                                <input class="form-control" ng-model="person[n].firstname" id="firstname"/>
-                            </div>
-                            <div>
-                                <label for="lastname">Etternavn: </label>
-                                <input class="form-control" ng-model="person[n].lastname" id="lastname"/>
-                            </div>
-                            <div>
-                                <label for="number">Nummer: </label>
-                                <input class="form-control" ng-model="person[n].number" id="number"/>
-                            </div>
-                            <div>
-                                <label for="email">Mail: </label>
-                                <input class="form-control" ng-model="person[n].email" id="email"/>
-                            </div>
-                            <div>
-                                <label for="birthyear">Fødselsår: </label>
-                                <input class="form-control" ng-model="person[n].birthYear" id="birthYear"/>
-                            </div>
-                            <div ng-repeat="opt in course.form.optionalPersonalia">
-                                <div class="form-group">
-                                <label>{{opt.parameter}}: </label>
-                                    <input type="checkbox" ng-if="!whichType(opt.type)"
-                                        ng-init="person[n].opt[$index]='false'"
-                                        ng-model="person[n].opt[$index]"/>
-                                   <input class="form-control" ng-if="whichType(opt.type)" ng-model="person[n].opt[$index]" />
+                                <label>Fornavn: </label>
+                                <input autocomplete="off" class="form-control" ng-model="person[n].firstname"
+                                       name="firstname" required/>
+                                <div ng-messages="personForm.firstname.$error"
+                                     ng-show="personForm.firstname.$touched">
+                                    <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
                                 </div>
                             </div>
                             <div>
+                                <label>Etternavn: </label>
+                                <input autocomplete="off" class="form-control" ng-model="person[n].lastname"
+                                       name="lastname" required/>
+                                <div ng-messages="personForm.lastname.$error"
+                                     ng-show="personForm.lastname.$touched">
+                                    <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
+                                </div>
+                            </div>
+                            <div>
+                                <label>Telefonnummer: </label>
+                                <input autocomplete="off" class="form-control" ng-model="person[n].number"
+                                       ng-minlength="8"
+                                       ng-maxlength="8" name="number" required/>
+                                <div ng-messages="personForm.number.$error" ng-show="personForm.number.$touched">
+                                    <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
+                                    <div ng-message="number" style="color:red;">Telefonnummeret må være et tall.
+                                    </div>
+                                    <div ng-message="minlength" style="color:red;">Telefonnummeret må bestå av 8
+                                        siffer.
+                                    </div>
+                                    <div ng-message="maxlength" style="color:red;">Telefonnummeret må bestå av 8
+                                        siffer.
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label>Mail: </label>
+                                <input type="email" autocomplete="off" class="form-control"
+                                       ng-model="person[n].email" name="email"
+                                       required/>
+                                <div ng-messages="personForm.email.$error" ng-show="personForm.email.$touched">
+                                    <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
+                                    <div ng-message="email" style="color:red;">Må være email-format.</div>
+                                </div>
+                            </div>
+                            <div>
+                                <label>Fødselsår: </label>
+                                <input autocomplete="off" class="form-control" ng-model="person[n].birthYear"
+                                       ng-minlength="4" ng-maxlength="4" name="birthYear" required/>
+                                <div ng-messages="personForm.birthYear.$error"
+                                     ng-show="personForm.birthYear.$touched">
+                                    <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
+                                    <div ng-message="number" style="color:red;">Fødselsåret må være et årstall.
+                                    </div>
+                                    <div ng-message="minlength" style="color:red;">Fødselsåret må bestå av 4 siffer.
+                                    </div>
+                                    <div ng-message="maxlength" style="color:red;">Fødselsåret må bestå av 4 siffer.
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-repeat="opt in course.form.optionalPersonalia">
+                                <div class="form-group">
+                                    <label>{{opt.parameter}}: </label>
+                                    <input type="checkbox" ng-if="!whichType(opt.type)"
+                                           ng-init="person[n].opt[$index]='false'"
+                                           ng-model="person[n].opt[$index]"/>
+                                    <input class="form-control" ng-if="whichType(opt.type)"
+                                           ng-model="person[n].opt[$index]"/>
+                                </div>
+                                <input type="checkbox" ng-hide="whichType(opt.type)"
+                                       ng-init="person[n].opt[$index]='false'"
+                                       ng-model="person[n].opt[$index]"/>
+                                <input autocomplete="off" class="text" ng-show="whichType(opt.type)"
+                                       ng-model="person[n].opt[$index]"/>
+                            </div>
+                            <div>
                                 <label ng-repeat="role in course.roles">
-                                    <input type="radio" name="role" ng-model="person[n].role" ng-value="role"/>{{role}}
+                                    <input type="radio" name="role" ng-model="person[n].role" ng-value="role"
+                                           required/>{{role}}
                                     &nbsp
                                 </label>
                             </div>
                             <div>
                                 <label>
-                                    <input type="radio" name="gender" value="Mann" ng-model="person[n].gender"> Mann
-                                    <input type="radio" name="gender" value="Kvinne" ng-model="person[n].gender"> Kvinne
+                                    <input type="radio" name="gender" value="Mann" ng-model="person[n].gender"
+                                           required>
+                                    Mann
+                                    <input type="radio" name="gender" value="Kvinne" ng-model="person[n].gender">
+                                    Kvinne
                                 </label>
                             </div>
                             <div>
@@ -153,14 +232,21 @@
                                               id="description" rows="2"></textarea>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div ng-if="!(($index+1) % 3)" style="clear: both"></div> <!-- "Linebreak" every 3trd div. -->
+                        </div>
+                        <div ng-if="!(($index+1) % 3)" style="clear: both"></div>
+                        <!-- "Linebreak" every 3trd div. -->
+                            <span ng-if="personForm.$valid && personForm.$dirty"
+                                  ng-init="validatePersons(personForm.$valid)"></span>
+                            <span ng-if="!personForm.$valid && personForm.$dirty"
+                                  ng-init="validatePersons(personForm.$valid)"></span>
+                    </form>
                 </div>
                 <div style="clear: both"></div>
                 <button align="center" class="btn btn-primary" ng-if="numberOfPersons > 0"
-                        ng-click="update(person, numberOfPersons)"> Lagre personer
+                        ng-click="update(person, numberOfPersons)" ng-disabled="!validPersons"> Lagre personer
                 </button>
+                <br> <br>
+                <span ng-if="!validPersons && numberOfPersons > 0">Vennligst fyll ut alle nødvendige felter i personalia og lagre</span>
             </div>
             </hr ng-if="numberOfPersons > 0">
 
@@ -194,10 +280,10 @@
                     <div ng-show="hasRoommate(reg.person)" data-placement="bottom" data-type="info"
                          data-animation="am-fade-and-scale" bs-tooltip="tooltip">
                         <h5> Rom: {{getPersonName(reg.accomondation.roommateID)}} </h5>
-                            <button type="button" ng-model="tooltip.checked" class="btn btn-default btn-xs"
-                                    ng-click="removeRoom(reg)">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                            </button>
+                        <button type="button" ng-model="tooltip.checked" class="btn btn-default btn-xs"
+                                ng-click="removeRoom(reg)">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
                     </div>
                     </p>
                     <button type="button" class="btn btn-default btn-sm" ng-click="removePerson(reg)">
@@ -206,84 +292,87 @@
                 </a>
             </div>
             <div style="clear: both"></div>
-
             <hr>
-
-
             <div align="left" ng-if="course.hotels.length > 0">
                 <h3>Overnatting</h3>
-            <div align="center">
-                <div class="form-group">
-                    <label class="control-label" for="postalcode">Ønsker overnatting </label>
-                    <input type="checkbox" id="accomodation" ng-model="checkboxAccModel.c1"/>
-                </div>
-                <div ng-if="course.hotels.length > 0" ng-show="checkboxAccModel.c1">
+                <div align="center">
                     <div class="form-group">
-                        <label> Velg person: </label>
-                        <select ng-model="firstPersonRoom"
-                                ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfHasRoom"></select>
+                        <br> <br>
+                        <label class="control-label">Ønsker overnatting </label>
+                        <input type="checkbox" id="accomodation" ng-model="checkboxAccModel.c1"/>
                     </div>
-                    <div class="form-group">
-                        <label>Velg hotell: </label>
-                        <div ng-repeat="newacc in course.hotels">
-                            <button
-                                    ng-class="colorAccomondation(newacc) ? 'btn btn-primary test' : 'btn btn-default test'"
-                                    ng-click="selectAccomondation(newacc)"><label>{{newacc.name}}</label>
-                                <h5>Pris dobbeltrom {{newacc.doubleprice}} kr</h5>
-                                <h5>Pris enkeltrom {{newacc.singleprice}} kr</h5>
-                            </button>
-                            <div ng-if="!(($index+1) % 3)" style="clear: both"></div>
+                    <div ng-if="course.hotels.length > 0" ng-show="checkboxAccModel.c1">
+                        <div class="form-group">
+                            <label> Velg person: </label>
+                            <select ng-model="firstPersonRoom"
+                                    ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfHasRoom"></select>
                         </div>
-                    </div>
-                    <div style="clear: both"></div>
-                    <div class="form-group" align="center">
-                        <label>
-                            <input type="radio" name="roomType" ng-model="checkboxAccModel.rad" ng-value="true"/>
-                            Dobbeltrom &nbsp
-                            <input type="radio" name="roomType" ng-model="checkboxAccModel.rad" ng-value="false"/>
-                            Enkeltrom
-                        </label>
-                        <br>
-                        <br>
-                        <div ng-show="checkboxAccModel.c1 && checkboxAccModel.rad">
-                            <label> Deler rom med: </label>
-                            <select ng-model="secondPersonRoom"
-                                    ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfSelected | filter:checkIfHasRoom"></select>
-                            <br>
-                            <br>
-                        </div>
-                        <form name="datepickerForm" class="form-inline" role="form" ng-show="checkboxAccModel.c1">
-                            <!-- http://mgcrea.github.io/angular-strap/#/datepickers -->
-                            <div class="form-group">
-                                <label class="control-label"><i class="fa fa-calendar"></i> <i
-                                        class="fa fa-arrows-h"></i>
-                                    <i
-                                            class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
-                                <div class="form-group col-sm-6">
-                                    <input type="text" class="form-control" ng-model="newacc.fromDate"
-                                           placeholder="From" bs-datepicker>
-                                </div>
-                                <div class="form-group col-sm-6">
-                                    <input type="text" class="form-control" ng-model="newacc.toDate"
-                                           placeholder="Until" bs-datepicker>
-                                </div>
+                        <div class="form-group">
+                            <label>Velg hotell: </label>
+                            <div ng-repeat="newacc in course.hotels">
+                                <button
+                                        ng-class="colorAccomondation(newacc) ? 'btn btn-primary test' : 'btn btn-default test'"
+                                        ng-click="selectAccomondation(newacc)"><label>{{newacc.name}}</label>
+                                    <h5>Pris dobbeltrom {{newacc.doubleprice}} kr</h5>
+                                    <h5>Pris enkeltrom {{newacc.singleprice}} kr</h5>
+                                </button>
+                                <div ng-if="!(($index+1) % 3)" style="clear: both"></div>
                             </div>
-                        </form>
-                        <br>
-                        <div ng-show="checkboxAccModel.rad">
-                            <button style="margin-left:2em;" type="button" class="btn btn-primary"
-                                    ng-click="saveRoom(newacc, firstPersonRoom, secondPersonRoom)"> Lagre
-                            </button>
                         </div>
-                        <div ng-hide="checkboxAccModel.rad">
-                            <button type="button" class="btn btn-primary" ng-click="saveRoom(newacc, firstPersonRoom)">
-                                Lagre overnatting
-                            </button>
+                        <div style="clear: both"></div>
+                        <div class="form-group" align="center">
+                            <label>
+                                <input type="radio" name="roomType" ng-model="checkboxAccModel.rad"
+                                       ng-value="true"/>
+                                Dobbeltrom &nbsp
+                                <input type="radio" name="roomType" ng-model="checkboxAccModel.rad"
+                                       ng-value="false"/>
+                                Enkeltrom
+                            </label>
+                            <br>
+                            <br>
+                            <div ng-show="checkboxAccModel.c1 && checkboxAccModel.rad">
+                                <label> Deler rom med: </label>
+                                <select ng-model="secondPersonRoom"
+                                        ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfSelected | filter:checkIfHasRoom"></select>
+                                <br>
+                                <br>
+                            </div>
+                            <form name="datepickerForm" class="form-inline" role="form"
+                                  ng-show="checkboxAccModel.c1">
+                                <!-- http://mgcrea.github.io/angular-strap/#/datepickers -->
+                                <div class="form-group">
+                                    <label class="control-label"><i class="fa fa-calendar"></i> <i
+                                            class="fa fa-arrows-h"></i>
+                                        <i
+                                                class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
+                                    <div class="form-group col-sm-6">
+                                        <input type="text" class="form-control" ng-model="newacc.fromDate"
+                                               placeholder="From" bs-datepicker>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <input type="text" class="form-control" ng-model="newacc.toDate"
+                                               placeholder="Until" bs-datepicker>
+                                    </div>
+                                </div>
+                            </form>
+                            <br>
+                            <div ng-show="checkboxAccModel.rad">
+                                <button style="margin-left:2em;" type="button" class="btn btn-primary"
+                                        ng-click="saveRoom(newacc, firstPersonRoom, secondPersonRoom)"> Lagre
+                                </button>
+                            </div>
+                            <div ng-hide="checkboxAccModel.rad">
+                                <button type="button" class="btn btn-primary"
+                                        ng-click="saveRoom(newacc, firstPersonRoom)">
+                                    Lagre overnatting
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <hr/>
+                <br> <br>
+                <hr/>
             </div>
 
             <h3>Påmelding faglig program</h3>
@@ -322,10 +411,12 @@
                        ng-click="selectDay(date)"> {{date | date:'EEEE dd/MM/yyyy'}} &nbsp
             </span>
             </div>
-
+            <br> <br>
+            <hr>
             <h3>Påmelding sesjoner</h3>
+            <small>Velg hvilke sesjoner gruppen skal delta på ved å trykke på de ulike sesjonene.</small>
             <table class="table session">
-                <tr ng-repeat="date in dateArray"  ng-init="sessionTableRow = $index">
+                <tr ng-repeat="date in dateArray" ng-init="sessionTableRow = $index">
                     <td align="center" class="session">
                         {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
                     </td>
@@ -338,7 +429,10 @@
                 </tr>
                 <hr/>
             </table>
+            <br> <br>
+            <hr>
             <h3>Påmelding arrangementer</h3>
+            <small>Velg hvilke arrangementer gruppen skal delta på ved å trykke på de ulike arrangementene.</small>
             <table class="table session">
                 <tr ng-repeat="date in dateArray">
                     <td align="center" class="session">
@@ -350,44 +444,49 @@
                             {{event.title}} <h5>{{event.price | number: 2}} kr</h5>
                         </button>
                     </td>
-
-                    <!-- <button class="btn btn-lg" name="selectedEvents[]" value="{{event}}"
-                                ng-checked="selectedEvent.indexOf(event) > -1"
-                                ng-click="selectEvent(event)"
-                                ng-class="colorEvent(event) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'">
-                            {{event.title}}
-                        </button> -->
                 </tr>
+                <hr/>
             </table>
             <div class="form-horizontal" align="center" style="text-align: left; max-width: 90%; min-width: 60%;">
-            <div align="left" ng-if="course.form.extraInfo.length > 0">
-                <h3>Ekstrainfo</h3>
-            </div>
-            <div align="center" ng-if="course.form.extraInfo.length > 0">
-                <div ng-repeat="extraInfo in course.form.extraInfo">
-                    <br>
+                <div align="left" ng-if="course.form.extraInfo.length > 0">
+                    <h3>Ekstrainfo</h3>
+                </div>
+                <div align="center" ng-if="course.form.extraInfo.length > 0">
+                    <div ng-repeat="extraInfo in course.form.extraInfo">
+                        <br>
+                        <label>{{extraInfo.parameter}}: </label>
+                        <input type="checkbox" ng-hide="whichType(extraInfo.type)"
+                               ng-init="person[n].extraInfo[$index]='false'"
+                               ng-model="person[n].extraInfo[$index]"/>
+                        <input autocomplete="off" class="text" ng-show="whichType(extraInfo.type)"
+                               ng-model="person[n].extraInfo[$index]"/>
+                    </div>
                     <div class="form-group">
-                    <label class="col-sm-4 control-label">{{extraInfo.parameter}}: </label>
+                        <label class="col-sm-4 control-label">{{extraInfo.parameter}}: </label>
                         <div class="col-sm-6">
-                        <input class="form-control" type="checkbox" ng-if="!whichType(extraInfo.type)"
-                               ng-init="registration.extraInfo[$index]='false'"
-                               ng-model="registration.extraInfo[$index]"/>
-                        <input class="form-control" ng-if="whichType(extraInfo.type)" ng-model="registration.extraInfo[$index]" ng-init="registration.extraInfo[$index]=' '"/>
+                            <input class="form-control" type="checkbox" ng-if="!whichType(extraInfo.type)"
+                                   ng-init="registration.extraInfo[$index]='false'"
+                                   ng-model="registration.extraInfo[$index]"/>
+                            <input class="form-control" ng-if="whichType(extraInfo.type)"
+                                   ng-model="registration.extraInfo[$index]"
+                                   ng-init="registration.extraInfo[$index]=' '"/>
                         </div>
                     </div>
                 </div>
             </div>
-            </div>
-            <hr/>
-            <div align="right">
-                <button class="btn btn-primary" ng-click="saveGroupRegistration()"> Send påmelding</button>
-            </div>
         </div>
-        <div ng-show="loading">
-            <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>
-            <span class="sr-only">Loading...</span>
+        <br> <br>
+        <div align="right">
+            <button ng-disabled="!workForm.$valid || registrations.length == 0 || selectedDays.length == 0"
+                    class="btn btn-primary" ng-click="saveGroupRegistration()"> Send påmelding
+            </button>
         </div>
     </div>
+    <div ng-show="loading">
+        <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
 </div>
 </body>
 </html>

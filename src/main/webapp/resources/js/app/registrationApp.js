@@ -1,4 +1,4 @@
-var app = angular.module('RegApp', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap']);
+var app = angular.module('RegApp', ['ngAnimate', 'ngSanitize', 'mgcrea.ngStrap', 'ngMessages']);
 
 angular.module('RegApp')
 

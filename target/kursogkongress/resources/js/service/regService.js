@@ -166,11 +166,13 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
         saveReg: function (person, numberOfPersons) { // Gets an Array of persons, checks if they exist already, if so theyre updated. If not, they are added.
             console.log("person.length (arrayen sendt inn): " + person.length + ",  numberOfPersons: " + numberOfPersons);
             for (var i = 0; i < numberOfPersons; i++) { // egentlig person.length  .. byttet til numberOfPersons
-                var old = personExists(person[i]);
-                if (old.exists) {
-                    personUpdate(person[i], old.index);
-                } else {
-                    addPerson(person[i]);
+                if (person[i].firstname !== undefined){
+                    var old = personExists(person[i]);
+                    if (old.exists) {
+                        personUpdate(person[i], old.index);
+                    } else {
+                        addPerson(person[i]);
+                    }
                 }
             }
         },
@@ -333,7 +335,7 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
         newReg.person = newPerson;
         registrations.push(newReg);
         $rootScope.$broadcast('personSet', persons);
-    };
+    }
 
     function generateId() {
         var highestId = 0;
@@ -396,8 +398,6 @@ app.factory('regService', ['$http', '$q', '$rootScope', function ($http, $q, $ro
     }
 
     function personUpdate(person, index) {
-        delete person.optionalPersonalia;
-        delete person.role;
         console.log(person);
         for (var prop in registrations.person) {
             if (registrations.person[prop] != undefined) {

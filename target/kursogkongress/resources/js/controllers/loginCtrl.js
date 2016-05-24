@@ -21,14 +21,7 @@ loginApp.controller('loginCtrl', ['$scope', 'loginService', '$window', function(
     };
 
     $scope.login = function(user){
-        loginService.login(user).then(function(success){
-            console.log(success);
-            if(success == null){
-                $scope.error = true;
-            }
-        }, function(error){
-           // $scope.msgtxt = error;                                            Og her
-        });
+        self.login(user);
     };
 
     self.confirmPassword = function(password){
@@ -69,6 +62,15 @@ loginApp.controller('loginCtrl', ['$scope', 'loginService', '$window', function(
         });
     };
 
+    $scope.changePassword = function(oldPassword, newPassword){
+        console.log(oldPassword, newPassword, sessionStorage.username);
+        loginService.changePassword(sessionStorage.username, oldPassword, newPassword).then(function(response){
+            console.log("Passord er endret = " + response);
+        }, function(error){
+            console.log("ERROR changing password");
+        });
+    };
+
     $scope.removeAccess = function(user, course){
         console.log("Removing access = " + user.username + " course:  " + course.id);
         loginService.removeAccess(user, course).then(function(response){
@@ -81,7 +83,6 @@ loginApp.controller('loginCtrl', ['$scope', 'loginService', '$window', function(
     self.getUsers = function(){
         loginService.getUsers().then(function(success){
             $scope.users = success;
-            console.log($scope.users);
         }, function(error){
             console.log("Error in getUsers() (Ctrl)");
         });
@@ -109,6 +110,16 @@ loginApp.controller('loginCtrl', ['$scope', 'loginService', '$window', function(
         return course;
     };
 
+    self.login = function(user){
+        loginService.login(user).then(function(success){
+            sessionStorage.username = user.username;
+            console.log(success);
+            if(success == null){
+                $scope.error = true;
+            }
+        });
+    };
+
     $scope.getCourseAccess = function(user){
         $scope.readyToShow = false;
         $scope.coursesUserHasAccessTo = [];
@@ -129,5 +140,7 @@ loginApp.controller('loginCtrl', ['$scope', 'loginService', '$window', function(
     };
 
     self.getCourses();
-    self.getUsers();
+    if(sessionStorage.username){
+        self.getUsers();
+    }
 }]);
