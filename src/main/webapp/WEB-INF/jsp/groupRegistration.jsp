@@ -113,12 +113,15 @@
                                        type="checkbox" ng-if="!whichType(opt.type)"
                                        ng-init="registration.extraInfo[$index]='false'"/>
                             </div>
-                            <div class="col-sm-6" ng-if="whichType(opt.type)">
+                            <div class="col-sm-6" ng-if="whichType(opt.type)" ng-form="work_opt_{{$index}}">
                                 <input autocomplete="off" class="form-control"
                                        ng-model="registration.optionalWorkplace[$index]"
-                                       ng-init="registration.extraInfo[$index]=' '" name="opt[n]"/>
-                                <div ng-messages="workForm.opt[n].$error" ng-show="workForm.opt[n].$touched">
-                                    <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
+                                       ng-init="registration.extraInfo[$index]=' '" name="option" required/>
+                                <div ng-messages="work_opt_{{$index}}.option.$error"
+                                     ng-show="work_opt_{{$index}}.option.$touched">
+                                    <div ng-message="required" style="color:red;" align="center">Vennligst fyll inn
+                                        feltet.
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -129,13 +132,12 @@
             <hr/>
 
             <h3>Personalia</h3>
-
             <div align="center">
+                <br> <br>
                 <div>
-                    <label>Hvor mange skal legges til?</label>
+                    <label>Hvor mange skal legges til? &nbsp</label>
                     <select ng-model="numberOfPersons" ng-options="n for n in [] | range:1:20"></select>
                 </div>
-                <hr/>
                 <div ng-repeat="n in repeat(numberOfPersons) track by $index">
                     <form name="personForm">
                         <div class="jumbotron clearfix" id="jumbosomething" align="center">
@@ -199,25 +201,37 @@
                                     </div>
                                 </div>
                             </div>
+
+
                             <div ng-repeat="opt in course.form.optionalPersonalia">
-                                <div class="form-group">
+                                <div class="form-group" ng-form="pers_opt_{{$index}}">
                                     <label>{{opt.parameter}}: </label>
                                     <input type="checkbox" ng-if="!whichType(opt.type)"
                                            ng-init="person[n].opt[$index]='false'"
                                            ng-model="person[n].opt[$index]"/>
                                     <input class="form-control" ng-if="whichType(opt.type)"
-                                           ng-model="person[n].opt[$index]"/>
+                                           ng-model="person[n].opt[$index]" name="optPers" required/>
+                                    <div ng-if="whichType(opt.type)" ng-messages="pers_opt_{{$index}}.optPers.$error"
+                                         ng-show="pers_opt_{{$index}}.optPers.$touched">
+                                        <div ng-message="required" style="color:red;" align="center">Vennligst fyll inn
+                                            feltet.
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <!--<div ng-messages="personForm.optPers.$error" ng-show="personForm.optPers.$touched">
+                                <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
+                            </div> -->
                             <div>
                                 <label ng-repeat="role in course.roles">
-                                    <input type="radio" name="role" ng-model="person[n].role" ng-value="role"/>{{role}}
+                                    <input type="radio" name="role" ng-model="person[n].role" ng-value="role" required/>{{role}}
                                     &nbsp
                                 </label>
                             </div>
                             <div>
                                 <label>
-                                    <input type="radio" name="gender" value="Mann" ng-model="person[n].gender"> Mann
+                                    <input type="radio" name="gender" value="Mann" ng-model="person[n].gender" required>
+                                    Mann
                                     <input type="radio" name="gender" value="Kvinne" ng-model="person[n].gender">
                                     Kvinne
                                 </label>
@@ -232,245 +246,268 @@
                                 </div>
                             </div>
                         </div>
+                        <div ng-if="!(($index+1) % 3)" style="clear: both"></div> <!-- "Linebreak" every 3trd div. -->
+                        <span ng-if="personForm.$valid && personForm.$dirty"
+                              ng-init="validatePersons(personForm.$valid)"></span>
+                            <span ng-if="!personForm.$valid && personForm.$dirty"
+                                  ng-init="validatePersons(personForm.$valid)"></span>
                     </form>
                 </div>
-                <div ng-if="!(($index+1) % 3)" style="clear: both"></div> <!-- "Linebreak" every 3trd div. -->
+                <div style="clear: both"></div>
+                <div ng-if="personForm.$invalid"> Alle personaliafelter må fylles ut før personene kan lagres.</div>
+                <button align="center" class="btn btn-primary" ng-if="numberOfPersons > 0"
+                        ng-click="update(person, numberOfPersons)" ng-disabled="!validPersons"> Lagre personer
+                </button>
+                <br> <br>
+            </div>
+
+            </hr ng-if="numberOfPersons > 0">
+
+            <div class="list-group" align="center">
+                <a class="list-group-item person" ng-repeat="reg in registrations track by $index">
+                    <label>{{reg.person.firstname}} {{reg.person.lastname}}</label>
+                    <h5> Fødselsår: {{reg.person.birthYear}} </h5>
+                    <h5> Telefon: {{reg.person.phonenumber}}</h5>
+                    <h5>E-Mail: {{reg.person.email}}</h5>
+                    <h5>Merk: {{reg.person.mark}}</h5>
+                    <h5>Rolle: {{reg.role}}</h5>
+                    <h5> Kjønn: {{reg.person.gender}}</h5>
+                    <div ng-repeat="n in person.opt track by $index">
+                        <h5>{{course.form.optionalPersonalia[$index].parameter}}: {{reg.person.opt[$index]}} </h5>
+                    </div>
+
+
+                    <!-- <h4 class="list-group-item-heading event">{{reg.person.firstname}} {{reg.person.lastname}}</h4>
+                     <p class="list-group-item-text">
+                         Fødselsår: {{reg.person.birthYear}} <br>
+                         Nummer: {{reg.person.number}}<br>
+                         E-Mail: {{reg.person.email}}<br>
+                         Merk: {{reg.person.mark}}<br>
+                         Rolle: {{reg.role}}<br>
+                         Kjønn: {{reg.person.gender}}<br>
+                     <div ng-repeat="n in person.opt track by $index">
+                         {{course.form.optionalPersonalia[$index].parameter}}: {{reg.person.opt[$index]}}
+                     </div> -->
+
+
+                    <div ng-show="hasRoommate(reg.person)" data-placement="right" data-type="info"
+                         data-animation="am-fade-and-scale" bs-tooltip="tooltip">
+                        <h5> Rom: {{getPersonName(reg.accomondation.roommateID)}} </h5>
+                        <button type="button" ng-model="tooltip.checked" class="btn btn-default btn-xs"
+                                ng-click="removeRoom(reg)">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    </p>
+                    <button type="button" class="btn btn-default btn-sm" ng-click="removePerson(reg)">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Slett person
+                    </button>
+                </a>
             </div>
             <div style="clear: both"></div>
-            <button align="center" class="btn btn-primary" ng-if="numberOfPersons > 0"
-                    ng-click="update(person, numberOfPersons)"> Lagre personer
-            </button>
-        </div>
-        </hr ng-if="numberOfPersons > 0">
 
-        <div class="list-group" align="center">
-            <a class="list-group-item person" ng-repeat="reg in registrations track by $index">
-                <label>{{reg.person.firstname}} {{reg.person.lastname}}</label>
-                <h5> Fødselsår: {{reg.person.birthYear}} </h5>
-                <h5> Telefon: {{reg.person.phonenumber}}</h5>
-                <h5>E-Mail: {{reg.person.email}}</h5>
-                <h5>Merk: {{reg.person.mark}}</h5>
-                <h5>Rolle: {{reg.role}}</h5>
-                <h5> Kjønn: {{reg.person.gender}}</h5>
-                <div ng-repeat="n in person.opt track by $index">
-                    <h5>{{course.form.optionalPersonalia[$index].parameter}}: {{reg.person.opt[$index]}} </h5>
-                </div>
+            <hr>
 
-
-                <!-- <h4 class="list-group-item-heading event">{{reg.person.firstname}} {{reg.person.lastname}}</h4>
-                 <p class="list-group-item-text">
-                     Fødselsår: {{reg.person.birthYear}} <br>
-                     Nummer: {{reg.person.number}}<br>
-                     E-Mail: {{reg.person.email}}<br>
-                     Merk: {{reg.person.mark}}<br>
-                     Rolle: {{reg.role}}<br>
-                     Kjønn: {{reg.person.gender}}<br>
-                 <div ng-repeat="n in person.opt track by $index">
-                     {{course.form.optionalPersonalia[$index].parameter}}: {{reg.person.opt[$index]}}
-                 </div> -->
-
-
-                <div ng-show="hasRoommate(reg.person)" data-placement="right" data-type="info"
-                     data-animation="am-fade-and-scale" bs-tooltip="tooltip">
-                    <h5> Rom: {{getPersonName(reg.accomondation.roommateID)}} </h5>
-                    <button type="button" ng-model="tooltip.checked" class="btn btn-default btn-xs"
-                            ng-click="removeRoom(reg)">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                    </button>
-                </div>
-                </p>
-                <button type="button" class="btn btn-default btn-sm" ng-click="removePerson(reg)">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Slett person
-                </button>
-            </a>
-        </div>
-        <div style="clear: both"></div>
-
-        <hr>
-
-        <div align="left" ng-if="course.hotels.length > 0">
-            <h3>Overnatting</h3>
-            <div align="center">
-                <div class="form-group">
-                    <label class="control-label" for="postalcode">Ønsker overnatting </label>
-                    <input type="checkbox" id="accomodation" ng-model="checkboxAccModel.c1"/>
-                </div>
-                <div ng-if="course.hotels.length > 0" ng-show="checkboxAccModel.c1">
+            <div align="left" ng-if="course.hotels.length > 0">
+                <h3>Overnatting</h3>
+                <div align="center">
                     <div class="form-group">
-                        <label> Velg person: </label>
-                        <select ng-model="firstPersonRoom"
-                                ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfHasRoom"></select>
+                        <br> <br>
+                        <label class="control-label">Huk av om dere ønsker overnatting &nbsp</label>
+                        <input type="checkbox" id="accomodation" ng-model="checkboxAccModel.c1"/>
                     </div>
-                    <div class="form-group">
-                        <label>Velg hotell: </label>
-                        <div ng-repeat="newacc in course.hotels">
-                            <button
-                                    ng-class="colorAccomondation(newacc) ? 'btn btn-primary test' : 'btn btn-default test'"
-                                    ng-click="selectAccomondation(newacc)"><label>{{newacc.name}}</label>
-                                <h5>Pris dobbeltrom {{newacc.doubleprice}} kr</h5>
-                                <h5>Pris enkeltrom {{newacc.singleprice}} kr</h5>
-                            </button>
-                            <div ng-if="!(($index+1) % 3)" style="clear: both"></div>
+                    <div ng-if="course.hotels.length > 0" ng-show="checkboxAccModel.c1">
+                        <div class="form-group">
+                            <br>
+                            <label> Velg person: </label>
+                            <select ng-model="firstPersonRoom"
+                                    ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfHasRoom"></select>
                         </div>
-                    </div>
-                    <div style="clear: both"></div>
-                    <div class="form-group" align="center">
-                        <label>
-                            <input type="radio" name="roomType" ng-model="checkboxAccModel.rad"
-                                   ng-value="true"/>
-                            Dobbeltrom &nbsp
-                            <input type="radio" name="roomType" ng-model="checkboxAccModel.rad"
-                                   ng-value="false"/>
-                            Enkeltrom
-                        </label>
-                        <br>
-                        <br>
-                        <div ng-show="checkboxAccModel.c1 && checkboxAccModel.rad">
-                            <label> Deler rom med: </label>
-                            <select ng-model="secondPersonRoom"
-                                    ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfSelected | filter:checkIfHasRoom"></select>
+                        <div class="form-group">
+                            <br>
+                            <label>Velg hotell: </label>
+                            <div ng-repeat="newacc in course.hotels">
+                                <button
+                                        ng-class="colorAccomondation(newacc) ? 'btn btn-primary test' : 'btn btn-default test'"
+                                        ng-click="selectAccomondation(newacc)"><label>{{newacc.name}}</label>
+                                    <h5>Pris dobbeltrom {{newacc.doubleprice}} kr</h5>
+                                    <h5>Pris enkeltrom {{newacc.singleprice}} kr</h5>
+                                </button>
+                                <div ng-if="!(($index+1) % 3)" style="clear: both"></div>
+                            </div>
+                        </div>
+                        <div style="clear: both"></div>
+                        <div class="form-group" align="center">
+                            <label>
+                                <input type="radio" name="roomType" ng-model="checkboxAccModel.rad"
+                                       ng-value="true"/>
+                                Dobbeltrom &nbsp
+                                <input type="radio" name="roomType" ng-model="checkboxAccModel.rad"
+                                       ng-value="false"/>
+                                Enkeltrom
+                            </label>
                             <br>
                             <br>
-                        </div>
-                        <form name="datepickerForm" class="form-inline" role="form"
-                              ng-show="checkboxAccModel.c1">
-                            <!-- http://mgcrea.github.io/angular-strap/#/datepickers -->
-                            <div class="form-group">
-                                <label class="control-label"><i class="fa fa-calendar"></i> <i
-                                        class="fa fa-arrows-h"></i>
-                                    <i
-                                            class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
-                                <div class="form-group col-sm-6">
-                                    <input type="text" class="form-control" ng-model="newacc.fromDate"
-                                           placeholder="From" bs-datepicker>
+                            <div ng-show="checkboxAccModel.c1 && checkboxAccModel.rad">
+                                <label> Deler rom med: </label>
+                                <select ng-model="secondPersonRoom"
+                                        ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfSelected | filter:checkIfHasRoom"></select>
+                                <br>
+                                <br>
+                            </div>
+                            <form name="datepickerForm" class="form-inline" role="form"
+                                  ng-show="checkboxAccModel.c1">
+                                <!-- http://mgcrea.github.io/angular-strap/#/datepickers -->
+                                <div class="form-group">
+                                    <label class="control-label"><i class="fa fa-calendar"></i> <i
+                                            class="fa fa-arrows-h"></i>
+                                        <i
+                                                class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
+                                    <div class="form-group col-sm-6">
+                                        <input type="text" class="form-control" ng-model="newacc.fromDate"
+                                               placeholder="From" bs-datepicker>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <input type="text" class="form-control" ng-model="newacc.toDate"
+                                               placeholder="Until" bs-datepicker>
+                                    </div>
                                 </div>
-                                <div class="form-group col-sm-6">
-                                    <input type="text" class="form-control" ng-model="newacc.toDate"
-                                           placeholder="Until" bs-datepicker>
+                            </form>
+                            <br>
+                            <div ng-show="checkboxAccModel.rad">
+                                <button style="margin-left:2em;" type="button" class="btn btn-primary"
+                                        ng-click="saveRoom(newacc, firstPersonRoom, secondPersonRoom)"> Lagre
+                                    overnatting
+                                </button>
+                            </div>
+                            <div ng-hide="checkboxAccModel.rad">
+                                <button type="button" class="btn btn-primary"
+                                        ng-click="saveRoom(newacc, firstPersonRoom)">
+                                    Lagre overnatting
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br> <br>
+                <hr/>
+            </div>
+
+            <h3>Påmelding faglig program</h3>
+            <h3 style="text-align: center">
+                <small>Priser for kurs</small>
+            </h3>
+            <table class="table">
+                <tr>
+                    <td><h6>Kursavgift hvis deltaker skal være med hele kurset</h6></td>
+                    <td><h6>{{course.courseFee}} kr</h6></td>
+                </tr>
+                <tr>
+                    <td><h6>Kursavgift per dag hvis deltaker skal være med på deler av kurset</h6></td>
+                    <td><h6>{{course.courseSingleDayFee}} kr</h6></td>
+                </tr>
+                <tr>
+                    <td><h6>Pris for dagpakke</h6></td>
+                    <td><h6>{{course.dayPackage}} kr</h6></td>
+                </tr>
+            </table>
+            <br> <br>
+            <h3 style="text-align: center">
+                <small>Velg dager</small>
+            </h3>
+            <hr>
+            <div align="center" class="form-group">
+                <label>
+                    <input type="checkbox" name="allDays" ng-model="allDaysCheck" value="allDays"
+                           ng-click="wholeCourse()">
+                    Hele kurset
+                </label>
+            </div>
+            <div align="center" class="form-group">
+                <span ng-repeat="date in dateArray">
+                    <input type="checkbox" name="selectedDays[]" value="{{date}}"
+                           ng-checked="selectedDays.indexOf(date) > -1"
+                           ng-click="selectDay(date)"> {{date | date:'EEEE dd/MM/yyyy'}} &nbsp
+                </span>
+            </div>
+            <br> <br>
+            <hr>
+            <h3>Påmelding sesjoner</h3>
+            <h3><small> Velg hvilke sesjoner gruppen skal delta på ved å trykke på den enkelte sesjonen</small></h3>
+            <table class="table session">
+                <tr ng-repeat="date in dateArray" ng-init="sessionTableRow = $index">
+                    <td align="center" class="session">
+                        {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
+                    </td>
+                    <td ng-repeat="session in course.sessions | sessionFilter: sessionTableRow: dateArray | orderBy:'hourMinuteStart'">
+                        <button ng-class="colorSession(session) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'"
+                                ng-click="selectSession(session)"> {{session.title}} <h5>({{session.startTime |
+                            date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})</h5>
+                        </button>
+                    </td>
+                </tr>
+                <hr/>
+            </table>
+            <br> <br>
+            <hr>
+            <h3>Påmelding arrangementer</h3>
+            <h3><small> Velg hvilke arrangementer gruppen skal delta på ved å trykke på det enkelte arrangementet</small></h3>
+            <table class="table session">
+                <tr ng-repeat="date in dateArray">
+                    <td align="center" class="session">
+                        {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
+                    </td>
+                    <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!--  -->
+                        <button ng-class="colorEvent(event) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'"
+                                ng-click="selectEvent(event)">
+                            {{event.title}} <h5>{{event.price | number: 2}} kr</h5>
+                        </button>
+                    </td>
+                </tr>
+                <hr/>
+            </table>
+            <div class="form-horizontal" align="center" style="text-align: left; max-width: 90%; min-width: 60%;">
+                <div align="left" ng-if="course.form.extraInfo.length > 0">
+                    <h3>Ekstrainfo</h3>
+                </div>
+                <div align="center" ng-if="course.form.extraInfo.length > 0">
+                    <div ng-repeat="extraInfo in course.form.extraInfo">
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">{{extraInfo.parameter}}: </label>
+                            <div class="col-sm-6">
+                                <input class="form-control" type="checkbox" ng-if="!whichType(extraInfo.type)"
+                                       ng-init="registration.extraInfo[$index]='false'"
+                                       ng-model="registration.extraInfo[$index]"/>
+                            </div>
+                            <div class="col-sm-6" ng-if="whichType(extraInfo.type)" ng-form="extraInfoForm">
+                                <input autocomplete="off" class="form-control"
+                                       ng-model="registration.extraInfo[$index]"
+                                       ng-init="registration.extraInfo[$index]=''" name="extInfo" required/>
+                                <div ng-messages="extraInfoForm.extInfo.$error"
+                                     ng-show="extraInfoForm.extInfo.$touched">
+                                    <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
                                 </div>
                             </div>
+                        </div>
+                        <!-- <div ng-messages="extraInfoForm.extInfo.$error" ng-show="extraInfoForm.extInfo.$touched" >
+                            <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
+                        </div> -->
                         </form>
-                        <br>
-                        <div ng-show="checkboxAccModel.rad">
-                            <button style="margin-left:2em;" type="button" class="btn btn-primary"
-                                    ng-click="saveRoom(newacc, firstPersonRoom, secondPersonRoom)"> Lagre
-                            </button>
-                        </div>
-                        <div ng-hide="checkboxAccModel.rad">
-                            <button type="button" class="btn btn-primary"
-                                    ng-click="saveRoom(newacc, firstPersonRoom)">
-                                Lagre overnatting
-                            </button>
-                        </div>
                     </div>
                 </div>
-            </div>
-            <hr/>
-        </div>
-
-        <h3>Påmelding faglig program</h3>
-        <h3 style="text-align: center">
-            <small>Priser for kurs</small>
-        </h3>
-        <table class="table">
-            <tr>
-                <td><h6>Kursavgift hvis deltaker skal være med hele kurset</h6></td>
-                <td><h6>{{course.courseFee}} kr</h6></td>
-            </tr>
-            <tr>
-                <td><h6>Kursavgift per dag hvis deltaker skal være med på deler av kurset</h6></td>
-                <td><h6>{{course.courseSingleDayFee}} kr</h6></td>
-            </tr>
-            <tr>
-                <td><h6>Pris for dagpakke</h6></td>
-                <td><h6>{{course.dayPackage}} kr</h6></td>
-            </tr>
-        </table>
-        <h3 style="text-align: center">
-            <small>Velg dager</small>
-        </h3>
-        <hr>
-        <div align="center" class="form-group">
-            <label>
-                <input type="checkbox" name="allDays" ng-model="allDaysCheck" value="allDays"
-                       ng-click="wholeCourse()">
-                Hele kurset
-            </label>
-        </div>
-        <div align="center" class="form-group">
-            <span ng-repeat="date in dateArray">
-                <input type="checkbox" name="selectedDays[]" value="{{date}}"
-                       ng-checked="selectedDays.indexOf(date) > -1"
-                       ng-click="selectDay(date)"> {{date | date:'EEEE dd/MM/yyyy'}} &nbsp
-            </span>
-        </div>
-
-        <h3>Påmelding sesjoner</h3>
-        <table class="table session">
-            <tr ng-repeat="date in dateArray" ng-init="sessionTableRow = $index">
-                <td align="center" class="session">
-                    {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
-                </td>
-                <td ng-repeat="session in course.sessions | sessionFilter: sessionTableRow: dateArray | orderBy:'hourMinuteStart'">
-                    <button ng-class="colorSession(session) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'"
-                            ng-click="selectSession(session)"> {{session.title}} <h5>({{session.startTime |
-                        date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})</h5>
+                <hr/>
+                <div align="right">
+                    <button class="btn btn-primary" ng-click="saveGroupRegistration()"
+                            ng-disabled="!workForm.$valid || registrations.length == 0 || selectedDays.length == 0">
+                        Send påmelding
                     </button>
-                </td>
-            </tr>
-            <hr/>
-        </table>
-        <h3>Påmelding arrangementer</h3>
-        <table class="table session">
-            <tr ng-repeat="date in dateArray">
-                <td align="center" class="session">
-                    {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
-                </td>
-                <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!--  -->
-                    <button ng-class="colorEvent(event) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'"
-                            ng-click="selectEvent(event)">
-                        {{event.title}} <h5>{{event.price | number: 2}} kr</h5>
-                    </button>
-                </td>
-
-                <!-- <button class="btn btn-lg" name="selectedEvents[]" value="{{event}}"
-                            ng-checked="selectedEvent.indexOf(event) > -1"
-                            ng-click="selectEvent(event)"
-                            ng-class="colorEvent(event) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'">
-                        {{event.title}}
-                    </button> -->
-            </tr>
-        </table>
-        <div class="form-horizontal" align="center" style="text-align: left; max-width: 90%; min-width: 60%;">
-            <div align="left" ng-if="course.form.extraInfo.length > 0">
-                <h3>Ekstrainfo</h3>
-            </div>
-            <div align="center" ng-if="course.form.extraInfo.length > 0">
-                <div ng-repeat="extraInfo in course.form.extraInfo">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">{{extraInfo.parameter}}: </label>
-                        <div class="col-sm-6">
-                            <input class="form-control" type="checkbox" ng-if="!whichType(extraInfo.type)"
-                                   ng-init="registration.extraInfo[$index]='false'"
-                                   ng-model="registration.extraInfo[$index]"/>
-                            <input class="form-control" ng-if="whichType(extraInfo.type)"
-                                   ng-model="registration.extraInfo[$index]"
-                                   ng-init="registration.extraInfo[$index]=' '"/>
-                        </div>
-                    </div>
                 </div>
             </div>
-        </div>
-        <hr/>
-        <div align="right">
-            <button class="btn btn-primary" ng-click="saveGroupRegistration()"> Send påmelding</button>
+            <div ng-show="loading">
+                <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
     </div>
-    <div ng-show="loading">
-        <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>
-        <span class="sr-only">Loading...</span>
-    </div>
-</div>
-</div>
 </body>
 </html>
