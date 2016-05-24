@@ -58,14 +58,6 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
         self.sendCourse(course);
     };
 
-    $scope.validator = function(){
-        if(!$scope.course.title || !$scope.course.startDate || !$scope.course.endDate || !$scope.course.maxNumber || !$scope.course.location || !$scope.course.courseFee || !$scope.course.courseSingleDayFee || !$scope.course.dayPackage){
-            return true;
-        } else{
-            return false;
-        }
-    };
-
     self.sendCourse = function (course) {
             courseService.sendInfo(course).then(function (successCallback) {
                 console.log("Course sent" + successCallback);
