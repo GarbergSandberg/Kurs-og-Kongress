@@ -69,7 +69,7 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
     self.sendCourse = function (course) {
             courseService.sendInfo(course).then(function (successCallback) {
                 console.log("Course sent" + successCallback);
-                //$window.location.href = "/kursogkongress/courseOverview";
+                $window.location.href = "/kursogkongress/courseOverview";
             }, function (errorCallback) {
                 console.log("Error in courseService.sendInfo() " + errorCallback);
             });

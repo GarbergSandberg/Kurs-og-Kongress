@@ -18,6 +18,9 @@ sessionRegisterApp.controller('RegistrationCtrl', ['$scope', 'courseService', fu
         courseService.setForm($scope.form);
     });
     $scope.$on('recievedForm', function(event, data){
+        if(data.id != null) {
+            $scope.form.id = data.id;
+        }
         if (data.airplane != null) {
             $scope.form.airplane = data.airplane;
         }

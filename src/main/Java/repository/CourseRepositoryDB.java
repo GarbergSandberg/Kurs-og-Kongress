@@ -282,6 +282,7 @@ public class CourseRepositoryDB implements CourseRepository {
             Integer optionalPersonaliaID = saveOptionalPersonaliaAnswers(registration.getOptionalPersonalia());
             Integer optionalWorkplaceID = saveOptionalWorkplaceAnswers(registration.getOptionalWorkplace());
             Integer extraInfoID = saveExtraInfoAnswers(registration.getExtraInfo());
+            System.out.println("EXTRAINFOID REG = " + extraInfoID);
             Integer registrationID = jdbcTemplateObject.queryForObject(getMaxRegistrationID, new Object[]{}, Integer.class);
             if (registrationID != null) {
                 registrationID++;
@@ -1287,6 +1288,8 @@ public class CourseRepositoryDB implements CourseRepository {
 
     public Integer saveExtraInfoAnswers(ArrayList<InputParameter> list) {
         try {
+
+            System.out.println("I SAVE EXTRAINFO ANSWERS " + list);
             Integer id = jdbcTemplateObject.queryForObject(getMaxIDExtraInfo, new Object[]{}, Integer.class);
             if (id != null) {
                 id++;

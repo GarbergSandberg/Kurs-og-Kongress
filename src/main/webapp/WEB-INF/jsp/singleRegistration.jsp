@@ -315,18 +315,24 @@ To change this template use File | Settings | File Templates.
             </tr>
         </table>
         <br>
+        <div class="form-horizontal" align="center" style="text-align: left; max-width: 90%; min-width: 60%;">
         <div align="left" ng-if="course.form.extraInfo.length > 0">
             <h3>Ekstrainfo</h3>
         </div>
         <div align="center" ng-if="course.form.extraInfo.length > 0">
             <div ng-repeat="extraInfo in course.form.extraInfo">
                 <br>
-                <label>{{extraInfo.parameter}}: </label>
-                <input type="checkbox" ng-hide="whichType(extraInfo.type)"
-                       ng-init="person[n].extraInfo[$index]='false'"
-                       ng-model="person[n].extraInfo[$index]"/>
-                <input class="text" ng-show="whichType(extraInfo.type)" ng-model="person[n].extraInfo[$index]"/>
+                <div class="form-group">
+                <label class="col-sm-4 control-label">{{extraInfo.parameter}}: </label>
+                    <div class="col-sm-6">
+                        <input class="form-control" type="checkbox" ng-if="!whichType(extraInfo.type)"
+                               ng-init="registration.extraInfo[$index]='false'"
+                               ng-model="registration.extraInfo[$index]"/>
+                        <input class="form-control" ng-if="whichType(extraInfo.type)" ng-init="registration.extraInfo[$index]=' '" ng-model="registration.extraInfo[$index]"/>
+                    </div>
             </div>
+            </div>
+        </div>
         </div>
         <hr/>
         <div align="right">

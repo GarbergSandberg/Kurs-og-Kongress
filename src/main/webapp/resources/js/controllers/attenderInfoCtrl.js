@@ -280,9 +280,9 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
     };
 
     $scope.getParameter = function (parameter) {
-        if (parameter == true) {
+        if (parameter === true) {
             return "Ja"
-        } else if (parameter == false) return "Nei"
+        } else if (parameter === false) return "Nei";
         else return parameter;
     };
 

@@ -81,11 +81,11 @@
                 </div>
                 <div class="form-group" ng-repeat="opt in course.form.optionalWorkplace track by opt.id">
                     <label class="col-sm-4 control-label">{{opt.parameter}} </label>
-                    <div class="col-sm-6" ng-hide="whichType(opt.type)">
-                        <input class="checkbox" ng-model="registration.optionalWorkplace[$index]"/>
+                    <div class="col-sm-6">
+                        <input class="form-control" ng-model="registration.optionalWorkplace[$index]" type="checkbox" ng-if="!whichType(opt.type)" ng-init="registration.extraInfo[$index]='false'"/>
                     </div>
-                    <div class="col-sm-6" ng-show="whichType(opt.type)">
-                        <input class="form-control" type="text" ng-model="registration.optionalWorkplace[$index]"/>
+                    <div class="col-sm-6" ng-if="whichType(opt.type)">
+                        <input class="form-control" ng-model="registration.optionalWorkplace[$index]" ng-init="registration.extraInfo[$index]=' '"/>
                     </div>
                 </div>
             </div>
@@ -124,12 +124,13 @@
                                 <input class="form-control" ng-model="person[n].birthYear" id="birthYear"/>
                             </div>
                             <div ng-repeat="opt in course.form.optionalPersonalia">
-                                <br>
+                                <div class="form-group">
                                 <label>{{opt.parameter}}: </label>
-                                <input type="checkbox" ng-hide="whichType(opt.type)"
-                                       ng-init="person[n].opt[$index]='false'"
-                                       ng-model="person[n].opt[$index]"/>
-                                <input class="text" ng-show="whichType(opt.type)" ng-model="person[n].opt[$index]"/>
+                                    <input type="checkbox" ng-if="!whichType(opt.type)"
+                                        ng-init="person[n].opt[$index]='false'"
+                                        ng-model="person[n].opt[$index]"/>
+                                   <input class="form-control" ng-if="whichType(opt.type)" ng-model="person[n].opt[$index]" />
+                                </div>
                             </div>
                             <div>
                                 <label ng-repeat="role in course.roles">
@@ -338,7 +339,7 @@
                 <hr/>
             </table>
             <h3>Påmelding arrangementer</h3>
-            <table class="table event">
+            <table class="table session">
                 <tr ng-repeat="date in dateArray">
                     <td align="center" class="session">
                         {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
@@ -358,18 +359,24 @@
                         </button> -->
                 </tr>
             </table>
+            <div class="form-horizontal" align="center" style="text-align: left; max-width: 90%; min-width: 60%;">
             <div align="left" ng-if="course.form.extraInfo.length > 0">
                 <h3>Ekstrainfo</h3>
             </div>
             <div align="center" ng-if="course.form.extraInfo.length > 0">
                 <div ng-repeat="extraInfo in course.form.extraInfo">
                     <br>
-                    <label>{{extraInfo.parameter}}: </label>
-                    <input type="checkbox" ng-hide="whichType(extraInfo.type)"
-                           ng-init="person[n].extraInfo[$index]='false'"
-                           ng-model="person[n].extraInfo[$index]"/>
-                    <input class="text" ng-show="whichType(extraInfo.type)" ng-model="person[n].extraInfo[$index]"/>
+                    <div class="form-group">
+                    <label class="col-sm-4 control-label">{{extraInfo.parameter}}: </label>
+                        <div class="col-sm-6">
+                        <input class="form-control" type="checkbox" ng-if="!whichType(extraInfo.type)"
+                               ng-init="registration.extraInfo[$index]='false'"
+                               ng-model="registration.extraInfo[$index]"/>
+                        <input class="form-control" ng-if="whichType(extraInfo.type)" ng-model="registration.extraInfo[$index]" ng-init="registration.extraInfo[$index]=' '"/>
+                        </div>
+                    </div>
                 </div>
+            </div>
             </div>
             <hr/>
             <div align="right">

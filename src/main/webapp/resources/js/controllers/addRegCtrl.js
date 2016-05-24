@@ -113,7 +113,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
             if(response.isOk){
                 $scope.showSuccessAlert();
                 setTimeout(function(){
-                    $window.location.href = "/kursogkongress/publicRegistrations";
+                    //$window.location.href = "/kursogkongress/publicRegistrations";
                 }, 2000);
             } else{
                 $scope.showErrorAlert(response.response);
@@ -363,6 +363,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
             }
         }
         for (var prop in registration.extraInfo){ // Prop is indexnumber for the question in course.form.extraInfo
+            console.log(registration.extraInfo);
             if (registration.extraInfo[prop] != undefined) {
                 var i = parseInt(prop);
                 var inputParameter = {parameter: registration.extraInfo[prop], type: $scope.course.form.extraInfo[i].type};
