@@ -20,6 +20,10 @@ public class LoginServiceImpl implements LoginService {
         return loginRepository.addUser(user);
     }
 
+    public boolean changePassword(String username, String oldPassword, String newPassword){
+        return loginRepository.changePassword(username, hash(oldPassword), hash(newPassword));
+    }
+
     public User logIn(String username, String password) {
         User u = loginRepository.logIn(username);
         if (u != null){

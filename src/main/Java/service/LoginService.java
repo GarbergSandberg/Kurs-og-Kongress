@@ -24,5 +24,7 @@ public interface LoginService {
     public boolean removeCourseAccess(User user, Course course);
 
     public boolean deleteUser(User user);
+
+    public boolean changePassword(String username, String oldPassword, String newPassword);
 }
 

@@ -1,3 +1,4 @@
+<%@ page import="domain.*" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--
   Created by IntelliJ IDEA.
@@ -28,12 +29,18 @@
     <script src="${appJs}"></script>
     <script src="${loginCtrl}"></script>
     <script src="${loginService}"></script>
+    <%
+        User user = (User) session.getAttribute("user");
+    %>
 </head>
 <body>
 <div  ng-app="loginApp">
     <div ng-controller="loginCtrl">
         <div class="container" style="margin-left:3em; margin-right:3em;">
             <div class="jumbotron clearfix" id="jumbo">
+                <%
+                    if (user.isAdmin()){
+                %>
                 <h2>Legg til ny bruker</h2>
                 <form>
                     <div class="form-group">
@@ -85,6 +92,31 @@
                 <h2>Slett bruker</h2>
                 Velg person <select ng-options="user as user.username for user in users" ng-model="userToBeDeleted"></select>
                 <button ng-disabled="!userToBeDeleted" ng-click="deleteUser(userToBeDeleted)" class="btn btn-danger">Slett bruker</button>
+                <hr>
+                <%
+                    }
+                %>
+                <h2>Endre passord</h2>
+                <form>
+                    <div class="form-group">
+                        <label for="oldpw" class="control-label">Gammelt passord</label>
+                        <input ng-model="oldPw" type="password" class="form-control" id="oldpw" placeholder="Gammelt passord" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newpw" class="control-label">Nytt passord</label>
+                        <div class="form-group">
+                            <input ng-model="newPassword" type="password" data-minlength="6" class="form-control" id="newpw" placeholder="Nytt passord" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confnewpw" class="control-label">Bekreft nytt passord</label>
+                        <div class="form-group">
+                            <input ng-model="confirmNewPassword" type="password" data-minlength="6" class="form-control" id="confnewpw" placeholder="Bekreft" required>
+                        </div>
+                    </div>
+                    <h5 ng-show="errormessage">{{errormessage}}</h5>
+                    <button ng-disabled="!(confirmNewPassword == newPassword) || !oldPw || !newPassword" ng-click="changePassword(oldPw, newPassword)" class="btn btn-primary">Bytt passord</button>
+                </form>
             </div>
         </div>
     </div>

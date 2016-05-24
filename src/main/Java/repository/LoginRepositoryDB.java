@@ -24,6 +24,8 @@ public class LoginRepositoryDB implements LoginRepository {
     private final String removeAccess = "delete from account_has_access where user_idusername = ? and course_idcourse = ?";
     private final String deleteUser = "delete from account where username = ?";
     private final String deleteAllAccess = "delete from account_has_access where user_idusername = ?";
+    private final String getPassword = "select password from account where username = ?";
+    private final String changePassword = "update account set password = ? where username = ?";
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
@@ -99,6 +101,23 @@ public class LoginRepositoryDB implements LoginRepository {
             return false;
         }
         return true;
+    }
+
+    public boolean changePassword(String username, String oldPassword, String newPassword){
+        try{
+            String currentPassword =  jdbcTemplateObject.queryForObject(getPassword, new Object[]{username}, String.class);
+            if(currentPassword.equals(oldPassword)){
+                jdbcTemplateObject.update(changePassword, new Object[]{
+                        newPassword, username
+                });
+                return true;
+            } else{
+                return false;
+            }
+        } catch(Exception e){
+            System.out.println("Error in addAccess " + e);
+            return false;
+        }
     }
 
     public ArrayList<User> getUsers(){

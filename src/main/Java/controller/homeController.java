@@ -424,4 +424,10 @@ public class homeController {
         return courseService.getEmails(courseID);
     }
 
+    @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
+    @ResponseBody
+    public boolean getEmails(@RequestParam(value = "username") String username, @RequestParam(value = "oldPassword") String oldPassword, @RequestParam(value = "newPassword") String newPassword) {
+        return loginService.changePassword(username,oldPassword,newPassword);
+    }
+
 }

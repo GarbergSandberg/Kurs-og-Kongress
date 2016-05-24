@@ -49,12 +49,12 @@
                 <li>
                     <a onclick="resetSessionStorage()" href="/kursogkongress/registerCourse">Legg til nytt kurs</a>
                 </li>
-                <li>
-                    <a href="/kursogkongress/createUser">Administrer</a>
-                </li>
                 <%
                     }
                 %>
+                <li>
+                    <a href="/kursogkongress/createUser">Administrer</a>
+                </li>
             </ul>
         </div>
     </div>
