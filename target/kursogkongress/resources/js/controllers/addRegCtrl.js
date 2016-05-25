@@ -1,4 +1,4 @@
-app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', '$window', '$filter', function ($scope, personService, regService, $alert, $window, $filter) {
+app.controller('AddRegCtrl', ['$scope', 'personService', 'regService', '$alert', '$window', '$filter', function ($scope, personService, regService, $alert, $window, $filter) {
     $scope.registration = {};
     $scope.personFilter = $filter('personFilter');
     $scope.numberOfPersons = 0;
@@ -221,20 +221,20 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
 
     $scope.checkIfSelected = function(obj){
         console.log(obj);
-        for(var i = 0; i < $scope.registrations.length; i++){
-            if(obj.person.personID == $scope.firstPersonRoom.personID){
+        for (var i = 0; i < $scope.registrations.length; i++) {
+            if (obj.person.personID == $scope.firstPersonRoom.personID) {
                 return false;
             }
             return true;
         }
 
-/*        console.log(obj.person.personID);
-        console.log($scope.firstPersonRoom.personID);
+        /*        console.log(obj.person.personID);
+         console.log($scope.firstPersonRoom.personID);
         if (obj.person.personID == $scope.firstPersonRoom.personID) {
             return false;
         } else {
             return true;
-        }*/
+         }*/
     };
 
     $scope.saveRoom = function(acc, first, second){ // Her skal date også inn.
@@ -556,14 +556,12 @@ app.filter("sessionFilter", function(){
     }
 });
 
-app.filter("personFilter", function(){
-    return function(input, selectedPerson){
+app.filter("personFilter", function () {
+    return function (input, selectedPerson) {
         var array = [];
-        if(selectedPerson){
-            for(var i = 0; i < input.length; i++){
-                console.log(input[i].person.personID);
-                console.log(selectedPerson.personID);
-                if(input[i].person.personID !== selectedPerson.personID){
+        if (selectedPerson) {
+            for (var i = 0; i < input.length; i++) {
+                if (input[i].person.personID !== selectedPerson.personID) {
                     console.log("Pusher id: " + input[i].person.personID);
                     array.push(input[i]);
                 }

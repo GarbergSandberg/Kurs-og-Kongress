@@ -498,9 +498,6 @@
                             </div>
                             </div>
                         </div>
-                        <!-- <div ng-messages="extraInfoForm.extInfo.$error" ng-show="extraInfoForm.extInfo.$touched" >
-                            <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
-                        </div> -->
                         </form>
                     </div>
                 </div>
@@ -508,16 +505,18 @@
             <hr/>
             <div>
                 <div align="right">
+                    <span ng-if="!workForm.$valid || registrations.length == 0 || selectedDays.length == 0">Personalia, arbeidsgiverinfo eller valgte dager mangler &nbsp </span>
                     <button class="btn btn-primary" ng-click="saveGroupRegistration()"
                             ng-disabled="!workForm.$valid || registrations.length == 0 || selectedDays.length == 0">
                         Send påmelding
                     </button>
                 </div>
             </div>
-            <div ng-show="loading">
-                <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>
-                <span class="sr-only">Loading...</span>
-            </div>
+            <hr>
+        </div>
+        <div ng-show="loading">
+            <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>
+            <span class="sr-only">Loading...</span>
         </div>
     </div>
 </div>

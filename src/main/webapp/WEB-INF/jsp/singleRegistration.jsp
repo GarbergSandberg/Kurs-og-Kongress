@@ -358,51 +358,6 @@ To change this template use File | Settings | File Templates.
                 <br> <br>
                 <hr>
             </div>
-
-            <!--<h3>Påmelding faglig program</h3>
-            <h3>
-                <small>Priser for kurs</small>
-            </h3>
-            <table class="table">
-                <tr>
-                    <td><h6>Kursavgift hvis deltaker skal være med hele kurset</h6></td>
-                    <td><h6>{{course.courseFee}} kr</h6></td>
-                </tr>
-                <tr>
-                    <td><h6>Kursavgift per dag hvis deltaker skal være med på deler av kurset</h6></td>
-                    <td><h6>{{course.courseSingleDayFee}} kr</h6></td>
-                </tr>
-                <tr>
-                    <td><h6>Pris for dagpakke</h6></td>
-                    <td><h6>{{course.dayPackage}} kr</h6></td>
-                </tr>
-            </table>
-            <h3>
-                <small>Velg dager</small>
-            </h3>
-            <hr>
-            <form name="datepickerForm" class="form-inline" role="form" ng-show="checkboxAccModel.c1">
-                <!-- http://mgcrea.github.io/angular-strap/#/datepickers
-                <div class="form-group">
-                    <label class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i>
-                        <i
-                                class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
-                    <div class="form-group col-xs-6">
-                        <input autocomplete="off" type="text" class="form-control" ng-model="registration.accomondation.fromDate"
-                               data-time-format="dd/mm/yyy"
-                               ng-init="course.startDate" placeholder="From" bs-datepicker>
-                    </div>
-                    <div class="form-group col-xs-6">
-                        <input autocomplete="off" type="text" class="form-control" ng-model="registration.accomondation.toDate"
-                               data-time-format="dd/mm/yyy"
-                               ng-init="course.endDate" placeholder="Until" bs-datepicker>
-                    </div>
-                </div>
-            </form>
-            <br>
-        </div>
-        <hr/>
-    </div> -->
             <h3>Påmelding faglig program</h3>
             <h3>
                 <small>Priser for kurs</small>
@@ -519,13 +474,17 @@ To change this template use File | Settings | File Templates.
                     </div>
                 </div>
             </div>
-            <div align="right">
-                <span ng-if="!userForm.$valid || !workForm.$valid">Personalia eller arbeidsgiverinfo mangler &nbsp </span>
-                <button class="btn btn-primary" ng-click="saveSingleRegistration(registration)"
-                        ng-disabled='!userForm.$valid || !workForm.$valid || selectedDays.length == 0'>
-                    Send påmelding
-                </button>
+            <hr>
+            <div>
+                <div align="right">
+                    <span ng-if='!userForm.$valid || !workForm.$valid || selectedDays.length == 0'>Personalia, arbeidsgiverinfo eller valgte dager mangler &nbsp </span>
+                    <button class="btn btn-primary" ng-click="saveSingleRegistration(registration)"
+                            ng-disabled='!userForm.$valid || !workForm.$valid || selectedDays.length == 0'>
+                        Send påmelding
+                    </button>
+                </div>
             </div>
+            <hr>
         </div>
         <div ng-show="loading">
             <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>
