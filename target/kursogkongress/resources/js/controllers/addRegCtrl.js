@@ -219,9 +219,9 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
     };
 
     $scope.checkIfSelected = function(obj){
-        if (obj.person.personID == $scope.firstPersonRoom.personID){
+        if (obj.person.personID == $scope.firstPersonRoom.personID) {
             return false;
-        } else{
+        } else {
             return true;
         }
         return true;

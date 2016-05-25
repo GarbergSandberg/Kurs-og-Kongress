@@ -68,9 +68,9 @@
                         <br>
                         <label> <span style="float: left;">Sted: </span> </label><span style="float: right;">{{course.location}}</span>
                         <br>
-                        <label> <span style="float: left;">Startdato: </span> </label><span style="float: right;">{{course.startDate | date: 'dd-MM-yyyy'}} </span>
+                        <label> <span style="float: left;">Startdato: </span> </label><span style="float: right;">{{course.startDate | date: 'dd.MM.yyyy'}} </span>
                         <br>
-                        <label> <span style="float: left;">Sluttdato: </span> </label><span style="float: right;">{{course.endDate | date: 'dd-MM-yyyy'}}</span>
+                        <label> <span style="float: left;">Sluttdato: </span> </label><span style="float: right;">{{course.endDate | date: 'dd.MM.yyyy'}}</span>
                         <br>
                         <label> <span style="float: left;">Hotell: </span> </label>
                         <span ng-repeat="hotel in course.hotels" style="float: right;">{{hotel.name}}, &nbsp <br></span><br>

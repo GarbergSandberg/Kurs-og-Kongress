@@ -139,7 +139,7 @@
                     <table class="table session" ng-init="dateTable = dates">
                         <tr ng-repeat="date in dates" ng-init="sessionTableRow = $index">
                             <td align="center" class="session">
-                                {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}
+                                {{date | date:'EEEE'}} <p>{{date | date:'dd.MM.yyyy'}}
                             </td>
                             <td class="session">
                                 <button type="button" id="{{date}}" ng-click="passBtnId(date)"
@@ -442,7 +442,8 @@
         </div>
         <div style="float: right; margin-bottom: 15px;">
             <span ng-if="!courseForm.$valid">Påkrevd felt er ikke utfylt. &nbsp</span>
-            <button type="button" class="btn btn-primary" ng-click="save(course)" ng-disabled="!courseForm.$valid">Lagre kurs
+            <button type="button" class="btn btn-primary" ng-click="save(course)" ng-disabled="!courseForm.$valid">Lagre
+                kurs
             </button>
         </div>
     </div>

@@ -50,8 +50,8 @@
                                 <p>{{ panel.body }}</p>
                             </li>
                             <li class="list-group-item">
-                                <p>Kurset starter <span style="font-weight: bold;">{{ panel.startDate | date:'dd-MM-yyyy'}}</span></p>
-                                <p>Kurset slutter <span style="font-weight: bold;">{{ panel.endDate | date:'dd-MM-yyyy'}}</span></p>
+                                <p>Kurset starter <span style="font-weight: bold;">{{ panel.startDate | date:'dd.MM.yyyy'}}</span></p>
+                                <p>Kurset slutter <span style="font-weight: bold;">{{ panel.endDate | date:'dd.MM.yyyy'}}</span></p>
                             </li>
                             <li class="list-group-item">
                                 Det er {{panel.remainingSlots}} ledige plasser igjen på kurset. <br>
