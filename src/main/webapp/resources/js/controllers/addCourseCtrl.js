@@ -73,11 +73,9 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
                 $scope.course = response;
             }
             if (response.startDate != null){
-                console.log("startDate.." + response.startDate);
                 $scope.course.startDate = new Date(response.startDate);
             }
             if (response.endDate != null){
-                console.log("endDate.." + response.endDate);
                 $scope.course.endDate = new Date(response.endDate);
             }
             if (response.title != null){
@@ -122,7 +120,6 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
             if (response.hotels != null){
                 hotelService.sethotels(response.hotels);
                 $scope.hotels = hotelService.get();
-                console.log($scope.hotels);
             }
         }, function(errorResponse){
             console.log("Error in getCourse()");
@@ -140,7 +137,6 @@ sessionRegisterApp.controller('AddCourseCtrl', ['$scope', '$modal', 'sessionServ
         var currentDate = startDate;
         while (currentDate <= stopDate) {
             dateArray.push(currentDate);
-            console.log("Current date = " + currentDate);
             currentDate = currentDate.addDays(1);
         }
         console.log(dateArray);

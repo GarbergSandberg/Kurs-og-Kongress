@@ -365,11 +365,11 @@
                                                 class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
                                     <div class="form-group col-sm-6">
                                         <input type="text" class="form-control" ng-model="newacc.fromDate"
-                                               placeholder="From" bs-datepicker>
+                                               placeholder="Fra" bs-datepicker>
                                     </div>
                                     <div class="form-group col-sm-6">
                                         <input type="text" class="form-control" ng-model="newacc.toDate"
-                                               placeholder="Until" bs-datepicker>
+                                               placeholder="Til" bs-datepicker>
                                     </div>
                                 </div>
                             </form>

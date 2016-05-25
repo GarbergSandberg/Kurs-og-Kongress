@@ -44,7 +44,6 @@ publicRegistrationApp.controller('PublicRegistrationCtrl', ['$scope', 'publicReg
         publicRegistrationService.getPublicCourses().then(function(response) {
                 $scope.courses = new Array();
                 for (var i = 0; i < response.length; i++) {
-                    console.log(response[i]);
                     self.getCountRegistrations(response[i], response[i].id);
                 }
             $scope.loading = false;

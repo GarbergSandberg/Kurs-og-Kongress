@@ -56,7 +56,6 @@ app.controller('AddPersonCtrl', ['$scope', 'personService', 'regService', functi
     };
 
     $scope.showSaveButton = function(n){
-        console.log("Skjekker om n > 0   : " + n);
         (n>0) ? true : false;
     };
 

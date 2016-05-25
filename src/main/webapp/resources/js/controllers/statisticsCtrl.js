@@ -13,9 +13,7 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
     $scope.loading = true;
 
     $scope.getCountRegistrations = function(){ // Brukes ikke? men fungerer..!
-        console.log("Trykker på knappen");
         statisticsService.getCountRegistrations($scope.course.id).then(function(result) {
-            console.log(result);
             $scope.countReg = result;
         });
     };
@@ -57,11 +55,9 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
                 $scope.course = response;// NB! Course contains form. Must be declared undefined before sending back to server.
             }
             if (response.startDate != null){
-                console.log("startDate.." + response.startDate);
                 $scope.course.startDate = new Date(response.startDate);
             }
             if (response.endDate != null){
-                console.log("endDate.." + response.endDate);
                 $scope.course.endDate = new Date(response.endDate);
             }
             if (response.title != null){
@@ -161,7 +157,6 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
     };
 
     self.loadRegistrations = function(id){
-        console.log("Her kommer kursID " + id);
         statisticsService.getRegistrations(id).then(function(response){
             self.mapRegistration(response);
             if($scope.countReg !== 0){
@@ -187,7 +182,6 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
     if(cid == null || cid == -1){
         $scope.course.id = -1; // Should return error page. Skal være -1.
     } else{
-        console.log("Henter course med id " + cid);
         courseService.getSessionStorageID(cid).then(function(success){
             self.getCourse(success);
             self.loadRegistrations(success); // Henter påmeldinger for det aktuelle kurset.
@@ -226,14 +220,12 @@ sessionRegisterApp.controller('statisticsCtrl', ['$scope', 'courseService', 'sta
         temp.id = event.id;
         temp.price = event.price;
         statisticsService.getNumberOfEvents(event.id).then(function(result) {
-            console.log(result);
             if (result == null){
                 temp.number = "-";
                 temp.total = "-";
             } else{
                 temp.number = result;
                 temp.total = (event.price * temp.number);
-                console.log(temp);
                 $scope.numberOfEvents.push(temp);
             }
         });

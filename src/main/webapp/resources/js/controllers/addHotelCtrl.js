@@ -10,7 +10,6 @@ sessionRegisterApp.controller('addHotelCtrl', ['$scope', '$modal', 'hotelService
     $scope.editHotel = function(hotel){
         $scope.removeDeleteButton = true;
         $scope.addNewHotel = angular.copy(hotelService.getHotel(hotel.id));
-        console.log($scope.addNewHotel);
     };
     $scope.deleteButtonCtrl = function(){
         return $scope.removeDeleteButton;

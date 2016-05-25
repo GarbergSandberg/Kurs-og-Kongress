@@ -51,23 +51,19 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
 
     self.getGroupRegistration = function () {
         attenderInfoService.getGroupNumberOfPayments($scope.selectedParticipant.idGroupregistration, "Dagpakke").then(function (result) { // Arraylist med alle ID til registreringer til kurset + description.
-            console.log("Dagpakke..");
             $scope.groupRegDaypackage.number = result;
             $scope.groupRegDaypackage.total = ($scope.groupRegDaypackage.number * $scope.course.dayPackage);
         });
         attenderInfoService.getGroupNumberOfPayments($scope.selectedParticipant.idGroupregistration, "Kursavgift").then(function (result) {
-            console.log("Kursavgift..");
             $scope.groupRegCourseFee.number = result;
             $scope.groupRegCourseFee.total = ($scope.groupRegCourseFee.number * $scope.course.courseFee);
         });
         attenderInfoService.getGroupNumberOfPayments($scope.selectedParticipant.idGroupregistration, "Kursavgift Dag").then(function (result) {
-            console.log("Kursavgift dag..");
             $scope.groupRegCourseSingleDayFee.number = result;
             $scope.groupRegCourseSingleDayFee.total = ($scope.groupRegCourseSingleDayFee.number * $scope.course.courseSingleDayFee);
         });
         for (var i = 0; i < $scope.course.events.length; i++) {
             self.getGroupNumberOfEvents($scope.selectedParticipant.idGroupregistration, $scope.course.events[i].id, i);
-            console.log($scope.groupRegEvents[i]);
             //$scope.groupRegEvents[i].total = $scope.groupRegEvents[i].number*$scope.course.events[i];
         }
     };
@@ -116,7 +112,6 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
                     $scope.selectedParticipant.totalAmount = self.calculateTotal($scope.selectedParticipant.cost, $scope.selectedParticipant.attendingEvents);
                     $scope.selectedParticipant.dates = self.convertDates($scope.selectedParticipant.dates);
                     $scope.course = $scope.selectedParticipant.course;
-                    console.log($scope.selectedParticipant);
                     self.setForm();
                     if ($scope.selectedParticipant.accomondation !== null) {
                         self.findHotel();
@@ -139,10 +134,8 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
             if ($scope.selectedParticipant.optionalPersonalia[i] != undefined) {
                 if ($scope.selectedParticipant.optionalPersonalia[i].parameter == "true") {
                     $scope.selectedParticipant.optionalPersonalia[i].parameter = true;
-                    console.log("endret.. ");
                 } else if ($scope.selectedParticipant.optionalPersonalia[i].parameter == "false") {
                     $scope.selectedParticipant.optionalPersonalia[i].parameter = false;
-                    console.log("endret.. ");
                 }
             }
         }
@@ -159,10 +152,8 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
             if ($scope.selectedParticipant.extraInfo[i] != undefined) {
                 if ($scope.selectedParticipant.extraInfo[i].parameter == "true") {
                     $scope.selectedParticipant.extraInfo[i].parameter = true;
-                    console.log("endret.. ");
                 } else if ($scope.selectedParticipant.extraInfo[i].parameter == "false") {
                     $scope.selectedParticipant.extraInfo[i].parameter = false;
-                    console.log("endret.. ");
                 }
             }
         }
@@ -265,7 +256,6 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
     self.setSessionID = function (id) {
         attenderInfoService.setSessionStorageID(id).then(function (successCallback) {
             $window.location.href = "/kursogkongress/personInfo";
-            console.log("ok. ");
         }, function (errorCallback) {
             console.log("error in setSessionID");
         });
@@ -327,7 +317,6 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
                 }
             }
             if (notOverlaps) {
-                console.log("Legger til session.. ");
                 $scope.selectedParticipant.attendingSessions.push(session);
                 $scope.selectedParticipant.sessionsToAttend.push(session.id);
             }
@@ -365,7 +354,6 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
                 }
             }
             if (notOverlaps) {
-                console.log("Legger til event.. ");
                 $scope.selectedParticipant.attendingEvents.push(event);
                 $scope.selectedParticipant.eventsToAttend.push(event.id);
             }
@@ -380,7 +368,6 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
             }
         } else {
             $scope.selectedParticipant.dates = [];
-            console.log("Tabellen er tom")
         }
     };
 
@@ -502,7 +489,6 @@ sessionRegisterApp.controller('attenderInfoCtrl', ['$scope', 'attenderInfoServic
 
     self.findPrice = function (ant, allDaysCheck) { // Finn ut hvilke dager han skal delta på, multipliser med course.dagpakke og course.kursavgift.
         var price = [];
-        console.log($scope.dateArray.length + " dateArray.length");
         if (allDaysCheck == true || ant == $scope.dateArray.length) {
             price.push({amount: $scope.course.courseFee, description: 'Kursavgift'});
             for (var i = 0; i < $scope.dateArray.length; i++) {

@@ -344,13 +344,13 @@ To change this template use File | Settings | File Templates.
                                 <input autocomplete="off" type="text" class="form-control"
                                        ng-model="registration.accomondation.fromDate"
                                        data-time-format="dd/mm/yyy"
-                                       ng-init="course.startDate" placeholder="From" bs-datepicker>
+                                       ng-init="course.startDate" placeholder="Fra" bs-datepicker>
                             </div>
                             <div class="form-group col-xs-6">
                                 <input autocomplete="off" type="text" class="form-control"
                                        ng-model="registration.accomondation.toDate"
                                        data-time-format="dd/mm/yyy"
-                                       ng-init="course.endDate" placeholder="Until" bs-datepicker>
+                                       ng-init="course.endDate" placeholder="Til" bs-datepicker>
                             </div>
                         </div>
                     </form>
