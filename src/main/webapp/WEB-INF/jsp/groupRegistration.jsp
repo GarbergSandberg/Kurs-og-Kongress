@@ -116,7 +116,7 @@
                             <div class="col-sm-6" ng-if="whichType(opt.type)" ng-form="work_opt_{{$index}}">
                                 <input autocomplete="off" class="form-control"
                                        ng-model="registration.optionalWorkplace[$index]"
-                                       ng-init="registration.extraInfo[$index]=' '" name="option" required/>
+                                       ng-init="registration.extraInfo[$index]=''" name="option" required/>
                                 <div ng-messages="work_opt_{{$index}}.option.$error"
                                      ng-show="work_opt_{{$index}}.option.$touched">
                                     <div ng-message="required" style="color:red;" align="center">Vennligst fyll inn
@@ -411,7 +411,7 @@
                     <td><h6>{{course.dayPackage}} kr</h6></td>
                 </tr>
             </table>
-            <br> <br>
+            <br>
             <h3 style="text-align: center">
                 <small>Velg dager</small>
             </h3>
@@ -427,7 +427,7 @@
                 <span ng-repeat="date in dateArray">
                     <input type="checkbox" name="selectedDays[]" value="{{date}}"
                            ng-checked="selectedDays.indexOf(date) > -1"
-                           ng-click="selectDay(date)"> {{date | date:'EEEE dd/MM/yyyy'}} &nbsp
+                           ng-click="selectDay(date)"> {{date | date:'EEEE dd.MM.yyyy'}} &nbsp
                 </span>
             </div>
             <br> <br>
@@ -440,7 +440,7 @@
             <table class="table session">
                 <tr ng-repeat="date in dateArray" ng-init="sessionTableRow = $index">
                     <td align="center" class="session">
-                        {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
+                        {{date | date:'EEEE'}} <p>{{date | date:'dd.MM.yyyy'}}<br>
                     </td>
                     <td ng-repeat="session in course.sessions | sessionFilter: sessionTableRow: dateArray | orderBy:'hourMinuteStart'">
                         <button ng-class="colorSession(session) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'"
@@ -463,7 +463,7 @@
             <table class="table session">
                 <tr ng-repeat="date in dateArray">
                     <td align="center" class="session">
-                        {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
+                        {{date | date:'EEEE'}} <p>{{date | date:'dd.MM.yyyy'}}<br>
                     </td>
                     <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!--  -->
                         <button ng-class="colorEvent(event) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'"
@@ -504,7 +504,9 @@
                         </form>
                     </div>
                 </div>
-                <hr/>
+            </div>
+            <hr/>
+            <div>
                 <div align="right">
                     <button class="btn btn-primary" ng-click="saveGroupRegistration()"
                             ng-disabled="!workForm.$valid || registrations.length == 0 || selectedDays.length == 0">

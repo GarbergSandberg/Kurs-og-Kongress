@@ -150,35 +150,61 @@ To change this template use File | Settings | File Templates.
                                 Kvinne
                             </label>
                         </div>
-                    </form>
-                    <div class="form-group" ng-repeat="opt in course.form.optionalPersonalia track by opt.id">
-                        <label class="col-sm-4 control-label">{{opt.parameter}} </label>
-                        <div class="col-sm-6" ng-hide="whichType(opt.type)">
-                            <input type="checkbox" ng-model="registration.optionalPersonalia[$index]"/>
+                        <div>
+                            <label class="col-sm-4 control-label"></label>
+                            <input type="checkbox" ng-model="checkboxMark" ng-change="alert()">
+                            <label>Bemerkning/best.nr etc?</label>
                         </div>
-                        <div class="col-sm-6" ng-show="whichType(opt.type)">
-                            <input autocomplete="off" class="form-control"
-                                   ng-model="registration.optionalPersonalia[$index]" name="$index"
-                                   required/>
-                            <div ng-messages="userForm.$index.$error" ng-show="userForm.$index.$touched">
-                                <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="col-sm-4 control-label"></label>
-                        <input type="checkbox" ng-model="checkboxMark" ng-change="alert()">
-                        <label>Bemerkning/best.nr etc?</label>
-                    </div>
-                    <div ng-show="checkboxMark">
-                        <label class="col-sm-4 control-label">Beskrivelse</label>
+                        <div ng-show="checkboxMark">
+                            <label class="col-sm-4 control-label">Beskrivelse</label>
                             <textarea class="col-sm-6" ng-model="registration.person.mark"
                                       ng-init="registration.person.mark=''"
                                       class="form-control" id="description" rows="2"></textarea>
-                    </div>
+                        </div>
+                        <br>
+                        <!--<div class="form-group" ng-repeat="opt in course.form.optionalPersonalia track by opt.id"
+                             ng-form="pers_opt_{{$index}}">
+                            <label class="col-sm-4 control-label">{{opt.parameter}} </label>
+                            <div class="col-sm-6" ng-hide="whichType(opt.type)">
+                                <input type="checkbox" ng-model="registration.optionalPersonalia[$index]"/>
+                            </div>
+                            <div class="col-sm-6" ng-show="whichType(opt.type)">
+                                <input autocomplete="off" class="form-control"
+                                       ng-model="registration.optionalPersonalia[$index]" name="option"
+                                       required/>
+                                <div ng-messages="pers_opt_{{$index}}.option.$error"
+                                     ng-show="pers_opt_{{$index}}.option.$touched">
+                                    <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
+                                </div>
+                            </div>
+                        </div>-->
+
+
+                        <div class="form-group" ng-repeat="opt in course.form.optionalPersonalia">
+                            <div class="form-group" ng-form="pers_opt_{{$index}}">
+                                <label class="col-sm-4 control-label">{{opt.parameter}}: </label>
+                                <div class="col-sm-6" ng-if="!whichType(opt.type)">
+                                    <input type="checkbox"
+                                           ng-init="registration.optionalPersonalia[$index]='false'"
+                                           ng-model="registration.optionalPersonalia[$index]"/>
+                                </div>
+                                <div class="col-sm-6" ng-if="whichType(opt.type)" ng-form="pers_opt_{{$index}}">
+                                    <input class="form-control" ng-model="registration.optionalPersonalia[$index]"
+                                           name="optPers" required/>
+                                    <div ng-if="whichType(opt.type)" ng-messages="pers_opt_{{$index}}.optPers.$error"
+                                         ng-show="pers_opt_{{$index}}.optPers.$touched">
+                                        <div ng-message="required" style="color:red;" align="center">Vennligst fyll inn
+                                            feltet.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div style="clear: both"></div>
+            <br>
             <hr/>
             <form name="workForm">
                 <div class="form-horizontal" align="center" style="text-align: left; max-width: 90%; min-width: 60%;">
@@ -249,28 +275,37 @@ To change this template use File | Settings | File Templates.
                     </div>
                     <div class="form-group" ng-repeat="opt in course.form.optionalWorkplace track by opt.id">
                         <label class="col-sm-4 control-label">{{opt.parameter}} </label>
-                        <div class="col-sm-6" ng-hide="whichType(opt.type)">
-                            <input type="checkbox" ng-model="registration.optionalWorkplace[$index]"/>
+                        <div class="col-sm-6">
+                            <input class="form-control" ng-model="registration.optionalWorkplace[$index]"
+                                   type="checkbox" ng-if="!whichType(opt.type)"
+                                   ng-init="registration.optionalWorkplace[$index]='false'"/>
                         </div>
-                        <div class="col-sm-6" ng-show="whichType(opt.type)">
-                            <input autocomplete="off" class="form-control" type="text"
-                                   ng-model="registration.optionalWorkplace[$index]"/>
+                        <div class="col-sm-6" ng-if="whichType(opt.type)" ng-form="work_opt_{{$index}}">
+                            <input autocomplete="off" class="form-control"
+                                   ng-model="registration.optionalWorkplace[$index]"
+                                   ng-init="registration.extraInfo[$index]=' '" name="option" required/>
+                            <div ng-messages="work_opt_{{$index}}.option.$error"
+                                 ng-show="work_opt_{{$index}}.option.$touched">
+                                <div ng-message="required" style="color:red;" align="center">Vennligst fyll inn
+                                    feltet.
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </form>
 
-            <br>
+            <br> <br>
             <hr/>
-
-
             <div align="left" ng-if="course.hotels.length > 0">
                 <h3>Overnatting</h3>
                 <div align="center">
                     <div class="form-group">
+                        <br> <br>
                         <label class="control-label" for="postalcode">Ønsker overnatting </label>
                         <input type="checkbox" id="accomodation" ng-model="checkboxAccModel.c1"/>
                     </div>
+                    <br>
                     <label ng-if="checkboxAccModel.c1">Velg hotell: </label><br>
                     <div ng-if="checkboxAccModel.c1" ng-repeat="newacc in course.hotels">
                         <button class="btn btn-md"
@@ -282,6 +317,7 @@ To change this template use File | Settings | File Templates.
                         <div ng-if="!(($index+1) % 3)" style="clear: both"></div>
                     </div>
                     <div style="clear: both"></div>
+                    <br>
                     <div class="form-group" align="center" ng-if="checkboxAccModel.c1">
                         <label>
                             <input type="radio" name="roomType" ng-model="checkboxAccModel.rad" ng-value="true"/>
@@ -298,71 +334,32 @@ To change this template use File | Settings | File Templates.
                                    id="shareWith"/>
                         </label>
                     </div>
+                    <br>
                     <form name="datepickerForm" class="form-inline" role="form" ng-show="checkboxAccModel.c1">
                         <!-- http://mgcrea.github.io/angular-strap/#/datepickers -->
                         <div class="form-group">
                             <label class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i>
                                 <i class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
                             <div class="form-group col-xs-6">
-                                <input autocomplete="off" type="text" class="form-control" ng-model="registration.accomondation.fromDate"
+                                <input autocomplete="off" type="text" class="form-control"
+                                       ng-model="registration.accomondation.fromDate"
                                        data-time-format="dd/mm/yyy"
                                        ng-init="course.startDate" placeholder="From" bs-datepicker>
                             </div>
                             <div class="form-group col-xs-6">
-                                <input autocomplete="off" type="text" class="form-control" ng-model="registration.accomondation.toDate"
+                                <input autocomplete="off" type="text" class="form-control"
+                                       ng-model="registration.accomondation.toDate"
                                        data-time-format="dd/mm/yyy"
                                        ng-init="course.endDate" placeholder="Until" bs-datepicker>
                             </div>
                         </div>
                     </form>
                 </div>
+                <br> <br>
+                <hr>
             </div>
 
-                    <!--<h3>Påmelding faglig program</h3>
-                    <h3>
-                        <small>Priser for kurs</small>
-                    </h3>
-                    <table class="table">
-                        <tr>
-                            <td><h6>Kursavgift hvis deltaker skal være med hele kurset</h6></td>
-                            <td><h6>{{course.courseFee}} kr</h6></td>
-                        </tr>
-                        <tr>
-                            <td><h6>Kursavgift per dag hvis deltaker skal være med på deler av kurset</h6></td>
-                            <td><h6>{{course.courseSingleDayFee}} kr</h6></td>
-                        </tr>
-                        <tr>
-                            <td><h6>Pris for dagpakke</h6></td>
-                            <td><h6>{{course.dayPackage}} kr</h6></td>
-                        </tr>
-                    </table>
-                    <h3>
-                        <small>Velg dager</small>
-                    </h3>
-                    <hr>
-                    <form name="datepickerForm" class="form-inline" role="form" ng-show="checkboxAccModel.c1">
-                        <!-- http://mgcrea.github.io/angular-strap/#/datepickers
-                        <div class="form-group">
-                            <label class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i>
-                                <i
-                                        class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
-                            <div class="form-group col-xs-6">
-                                <input autocomplete="off" type="text" class="form-control" ng-model="registration.accomondation.fromDate"
-                                       data-time-format="dd/mm/yyy"
-                                       ng-init="course.startDate" placeholder="From" bs-datepicker>
-                            </div>
-                            <div class="form-group col-xs-6">
-                                <input autocomplete="off" type="text" class="form-control" ng-model="registration.accomondation.toDate"
-                                       data-time-format="dd/mm/yyy"
-                                       ng-init="course.endDate" placeholder="Until" bs-datepicker>
-                            </div>
-                        </div>
-                    </form>
-                    <br>
-                </div>
-                <hr/>
-            </div> -->
-            <h3>Påmelding faglig program</h3>
+            <!--<h3>Påmelding faglig program</h3>
             <h3>
                 <small>Priser for kurs</small>
             </h3>
@@ -384,6 +381,50 @@ To change this template use File | Settings | File Templates.
                 <small>Velg dager</small>
             </h3>
             <hr>
+            <form name="datepickerForm" class="form-inline" role="form" ng-show="checkboxAccModel.c1">
+                <!-- http://mgcrea.github.io/angular-strap/#/datepickers
+                <div class="form-group">
+                    <label class="control-label"><i class="fa fa-calendar"></i> <i class="fa fa-arrows-h"></i>
+                        <i
+                                class="fa fa-calendar"></i> Ankomst- og avreisedato </label><br><br>
+                    <div class="form-group col-xs-6">
+                        <input autocomplete="off" type="text" class="form-control" ng-model="registration.accomondation.fromDate"
+                               data-time-format="dd/mm/yyy"
+                               ng-init="course.startDate" placeholder="From" bs-datepicker>
+                    </div>
+                    <div class="form-group col-xs-6">
+                        <input autocomplete="off" type="text" class="form-control" ng-model="registration.accomondation.toDate"
+                               data-time-format="dd/mm/yyy"
+                               ng-init="course.endDate" placeholder="Until" bs-datepicker>
+                    </div>
+                </div>
+            </form>
+            <br>
+        </div>
+        <hr/>
+    </div> -->
+            <h3>Påmelding faglig program</h3>
+            <h3>
+                <small>Priser for kurs</small>
+            </h3>
+            <table class="table">
+                <tr>
+                    <td><h6>Kursavgift hvis deltaker skal være med hele kurset</h6></td>
+                    <td><h6>{{course.courseFee}} kr</h6></td>
+                </tr>
+                <tr>
+                    <td><h6>Kursavgift per dag hvis deltaker skal være med på deler av kurset</h6></td>
+                    <td><h6>{{course.courseSingleDayFee}} kr</h6></td>
+                </tr>
+                <tr>
+                    <td><h6>Pris for dagpakke</h6></td>
+                    <td><h6>{{course.dayPackage}} kr</h6></td>
+                </tr>
+            </table>
+            <h3 style="text-align: center">
+                <small>Velg dager</small>
+            </h3>
+            <hr>
 
             <div align="center" class="form-group">
                 <label>
@@ -396,35 +437,43 @@ To change this template use File | Settings | File Templates.
             <span ng-repeat="date in dateArray">
                 <input type="checkbox" name="selectedDays[]" value="{{date}}"
                        ng-checked="selectedDays.indexOf(date) > -1"
-                       ng-click="selectDay(date)"> {{date | date:'EEEE dd/MM/yyyy'}} &nbsp
+                       ng-click="selectDay(date)"> {{date | date:'EEEE dd.MM.yyyy'}} &nbsp
             </span>
             </div>
+            <br> <br>
             <!-- Sesjoner  http://plnkr.co/edit/jKmxJwDnkuxpgy7zYyx6?p=preview [08.02.2016] -->
             <div ng-if="course.sessions.length > 0">
-            <h3>Påmelding sesjoner</h3>
-            <table class="table session">
-                <tr ng-repeat="date in dateArray" ng-init="sessionTableRow = $index">
-                    <td align="center" class="session">
-                        {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
-                    </td>
-                    <!--  <td ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)"> -->
-                    <td ng-repeat="session in course.sessions | sessionFilter: sessionTableRow: dateArray | orderBy:'hourMinuteStart'">
-                        <button ng-disabled="session.isFull"
-                                ng-class="colorSession(session) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'"
-                                ng-click="selectSession(session)"> {{session.title}} <h5>({{session.startTime |
-                            date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})</h5>
-                        </button>
-                    </td>
-                </tr>
-            </table>
-            <hr/>
+                <h3>Påmelding sesjoner</h3>
+                <h3>
+                    <small> Velg hvilke sesjoner du skal delta på ved å trykke på de enkelte sesjonene</small>
+                </h3>
+                <table class="table session">
+                    <tr ng-repeat="date in dateArray" ng-init="sessionTableRow = $index">
+                        <td align="center" class="session">
+                            {{date | date:'EEEE'}} <p>{{date | date:'dd.MM.yyyy'}}<br>
+                        </td>
+                        <!--  <td ng-repeat="session in course.sessions" ng-if="sameDate(date, session.startTime)"> -->
+                        <td ng-repeat="session in course.sessions | sessionFilter: sessionTableRow: dateArray | orderBy:'hourMinuteStart'">
+                            <button ng-disabled="session.isFull"
+                                    ng-class="colorSession(session) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'"
+                                    ng-click="selectSession(session)"> {{session.title}} <h5>({{session.startTime |
+                                date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})</h5>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+                <hr/>
             </div>
+            <br> <br>
             <div ng-if="course.events.length > 0">
                 <h3>Påmelding arrangementer</h3>
+                <h3>
+                    <small> Velg hvilke arrangementer du skal delta på ved å trykke på de enkelte arrangementene</small>
+                </h3>
                 <table class="table session">
                     <tr ng-repeat="date in dateArray">
                         <td align="center" class="session">
-                            {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
+                            {{date | date:'EEEE'}} <p>{{date | date:'dd.MM.yyyy'}}<br>
                         </td>
                         <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!--  -->
                             <button ng-disabled="event.isFull" name="selectedEvents[]" value="{{event}}"
@@ -438,6 +487,9 @@ To change this template use File | Settings | File Templates.
                 </table>
             </div>
             <br>
+            <br> <br>
+
+
             <div class="form-horizontal" align="center"
                  style="text-align: left; max-width: 90%; min-width: 60%;">
                 <div align="left" ng-if="course.form.extraInfo.length > 0">
@@ -452,9 +504,16 @@ To change this template use File | Settings | File Templates.
                                 <input class="form-control" type="checkbox" ng-if="!whichType(extraInfo.type)"
                                        ng-init="registration.extraInfo[$index]='false'"
                                        ng-model="registration.extraInfo[$index]"/>
-                                <input autocomplete="off" class="form-control" ng-if="whichType(extraInfo.type)"
-                                       ng-init="registration.extraInfo[$index]=' '"
-                                       ng-model="registration.extraInfo[$index]"/>
+                            </div>
+                            <div class="col-sm-6" ng-if="whichType(extraInfo.type)" ng-form="extra_info_{{$index}}">
+                                <input autocomplete="off" class="form-control"
+                                       ng-model="registration.extraInfo[$index]"
+                                       ng-init="registration.extraInfo[$index]=''"
+                                       name="extInfo" required/>
+                                <div ng-messages="extra_info_{{$index}}.extInfo.$error"
+                                     ng-show="extra_info_{{$index}}.extInfo.$touched">
+                                    <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -463,7 +522,8 @@ To change this template use File | Settings | File Templates.
             <div align="right">
                 <span ng-if="!userForm.$valid || !workForm.$valid">Personalia eller arbeidsgiverinfo mangler &nbsp </span>
                 <button class="btn btn-primary" ng-click="saveSingleRegistration(registration)"
-                        ng-disabled='!userForm.$valid || !workForm.$valid'>Send påmelding
+                        ng-disabled='!userForm.$valid || !workForm.$valid || selectedDays.length == 0'>
+                    Send påmelding
                 </button>
             </div>
         </div>

@@ -187,7 +187,7 @@
                     {{session.title}}
                 </td>
                 <td>
-                    {{session.date | date:'dd/MM/yyyy'}} ({{session.startTime | date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})
+                    {{session.date | date:'dd.MM.yyyy'}} - {{session.startTime | date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}}
                 </td>
             </tr>
 
@@ -206,7 +206,7 @@
                     {{event.title}}
                 </td>
                 <td>
-                    {{event.date | date:'dd/MM/yyyy'}} ({{event.startTime | date:'HH:mm'}})
+                    {{event.date | date:'dd.MM.yyyy'}} - {{event.time | date:'HH:mm'}}
                 </td>
             </tr>
             <tr class="tableRowHighlight">
@@ -228,7 +228,7 @@
                 <td>
                 </td>
                 <td>
-                    {{date | date:'dd/MM/yyyy'}}
+                    {{date | date:'dd.MM.yyyy'}}
                 </td>
             </tr>
             <tr class="tableRowHighlight">
@@ -253,7 +253,7 @@
                     Ankomst- og avreisedato
                 </td>
                 <td>
-                    {{selectedParticipant.accomondation.fromDate | date:'dd-MM-yyyy'}} - {{selectedParticipant.accomondation.toDate | date:'dd-MM-yyyy'}}
+                    {{selectedParticipant.accomondation.fromDate | date:'dd.MM.yyyy'}} - {{selectedParticipant.accomondation.toDate | date:'dd.MM.yyyy'}}
                 </td>
             </tr>
             <tr ng-if="selectedParticipant.accomondation !== null">
@@ -436,7 +436,7 @@
         <table class="table session" ng-if="change">
             <tr ng-repeat="date in dateArray" ng-init="sessionTableRow = $index">
                 <td align="center" class="session">
-                    {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}
+                    {{date | date:'EEEE'}} <p>{{date | date:'dd.MM.yyyy'}}
                 </td>
                 <td class="session" ng-repeat="session in course.sessions | sessionFilter: sessionTableRow: dateArray | orderBy:'hourMinuteStart'">
                     <button ng-class="colorSession(session) ? 'btn btn-primary btn-block' : 'btn btn-default btn-block'"
@@ -457,7 +457,7 @@
         <table class="table" ng-if="change">
             <tr ng-repeat="date in dateArray">
                 <td align="center" class="session">
-                    {{date | date:'EEEE'}} <p>{{date | date:'dd/MM/yyyy'}}
+                    {{date | date:'EEEE'}} <p>{{date | date:'dd.MM.yyyy'}}
                 </td>
                 <td class="session" ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!-- -->
                     <button name="selectedEvents[]" value="{{event}}"
@@ -488,7 +488,7 @@
                 <td ng-repeat="date in dateArray">
                     <input type="checkbox" name="selectedParticipant.dates[]" value="{{date}}"
                            ng-checked="checkDate(date)"
-                           ng-click="selectDay(date)"> {{date | date:'EEEE'}} {{date | date:'dd/MM/yyyy'}}
+                           ng-click="selectDay(date)"> {{date | date:'EEEE'}} {{date | date:'dd.MM.yyyy'}}
                 </td>
             </tr>
             <tr>

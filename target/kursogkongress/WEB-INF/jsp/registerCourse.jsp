@@ -139,7 +139,7 @@
                     <table class="table session" ng-init="dateTable = dates">
                         <tr ng-repeat="date in dates" ng-init="sessionTableRow = $index">
                             <td align="center" class="session">
-                                {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}
+                                {{date | date:'EEEE'}} <p>{{date | date:'dd.MM.yyyy'}}
                             </td>
                             <td class="session">
                                 <button type="button" id="{{date}}" ng-click="passBtnId(date)"
