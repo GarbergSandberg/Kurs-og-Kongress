@@ -400,6 +400,7 @@ To change this template use File | Settings | File Templates.
             </span>
             </div>
             <!-- Sesjoner  http://plnkr.co/edit/jKmxJwDnkuxpgy7zYyx6?p=preview [08.02.2016] -->
+            <div ng-if="course.sessions.length > 0">
             <h3>Påmelding sesjoner</h3>
             <table class="table session">
                 <tr ng-repeat="date in dateArray" ng-init="sessionTableRow = $index">
@@ -417,22 +418,25 @@ To change this template use File | Settings | File Templates.
                 </tr>
             </table>
             <hr/>
-            <h3>Påmelding arrangementer</h3>
-            <table class="table session">
-                <tr ng-repeat="date in dateArray">
-                    <td align="center" class="session">
-                        {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
-                    </td>
-                    <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!--  -->
-                        <button ng-disabled="event.isFull" name="selectedEvents[]" value="{{event}}"
-                                ng-checked="selectedEvent.indexOf(event) > -1"
-                                ng-click="selectEvent(event)"
-                                ng-class="colorEvent(event) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'">
-                            {{event.title}} <h5>{{event.price | number: 2}} kr</h5>
-                        </button>
-                    </td>
-                </tr>
-            </table>
+            </div>
+            <div ng-if="course.events.length > 0">
+                <h3>Påmelding arrangementer</h3>
+                <table class="table session">
+                    <tr ng-repeat="date in dateArray">
+                        <td align="center" class="session">
+                            {{date | date:'EEEE'}} <p>{{date | date:'dd-MM-yyyy'}}<br>
+                        </td>
+                        <td ng-repeat="event in course.events" ng-if="sameDate(date, event.date)"> <!--  -->
+                            <button ng-disabled="event.isFull" name="selectedEvents[]" value="{{event}}"
+                                    ng-checked="selectedEvent.indexOf(event) > -1"
+                                    ng-click="selectEvent(event)"
+                                    ng-class="colorEvent(event) ? 'btn btn-primary btn-block': 'btn btn-default btn-block'">
+                                {{event.title}} <h5>{{event.price | number: 2}} kr</h5>
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
             <br>
             <div class="form-horizontal" align="center"
                  style="text-align: left; max-width: 90%; min-width: 60%;">
@@ -456,7 +460,6 @@ To change this template use File | Settings | File Templates.
                     </div>
                 </div>
             </div>
-
             <div align="right">
                 <span ng-if="!userForm.$valid || !workForm.$valid">Personalia eller arbeidsgiverinfo mangler &nbsp </span>
                 <button class="btn btn-primary" ng-click="saveSingleRegistration(registration)"

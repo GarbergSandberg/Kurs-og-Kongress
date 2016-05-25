@@ -432,6 +432,7 @@
             </div>
             <br> <br>
             <hr>
+            <div ng-if="course.sessions.length > 0">
             <h3>Påmelding sesjoner</h3>
             <h3>
                 <small> Velg hvilke sesjoner gruppen skal delta på ved å trykke på den enkelte sesjonen</small>
@@ -452,6 +453,8 @@
             </table>
             <br> <br>
             <hr>
+            </div>
+            <div ng-if="course.events.length > 0">
             <h3>Påmelding arrangementer</h3>
             <h3>
                 <small> Velg hvilke arrangementer gruppen skal delta på ved å trykke på det enkelte arrangementet
@@ -471,6 +474,7 @@
                 </tr>
                 <hr/>
             </table>
+            </div>
             <div class="form-horizontal" align="center" style="text-align: left; max-width: 90%; min-width: 60%;">
                 <div align="left" ng-if="course.form.extraInfo.length > 0">
                     <h3>Ekstrainfo</h3>
