@@ -163,7 +163,7 @@
                     {{session.title}}
                 </td>
                 <td>
-                    {{session.date | date:'dd/MM/yyyy'}} ({{session.startTime | date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}})
+                    {{session.date | date:'dd.MM.yyyy'}} - {{session.startTime | date:'HH:mm'}} - {{session.endTime | date:'HH:mm'}}
                 </td>
             </tr>
             <tr class="tableRowHighlight">
@@ -181,7 +181,7 @@
                     {{event.title}}
                 </td>
                 <td>
-                    {{event.date | date:'dd/MM/yyyy'}} ({{event.startTime | date:'HH:mm'}})
+                    {{event.date | 'dd.MM.yyyy'}} - {{event.time | date:'HH:mm'}}
                 </td>
             </tr>
             <tr class="tableRowHighlight">
@@ -202,7 +202,7 @@
                 <td>
                 </td>
                 <td>
-                    {{date | date:'dd/MM/yyyy'}}
+                    {{date | date:'dd.MM.yyyy'}}
                 </td>
             </tr>
         </table>

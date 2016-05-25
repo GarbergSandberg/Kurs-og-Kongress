@@ -10,7 +10,7 @@
     <div class="form-group">
         <ul>
             <li><label for="usermail">Email</label>
-                <input type="text" name="username" placeholder="yourname@email.com" required ng-model="user.username" id="usermail"></li>
+                <input autocomplete="off" type="text" name="username" placeholder="yourname@email.com" required ng-model="user.username" id="usermail"></li>
             <li><label for="password">Password</label>
                 <input type="password" name="password" placeholder="password" required ng-model="user.password" id="password"></li>
             <li>
@@ -19,6 +19,5 @@
     </div>
     {{msgtxt}}
 </form>
-
 </body>
 </html>
