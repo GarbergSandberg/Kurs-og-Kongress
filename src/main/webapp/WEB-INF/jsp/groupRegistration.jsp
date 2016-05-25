@@ -351,7 +351,7 @@
                             <div ng-show="checkboxAccModel.c1 && checkboxAccModel.rad">
                                 <label> Deler rom med: </label>
                                 <select ng-model="secondPersonRoom"
-                                        ng-options="registration.person as registration.person.firstname for registration in registrations | filter:checkIfSelected | filter:checkIfHasRoom"></select>
+                                        ng-options="registration.person as registration.person.firstname for registration in registrations | personFilter:firstPersonRoom | filter:checkIfHasRoom"></select>
                                 <br>
                                 <br>
                             </div>
@@ -487,8 +487,7 @@
                                 <input class="form-control" type="checkbox" ng-if="!whichType(extraInfo.type)"
                                        ng-init="registration.extraInfo[$index]='false'"
                                        ng-model="registration.extraInfo[$index]"/>
-                            </div>
-                            <div class="col-sm-6" ng-if="whichType(extraInfo.type)" ng-form="extraInfoForm">
+                                <div ng-if="whichType(extraInfo.type)" ng-form="extraInfoForm">
                                 <input autocomplete="off" class="form-control"
                                        ng-model="registration.extraInfo[$index]"
                                        ng-init="registration.extraInfo[$index]=''" name="extInfo" required/>
@@ -496,6 +495,7 @@
                                      ng-show="extraInfoForm.extInfo.$touched">
                                     <div ng-message="required" style="color:red;">Vennligst fyll inn feltet.</div>
                                 </div>
+                            </div>
                             </div>
                         </div>
                         <!-- <div ng-messages="extraInfoForm.extInfo.$error" ng-show="extraInfoForm.extInfo.$touched" >

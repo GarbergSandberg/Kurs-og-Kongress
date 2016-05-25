@@ -1,5 +1,6 @@
-app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', '$window', function ($scope, personService, regService, $alert, $window) {
+app.controller('AddRegCtrl', ['$scope', 'personService', 'regService', '$alert', '$window', '$filter', function ($scope, personService, regService, $alert, $window, $filter) {
     $scope.registration = {};
+    $scope.personFilter = $filter('personFilter');
     $scope.numberOfPersons = 0;
     $scope.registrations = regService.get();
     $scope.$on('regSet', function(event, data){
@@ -219,12 +220,21 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService','$alert', 
     };
 
     $scope.checkIfSelected = function(obj){
+        console.log(obj);
+        for (var i = 0; i < $scope.registrations.length; i++) {
+            if (obj.person.personID == $scope.firstPersonRoom.personID) {
+                return false;
+            }
+            return true;
+        }
+
+        /*        console.log(obj.person.personID);
+         console.log($scope.firstPersonRoom.personID);
         if (obj.person.personID == $scope.firstPersonRoom.personID) {
             return false;
         } else {
             return true;
-        }
-        return true;
+         }*/
     };
 
     $scope.saveRoom = function(acc, first, second){ // Her skal date også inn.
@@ -538,6 +548,21 @@ app.filter("sessionFilter", function(){
             input[i].date = new Date(input[i].date);
             if(input[i].date.getDate() == dates[outerIndex].getDate()){
                 if(input[i].date.getMonth() == dates[outerIndex].getMonth()) {
+                    array.push(input[i]);
+                }
+            }
+        }
+        return array;
+    }
+});
+
+app.filter("personFilter", function () {
+    return function (input, selectedPerson) {
+        var array = [];
+        if (selectedPerson) {
+            for (var i = 0; i < input.length; i++) {
+                if (input[i].person.personID !== selectedPerson.personID) {
+                    console.log("Pusher id: " + input[i].person.personID);
                     array.push(input[i]);
                 }
             }

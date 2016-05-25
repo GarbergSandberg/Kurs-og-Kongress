@@ -442,7 +442,8 @@
         </div>
         <div style="float: right; margin-bottom: 15px;">
             <span ng-if="!courseForm.$valid">Påkrevd felt er ikke utfylt. &nbsp</span>
-            <button type="button" class="btn btn-primary" ng-click="save(course)" ng-disabled="!courseForm.$valid">Lagre kurs
+            <button type="button" class="btn btn-primary" ng-click="save(course)" ng-disabled="!courseForm.$valid">Lagre
+                kurs
             </button>
         </div>
     </div>
