@@ -13,13 +13,10 @@ sessionRegisterApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionSer
     $scope.passBtnId = function (id) {
         $scope.newSession = {};
         $scope.removeDeleteButton = false;
-        console.log($scope.removeDeleteButton);
-        console.log(id);
         sessionService.date(id);
         $scope.date = id;
     };
     $scope.delete = function (newSession) {
-        console.log("I AddSessionCtrl - Skal slette eventet. ");
         sessionService.delete(newSession);
     };
     $scope.sessions = sessionService.get();
@@ -35,7 +32,6 @@ sessionRegisterApp.controller('AddSessionCtrl', ['$scope', '$modal', 'sessionSer
     $scope.editSession = function(session){
         $scope.removeDeleteButton = true;
         $scope.newSession = angular.copy(sessionService.getSession(session.id));
-        console.log($scope.newSession);
     };
     $scope.deleteButtonCtrl = function(){
         return $scope.removeDeleteButton;

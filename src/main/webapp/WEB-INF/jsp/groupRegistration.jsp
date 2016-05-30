@@ -449,7 +449,6 @@
                         </button>
                     </td>
                 </tr>
-                <hr/>
             </table>
             <br> <br>
             <hr>
@@ -472,12 +471,19 @@
                         </button>
                     </td>
                 </tr>
-                <hr/>
             </table>
             </div>
             <div class="form-horizontal" align="center" style="text-align: left; max-width: 90%; min-width: 60%;">
-                <div align="left" ng-if="course.form.extraInfo.length > 0">
+                <div align="left">
                     <h3>Ekstrainfo</h3>
+                </div>
+                <div align="center">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Ønsker å få tilsendt bestillingsskjema for fly</label>
+                        <div class="col-sm-6">
+                            <input class="form-control" type="checkbox" ng-model="registration.airplane">
+                        </div>
+                    </div>
                 </div>
                 <div align="center" ng-if="course.form.extraInfo.length > 0">
                     <div ng-repeat="extraInfo in course.form.extraInfo">
@@ -502,7 +508,6 @@
                     </div>
                 </div>
             </div>
-            <hr/>
             <div>
                 <div align="right">
                     <span ng-if="!workForm.$valid || registrations.length == 0 || selectedDays.length == 0">Personalia, arbeidsgiverinfo eller valgte dager mangler &nbsp </span>
@@ -512,7 +517,6 @@
                     </button>
                 </div>
             </div>
-            <hr>
         </div>
         <div ng-show="loading">
             <i class="fa fa-spinner fa-spin fa-3x fa-fw margin-bottom" id="spinner"></i>

@@ -11,6 +11,16 @@
     float: left;
 }
 
+#containerWithMargin{
+    max-width: 80%;
+    min-width: 80%;
+}
+
+#containerWithMargin2{
+    max-width: 90%;
+    min-width: 90%;
+}
+
 .btn-primary.test {
     min-width: 30%;
     border-radius: 20px;

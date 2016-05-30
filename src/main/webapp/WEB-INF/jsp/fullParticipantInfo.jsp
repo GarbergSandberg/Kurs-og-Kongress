@@ -161,10 +161,18 @@
             </tr>
             <tr class="tableRowHighlight">
                 <td>
-
                     Ekstrainfo
                 </td>
                 <td></td>
+            </tr>
+            <tr>
+                <td>
+                    Ønsker bestillingsskjema til fly
+                </td>
+                <td>
+                    <span ng-show="selectedParticipant.airplane">Ja</span> <span
+                        ng-hide="selectedParticipant.airplane">Nei</span>
+                </td>
             </tr>
             <tr ng-repeat="extraInfo in selectedParticipant.course.form.extraInfo">
                 <td>{{extraInfo.parameter}}</td>
@@ -414,6 +422,14 @@
                     Ekstrainfo
                 </td>
                 <td></td>
+            </tr>
+            <tr>
+                <td>
+                    Ønsker bestillingsskjema til fly
+                </td>
+                <td>
+                    <input type="checkbox" ng-model="selectedParticipant.airplane">
+                </td>
             </tr>
             <tr ng-if="selectedParticipant.course.form.extraInfo.length > 0" ng-repeat="extraInfo in selectedParticipant.course.form.extraInfo">
                 <td>{{extraInfo.parameter}}</td>

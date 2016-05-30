@@ -445,14 +445,20 @@ To change this template use File | Settings | File Templates.
             <br> <br>
 
 
-            <div class="form-horizontal" align="center"
-                 style="text-align: left; max-width: 90%; min-width: 60%;">
-                <div align="left" ng-if="course.form.extraInfo.length > 0">
+            <div class="form-horizontal" align="center" style="text-align: left; max-width: 90%; min-width: 60%;">
+                <div align="left">
                     <h3>Ekstrainfo</h3>
                 </div>
-                <div align="center" ng-if="course.form.extraInfo.length > 0">
+                <div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Ønsker å få tilsendt bestillingsskjema for fly:</label>
+                        <div class="col-sm-6">
+                            <input class="form-control" type="checkbox" ng-model="registration.airplane">
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="course.form.extraInfo.length > 0">
                     <div ng-repeat="extraInfo in course.form.extraInfo">
-                        <br>
                         <div class="form-group">
                             <label class="col-sm-4 control-label">{{extraInfo.parameter}}: </label>
                             <div class="col-sm-6">

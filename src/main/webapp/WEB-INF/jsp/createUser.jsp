@@ -35,7 +35,7 @@
 <body>
 <div  ng-app="loginApp">
     <div ng-controller="loginCtrl">
-        <div class="container">
+        <div class="container" id="containerWithMargin">
             <div class="jumbotron clearfix" id="jumbo">
                 <%
                     if (user.isAdmin()){

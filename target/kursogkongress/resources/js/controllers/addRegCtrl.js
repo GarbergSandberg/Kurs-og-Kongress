@@ -54,7 +54,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService', '$alert',
 
 
             //$scope.registrations[i].optionalPersonalia = $scope.getOptional($scope.course.form.optionalWorkplace);
-
+            $scope.registrations[i].airplane = $scope.registration.airplane;
             $scope.registrations[i].alternativeInvoiceAddress = $scope.registration.alternativeInvoiceAddress;
             $scope.registrations[i].workplace = $scope.registration.workplace;
             if ($scope.registrations[i].accomondation !== undefined){
@@ -428,7 +428,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService', '$alert',
     };
 
     // OK Ser etter om to datoer/tidspunk overlapper hverandre. Brukes i sesjons-valget.
-    $scope.overlaps = function(startA, endA, startB, endB) {
+    $scope.overlaps = function (startA, endA, startB, endB) {
         if (startA <= startB && startB <= endA) return true; // b starts in a
         if (startA <= endB   && endB   <= endA) return true; // b ends in a
         if (startB <  startA && endA   <  endB) return true; // a in b

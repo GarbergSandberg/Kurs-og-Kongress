@@ -54,7 +54,7 @@ app.controller('AddRegCtrl', ['$scope', 'personService', 'regService', '$alert',
 
 
             //$scope.registrations[i].optionalPersonalia = $scope.getOptional($scope.course.form.optionalWorkplace);
-
+            $scope.registrations[i].airplane = $scope.registration.airplane;
             $scope.registrations[i].alternativeInvoiceAddress = $scope.registration.alternativeInvoiceAddress;
             $scope.registrations[i].workplace = $scope.registration.workplace;
             if ($scope.registrations[i].accomondation !== undefined){

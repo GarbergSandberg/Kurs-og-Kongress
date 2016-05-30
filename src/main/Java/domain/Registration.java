@@ -20,8 +20,9 @@ public class Registration {
     private boolean speaker; // no constructor. Needs to be set via method.
     private int idGroupregistration; // no constructor.
     private String role;
+    private boolean airplane;
 
-    public Registration(int registrationID, Course course, ArrayList<Integer> sessionsToAttend, ArrayList<Integer> eventsToAttend, Accomondation accomondation, Person person, Workplace workplace, ArrayList<Payment> cost, ArrayList<Date> dates, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, String alternativeInvoiceAddress, String role) {
+    public Registration(int registrationID, Course course, ArrayList<Integer> sessionsToAttend, ArrayList<Integer> eventsToAttend, Accomondation accomondation, Person person, Workplace workplace, ArrayList<Payment> cost, ArrayList<Date> dates, ArrayList<InputParameter> optionalPersonalia, ArrayList<InputParameter> optionalWorkplace, ArrayList<InputParameter> extraInfo, String alternativeInvoiceAddress, boolean speaker, int idGroupregistration, String role, boolean airplane) {
         this.registrationID = registrationID;
         this.course = course;
         this.sessionsToAttend = sessionsToAttend;
@@ -35,10 +36,14 @@ public class Registration {
         this.optionalWorkplace = optionalWorkplace;
         this.extraInfo = extraInfo;
         this.alternativeInvoiceAddress = alternativeInvoiceAddress;
+        this.speaker = speaker;
+        this.idGroupregistration = idGroupregistration;
         this.role = role;
+        this.airplane = airplane;
     }
 
-    public Registration() {}
+    public Registration() {
+    }
 
     public int getRegistrationID() {
         return registrationID;
@@ -152,6 +157,14 @@ public class Registration {
         this.speaker = speaker;
     }
 
+    public int getIdGroupregistration() {
+        return idGroupregistration;
+    }
+
+    public void setIdGroupregistration(int idGroupregistration) {
+        this.idGroupregistration = idGroupregistration;
+    }
+
     public String getRole() {
         return role;
     }
@@ -160,12 +173,12 @@ public class Registration {
         this.role = role;
     }
 
-    public int getIdGroupregistration() {
-        return idGroupregistration;
+    public boolean isAirplane() {
+        return airplane;
     }
 
-    public void setIdGroupregistration(int idGroupregistration) {
-        this.idGroupregistration = idGroupregistration;
+    public void setAirplane(boolean airplane) {
+        this.airplane = airplane;
     }
 
     @Override
@@ -185,7 +198,9 @@ public class Registration {
                 ", extraInfo=" + extraInfo +
                 ", alternativeInvoiceAddress='" + alternativeInvoiceAddress + '\'' +
                 ", speaker=" + speaker +
+                ", idGroupregistration=" + idGroupregistration +
                 ", role='" + role + '\'' +
+                ", airplane=" + airplane +
                 '}';
     }
 }

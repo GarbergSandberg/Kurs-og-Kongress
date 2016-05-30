@@ -17,6 +17,7 @@ public class RegistrationMapper implements RowMapper<Registration> {
         registration.setSpeaker(rs.getBoolean("speaker"));
         registration.setRole(rs.getString("role"));
         registration.setIdGroupregistration(rs.getInt("idGroupregistration"));
+        registration.setAirplane(rs.getBoolean("airplane"));
         return registration;
     }
 }

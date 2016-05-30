@@ -63,7 +63,6 @@ loginApp.controller('loginCtrl', ['$scope', 'loginService', '$window', function(
     };
 
     $scope.changePassword = function(oldPassword, newPassword){
-        console.log(oldPassword, newPassword, sessionStorage.username);
         loginService.changePassword(sessionStorage.username, oldPassword, newPassword).then(function(response){
             $window.location.reload();
         }, function(error){
@@ -72,7 +71,6 @@ loginApp.controller('loginCtrl', ['$scope', 'loginService', '$window', function(
     };
 
     $scope.removeAccess = function(user, course){
-        console.log("Removing access = " + user.username + " course:  " + course.id);
         loginService.removeAccess(user, course).then(function(response){
             $scope.getCourseAccess(user);
         }, function(error){
@@ -113,7 +111,6 @@ loginApp.controller('loginCtrl', ['$scope', 'loginService', '$window', function(
     self.login = function(user){
         loginService.login(user).then(function(success){
             sessionStorage.username = user.username;
-            console.log(success);
             if(success == null){
                 $scope.error = true;
             }
@@ -133,7 +130,6 @@ loginApp.controller('loginCtrl', ['$scope', 'loginService', '$window', function(
                 }
             }
             $scope.readyToShow = true;
-            console.log($scope.coursesUserHasAccessTo);
         }, function (error){
             console.log("Error in getCourseAccess");
         })

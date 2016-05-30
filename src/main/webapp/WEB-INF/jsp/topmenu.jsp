@@ -12,6 +12,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="resources/css/index.css">
+    <link rel="stylesheet" href="resources/css/header.css">
     <link rel="stylesheet" href="resources/css/bootstrap.css">
     <link rel="stylesheet" href="resources/css/landing-page.css">
     <script>

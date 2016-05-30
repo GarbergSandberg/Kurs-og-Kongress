@@ -113,7 +113,7 @@ public class CourseRepositoryDB implements CourseRepository {
             "INPUTPARAMETER_HAS_OPTIONALWORKPLACE.INPUTPARAMETER_IDINPUTPARAMETER = INPUTPARAMETER.IDINPUTPARAMETER and REGISTRATION.IDREGISTRATION = ?";
 
     // saveRegistration sqls
-    private final String setRegistration = "insert into registration values (?,?,?,?,?,?,?,?,?,?,?,?)";
+    private final String setRegistration = "insert into registration values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private final String setSessionsToAttend = "insert into sessionid values (default,?,?)";
     private final String setEventsToAttend = "insert into EVENTID values (default,?,?)";
     private final String setAccomondation = "insert into accomondation values(?,?,?,?,?,?)";
@@ -136,7 +136,7 @@ public class CourseRepositoryDB implements CourseRepository {
     private final String deletePayments = "delete from payment where registration_idregistration = ?";
     private final String deleteDates = "delete from date where REGISTRATION_IDREGISTRATION = ?";
     private final String updateInputParameterAnswer = "update INPUTPARAMETER set parameter = ?, TYPE = ? where IDINPUTPARAMETER = ?";
-    private final String updateRegistration = "update registration set ALTERNATIVEINVOICEADDRESS = ?, SPEAKER = ?, ROLE = ?, IDGROUPREGISTRATION = ? where idregistration = ?";
+    private final String updateRegistration = "update registration set ALTERNATIVEINVOICEADDRESS = ?, SPEAKER = ?, ROLE = ?, IDGROUPREGISTRATION = ?, AIRPLANE = ? where idregistration = ?";
     private final String updateRegNewAccomondation = "update registration set accomondation_idaccomondation = ? where idregistration = ?";
     private final String deleteRegistration = "delete from registration where idregistration = ?";
 
@@ -275,6 +275,7 @@ public class CourseRepositoryDB implements CourseRepository {
     }
 
     public boolean saveRegistration(Registration registration) {
+        System.out.println("REGISTRATION:" + registration);
         try {
             Integer personID = setPerson(registration.getPerson());
             Integer workplaceID = setWorkplace(registration.getWorkplace());
@@ -299,7 +300,8 @@ public class CourseRepositoryDB implements CourseRepository {
                     extraInfoID,
                     optionalWorkplaceID,
                     optionalPersonaliaID,
-                    registration.getIdGroupregistration()
+                    registration.getIdGroupregistration(),
+                    registration.isAirplane()
             });
             setSessionsToAttend(registration.getSessionsToAttend(), registrationID);
             setEventsToAttend(registration.getEventsToAttend(), registrationID);
@@ -320,7 +322,7 @@ public class CourseRepositoryDB implements CourseRepository {
             if (registration.getRegistrationID() != -1) {
                 System.out.println("OPPDATERER ALTERNATIVE INVOICE HER: " + registration.getAlternativeInvoiceAddress());
                 jdbcTemplateObject.update(updateRegistration, new Object[]{
-                        registration.getAlternativeInvoiceAddress(), registration.isSpeaker(), registration.getRole(), registration.getIdGroupregistration(), registration.getRegistrationID()
+                        registration.getAlternativeInvoiceAddress(), registration.isSpeaker(), registration.getRole(), registration.getIdGroupregistration(), registration.isAirplane(), registration.getRegistrationID()
                 });
                 if (registration.getSessionsToAttend() != null) {
                     updateSessionsToAttend(registration.getSessionsToAttend(), registration.getRegistrationID());
