@@ -181,7 +181,7 @@
                     {{event.title}}
                 </td>
                 <td>
-                    {{event.date | 'dd.MM.yyyy'}} - {{event.time | date:'HH:mm'}}
+                    {{event.date | date:'dd.MM.yyyy'}} - {{event.time | date:'HH:mm'}}
                 </td>
             </tr>
             <tr class="tableRowHighlight">

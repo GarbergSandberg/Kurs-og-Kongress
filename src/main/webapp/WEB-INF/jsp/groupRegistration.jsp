@@ -161,7 +161,7 @@
                             </div>
                             <div>
                                 <label>Telefonnummer: </label>
-                                <input autocomplete="off" class="form-control" ng-model="person[n].number"
+                                <input autocomplete="off" class="form-control" ng-model="person[n].phonenumber"
                                        ng-minlength="8"
                                        ng-maxlength="8" name="number" required/>
                                 <div ng-messages="personForm.number.$error" ng-show="personForm.number.$touched">
