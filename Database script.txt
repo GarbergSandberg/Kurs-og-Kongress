@@ -1,0 +1,547 @@
+-- -----------------------------------------------------
+-- Table 'mydb'.'Course'
+-- -----------------------------------------------------
+
+--DROP ALLE TABLES HER.
+--DROP TABLE Date;
+--DROP TABLE EventID;
+--DROP TABLE SessionID;
+--DROP TABLE Account_has_access;
+--DROP TABLE Account;
+--DROP TABLE Payment;
+--DROP TABLE Registration;
+--DROP TABLE Workplace;
+--DROP TABLE Person;
+--DROP TABLE InputParameter_has_ExtraInfo;
+--DROP TABLE InputParameter_has_OptionalWorkplace;
+--DROP TABLE InputParameter_has_OptionalPersonalia;
+--DROP TABLE OptionalPersonalia_has_Form;
+--DROP TABLE OptionalWorkplace_has_Form;
+--DROP TABLE ExtraInfo_has_Form;
+--DROP TABLE ExtraInfo;
+--DROP TABLE OptionalWorkplace;
+--DROP TABLE OptionalPersonalia;
+--DROP TABLE InputParameter;
+--DROP TABLE Form;
+--DROP TABLE Accomondation;
+--DROP TABLE Hotel;
+--DROP TABLE CourseRole;
+--DROP TABLE Event;
+--DROP TABLE Session;
+--DROP TABLE course;
+
+CREATE TABLE Course (
+  idCourse INT NOT NULL,
+  title VARCHAR(100) NOT NULL,
+  location VARCHAR(100) NOT NULL,
+  description VARCHAR(1000),
+  startDate TIMESTAMP NOT NULL,
+  endDate TIMESTAMP NOT NULL,
+  courseFee DOUBLE NOT NULL,
+  courseSingleDayFee DOUBLE NOT NULL,
+  dayPackage DOUBLE NOT NULL,
+  maxNumber INT NOT NULL,
+  publicCourse BOOLEAN,
+  CONSTRAINT course_pk PRIMARY KEY (idCourse));
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'Session'
+-- -----------------------------------------------------
+
+CREATE TABLE Session(
+  idSession INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  title VARCHAR(100) NOT NULL,
+  description VARCHAR(100) NOT NULL,
+  date TIMESTAMP NOT NULL,
+  startTime TIMESTAMP NOT NULL,
+  endTime TIMESTAMP NOT NULL,
+  location VARCHAR(100) NOT NULL,
+  maxNumber INT NOT NULL,
+  course_idCourse INT,
+  CONSTRAINT session_pk PRIMARY KEY (idSession));
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'Event'
+-- -----------------------------------------------------
+
+CREATE TABLE Event(
+  idEvent INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  title VARCHAR(100) NOT NULL,
+  price DOUBLE NOT NULL,
+  maxNumber INT NOT NULL,
+  location VARCHAR(100) NOT NULL,
+  date TIMESTAMP NOT NULL,
+  time TIMESTAMP NOT NULL,
+  course_idCourse INT,
+  CONSTRAINT event_pk PRIMARY KEY (idEvent));
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'Role'
+-- -----------------------------------------------------
+
+CREATE TABLE CourseRole (
+  idCourseRole INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  role VARCHAR(45) NOT NULL ,
+  Course_idCourse INT,
+  CONSTRAINT courseRole_pk PRIMARY KEY (idCourseRole));
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'Hotel'
+-- -----------------------------------------------------
+
+
+CREATE TABLE Hotel(
+  idHotel INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  name VARCHAR(45),
+  doubleprice DOUBLE,
+  singleprice DOUBLE,
+  address VARCHAR(45),
+  Course_idCourse INT,
+  CONSTRAINT hotel_pk PRIMARY KEY (idHotel));
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'Accomondation'
+-- -----------------------------------------------------
+
+
+CREATE TABLE Accomondation(
+  idAccomondation INT NOT NULL,
+  roommate VARCHAR(45),
+  fromDate TIMESTAMP NOT NULL,
+  toDate TIMESTAMP NOT NULL,
+  doubleroom BOOLEAN,
+  Hotel_idHotel INT,
+  CONSTRAINT accomondation_pk PRIMARY KEY (idAccomondation));
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'Form'
+-- -----------------------------------------------------
+
+
+
+CREATE TABLE Form(
+  idForm INT NOT NULL,
+  airplane BOOLEAN NOT NULL,
+  Course_idCourse INT NOT NULL,
+  CONSTRAINT form_pk PRIMARY KEY (idForm));
+
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'InputParameter'
+-- -----------------------------------------------------
+
+
+CREATE TABLE InputParameter(
+  idInputParameter INT NOT NULL,
+  parameter VARCHAR(100) NOT NULL,
+  type VARCHAR(100) NOT NULL,
+  CONSTRAINT inputParameter_pk PRIMARY KEY (idInputParameter));
+
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'OptionalPersonalia'
+-- -----------------------------------------------------
+
+CREATE TABLE OptionalPersonalia(
+  idOptionalPersonalia INT NOT NULL,
+  CONSTRAINT optionalPersonalia_pk PRIMARY KEY (idOptionalPersonalia));
+
+
+CREATE TABLE OptionalPersonalia_has_Form(
+  OptionalPersonalia_idOptionalPersonalia INT NOT NULL,
+  Form_idForm INT NOT NULL,
+  CONSTRAINT optionalPersonalia_has_form_pk PRIMARY KEY (OptionalPersonalia_idOptionalPersonalia, Form_idForm));
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'OptionalWorkplace'
+-- -----------------------------------------------------
+
+CREATE TABLE OptionalWorkplace(
+  idOptionalWorkplace INT NOT NULL,
+  CONSTRAINT optionalWorkplace_pk PRIMARY KEY (idOptionalWorkplace));
+
+
+CREATE TABLE OptionalWorkplace_has_Form(
+  OptionalWorkplace_idOptionalWorkplace INT NOT NULL,
+  Form_idForm INT NOT NULL,
+  CONSTRAINT optionalWorkplace_has_form_pk PRIMARY KEY (OptionalWorkplace_idOptionalWorkplace, Form_idForm));
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'ExtraInfo'
+-- -----------------------------------------------------
+
+CREATE TABLE ExtraInfo(
+  idExtraInfo INT NOT NULL,
+  CONSTRAINT extraInfo_pk PRIMARY KEY (idExtraInfo));
+
+CREATE TABLE ExtraInfo_has_Form(
+  ExtraInfo_idExtraInfo INT NOT NULL,
+  Form_idForm INT NOT NULL,
+  CONSTRAINT extraInfo_has_form_pk PRIMARY KEY (ExtraInfo_idExtraInfo, Form_idForm));
+
+
+
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'InputParameter_has_OptionalPersonalia'
+-- -----------------------------------------------------
+
+
+CREATE TABLE InputParameter_has_OptionalPersonalia(
+  InputParameter_idInputParameter INT NOT NULL,
+  OptionalPersonalia_idOptionalPersonalia INT NOT NULL,
+  CONSTRAINT inputParameter_has_optionalPersonalia_pk PRIMARY KEY (InputParameter_idInputParameter, OptionalPersonalia_idOptionalPersonalia));
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'InputParameter_has_OptionalWorkplace'
+-- -----------------------------------------------------
+
+
+CREATE TABLE InputParameter_has_OptionalWorkplace(
+  InputParameter_idInputParameter INT NOT NULL,
+  OptionalWorkplace_idOptionalWorkplace INT NOT NULL,
+  CONSTRAINT inputParameter_has_optionalWorkplace_pk PRIMARY KEY (InputParameter_idInputParameter, OptionalWorkplace_idOptionalWorkplace));
+
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'InputParameter_has_ExtraInfo'
+-- -----------------------------------------------------
+
+CREATE TABLE InputParameter_has_ExtraInfo(
+  InputParameter_idInputParameter INT NOT NULL,
+  ExtraInfo_idExtraInfo INT NOT NULL,
+  CONSTRAINT inputParameter_has_extraInfo_pk PRIMARY KEY (InputParameter_idInputParameter, ExtraInfo_idExtraInfo));
+
+
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'Person'
+-- -----------------------------------------------------
+
+CREATE TABLE Person(
+  idPerson INT NOT NULL,
+  firstname VARCHAR(100) NOT NULL,
+  lastname VARCHAR(100) NOT NULL,
+  birthYear INT NOT NULL,
+  phonenumber INT NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  gender VARCHAR(100) NOT NULL,
+  mark VARCHAR(200) NOT NULL,
+  CONSTRAINT person_pk PRIMARY KEY (idPerson));
+
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'Workplace'
+-- -----------------------------------------------------
+
+CREATE TABLE Workplace(
+  idWorkplace INT NOT NULL,
+  companyName VARCHAR(100) NOT NULL,
+  postalcode INT NOT NULL,
+  location VARCHAR(100) NOT NULL,
+  address VARCHAR(100) NOT NULL,
+  CONSTRAINT workplace_pk PRIMARY KEY (idWorkplace));
+
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'Registration'
+-- -----------------------------------------------------
+
+CREATE TABLE Registration(
+  idRegistration INT NOT NULL,
+  alternativeInvoiceAddress VARCHAR(100),
+  speaker BOOLEAN NOT NULL,
+  role VARCHAR(100) NOT NULL,
+  Course_idCourse INT NOT NULL,
+  Accomondation_idAccomondation INT,
+  Person_idPerson INT NOT NULL,
+  Workplace_idWorkplace INT NOT NULL,
+  ExtraInfo_idExtraInfo INT,
+  OptionalWorkplace_idOptionalWorkplace INT,
+  OptionalPersonalia_idOptionalPersonalia INT,
+  idGroupregistration INT,
+  CONSTRAINT registration_pk PRIMARY KEY (idRegistration));
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'Payment'
+-- -----------------------------------------------------
+
+
+CREATE TABLE Payment(
+  idPayment INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  amount DOUBLE NOT NULL,
+  description VARCHAR(300) NOT NULL,
+  Registration_idRegistration INT NOT NULL,
+  CONSTRAINT payment_pk PRIMARY KEY (idPayment));
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'Account'
+-- -----------------------------------------------------
+
+
+CREATE TABLE Account(
+  username VARCHAR(90) NOT NULL,
+  password VARCHAR(300) NOT NULL,
+  admin BOOLEAN,
+  CONSTRAINT Account_pk PRIMARY KEY (username));
+
+CREATE TABLE Account_has_access(
+  user_idusername VARCHAR(90) NOT NULL,
+  course_idcourse INT NOT NULL,
+  CONSTRAINT account_access_pk PRIMARY KEY (user_idusername, course_idcourse));
+
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'SessionID'
+-- -----------------------------------------------------
+
+CREATE TABLE SessionID(
+  idSessionIDS INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  sessionID INT NOT NULL,
+  Registration_idRegistration INT NOT NULL,
+  CONSTRAINT sessionID_pk PRIMARY KEY (idSessionIDS));
+
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'EventID'
+-- -----------------------------------------------------
+
+CREATE TABLE EventID(
+  idEventID INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  eventID INT NOT NULL,
+  Registration_idRegistration INT NOT NULL,
+  CONSTRAINT event_id PRIMARY KEY (idEventID));
+
+
+-- -----------------------------------------------------
+-- Table 'mydb'.'Date'
+-- -----------------------------------------------------
+
+CREATE TABLE Date(
+  idDate INT NOT NULL GENERATED ALWAYS AS IDENTITY,
+  date TIMESTAMP NOT NULL,
+  Registration_idRegistration INT NOT NULL,
+  CONSTRAINT date_pk PRIMARY KEY (idDate));
+
+
+
+-- FOREIGN KEYS --
+
+
+
+ALTER TABLE CourseRole
+ADD CONSTRAINT courseRole_course_id_fk FOREIGN KEY (Course_idCourse) REFERENCES Course(idCourse);
+
+ALTER TABLE Hotel
+ADD CONSTRAINT hotel_course_id_fk FOREIGN KEY (Course_idCourse) REFERENCES Course(idCourse);
+
+ALTER TABLE Accomondation
+ADD CONSTRAINT accomondation_hotel_id_fk FOREIGN KEY (Hotel_idHotel) REFERENCES Hotel(idHotel);
+
+ALTER TABLE Form
+ADD CONSTRAINT form_course_id_fk FOREIGN KEY (Course_idCourse) REFERENCES Course(idCourse);
+
+ALTER TABLE ExtraInfo_has_Form
+ADD CONSTRAINT ExtraInfo_has_form_extrainfoid_fk FOREIGN KEY (ExtraInfo_idExtraInfo) REFERENCES ExtraInfo(idExtraInfo);
+
+ALTER TABLE ExtraInfo_has_Form
+ADD CONSTRAINT ExtraInfo_has_form_formid_fk FOREIGN KEY (Form_idForm) REFERENCES Form(idForm);
+
+ALTER TABLE OptionalWorkplace_has_Form
+ADD CONSTRAINT optionalWorkplace_has_form_optwork_fk FOREIGN KEY (OptionalWorkplace_idOptionalWorkplace) REFERENCES OptionalWorkplace(idOptionalWorkplace);
+
+ALTER TABLE OptionalWorkplace_has_Form
+ADD CONSTRAINT optionalWorkplace_has_form_formid_fk FOREIGN KEY (Form_idForm) REFERENCES Form(idForm);
+
+ALTER TABLE OptionalPersonalia_has_Form
+ADD CONSTRAINT optionalPersonalia_has_form_optpers_fk FOREIGN KEY (OptionalPersonalia_idOptionalPersonalia) REFERENCES OptionalPersonalia(idOptionalPersonalia);
+
+ALTER TABLE OptionalPersonalia_has_Form
+ADD CONSTRAINT optionalPersonalia_has_form_formid_fk FOREIGN KEY (Form_idForm) REFERENCES Form(idForm);
+
+ALTER TABLE InputParameter_has_OptionalPersonalia
+ADD  CONSTRAINT inputparam_inputId_fk FOREIGN KEY (InputParameter_idInputParameter) REFERENCES InputParameter(idInputParameter);
+
+ALTER TABLE InputParameter_has_OptionalPersonalia
+ADD  CONSTRAINT optionalpers_optionalID_fk FOREIGN KEY (OptionalPersonalia_idOptionalPersonalia) REFERENCES OptionalPersonalia(idOptionalPersonalia);
+
+ALTER TABLE InputParameter_has_OptionalWorkplace
+ADD  CONSTRAINT inputwork_inputId_fk FOREIGN KEY (InputParameter_idInputParameter) REFERENCES InputParameter(idInputParameter);
+
+ALTER TABLE InputParameter_has_OptionalWorkplace
+ADD  CONSTRAINT optionalwork_optionalID_fk FOREIGN KEY (OptionalWorkplace_idOptionalWorkplace) REFERENCES OptionalWorkplace(idOptionalWorkplace);
+
+ALTER TABLE Payment
+ADD CONSTRAINT payment_registration_id_fk FOREIGN KEY (Registration_idRegistration) REFERENCES Registration(idRegistration);
+
+ALTER TABLE SessionID
+ADD CONSTRAINT sessionID_registration_id_fk FOREIGN KEY (Registration_idRegistration) REFERENCES Registration(idRegistration);
+
+ALTER TABLE EventID
+ADD CONSTRAINT eventID_registration_id_fk FOREIGN KEY (Registration_idRegistration) REFERENCES Registration(idRegistration);
+
+ALTER TABLE Registration
+ADD CONSTRAINT Registration_Course_idCourse_fk FOREIGN KEY (Course_idCourse) REFERENCES Course(idCourse);
+
+ALTER TABLE Registration
+ADD CONSTRAINT Registration_Accomondation_idAccomondation_fk FOREIGN KEY (Accomondation_idAccomondation) REFERENCES Accomondation(idAccomondation);
+
+ALTER TABLE Registration
+ADD CONSTRAINT Registration_Person_idPerson_fk FOREIGN KEY (Person_idPerson) REFERENCES Person(idPerson);
+
+ALTER TABLE Registration
+ADD CONSTRAINT Registration_Workplace_idWorkplace_fk FOREIGN KEY (Workplace_idWorkplace) REFERENCES Workplace(idWorkplace);
+
+ALTER TABLE Registration
+ADD CONSTRAINT Registration_ExtraInfo_idExtraInfo_fk FOREIGN KEY (ExtraInfo_idExtraInfo) REFERENCES ExtraInfo(idExtraInfo);
+
+ALTER TABLE Registration
+ADD CONSTRAINT Registration_OptionalWorkplace_idOptionalWorkplace_fk FOREIGN KEY (OptionalWorkplace_idOptionalWorkplace) REFERENCES OptionalWorkplace(idOptionalWorkplace);
+
+ALTER TABLE Registration
+ADD CONSTRAINT Registration_OptionalPersonailia_idOptionalPersonalia_fk FOREIGN KEY (OptionalPersonalia_idOptionalPersonalia) REFERENCES OptionalPersonalia(idOptionalPersonalia);
+
+ALTER TABLE Date
+ADD CONSTRAINT Date_Registration_idRegistration_fk FOREIGN KEY (Registration_idRegistration) REFERENCES Registration(idRegistration);
+
+ALTER TABLE Session
+ADD CONSTRAINT session_course_id_fk FOREIGN KEY (course_idCourse) REFERENCES Course(idCourse);
+
+ALTER TABLE Event
+ADD CONSTRAINT event_course_id_fk FOREIGN KEY (course_idCourse) REFERENCES Course(idCourse);
+
+ALTER TABLE Account_has_access
+ADD CONSTRAINT account_has_access_username_fk FOREIGN KEY (user_idusername) REFERENCES Account(username);
+
+ALTER TABLE Account_has_access
+ADD CONSTRAINT account_has_access_course_fk FOREIGN KEY (course_idcourse) REFERENCES Course(idCourse);
+
+-- INSERT SENTENCES --
+
+INSERT INTO Course VALUES (1 ,'Kurs i Fotball','Trondheim','Dette er et teknikkurs','2016-07-07 10:00:00','2016-07-08 10:00:00',1500.00, 700.00, 200.00,200, true);
+INSERT INTO Course VALUES (2 ,'Vinkurs','Oslo','Dette er et rødvinskurs','2016-01-01 10:00:00','2016-01-02 10:00:00',2000.00, 500.00, 350.00,50, true);
+INSERT INTO Course VALUES (3 ,'Snekker-kurs','Selbu','Kurs i å bygge møbler.','2016-09-28 10:00:00','2016-09-28 10:00:00',4000.00, 1100.00, 100.00,120, false);
+
+INSERT INTO Session VALUES (DEFAULT,'Overstegsfinte','Vi lærer oss enkel overstegsfinte.','2016-07-07 10:00:00','2016-07-07 10:00:00','2016-07-07 11:00:00', 'Lerkendal', 100, 1);
+INSERT INTO Session VALUES (DEFAULT,'Innkast','Vi lærer oss innkast.','2016-07-08 10:00:00','2016-07-08 12:00:00','2016-07-08 13:00:00', 'Lerkendal', 20, 1);
+INSERT INTO Session VALUES (DEFAULT,'Skudd','Vi lærer oss å skyte med innsiden.','2016-07-08 10:00:00','2016-07-08 15:00:00','2016-07-08 17:00:00', 'Lerkendal', 60, 1);
+
+INSERT INTO Session VALUES (DEFAULT,'Finn kryddersmaken','Vi lærer oss å gjenkjenne krydder i vinen.','2016-01-01 10:00:00','2016-01-01 12:00:00','2016-01-01 13:00:00', 'Chat noir', 15, 2);
+INSERT INTO Session VALUES (DEFAULT,'Tørr vin','Vi smaker på tørr vin.','2016-01-01 10:00:00','2016-01-01 10:00:00','2016-01-01 11:20:00', 'Grand Hotel', 10, 2);
+INSERT INTO Session VALUES (DEFAULT,'Vin til mat?','Hvilken vin passer til hvilken mat?.','2016-01-02 10:00:00','2016-01-02 08:00:00','2016-01-02 09:30:00', 'Slottet', 10, 2);
+
+INSERT INTO Session VALUES (DEFAULT,'Bærevegg','Hvordan skal en bærevegg konstrueres?','2016-09-28 10:00:00','2016-09-28 10:00:00','2016-09-28 11:00:00', 'Kjeldstad Sag og Høvleri', 40, 3);
+INSERT INTO Session VALUES (DEFAULT,'Panel','Hvordan legge panel på vegg','2016-09-28 10:00:00','2016-09-28 14:00:00','2016-09-28 15:00:00', 'Selbuhus', 60, 3);
+INSERT INTO Session VALUES (DEFAULT,'Gulvlegging','Hvordan legge ny parkett på gulv','2016-09-28 10:00:00','2016-09-28 13:00:00','2016-09-28 13:45:00', 'Hjemme hos ordføreren', 50, 3);
+
+INSERT INTO Event VALUES (DEFAULT,'Konsert med Big Bang',200.00,300,'Samfundet', '2016-07-07 10:00:00', '2016-07-07 10:00:00', 1);
+INSERT INTO Event VALUES (DEFAULT,'Foredrag med Steffen Iversen',50.00,100,'Byscenen', '2016-07-07 10:00:00', '2016-07-07 10:00:00', 1); -- siste dates skal ha klokkeslett.
+INSERT INTO Event VALUES (DEFAULT,'Middag',700.00,250,'Scandic Lerkendal', '2016-07-07 10:00:00', '2016-07-07 10:00:00', 1);
+INSERT INTO Event VALUES (DEFAULT,'Opera med Andrea Bochelli',600.00,300,'Operahuset', '2016-01-02 10:00:00', '2016-01-02 10:00:00', 2);
+INSERT INTO Event VALUES (DEFAULT,'Gallamiddag',1000.00,40,'Slottet', '2016-01-01 10:00:00', '2016-01-01 10:00:00', 2);
+INSERT INTO Event VALUES (DEFAULT,'Fest på grendahuset',250.00,300,'Gimle', '2016-09-28 10:00:00', '2016-09-28 10:00:00', 3);
+INSERT INTO Event VALUES (DEFAULT,'Hjemmebrent-smaking',10.00,90,'På låven', '2016-09-28 10:00:00', '2016-09-28 10:00:00', 3);
+
+INSERT INTO CourseRole VALUES (DEFAULT,'Forsvar',1);
+INSERT INTO CourseRole VALUES (DEFAULT,'Midtbane',1);
+INSERT INTO CourseRole VALUES (DEFAULT,'Angrep',1);
+INSERT INTO CourseRole VALUES (DEFAULT,'Nybegynner',2);
+INSERT INTO CourseRole VALUES (DEFAULT,'Viderekommen',2);
+INSERT INTO CourseRole VALUES (DEFAULT,'Utdannet',3);
+INSERT INTO CourseRole VALUES (DEFAULT,'Hobby',3);
+
+
+
+INSERT INTO Hotel VALUES (DEFAULT,'Scandic Nidelven', 1200.00,800.00,'Nidelvveien 10', 1);
+INSERT INTO Hotel VALUES (DEFAULT,'Scandic Lerkendal', 1000.00,550.00,'Klæbuveien 1', 1);
+INSERT INTO Hotel VALUES (DEFAULT,'Grand Hotel', 2000.00,1200.00,'Karl Johans gt 22', 2);
+INSERT INTO Hotel VALUES (DEFAULT,'Clarion Hotel', 1200.00,700.00,'Oslogata 1', 2);
+INSERT INTO Hotel VALUES (DEFAULT,'Selbusjøen Hotel og Gjestegård', 900.00,500.00,'Vikvarvvegen 23', 3);
+INSERT INTO Hotel VALUES (DEFAULT,'Camp Eggen', 400.00,300.00,'Selbuveien 2', 3);
+
+INSERT INTO Accomondation VALUES (0,'Per Arnesen', '2016-07-07 10:00:00', '2016-07-10 10:00:00', true, 1);
+INSERT INTO Accomondation VALUES (1,'Jan Ludin', '2016-01-01 10:00:00', '2016-01-02 10:00:00', true, 3);
+INSERT INTO Accomondation VALUES (2,'Randi Norbye', '2016-07-07 10:00:00', '2016-07-10 10:00:00', true, 2);
+INSERT INTO Accomondation VALUES (3,'Oddny Hofsmo', '2016-07-07 10:00:00', '2016-07-10 10:00:00', true, 2);
+INSERT INTO Accomondation VALUES (4,'Ida Hammerfjell', '2016-07-07 10:00:00', '2016-07-10 10:00:00', true, 3);
+INSERT INTO Accomondation VALUES (5,'Kristen Garberg', '2016-07-07 10:00:00', '2016-07-10 10:00:00', true, 3);
+
+INSERT INTO Form VALUES (0,false,1);
+INSERT INTO Form VALUES (1,true,2);
+INSERT INTO Form VALUES (2,false,3);
+
+INSERT INTO InputParameter VALUES (1,'Har du katt?','Checkbox');
+INSERT INTO InputParameter VALUES (2,'Glutenallergi?','Checkbox');
+INSERT INTO InputParameter VALUES (3,'Hvilken høgskole/universitet studerte du ved?','Input');
+INSERT INTO InputParameter VALUES (4,'Hvor mange arbeidere på jobben?','Input');
+INSERT INTO InputParameter VALUES (5,'Trump for president?','Checkbox');
+
+INSERT INTO OptionalPersonalia VALUES (0);
+INSERT INTO OptionalPersonalia VALUES (1);
+INSERT INTO OptionalPersonalia VALUES (2);
+
+INSERT INTO OptionalWorkplace VALUES (0);
+
+INSERT INTO ExtraInfo VALUES (0);
+
+INSERT INTO OptionalPersonalia_has_Form VALUES (0,0);
+INSERT INTO OptionalPersonalia_has_Form VALUES (1,1);
+INSERT INTO OptionalPersonalia_has_Form VALUES (2,2);
+
+INSERT INTO OptionalWorkplace_has_Form VALUES (0,0);
+
+INSERT INTO ExtraInfo_has_Form VALUES (0,0);
+
+INSERT INTO InputParameter_has_OptionalPersonalia VALUES (1,0);
+INSERT INTO InputParameter_has_OptionalPersonalia VALUES (2,1);
+INSERT INTO InputParameter_has_OptionalPersonalia VALUES (3,2);
+
+INSERT INTO InputParameter_has_OptionalWorkplace VALUES (4,0);
+
+INSERT INTO InputParameter_has_ExtraInfo VALUES (5,0);
+
+INSERT INTO Person VALUES (1 ,'Lars', 'Garberg', 1994, 93643247, 'la@ga.gmail.com', 'male', '');
+INSERT INTO Person VALUES (2 ,'Eirik', 'Sandberg', 1994, 99229922, 'Ei@Sa.gmail.com', 'male', '');
+INSERT INTO Person VALUES (3 ,'Tore', 'Sagen', 1984, 93229922, 'tore.gmail.com', 'male', '');
+
+INSERT INTO Workplace VALUES (1 ,'Clas Ohlson', 7032, 'Trondheim', 'Torget 5a');
+INSERT INTO Workplace VALUES (2 ,'Hennes og Møvritz', 7032, 'Trondheim', 'Munkegata 10');
+
+INSERT INTO Registration VALUES (1 ,'',true,'Forsvar',1,0,1,1,0,0,0,0);
+INSERT INTO Registration VALUES (2 ,'Nonnens gt. 20',false,'Nybegynner',2,2,2,2,0,0,1,0);
+INSERT INTO Registration VALUES (3 ,'',true,'viderekommen',2,1,3,2,0,0,2,0);
+INSERT INTO Registration VALUES (4,'Persgate 69',false, 'Sjef', 3,3,3,2,0,0,1,0);
+
+INSERT INTO Payment VALUES (DEFAULT,1000.00,'Kursavgift (er ikke linket opp mot kurs)',1);
+INSERT INTO Payment VALUES (DEFAULT,200.00, 'Dagpakke (er ikke linket opp mot kurs)', 1);
+INSERT INTO Payment VALUES (DEFAULT,1200.00, 'Kursavgift (er ikke linket opp mot kurs)',2);
+INSERT INTO Payment VALUES (DEFAULT,600.00, 'Kursavgift (er ikke linket opp mot kurs)',3);
+INSERT INTO Payment VALUES (DEFAULT,100.00, 'Arrangement (er ikke linket opp mot kurs)',3);
+INSERT INTO Payment VALUES (DEFAULT,250.00, 'Dagpakke (er ikke linket opp mot kurs)',1);
+INSERT INTO Payment VALUES (DEFAULT,1000.00, 'Kursavgift (er ikke linket opp mot kurs)',2);
+
+INSERT INTO SessionID VALUES (DEFAULT, 0, 1);
+INSERT INTO SessionID VALUES (DEFAULT,0,1);
+INSERT INTO SessionID VALUES (DEFAULT,1,2);
+INSERT INTO SessionID VALUES (DEFAULT,1,2);
+INSERT INTO SessionID VALUES (DEFAULT,2,3);
+INSERT INTO SessionID VALUES (DEFAULT,2,3);
+
+INSERT INTO EventID VALUES (DEFAULT,1,1);
+INSERT INTO EventID VALUES (DEFAULT,1,2);
+INSERT INTO EventID VALUES (DEFAULT,2,2);
+INSERT INTO EventID VALUES (DEFAULT,3,3);
+INSERT INTO EventID VALUES (DEFAULT,4,3);
+INSERT INTO EventID VALUES (DEFAULT,5,3);
+INSERT INTO EventID VALUES (DEFAULT,6,3);
+
+INSERT INTO Date VALUES (DEFAULT,'2016-07-07 10:00:00', 2);
+INSERT INTO Date VALUES (DEFAULT,'2016-07-08 10:00:00', 2);
+INSERT INTO Date VALUES (DEFAULT,'2016-07-08 10:00:00', 2);
+INSERT INTO Date VALUES (DEFAULT,'2016-01-01 10:00:00', 3);
+INSERT INTO Date VALUES (DEFAULT,'2016-01-02 10:00:00', 2);
+INSERT INTO Date VALUES (DEFAULT,'2016-01-01 10:00:00', 2);
+INSERT INTO Date VALUES (DEFAULT,'2016-09-28 10:00:00', 2);
+
+INSERT INTO Account VALUES ('admin', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', true);
+INSERT INTO Account VALUES ('notadmin', '3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2', false);
